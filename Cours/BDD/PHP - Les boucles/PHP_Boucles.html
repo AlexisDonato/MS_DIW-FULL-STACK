@@ -1,0 +1,82 @@
+<!DOCTYPE html>
+<!-- saved from url=(0075)https://ncode.amorce.org/ressources/Pool/MS_FULL_STACK/PHP/PHP_Boucles.html -->
+<html><head><meta http-equiv="Content-Type" content="text/html; charset=UTF-8"><title></title>
+        <meta name="viewport" content="width=device-width, initial-scale=1">
+        <link rel="stylesheet" href="./PHP_Boucles_files/font-awesome.min.css">
+        <link rel="stylesheet" href="./PHP_Boucles_files/bootstrap.min.css">
+        <link rel="stylesheet" href="./PHP_Boucles_files/darcula.css">
+        <!-- <link rel="stylesheet" href="/css/highlight/line-number.css"> -->
+        <link rel="stylesheet" href="./PHP_Boucles_files/github-markdown.css">
+        <!-- <link rel="stylesheet" href="/css/markdown_foad.css"> -->
+        <link rel="stylesheet" href="./PHP_Boucles_files/menu-markdown.css">
+        <!-- <script src="/js/highlightjs-line-numbers.min.js"></script> -->
+        <script src="./PHP_Boucles_files/jquery-3.4.1.min.js"></script>
+        <script src="./PHP_Boucles_files/popper.min.js"></script>
+        <script src="./PHP_Boucles_files/bootstrap.min.js"></script>
+        <script src="./PHP_Boucles_files/highlight.js"></script>
+        </head><body><div class="container"><div class="markdown-body"><h1 id="1">PHP - Les boucles</h1>
+<p><br>
+<br></p>
+<h2 id="3">Instruction <code>for</code></h2>
+<p>L'instruction for est très proche de while dans le principe, mais reste plus compacte dans son code. </p>
+<p>La syntaxe générale est : </p>
+<pre><code class="hljs cpp"><span class="hljs-keyword">for</span> (Initialisation de variable; condition; incrémentation) 
+{ 
+    Instructions ; 
+} </code></pre>
+<p>Exemple : </p>
+<pre><code class="hljs bash"><span class="hljs-keyword">for</span> (<span class="hljs-variable">$a</span> = 1; <span class="hljs-variable">$a</span> &lt; 10; <span class="hljs-variable">$a</span>++) { 
+    <span class="hljs-built_in">echo</span> <span class="hljs-variable">$a</span>; 
+} </code></pre>
+<p>Dans cet exemple la boucle exécute <code>print $a</code> jusqu'à atteindre <code>$a = 9</code> avec une incrémentation à chaque passage.
+ </p>
+<h2 id="10">Instruction <code>foreach</code></h2>
+<p>L'instruction foreach permet de parcourir un tableau et d'extraire chaque élément.</p>
+<pre><code class="hljs php"><span class="hljs-keyword">foreach</span> ($tableau <span class="hljs-keyword">as</span> $element) { 
+    <span class="hljs-keyword">echo</span> $element; 
+} </code></pre>
+<h2 id="13">Instruction <code>while</code></h2>
+<p>L'instruction <code>while</code> est une boucle qui s'exécute tant que la condition est vraie.</p>
+<p>La syntaxe générale est : </p>
+<pre><code class="hljs nginx"><span class="hljs-attribute">while</span> ( condition ) { 
+    <span class="hljs-attribute">Instuctions</span> ; 
+} </code></pre>
+<p>Exemple : </p>
+<pre><code class="hljs bash"><span class="hljs-variable">$a</span> = 1; 
+<span class="hljs-keyword">while</span> (<span class="hljs-variable">$a</span> &lt; 10) { 
+    <span class="hljs-built_in">echo</span> <span class="hljs-variable">$a</span>; 
+    <span class="hljs-variable">$a</span>++; 
+} </code></pre>
+<p>Le résultat sera un affichage de 1 à 9. </p>
+<h2 id="20">Instruction <code>do .. while</code></h2>
+<p>L'instruction <code>do .. while</code> est similaire à while à une exception prêt, la condition est vérifiée à la fin de la boucle.</p>
+<pre><code class="hljs bash"><span class="hljs-variable">$a</span> = 0; 
+
+<span class="hljs-keyword">do</span> { 
+    <span class="hljs-built_in">echo</span> <span class="hljs-variable">$a</span>; 
+} <span class="hljs-keyword">while</span> (<span class="hljs-variable">$a</span> &gt; 0); </code></pre>
+<p>Une autre façon d'utiliser cette boucle est de réaliser une boucle sans fin. </p>
+<pre><code class="hljs bash"><span class="hljs-keyword">do</span> { 
+    <span class="hljs-keyword">if</span> (<span class="hljs-variable">$a</span> &lt; 5) { 
+        <span class="hljs-built_in">echo</span> <span class="hljs-string">"a inférieur à 5"</span>; 
+        <span class="hljs-built_in">break</span>; 
+    } 
+    <span class="hljs-keyword">if</span> ( ) ....... 
+} <span class="hljs-keyword">while</span> (1); </code></pre>
+<p>Pour sortir de la boucle il faut qu'une des conditions soit remplie, ce qui aura pour effet d'exécuter l'instruction <code>break;</code> qui permet de sortir de la boucle. </p>
+<h2 id="26">Exercices</h2>
+<ol>
+<li>
+<p>Ecrire un script PHP qui affiche tous les nombres impairs entre 0 et 150, par ordre croissant : 1 3 5 7...</p>
+</li>
+<li>
+<p>Écrire un programme qui écrit 500 fois la phrase <em>Je dois faire des sauvegardes régulières de mes fichiers</em></p>
+</li>
+<li>
+<p>Ecrire un script qui affiche la table de multiplication totale de {1,...,12} par {1,...,12} dans un tableau <strong>HTML</strong>, le résultat doit être le suivant :  </p>
+</li>
+</ol>
+<img src="./PHP_Boucles_files/php_boucles_exo_03.jpg" alt="Tableau HTML" title="Tableau HTML">
+<p><br>
+<br>
+<br></p></div><div class="menu-markdown"><img src="./PHP_Boucles_files/menu.png"><div data-id="1" class="titre">PHP - Les boucles</div><div data-id="3">Instruction <code>for</code></div><div data-id="10">Instruction <code>foreach</code></div><div data-id="13">Instruction <code>while</code></div><div data-id="20">Instruction <code>do .. while</code></div><div data-id="26">Exercices</div></div></div><script>hljs.initHighlightingOnLoad();//hljs.initLineNumbersOnLoad();</script><script src="./PHP_Boucles_files/menu-markdown.js"></script></body></html>

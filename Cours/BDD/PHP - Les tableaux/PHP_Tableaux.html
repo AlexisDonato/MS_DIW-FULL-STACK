@@ -1,0 +1,291 @@
+<!DOCTYPE html>
+<!-- saved from url=(0076)https://ncode.amorce.org/ressources/Pool/MS_FULL_STACK/PHP/PHP_Tableaux.html -->
+<html><head><meta http-equiv="Content-Type" content="text/html; charset=UTF-8"><title></title>
+        <meta name="viewport" content="width=device-width, initial-scale=1">
+        <link rel="stylesheet" href="./PHP_Tableaux_files/font-awesome.min.css">
+        <link rel="stylesheet" href="./PHP_Tableaux_files/bootstrap.min.css">
+        <link rel="stylesheet" href="./PHP_Tableaux_files/darcula.css">
+        <!-- <link rel="stylesheet" href="/css/highlight/line-number.css"> -->
+        <link rel="stylesheet" href="./PHP_Tableaux_files/github-markdown.css">
+        <!-- <link rel="stylesheet" href="/css/markdown_foad.css"> -->
+        <link rel="stylesheet" href="./PHP_Tableaux_files/menu-markdown.css">
+        <!-- <script src="/js/highlightjs-line-numbers.min.js"></script> -->
+        <script src="./PHP_Tableaux_files/jquery-3.4.1.min.js"></script>
+        <script src="./PHP_Tableaux_files/popper.min.js"></script>
+        <script src="./PHP_Tableaux_files/bootstrap.min.js"></script>
+        <script src="./PHP_Tableaux_files/highlight.js"></script>
+        </head><body><div class="container"><div class="markdown-body"><h1 id="1">PHP - Les tableaux</h1>
+<p><br>
+<br></p>
+<h2 id="3">Introduction</h2>
+<p>Un tableau est une variable contenant une liste de valeurs regroupées sous forme d'un tableau en lignes et en colonnes. </p>
+<p>Les tableaux ont une grande importance dans la création de script PHP, comme dans bien d'autres langages d'ailleurs. </p>
+<p><strong> Dans le cas d'accès à des bases de données par exemple certaines fonctions retournent des valeurs sous forme de tableaux.</strong> </p>
+<h2 id="7">Déclaration de tableaux</h2>
+<h3 id="8">Tableaux simples</h3>
+<p>Exemple : </p>
+<pre><code class="language-php hljs"><span class="hljs-meta">&lt;?php</span>
+    $tableau = <span class="hljs-keyword">array</span>(); <span class="hljs-comment">// instruction optionnelle</span>
+    $tableau[<span class="hljs-number">0</span>] = <span class="hljs-string">"Pomme"</span>; 
+    $tableau[<span class="hljs-number">1</span>] = <span class="hljs-string">"Poire"</span>; 
+    $tableau[<span class="hljs-number">2</span>] = <span class="hljs-string">"Banane"</span>; </code></pre>
+<p>ou</p>
+<pre><code class="language-php hljs"><span class="hljs-meta">&lt;?php</span>
+    $tableau = <span class="hljs-keyword">array</span>(); <span class="hljs-comment">// instruction optionnelle</span>
+    $tableau[] = <span class="hljs-string">"Pomme"</span>; 
+    $tableau[] = <span class="hljs-string">"Poire"</span>; 
+    $tableau[] = <span class="hljs-string">"Banane"</span>; </code></pre>
+<p>ou</p>
+<pre><code class="language-php hljs">    $tableau = <span class="hljs-keyword">array</span>(<span class="hljs-string">"Pomme"</span>, <span class="hljs-string">"Poire"</span>, <span class="hljs-string">"Banane"</span>); </code></pre>
+<p>Ces trois exemples sont en fait identiques dans le résultat.</p>
+<h3 id="16">Tableaux à plusieurs dimensions</h3>
+<pre><code class="hljs xml"><span class="php"><span class="hljs-meta">&lt;?php</span>
+$tab1[] = <span class="hljs-keyword">array</span>(<span class="hljs-number">1</span>, <span class="hljs-string">"janvier"</span>, <span class="hljs-string">"2016"</span>); 
+$tab1[] = <span class="hljs-keyword">array</span>(<span class="hljs-number">2</span>, <span class="hljs-string">"février"</span>, <span class="hljs-string">"2017"</span>); 
+$tab1[] = <span class="hljs-keyword">array</span>(<span class="hljs-number">3</span>, <span class="hljs-string">"mars"</span>, <span class="hljs-string">"2018"</span>); 
+$tab1[] = <span class="hljs-keyword">array</span>(<span class="hljs-number">4</span>, <span class="hljs-string">"avril"</span>, <span class="hljs-string">"2019"</span>);</span></code></pre>
+<p>Exemple :</p>
+<pre><code class="hljs markdown">// Affiche : 3 mars 2018
+echo $tab1[<span class="hljs-string">2</span>][<span class="hljs-symbol">0</span>]." ".$tab1[<span class="hljs-string">2</span>][<span class="hljs-symbol">1</span>]." ".$tab1[<span class="hljs-string">2</span>][<span class="hljs-symbol">2</span>]."<span class="xml"><span class="hljs-tag">&lt;<span class="hljs-name">br</span>&gt;</span></span>"; </code></pre>
+<h3 id="20">Tableaux associatifs</h3>
+<p>Comme son nom l'indique, le tableau associatif permet d'associer une valeur à une autre plus représentative que celle-ci. </p>
+<p>Imaginons que vous vouliez représenter ce que vous avez payé comme facture de téléphone par mois sur une année. Si vous utilisez un tableau classique vous allez associer chaque ligne du tableau aux mois et la colonne aux valeurs.</p>
+<pre><code class="hljs xml"><span class="php"><span class="hljs-meta">&lt;?php</span>
+$facture[<span class="hljs-number">0</span>] = <span class="hljs-number">500</span>; représente Janvier 
+$facture[<span class="hljs-number">1</span>] = <span class="hljs-number">620</span>; représente Février 
+$.......... 
+$facture[<span class="hljs-number">11</span>]= <span class="hljs-number">300</span>; représente Décembre </span></code></pre>
+<p>Grâce aux tableaux associatifs vous allez représenter le même tableau comme suit : </p>
+<pre><code class="hljs bash"><span class="hljs-variable">$facture</span>[<span class="hljs-string">"Janvier"</span>] = 500; 
+<span class="hljs-variable">$facture</span>[<span class="hljs-string">"Février"</span>] = 620; 
+$........ 
+<span class="hljs-variable">$facture</span>[<span class="hljs-string">"décembre"</span>] = 300; </code></pre>
+<p>Vous pouvez aussi l'écrire en utilisant l'opérateur de l'association <code>=&gt;</code> (signe égal et signe supérieur à) </p>
+<pre><code class="language-php hljs">$facture = <span class="hljs-keyword">array</span>(
+    <span class="hljs-string">"Janvier"</span>   =&gt;  <span class="hljs-number">500</span>,
+    <span class="hljs-string">"Février"</span>   =&gt;  <span class="hljs-number">620</span>,
+    <span class="hljs-string">"Décembre"</span>  =&gt;  <span class="hljs-number">300</span>
+); </code></pre>
+<h2 id="28">Manipulations de tableaux</h2>
+<h3 id="29">Manipulation des tableaux associatifs</h3>
+<p>Après avoir créé un tableau associatif, il est bien sûr indispensable de pouvoir manipuler et trier les valeurs de celui-ci. Pour cela PHP nous offre une multitude de fonctions. </p>
+<p>Exemple :</p>
+<pre><code class="language-php hljs">    $facture = <span class="hljs-keyword">array</span>(<span class="hljs-string">"Janvier"</span>=&gt;<span class="hljs-number">500</span>, <span class="hljs-string">"Février"</span>=&gt;<span class="hljs-number">620</span>, <span class="hljs-string">"Mars"</span>=&gt;<span class="hljs-number">300</span>, <span class="hljs-string">"Avril"</span>=&gt;<span class="hljs-number">130</span>, <span class="hljs-string">"Mai"</span>=&gt;<span class="hljs-number">560</span>, <span class="hljs-string">"Juin"</span>=&gt;<span class="hljs-number">350</span>); 
+    $facture_sixmois=<span class="hljs-number">0</span>; 
+
+    <span class="hljs-keyword">foreach</span> ($facture <span class="hljs-keyword">as</span> $mois =&gt; $valeur) 
+    { 
+       <span class="hljs-keyword">echo</span> <span class="hljs-string">"Facture du mois de $mois : $valeur Euros&lt;br /&gt;"</span>; 
+       $facture_sixmois +=$valeur; 
+    } 
+
+    <span class="hljs-keyword">echo</span> <span class="hljs-string">"Facture total de six mois : &lt;b&gt;$facture_sixmois Euros&lt;/b&gt;"</span>; 
+    <span class="hljs-meta">?&gt;</span> </code></pre>
+<p>L'instruction <code>foreach</code> permet d'extraire un couple (clé, valeur) à chaque tour de boucle.
+ </p>
+<h2 id="34">Tri dans les tableaux</h2>
+<p>PHP propose un ensemble complet de fonctions pour le tri de tableaux. </p>
+<h3 id="36">La fonction <code>sort()</code></h3>
+<p>Cette fonction vous permet de trier dans l'ordre alphabétique ou numérique les données d'un tableau.</p>
+<pre><code class="hljs bash"><span class="hljs-variable">$nom</span> = array(<span class="hljs-string">"franck"</span>,<span class="hljs-string">"laurent"</span>,<span class="hljs-string">"caroline"</span>,<span class="hljs-string">"magali"</span>,<span class="hljs-string">"veronique"</span>);   
+sort(<span class="hljs-variable">$nom</span>);
+
+<span class="hljs-keyword">for</span> (<span class="hljs-variable">$nb1</span>=0;<span class="hljs-variable">$nb1</span>&lt;=count(<span class="hljs-variable">$nom</span>)-1; <span class="hljs-variable">$nb1</span>++) 
+{
+   <span class="hljs-built_in">echo</span> <span class="hljs-string">"<span class="hljs-variable">$nom</span>[<span class="hljs-variable">$nb1</span>]&lt;br&gt;"</span>;
+}</code></pre>
+<p>Le résultat affiche <em>caroline, franck, laurent, magali, veronique</em>.</p>
+<h3 id="40">La fonction <code>rsort(array)</code>;</h3>
+<p>Tri décroissant d'un tableau </p>
+<pre><code class="hljs bash"><span class="hljs-variable">$nom</span> = array(<span class="hljs-string">"franck"</span>,<span class="hljs-string">"laurent"</span>,<span class="hljs-string">"caroline"</span>,<span class="hljs-string">"magali"</span>,<span class="hljs-string">"veronique"</span>);
+rsort(<span class="hljs-variable">$nom</span>);
+
+<span class="hljs-keyword">for</span> (<span class="hljs-variable">$nb1</span>=0;<span class="hljs-variable">$nb1</span>&lt;=count(<span class="hljs-variable">$nom</span>)-1; <span class="hljs-variable">$nb1</span>++) 
+{
+   <span class="hljs-built_in">echo</span> <span class="hljs-string">"<span class="hljs-variable">$nom</span>[<span class="hljs-variable">$nb1</span>]&lt;br&gt;"</span>;
+}</code></pre>
+<p>Le résultat affiche <em>veronique magali laurent franck caroline</em>.</p>
+<h2 id="44">Instructions de manipulation de tableaux</h2>
+<h3 id="45">La fonction <code>asort()</code></h3>
+<p>Tri décroissant sur un tableau associatif, l'indexation des clefs est conservée. Le tri se fait sur les valeurs, pas sur les clés : </p>
+<pre><code class="hljs php">$tableau = <span class="hljs-keyword">array</span>(<span class="hljs-string">"a"</span> =&gt; <span class="hljs-string">"Lundi"</span>,
+                 <span class="hljs-string">"b"</span> =&gt; <span class="hljs-string">"Mardi"</span>,
+                 <span class="hljs-string">"c"</span> =&gt; <span class="hljs-string">"Mercredi"</span>,
+                 <span class="hljs-string">"d"</span> =&gt; <span class="hljs-string">"Jeudi"</span>,
+                 <span class="hljs-string">"e"</span> =&gt; <span class="hljs-string">"Vendredi"</span>
+            ); 
+
+<span class="hljs-keyword">foreach</span>($tableau <span class="hljs-keyword">as</span> $cle =&gt; $valeur) 
+{ 
+   <span class="hljs-keyword">echo</span> $cle .<span class="hljs-string">" : "</span>.$valeur.<span class="hljs-string">"&lt;br&gt;"</span>; 
+}</code></pre>
+<p>Le résultat donne :</p>
+<pre><code class="hljs">  Jour[a] = Lundi 
+  Jour[b] = Mardi 
+  Jour[c] = Mercredi    
+  Jour[d] = Jeudi
+  Jour[e] = Vendredi</code></pre>
+<h3 id="50">La fonction <code>arsort()</code></h3>
+<p>Tri décroissant sur un tableau associatif, l'indexation des clefs est conservée. Le tri se fait sur les valeurs, pas sur les clés : </p>
+<pre><code class="hljs php">$tableau = <span class="hljs-keyword">array</span>(<span class="hljs-string">"a"</span> =&gt; <span class="hljs-string">"Lundi"</span>,
+                 <span class="hljs-string">"b"</span> =&gt; <span class="hljs-string">"Mardi"</span>,
+                 <span class="hljs-string">"c"</span> =&gt; <span class="hljs-string">"Mercredi"</span>,
+                 <span class="hljs-string">"d"</span> =&gt; <span class="hljs-string">"Jeudi"</span>);
+
+<span class="hljs-keyword">foreach</span>($tableau <span class="hljs-keyword">as</span> $cle =&gt; $valeur) 
+{ 
+   <span class="hljs-keyword">echo</span> $cle .<span class="hljs-string">" : "</span>.$valeur.<span class="hljs-string">"&lt;br&gt;"</span>; 
+} </code></pre>
+<p>Le résultat donne : <em>Jour[c] = Mercredi Jour[b] = Mardi Jour[a] = Lundi Jour[d] = Jeudi</em>. </p>
+<h3 id="54">La fonction <code>count()</code></h3>
+<p>Retourne le nombre d'éléments d'un tableau.</p>
+<pre><code class="hljs php">$tableau = <span class="hljs-keyword">array</span>(<span class="hljs-string">"Lundi"</span>,<span class="hljs-string">"Mardi"</span>,<span class="hljs-string">"Mercredi"</span>, <span class="hljs-string">"Jeudi"</span>, <span class="hljs-string">"Vendredi"</span>); 
+$nb = count($tableau); 
+<span class="hljs-keyword">echo</span><span class="hljs-string">"Le tableau contient "</span>.$nb.<span class="hljs-string">" éléments."</span>; </code></pre>
+<p>Affiche <em>5</em> (5 éléments dans le tableau). </p>
+<blockquote>
+<p>La fonction <code>sizeof()</code> fait strictement la même chose; il s'agit d'un <em>alias</em> de <code>count()</code>.</p>
+</blockquote>
+<h3 id="59">La fonction <code>array_push()</code>;</h3>
+<p>Cette instruction permet d'ajouter un élément à la fin du tableau.</p>
+<pre><code class="hljs php">$tableau = <span class="hljs-keyword">array</span>(<span class="hljs-string">"Lundi"</span>,<span class="hljs-string">"Mardi"</span>,<span class="hljs-string">"Mercredi"</span>,<span class="hljs-string">"Jeudi"</span>); 
+array_push($tableau, <span class="hljs-string">"Vendredi"</span>); </code></pre>
+<p>La valeur <em>Vendredi</em> a été ajoutée en dernière position du tableau.</p>
+<h3 id="63">La fonction <code>array_pop()</code></h3>
+<p>Extrait un élément de la fin du tableau :</p>
+<pre><code class="hljs php">$tableau = <span class="hljs-keyword">array</span>(<span class="hljs-string">"Lundi"</span>,<span class="hljs-string">"Mardi"</span>,<span class="hljs-string">"Mercredi"</span>); 
+$jour = array_pop($tableau); </code></pre>
+<p>Après cette opération, <code>$tableau</code> ne contient plus que <em>Lundi</em> et <em>Mardi</em>.</p>
+<h3 id="67">La fonction <code>array_unshift()</code></h3>
+<p>Ajoute un élément en début de tableau </p>
+<pre><code class="hljs php">$tableau = <span class="hljs-keyword">array</span>(<span class="hljs-string">"Jeudi"</span>, <span class="hljs-string">"Vendredi"</span>); 
+array_unshift($tableau, <span class="hljs-string">"Lundi"</span>, <span class="hljs-string">"Mardi"</span>, <span class="hljs-string">"Mercredi"</span>); </code></pre>
+<p>Après cette opération <code>$tableau</code> contient <em>Lundi</em>, <em>Mardi</em>, <em>Mercredi</em>, <em>Jeudi</em>, <em>Vendredi</em>, dans cet ordre. </p>
+<h3 id="71">La fonction <code>array_shift()</code></h3>
+<p>Dépile un élément (et un seul) en début du tableau </p>
+<pre><code class="hljs bash"><span class="hljs-variable">$tableau</span> = array(<span class="hljs-string">"Jeudi"</span>, <span class="hljs-string">"Vendredi"</span>); 
+<span class="hljs-variable">$jour</span> = array_<span class="hljs-built_in">shift</span>(<span class="hljs-variable">$tableau</span>); </code></pre>
+<p>Après cette opération, <code>$tableau</code> contient <em>Vendredi</em> et <code>$jour</code> contient <em>Jeudi</em>.</p>
+<h3 id="75">Autres fonctions</h3>
+<p>Pour en comprendre le fonctionnement, reproduisez les exemples donnés dans la documentation officielle de ces autres fonctions utiles pour les tableaux PHP :</p>
+<ul>
+<li>array_reverse()</li>
+<li>array_key_exists()</li>
+<li>array_merge()</li>
+<li>array_diff()</li>
+<li>array_intersect()</li>
+<li>array_column()</li>
+<li>array_slice()</li>
+<li>array_splice()</li>
+<li>array_sum()</li>
+<li>array_unique()</li>
+<li>in_array()</li>
+<li>array_values()</li>
+<li>shuffle()</li>
+</ul>
+<h2 id="78">Références</h2>
+<ul>
+<li>--&gt; <a href="http://php.net/manual/fr/ref.array.php" target="_blank">Voir ici la documentation complète des fonctions PHP sur les tableaux</a></li>
+</ul>
+<h2 id="80">Exercices</h2>
+<h4 id="81">1. Mois de l'année non bissextile</h4>
+<p>Créez un tableau associant à chaque mois de l’année le nombre de jours du mois.  </p>
+<p>Utilisez le nom des mois comme clés de votre tableau associatif.</p>
+<p>Affichez votre tableau (dans un tableau HTML) pour faire apparaitre sur chaque ligne le nom du mois et le nombre de jours du mois.</p>
+<p>Triez ensuite votre tableau en utilisant comme critère le nombre de jours, puis affichez le résultat.</p>
+<h4 id="86">2. Capitales</h4>
+<pre><code class="language-php hljs">$capitales = <span class="hljs-keyword">array</span>(
+    <span class="hljs-string">"Bucarest"</span> =&gt; <span class="hljs-string">"Roumanie"</span>,
+    <span class="hljs-string">"Bruxelles"</span> =&gt; <span class="hljs-string">"Belgique"</span>,
+    <span class="hljs-string">"Oslo"</span> =&gt; <span class="hljs-string">"Norvège"</span>,
+    <span class="hljs-string">"Ottawa"</span> =&gt; <span class="hljs-string">"Canada"</span>,
+    <span class="hljs-string">"Paris"</span> =&gt; <span class="hljs-string">"France"</span>,
+    <span class="hljs-string">"Port-au-Prince"</span> =&gt; <span class="hljs-string">"Haïti"</span>,
+    <span class="hljs-string">"Port-d'Espagne"</span> =&gt; <span class="hljs-string">"Trinité-et-Tobago"</span>,
+    <span class="hljs-string">"Prague"</span> =&gt; <span class="hljs-string">"République tchèque"</span>,
+    <span class="hljs-string">"Rabat"</span> =&gt; <span class="hljs-string">"Maroc"</span>,
+    <span class="hljs-string">"Riga"</span> =&gt; <span class="hljs-string">"Lettonie"</span>,
+    <span class="hljs-string">"Rome"</span> =&gt; <span class="hljs-string">"Italie"</span>,
+    <span class="hljs-string">"San José"</span> =&gt; <span class="hljs-string">"Costa Rica"</span>,
+    <span class="hljs-string">"Santiago"</span> =&gt; <span class="hljs-string">"Chili"</span>,
+    <span class="hljs-string">"Sofia"</span> =&gt; <span class="hljs-string">"Bulgarie"</span>,
+    <span class="hljs-string">"Alger"</span> =&gt; <span class="hljs-string">"Algérie"</span>,
+    <span class="hljs-string">"Amsterdam"</span> =&gt; <span class="hljs-string">"Pays-Bas"</span>,
+    <span class="hljs-string">"Andorre-la-Vieille"</span> =&gt; <span class="hljs-string">"Andorre"</span>,
+    <span class="hljs-string">"Asuncion"</span> =&gt; <span class="hljs-string">"Paraguay"</span>,
+    <span class="hljs-string">"Athènes"</span> =&gt; <span class="hljs-string">"Grèce"</span>,
+    <span class="hljs-string">"Bagdad"</span> =&gt; <span class="hljs-string">"Irak"</span>,
+    <span class="hljs-string">"Bamako"</span> =&gt; <span class="hljs-string">"Mali"</span>,
+    <span class="hljs-string">"Berlin"</span> =&gt; <span class="hljs-string">"Allemagne"</span>,
+    <span class="hljs-string">"Bogota"</span> =&gt; <span class="hljs-string">"Colombie"</span>,
+    <span class="hljs-string">"Brasilia"</span> =&gt; <span class="hljs-string">"Brésil"</span>,
+    <span class="hljs-string">"Bratislava"</span> =&gt; <span class="hljs-string">"Slovaquie"</span>,
+    <span class="hljs-string">"Varsovie"</span> =&gt; <span class="hljs-string">"Pologne"</span>,
+    <span class="hljs-string">"Budapest"</span> =&gt; <span class="hljs-string">"Hongrie"</span>,
+    <span class="hljs-string">"Le Caire"</span> =&gt; <span class="hljs-string">"Egypte"</span>,
+    <span class="hljs-string">"Canberra"</span> =&gt; <span class="hljs-string">"Australie"</span>,
+    <span class="hljs-string">"Caracas"</span> =&gt; <span class="hljs-string">"Venezuela"</span>,
+    <span class="hljs-string">"Jakarta"</span> =&gt; <span class="hljs-string">"Indonésie"</span>,
+    <span class="hljs-string">"Kiev"</span> =&gt; <span class="hljs-string">"Ukraine"</span>,
+    <span class="hljs-string">"Kigali"</span> =&gt; <span class="hljs-string">"Rwanda"</span>,
+    <span class="hljs-string">"Kingston"</span> =&gt; <span class="hljs-string">"Jamaïque"</span>,
+    <span class="hljs-string">"Lima"</span> =&gt; <span class="hljs-string">"Pérou"</span>,
+    <span class="hljs-string">"Londres"</span> =&gt; <span class="hljs-string">"Royaume-Uni"</span>,
+    <span class="hljs-string">"Madrid"</span> =&gt; <span class="hljs-string">"Espagne"</span>,
+    <span class="hljs-string">"Malé"</span> =&gt; <span class="hljs-string">"Maldives"</span>,
+    <span class="hljs-string">"Mexico"</span> =&gt; <span class="hljs-string">"Mexique"</span>,
+    <span class="hljs-string">"Minsk"</span> =&gt; <span class="hljs-string">"Biélorussie"</span>,
+    <span class="hljs-string">"Moscou"</span> =&gt; <span class="hljs-string">"Russie"</span>,
+    <span class="hljs-string">"Nairobi"</span> =&gt; <span class="hljs-string">"Kenya"</span>,
+    <span class="hljs-string">"New Delhi"</span> =&gt; <span class="hljs-string">"Inde"</span>,
+    <span class="hljs-string">"Stockholm"</span> =&gt; <span class="hljs-string">"Suède"</span>,
+    <span class="hljs-string">"Téhéran"</span> =&gt; <span class="hljs-string">"Iran"</span>,
+    <span class="hljs-string">"Tokyo"</span> =&gt; <span class="hljs-string">"Japon"</span>,
+    <span class="hljs-string">"Tunis"</span> =&gt; <span class="hljs-string">"Tunisie"</span>,
+    <span class="hljs-string">"Copenhague"</span> =&gt; <span class="hljs-string">"Danemark"</span>,
+    <span class="hljs-string">"Dakar"</span> =&gt; <span class="hljs-string">"Sénégal"</span>,
+    <span class="hljs-string">"Damas"</span> =&gt; <span class="hljs-string">"Syrie"</span>,
+    <span class="hljs-string">"Dublin"</span> =&gt; <span class="hljs-string">"Irlande"</span>,
+    <span class="hljs-string">"Erevan"</span> =&gt; <span class="hljs-string">"Arménie"</span>,
+    <span class="hljs-string">"La Havane"</span> =&gt; <span class="hljs-string">"Cuba"</span>,
+    <span class="hljs-string">"Helsinki"</span> =&gt; <span class="hljs-string">"Finlande"</span>,
+    <span class="hljs-string">"Islamabad"</span> =&gt; <span class="hljs-string">"Pakistan"</span>,
+    <span class="hljs-string">"Vienne"</span> =&gt; <span class="hljs-string">"Autriche"</span>,
+    <span class="hljs-string">"Vilnius"</span> =&gt; <span class="hljs-string">"Lituanie"</span>,
+    <span class="hljs-string">"Zagreb"</span> =&gt; <span class="hljs-string">"Croatie"</span>
+);</code></pre>
+<p>A partir du tableau ci-dessus:</p>
+<ol>
+<li>Affichez la liste des capitales (par ordre alphabétique) suivie du nom du pays.</li>
+</ol>
+<p>--&gt; <a href="https://www.php.net/manual/fr/array.sorting.php" target="_blank">Voir ici la documentation PHP sur le tri des tableaux</a></p>
+<ol>
+<li>
+<p>Affichez la liste des pays (par ordre alphabétique) suivie du nom de la capitale.</p>
+</li>
+<li>
+<p>Affichez le nombre de pays dans le tableau.</p>
+</li>
+<li>
+<p>Supprimer du tableau toutes les capitales ne commençant par la lettre 'B', puis affichez le contenu du tableau.</p>
+</li>
+</ol>
+<h4 id="92">3. Départements</h4>
+<pre><code class="language-php hljs">$departements = <span class="hljs-keyword">array</span>(
+    <span class="hljs-string">"Hauts-de-france"</span> =&gt; <span class="hljs-keyword">array</span>(<span class="hljs-string">"Aisne"</span>, <span class="hljs-string">"Nord"</span>, <span class="hljs-string">"Oise"</span>, <span class="hljs-string">"Pas-de-Calais"</span>, <span class="hljs-string">"Somme"</span>),
+    <span class="hljs-string">"Bretagne"</span> =&gt; <span class="hljs-keyword">array</span>(<span class="hljs-string">"Côtes d'Armor"</span>, <span class="hljs-string">"Finistère"</span>, <span class="hljs-string">"Ille-et-Vilaine"</span>, <span class="hljs-string">"Morbihan"</span>),
+    <span class="hljs-string">"Grand-Est"</span> =&gt; <span class="hljs-keyword">array</span>(<span class="hljs-string">"Ardennes"</span>, <span class="hljs-string">"Aube"</span>, <span class="hljs-string">"Marne"</span>, <span class="hljs-string">"Haute-Marne"</span>, <span class="hljs-string">"Meurthe-et-Moselle"</span>, <span class="hljs-string">"Meuse"</span>, <span class="hljs-string">"Moselle"</span>, <span class="hljs-string">"Bas-Rhin"</span>, <span class="hljs-string">"Haut-Rhin"</span>, <span class="hljs-string">"Vosges"</span>),
+    <span class="hljs-string">"Normandie"</span> =&gt; <span class="hljs-keyword">array</span>(<span class="hljs-string">"Calvados"</span>, <span class="hljs-string">"Eure"</span>, <span class="hljs-string">"Manche"</span>, <span class="hljs-string">"Orne"</span>, <span class="hljs-string">"Seine-Maritime"</span>)
+);</code></pre>
+<p>A partir du tableau ci-dessus:</p>
+<ol>
+<li>
+<p>Affichez la liste des régions (par ordre alphabétique) suivie du nom des départements</p>
+</li>
+<li>
+<p>Affichez la liste des régions suivie du nombre de départements</p>
+</li>
+</ol>
+<p><br>
+<br>
+<br></p></div><div class="menu-markdown" style="width: 37px; height: 33px;"><img src="./PHP_Tableaux_files/menu.png" style=""><div data-id="1" class="titre">PHP - Les tableaux</div><div data-id="3">Introduction</div><div data-id="7">Déclaration de tableaux</div><div data-id="8">&nbsp;&nbsp;&nbsp;&nbsp;Tableaux simples</div><div data-id="16">&nbsp;&nbsp;&nbsp;&nbsp;Tableaux à plusieurs dimensions</div><div data-id="20">&nbsp;&nbsp;&nbsp;&nbsp;Tableaux associatifs</div><div data-id="28">Manipulations de tableaux</div><div data-id="29">&nbsp;&nbsp;&nbsp;&nbsp;Manipulation des tableaux associatifs</div><div data-id="34">Tri dans les tableaux</div><div data-id="36">&nbsp;&nbsp;&nbsp;&nbsp;La fonction <code>sort()</code></div><div data-id="40">&nbsp;&nbsp;&nbsp;&nbsp;La fonction <code>rsort(array)</code>;</div><div data-id="44">Instructions de manipulation de tableaux</div><div data-id="45">&nbsp;&nbsp;&nbsp;&nbsp;La fonction <code>asort()</code></div><div data-id="50">&nbsp;&nbsp;&nbsp;&nbsp;La fonction <code>arsort()</code></div><div data-id="54">&nbsp;&nbsp;&nbsp;&nbsp;La fonction <code>count()</code></div><div data-id="59">&nbsp;&nbsp;&nbsp;&nbsp;La fonction <code>array_push()</code>;</div><div data-id="63">&nbsp;&nbsp;&nbsp;&nbsp;La fonction <code>array_pop()</code></div><div data-id="67">&nbsp;&nbsp;&nbsp;&nbsp;La fonction <code>array_unshift()</code></div><div data-id="71">&nbsp;&nbsp;&nbsp;&nbsp;La fonction <code>array_shift()</code></div><div data-id="75">&nbsp;&nbsp;&nbsp;&nbsp;Autres fonctions</div><div data-id="78">Références</div><div data-id="80">Exercices</div><div data-id="81">&nbsp;&nbsp;&nbsp;&nbsp;1. Mois de l'année non bissextile</div><div data-id="86">&nbsp;&nbsp;&nbsp;&nbsp;2. Capitales</div><div data-id="92">&nbsp;&nbsp;&nbsp;&nbsp;3. Départements</div></div></div><script>hljs.initHighlightingOnLoad();//hljs.initLineNumbersOnLoad();</script><script src="./PHP_Tableaux_files/menu-markdown.js"></script></body></html>

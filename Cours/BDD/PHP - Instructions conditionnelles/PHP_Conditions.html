@@ -1,0 +1,114 @@
+<!DOCTYPE html>
+<!-- saved from url=(0078)https://ncode.amorce.org/ressources/Pool/MS_FULL_STACK/PHP/PHP_Conditions.html -->
+<html><head><meta http-equiv="Content-Type" content="text/html; charset=UTF-8"><title></title>
+        <meta name="viewport" content="width=device-width, initial-scale=1">
+        <link rel="stylesheet" href="./PHP_Conditions_files/font-awesome.min.css">
+        <link rel="stylesheet" href="./PHP_Conditions_files/bootstrap.min.css">
+        <link rel="stylesheet" href="./PHP_Conditions_files/darcula.css">
+        <!-- <link rel="stylesheet" href="/css/highlight/line-number.css"> -->
+        <link rel="stylesheet" href="./PHP_Conditions_files/github-markdown.css">
+        <!-- <link rel="stylesheet" href="/css/markdown_foad.css"> -->
+        <link rel="stylesheet" href="./PHP_Conditions_files/menu-markdown.css">
+        <!-- <script src="/js/highlightjs-line-numbers.min.js"></script> -->
+        <script src="./PHP_Conditions_files/jquery-3.4.1.min.js"></script>
+        <script src="./PHP_Conditions_files/popper.min.js"></script>
+        <script src="./PHP_Conditions_files/bootstrap.min.js"></script>
+        <script src="./PHP_Conditions_files/highlight.js"></script>
+        </head><body><div class="container"><div class="markdown-body"><h1 id="1">PHP - Les instructions conditionnelles</h1>
+<p><br>
+<br></p>
+<blockquote>
+<p>Le fonctionnement des conditions en PHP est proche de celui vu en Javascript.</p>
+</blockquote>
+<h2 id="4">Instruction <code>if</code></h2>
+<p>L'instruction <code>if</code> est l'instruction conditionnelle incontournable. Elle exécute une ou plusieurs instructions, suivant une ou plusieurs conditions. </p>
+<p>La syntaxe générale est : </p>
+<pre><code class="language-php hljs"><span class="hljs-keyword">if</span> ( condition ) 
+{ 
+        <span class="hljs-comment">//Instructions; </span>
+} 
+<span class="hljs-keyword">else</span> <span class="hljs-keyword">if</span> ( condition ) 
+{ 
+        <span class="hljs-comment">//Instructions; </span>
+} 
+<span class="hljs-keyword">else</span> 
+{ 
+        <span class="hljs-comment">//Instructions; </span>
+} </code></pre>
+<p>Exemple : </p>
+<pre><code class="language-php hljs"><span class="hljs-keyword">if</span> ($a &gt; $b) 
+{ 
+    <span class="hljs-keyword">echo</span> <span class="hljs-string">"$a est plus grand que $b"</span>; 
+}</code></pre>
+<p>Peut s'interpréter par : si <code>$a</code> est plus grand que <code>$b</code>, alors exécuter l'instruction ci-dessous.
+En fait la condition renvoi une valeur vrai ou faux.</p>
+<p>Si plusieurs instructions doivent être exécutées par la suite il faut ouvrir et fermer des accolades pour indiquer le début et la fin des instructions. </p>
+<pre><code class="hljs bash"><span class="hljs-keyword">if</span> (<span class="hljs-variable">$a</span> &gt; <span class="hljs-variable">$b</span>) { 
+    <span class="hljs-built_in">echo</span> <span class="hljs-string">"<span class="hljs-variable">$a</span> est plus grand que <span class="hljs-variable">$b</span>"</span>; 
+    <span class="hljs-variable">$b</span> = <span class="hljs-variable">$a</span>; 
+} 
+<span class="hljs-keyword">else</span> </code></pre>
+<p>Exemple : </p>
+<pre><code class="hljs nginx"><span class="hljs-attribute">if</span> (<span class="hljs-variable">$a</span> &gt; <span class="hljs-variable">$b</span>) { 
+    <span class="hljs-attribute">echo</span> <span class="hljs-string">"<span class="hljs-variable">$a</span> est plus grand que <span class="hljs-variable">$b</span>"</span>; 
+} <span class="hljs-section">else</span> { 
+   <span class="hljs-attribute">echo</span> <span class="hljs-string">"<span class="hljs-variable">$a</span> est moins grand que <span class="hljs-variable">$b</span>"</span>; 
+} </code></pre>
+<p>Peut s'interpréter par : si <code>$a est plus grand que</code>$b<code>, alors exécuter l'instruction ci-dessous, sinon ( si</code>$a<code>n'est pas plus grand que</code>$b` ) exécuter l'instruction ci-dessous.</p>
+<h3 id="16">Opérateur ternaire</h3>
+<p>Un opérateur <strong>ternaire</strong> permet de faire la même chose qu'une condition <code>if</code> mais avec une écriture plus condensée.</p>
+<blockquote>
+<p>L'utilisation de cette syntaxe est peu recommandée car sa lisibilité est moins facile que des conditions écrites avec <code>if...else</code>.  </p>
+</blockquote>
+<p>La syntaxe d'une conditon ternaire est la suivante : </p>
+<p><em>(instructions conditionnelles) ? instructions si vrai : instructions si faux</em></p>
+<p>Par exemple la condition classique :</p>
+<pre><code class="language-php hljs">    <span class="hljs-keyword">if</span> ($age&gt;=<span class="hljs-number">18</span>)
+    {
+       $reponse=<span class="hljs-string">"majeur"</span> ;
+    }
+    <span class="hljs-keyword">else</span>
+    {
+       $reponse=<span class="hljs-string">" mineur "</span> ;
+    }</code></pre>
+<p>peut être remplacée par : </p>
+<pre><code class="language-php hljs">$message = ($age &gt;= <span class="hljs-number">18</span>) ? <span class="hljs-string">"majeur"</span> : <span class="hljs-string">"mineur"</span>;</code></pre>
+<p>qui se lit est-ce que <code>$age &gt;= 18</code> , si oui, <code>$reponse="majeur"</code>, si non, <code>$reponse=" mineur"</code></p>
+<p>Soit dans un exemple complet :</p>
+<pre><code class="language-php hljs">    $age = <span class="hljs-number">25</span>; 
+
+    $reponse = ($age &gt;= <span class="hljs-number">18</span>) ? <span class="hljs-string">"majeur"</span> : <span class="hljs-string">"mineur"</span>; 
+
+    <span class="hljs-keyword">echo</span> <span class="hljs-string">"Vous êtes $reponse ."</span>; </code></pre>
+<p>Dans cet exemple, <code>$reponse</code> vaut <code>"majeur"</code> car <code>$age</code> est supérieur à 18. L'affichage à l'écran sera donc : <code>Vous êtes majeur</code>. On peut même économiser la variable <code>$reponse</code> et un peu de code en le réécrivant directement dans une instruction <code>echo</code> comme ci-dessous :</p>
+<pre><code class="hljs bash"><span class="hljs-variable">$age</span> = 25;
+
+<span class="hljs-built_in">echo</span> <span class="hljs-string">"Vous êtes "</span>. (<span class="hljs-variable">$age</span> &gt;= 18) ? <span class="hljs-string">"majeur"</span> : <span class="hljs-string">"mineur"</span> . <span class="hljs-string">"."</span>; </code></pre>
+<h2 id="30">Instruction <code>switch</code></h2>
+<p>L'instruction <code>switch</code> est similaire à une série de conditions <code>if</code> sur une même variable, avec l'avantage d'être beaucoup plus claire au niveau du code :</p>
+<pre><code class="hljs bash"><span class="hljs-variable">$a</span> = 2; 
+
+switch (<span class="hljs-variable">$a</span>) { 
+  <span class="hljs-keyword">case</span> 0 : 
+    <span class="hljs-built_in">echo</span><span class="hljs-string">"<span class="hljs-variable">$a</span> = 0"</span>; 
+  <span class="hljs-built_in">break</span>; 
+
+  <span class="hljs-keyword">case</span> 1 : 
+    <span class="hljs-built_in">echo</span> <span class="hljs-string">"<span class="hljs-variable">$a</span> = 1"</span>; 
+  <span class="hljs-built_in">break</span>; 
+
+  <span class="hljs-keyword">case</span> 2 : 
+     <span class="hljs-built_in">echo</span> <span class="hljs-string">"<span class="hljs-variable">$a</span> = 2"</span>; 
+  <span class="hljs-built_in">break</span>; 
+} </code></pre>
+<p>La variable est testée sur les valeurs définies par case X : </p>
+<blockquote>
+<p>Les instructions <code>breaks</code> peuvent être optionnelles; mais dans ce cas, même si la condition de <code>case</code> est remplie, les instructions suivantes continueront à être exécutées. </p>
+</blockquote>
+<p>De plus le script peut être complété par une ligne du type : </p>
+<pre><code class="hljs nginx"><span class="hljs-attribute">default</span> : 
+    echo <span class="hljs-string">"<span class="hljs-variable">$a</span> n'est pas égale à 0,1 ou 2"</span>; </code></pre>
+<p><code>default</code> sera exécuté automatiquement en dernier lieu si les <code>case X</code> du dessus ne répondent pas aux conditions. </p>
+<p><br>
+<br>
+<br></p></div><div class="menu-markdown"><img src="./PHP_Conditions_files/menu.png"><div data-id="1" class="titre">PHP - Les instructions conditionnelles</div><div data-id="4">Instruction <code>if</code></div><div data-id="16">&nbsp;&nbsp;&nbsp;&nbsp;Opérateur ternaire</div><div data-id="30">Instruction <code>switch</code></div></div></div><script>hljs.initHighlightingOnLoad();//hljs.initLineNumbersOnLoad();</script><script src="./PHP_Conditions_files/menu-markdown.js"></script></body></html>
