@@ -1,0 +1,181 @@
+<!DOCTYPE html>
+<!-- saved from url=(0093)https://ncode.amorce.org/ressources/Pool/MS_FULL_STACK/BDD_Decouverte_MySQL/typesdonnees.html -->
+<html><head><meta http-equiv="Content-Type" content="text/html; charset=UTF-8"><title></title>
+        <meta name="viewport" content="width=device-width, initial-scale=1">
+        <link rel="stylesheet" href="./typesdonnees_files/font-awesome.min.css">
+        <link rel="stylesheet" href="./typesdonnees_files/bootstrap.min.css">
+        <link rel="stylesheet" href="./typesdonnees_files/darcula.css">
+        <!-- <link rel="stylesheet" href="/css/highlight/line-number.css"> -->
+        <link rel="stylesheet" href="./typesdonnees_files/github-markdown.css">
+        <!-- <link rel="stylesheet" href="/css/markdown_foad.css"> -->
+        <link rel="stylesheet" href="./typesdonnees_files/menu-markdown.css">
+        <!-- <script src="/js/highlightjs-line-numbers.min.js"></script> -->
+        <script src="./typesdonnees_files/jquery-3.4.1.min.js"></script>
+        <script src="./typesdonnees_files/popper.min.js"></script>
+        <script src="./typesdonnees_files/bootstrap.min.js"></script>
+        <script src="./typesdonnees_files/highlight.js"></script>
+        </head><body><div class="container"><div class="markdown-body"><h1 id="1"><strong>BDD</strong> - Les types de données en MySQL</h1>
+<p><br>
+<br></p>
+<p><strong>MySQL</strong> met à la disposition des utilisateurs un grand nombre de types de données que l'on peut classer en trois catégories :  </p>
+<ul>
+<li>les nombres  </li>
+<li>les chaînes de caractères  </li>
+<li>les dates</li>
+</ul>
+<p>Voici une liste non-exhaustive des principaux types de données :  </p>
+<p><br></p>
+<table>
+<thead>
+<tr>
+<th style="text-align: left;">Catégorie</th>
+<th style="text-align: left;">Type</th>
+<th style="text-align: right;">Description</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td style="text-align: left;"><strong>NOMBRE</strong></td>
+<td style="text-align: left;">TINYINT</td>
+<td style="text-align: right;">Très petit entier. En signé de -128 à 127, en non signé de 0 à 255.</td>
+</tr>
+<tr>
+<td style="text-align: left;"><strong>NOMBRE</strong></td>
+<td style="text-align: left;">SMALLINT</td>
+<td style="text-align: right;">Petit entier. En signé de -32768 à 32767, en non signé de 0 à 65535.</td>
+</tr>
+<tr>
+<td style="text-align: left;"><strong>NOMBRE</strong></td>
+<td style="text-align: left;">MEDIUMINT</td>
+<td style="text-align: right;">Entier de taille moyenne. En signé de -8388608 à 8388607, en non signé de 0 à 16777215.</td>
+</tr>
+<tr>
+<td style="text-align: left;"><strong>NOMBRE</strong></td>
+<td style="text-align: left;">INT</td>
+<td style="text-align: right;">Entier de taille normale. En signé de -2147483648 à 2147483647, en non signé de 0 à 4294967295.</td>
+</tr>
+<tr>
+<td style="text-align: left;"><strong>NOMBRE</strong></td>
+<td style="text-align: left;">INTEGER</td>
+<td style="text-align: right;">Idem "INT".</td>
+</tr>
+<tr>
+<td style="text-align: left;"><strong>NOMBRE</strong></td>
+<td style="text-align: left;">BIGINT</td>
+<td style="text-align: right;">Entier de grande taille. En signé de -9223372036854775808 à 9223372036854775807, en non signé de 0 à 18446744073709551615.</td>
+</tr>
+<tr>
+<td style="text-align: left;"><strong>NOMBRE</strong></td>
+<td style="text-align: left;">FLOAT</td>
+<td style="text-align: right;">Nombre à virgule flottante. Toujours signé de -3.402823466E+38 à -1.175494351E-38.</td>
+</tr>
+<tr>
+<td style="text-align: left;"><strong>NOMBRE</strong></td>
+<td style="text-align: left;">DOUBLE</td>
+<td style="text-align: right;">Grand nombre à virgule flottante. Toujours signé de -1.7976931348623157E+308 à 2.2250738585072014E-308.</td>
+</tr>
+<tr>
+<td style="text-align: left;"><strong>NOMBRE</strong></td>
+<td style="text-align: left;">REAL</td>
+<td style="text-align: right;">Idem "DOUBLE".</td>
+</tr>
+<tr>
+<td style="text-align: left;"><strong>NOMBRE</strong></td>
+<td style="text-align: left;">DECIMAL</td>
+<td style="text-align: right;">Nombre à virgule flottante. Les nombres sont stockés dans la variable sous forme de chaîne de caractères. Toujours signé de -1.7976931348623157E+308 à 2.2250738585072014E-308.</td>
+</tr>
+<tr>
+<td style="text-align: left;"><strong>NOMBRE</strong></td>
+<td style="text-align: left;">NUMERIC</td>
+<td style="text-align: right;">Idem "DECIMAL".</td>
+</tr>
+<tr>
+<td style="text-align: left;"><strong>DATE</strong></td>
+<td style="text-align: left;">DATE</td>
+<td style="text-align: right;">Date sous la forme "AAAA-MM-JJ". De "1000-01-01" à "9999-12-31".</td>
+</tr>
+<tr>
+<td style="text-align: left;"><strong>DATE</strong></td>
+<td style="text-align: left;">DATETIME</td>
+<td style="text-align: right;">Date et heure sous la forme "AAAA-MM-JJ HH:MM:SS". De "1000-01-01 00:00:00" à "9999-12-31 23:59:59".</td>
+</tr>
+<tr>
+<td style="text-align: left;"><strong>DATE</strong></td>
+<td style="text-align: left;">TIMESTAMP</td>
+<td style="text-align: right;">Date et heure en secondes écoulées depuis le 1er Janvier 1970 (date UNIX) jusqu'à 2037</td>
+</tr>
+<tr>
+<td style="text-align: left;"><strong>DATE</strong></td>
+<td style="text-align: left;">TIME</td>
+<td style="text-align: right;">Heure sous la forme "HH:MM:SS". De "-838:59:59" à "838:59:59".</td>
+</tr>
+<tr>
+<td style="text-align: left;"><strong>DATE</strong></td>
+<td style="text-align: left;">YEAR</td>
+<td style="text-align: right;">Année sous la forme "AAAA". De "1901" à "2155".</td>
+</tr>
+<tr>
+<td style="text-align: left;"><strong>CARACTERE</strong></td>
+<td style="text-align: left;">CHAR</td>
+<td style="text-align: right;">Chaîne de caractères de taille fixe (des espaces sont rajoutés en fin de chaîne). De 1 à 255.</td>
+</tr>
+<tr>
+<td style="text-align: left;"><strong>CARACTERE</strong></td>
+<td style="text-align: left;">VARCHAR</td>
+<td style="text-align: right;">Chaîne de caractères de longueur variable (pas d'espaces rajoutés en fin de chaîne). De 1 à 255.</td>
+</tr>
+<tr>
+<td style="text-align: left;"><strong>CARACTERE</strong></td>
+<td style="text-align: left;">TINYBLOB</td>
+<td style="text-align: right;">Chaîne de caractères. Sensible à la casse. Taille maximale : 255.</td>
+</tr>
+<tr>
+<td style="text-align: left;"><strong>CARACTERE</strong></td>
+<td style="text-align: left;">TINYTEXT</td>
+<td style="text-align: right;">Chaîne de caractères. Insensible à la casse. Taille maximale : 255.</td>
+</tr>
+<tr>
+<td style="text-align: left;"><strong>CARACTERE</strong></td>
+<td style="text-align: left;">BLOB</td>
+<td style="text-align: right;">Chaîne de caractères. Sensible à la casse. Taille maximale : 65535.</td>
+</tr>
+<tr>
+<td style="text-align: left;"><strong>CARACTERE</strong></td>
+<td style="text-align: left;">TEXT</td>
+<td style="text-align: right;">Chaîne de caractères. Insensible à la casse. Taille maximale : 65535.</td>
+</tr>
+<tr>
+<td style="text-align: left;"><strong>CARACTERE</strong></td>
+<td style="text-align: left;">MEDIUMBLOB</td>
+<td style="text-align: right;">Chaîne de caractères. Sensible à la casse. Taille maximale : 16777215.</td>
+</tr>
+<tr>
+<td style="text-align: left;"><strong>CARACTERE</strong></td>
+<td style="text-align: left;">MEDIUM TEXT</td>
+<td style="text-align: right;">Chaîne de caractères. Insensible à la casse. Taille maximale : 16777215.</td>
+</tr>
+<tr>
+<td style="text-align: left;"><strong>CARACTERE</strong></td>
+<td style="text-align: left;">LONGBLOB</td>
+<td style="text-align: right;">Chaîne de caractères. Sensible à la casse. Taille maximale : 4294967295.</td>
+</tr>
+<tr>
+<td style="text-align: left;"><strong>CARACTERE</strong></td>
+<td style="text-align: left;">LONGTEXT</td>
+<td style="text-align: right;">Chaîne de caractères. Insensible à la casse. Taille maximale : 4294967295.</td>
+</tr>
+<tr>
+<td style="text-align: left;"><strong>CARACTERE</strong></td>
+<td style="text-align: left;">ENUM</td>
+<td style="text-align: right;">Enumération. Un objet chaîne peut prendre une des valeurs contenue dans une liste de valeurs. Nombre maximum de valeurs distinctes : 65535.</td>
+</tr>
+<tr>
+<td style="text-align: left;"><strong>CARACTERE</strong></td>
+<td style="text-align: left;">SET</td>
+<td style="text-align: right;">Ensemble. Un objet chaîne peut prendre une ou plusieurs valeurs contenues dans une liste de valeurs. Nombre maximum de valeurs distinctes : 65535.</td>
+</tr>
+</tbody>
+</table>
+<p><br>
+<br>
+<br></p></div><div class="menu-markdown"><img src="./typesdonnees_files/menu.png"><div data-id="1" class="titre"><strong>BDD</strong> - Les types de données en MySQL</div></div></div><script>hljs.initHighlightingOnLoad();//hljs.initLineNumbersOnLoad();</script><script src="./typesdonnees_files/menu-markdown.js"></script></body></html>

@@ -1,0 +1,142 @@
+<!DOCTYPE html>
+<html lang="fr">
+
+    <head>
+
+        <meta charset="UTF-8">
+        <meta http-equiv="X-UA-Compatible" content="IE=edge">
+        <meta name="viewport" content="width=device-width, initial-scale=1.0">
+
+
+<!-- ****Lien avec la feuille de styles css************ -->
+
+    <link rel="stylesheet" href="jarditou_css/assets/css/styles.css">
+
+<!-- ************************************************** -->
+
+
+        <title>Jarditou/Contact/JS</title>
+
+    </head>
+
+    <body>
+
+
+<!-- ***********En-tête************* -->
+
+        <header>
+
+            <div class="hair">
+                
+                    <img class="logojarditou" src="jarditou_css/src/img/jarditou_logo.jpg" alt="Logo Jarditou"> 
+                
+                    <p class="slogan">Tout le jardin</p>
+                
+            </div>  
+           
+
+        <nav class="menu">
+
+                <a href="404.html" title="accueil">Accueil</a>
+                <a href="404.html" title="tableau">Tableau</a>
+                <a href="404.html" title="contact">Contact</a>
+           
+        </nav>
+        
+        </header>
+
+<!-- ******************************* -->
+
+
+<!-- *********Bandeau de promotion******************************************************************* -->
+        
+            <img class="logopromo" src="jarditou_css/src/img/promotion.jpg"  alt="logo promotion" title="promotion">
+       
+<!-- ************************************************************************************************ -->
+
+
+            <h1 id="contact" title="Contact">Contact</h1>
+
+
+<!-- **********Formulaire de contact*************************************************** -->
+
+    <form action="http://bienvu.net/script.php" method="POST" id="formulaire_contact">  
+
+<p><b><i>* Ces zones sont obligatoires</i></b></p>
+
+        <fieldset>
+
+            <legend>Vos Coordonnées</legend>
+                <label for="nom">Nom* :</label><input type="text" id="nom" name="nom" placeholder="Entrez votre nom" required><span id='missNom'></span><br>
+                <label for="prénom">Prénom* :</label><input type="text" id="prenom" name="prenom" placeholder="Entrez votre prénom" required><span id='missPre'></span><br>
+            
+            <p></p>
+
+                <label for="sexe">Sexe* :</label><input type="radio" id="radio1" name="sexe" value="Féminin"> Féminin 
+                <input type="radio" id="radio2" name="sexe" value="Masculin"> Masculin <span id="missSex"></span><br>
+            
+            <p></p>
+    
+                <label for="date">Date de naissance:</label><input type="date" name="date" id="date"><br>
+                <label for="code postal">Code postal* :</label><input type="text" id="cp" name="cp" placeholder="Code postal" required><span id='missCp'></span><br>
+                <label for="adresse">Adresse :</label><input type="text" name="adresse" id="adresse"><br>
+                <label for="ville">Ville :</label><input type="text" name="ville" id="ville"><br>
+                <label for="email">Email* :</label><input type="email" id="email" name="email" placeholder="fou.lestaque@afpa.fr" required><span id='missEmail'></span><br>
+
+        </fieldset>
+
+            <p></p>
+
+        <fieldset>
+
+            <legend>Votre demande</legend>
+                <label for="sujet">Sujet* :</label>
+                <select id="sujet" name="sujet" required> 
+                    <option class="sujet" value="">Veuillez sélectionner un sujet</option>
+                    <option value="commandes">Mes commandes</option>
+                    <option value="produit">Question sur un produit</option>
+                    <option value="réclamation">Réclamation</option>
+                    <option value="autres">Autres</option>
+                </select>
+                <span id='missSujet'></span>
+                <br>
+                <label for="question">Votre question* :</label>
+                <textarea name="commentaire" rows="2" cols="20" placeholder="Votre question" required></textarea> 
+                <br>
+
+        </fieldset>
+
+            <p></p>
+
+    <input type="checkbox" name="accepter" value="accepter" required>* J'accepte le traitement informatique de ce formulaire<br>
+
+            <p></p>
+
+            <input type="submit" id="submit" name="envoyer" value="Envoyer">
+            <input type="reset" id="reset" name="annuler" value="Annuler">
+
+<!-- ********************************************************************************* -->
+
+
+<!-- *********Pied de page************** -->
+
+        <footer>
+            
+        <nav class="menu">
+
+            <a href="404.html" title="mentions légales">Mentions légales</a>
+            <a href="404.html" title="horaires">Horaires</a>
+            <a href="404.html" title="plan du site">Plan du site</a>
+        
+        </nav>
+
+        </footer>
+
+<!-- *********************************** -->
+
+
+<script src="jarditou_css/assets/js/Jarditou.js"></script>
+
+
+    </body>
+</html>

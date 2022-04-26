@@ -1,0 +1,134 @@
+<!DOCTYPE html>
+<!-- saved from url=(0096)https://ncode.amorce.org/ressources/Pool/MS_FULL_STACK/BDD_Interroger_MySQL/papyrus/papyrus.html -->
+<html><head><meta http-equiv="Content-Type" content="text/html; charset=UTF-8"><title>nCode | BDD - Cas Papyrus (extraction de données)</title>
+        <meta name="viewport" content="width=device-width, initial-scale=1">
+        <link rel="stylesheet" href="./nCode _ BDD - Cas Papyrus (extraction de données)_files/font-awesome.min.css">
+        <link rel="stylesheet" href="./nCode _ BDD - Cas Papyrus (extraction de données)_files/bootstrap.min.css">
+        <link rel="stylesheet" href="./nCode _ BDD - Cas Papyrus (extraction de données)_files/darcula.css">
+        <!-- <link rel="stylesheet" href="/css/highlight/line-number.css"> -->
+        <link rel="stylesheet" href="./nCode _ BDD - Cas Papyrus (extraction de données)_files/github-markdown.css">
+        <!-- <link rel="stylesheet" href="/css/markdown_foad.css"> -->
+        <link rel="stylesheet" href="./nCode _ BDD - Cas Papyrus (extraction de données)_files/menu-markdown.css">
+        <!-- <script src="/js/highlightjs-line-numbers.min.js"></script> -->
+        <script src="./nCode _ BDD - Cas Papyrus (extraction de données)_files/jquery-3.4.1.min.js"></script>
+        <script src="./nCode _ BDD - Cas Papyrus (extraction de données)_files/popper.min.js"></script>
+        <script src="./nCode _ BDD - Cas Papyrus (extraction de données)_files/bootstrap.min.js"></script>
+        <script src="./nCode _ BDD - Cas Papyrus (extraction de données)_files/highlight.js"></script>
+        </head><body><div class="container"><div class="markdown-body"><h1 id="1">BDD - Cas Papyrus (extraction de données)</h1>
+<p><br>
+<br></p>
+<h2 id="3">Pré-requis</h2>
+<h3 id="4">1. LE MODELE PHYSIQUE DES DONNEES (MPD) :</h3>
+<p>La base de données relationnelle PAPYRUS est constituée des relations suivantes :</p>
+<pre><code class="hljs nginx"><span class="hljs-attribute">PRODUIT</span> (CODART, LIBART, STKALE, STKPHY, QTEANN, UNIMES) 
+ENTCOM  (NUMCOM, OBSCOM, DATCOM, NUMFOU) 
+LIGCOM  (NUMCOM, NUMLIG, CODART, QTECDE, PRIUNI, QTELIV, DERLIV) 
+FOURNIS (NUMFOU, NOMFOU, RUEFOU, POSFOU, VILFOU, CONFOU, SATISF) 
+VENTE   (CODART, NUMFOU, DELLIV, QTE1, PRIX1, QTE2, PRIX2, QTE3, PRIX3)</code></pre>
+<p><br></p>
+<h3 id="8">2. LE MODELE CONCEPTUEL DES DONNEES (MCD) :</h3>
+<p><img src="./nCode _ BDD - Cas Papyrus (extraction de données)_files/mcd_papyrus.png" alt="MCD Papyrus"></p>
+<p><br></p>
+<h3 id="11">3. LE SCRIPT SQL</h3>
+<p>Téléchargez et importez <a target="_blank" href="https://ncode.amorce.org/ressources/Pool/MS_FULL_STACK/BDD_Interroger_MySQL/papyrus/papyrus_complet.sql">ce script complet pour la Base de données Papyrus</a>, afin d'obtenir la structure de BDD correspondante au modèle ci-dessus.</p>
+<p><br>
+<br></p>
+<h2 id="14">Exercice</h2>
+<p>Vous devez préparer le développement de l’application, et coder les requêtes correspondant aux besoins d'affichage définis ci-dessous en langage SQL.</p>
+<p><br></p>
+<h3 id="17"><strong>Les besoins d'affichage</strong></h3>
+<ol>
+<li>
+<p>Quelles sont les commandes du fournisseur n°9120 ?</p>
+</li>
+<li>
+<p>Afficher le code des fournisseurs pour lesquels des commandes ont été passées.</p>
+</li>
+<li>
+<p>Afficher le nombre de commandes fournisseurs passées, et le nombre de fournisseur concernés.</p>
+</li>
+<li>
+<p>Extraire les produits ayant un stock inférieur ou égal au stock d'alerte, et dont la quantité annuelle est inférieure à 1000.  </p>
+<blockquote>
+<p><em>Informations à fournir : n° produit, libellé produit, stock actuel, stock d'alerte, quantité annuelle)</em></p>
+</blockquote>
+</li>
+<li>
+<p>Quels sont les fournisseurs situés dans les départements 75, 78, 92, 77 ?  </p>
+<blockquote>
+<p><em>L’affichage (département, nom fournisseur) sera effectué par département décroissant, puis par ordre alphabétique.</em></p>
+</blockquote>
+</li>
+<li>
+<p>Quelles sont les commandes passées en mars et en avril ?</p>
+</li>
+<li>
+<p>Quelles sont les commandes du jour qui ont des observations particulières ?  </p>
+<blockquote>
+<p><em>Afficher numéro de commande et date de commande</em></p>
+</blockquote>
+</li>
+<li>
+<p>Lister le total de chaque commande par total décroissant.  </p>
+<blockquote>
+<p><em>Afficher numéro de commande et total</em></p>
+</blockquote>
+</li>
+<li>
+<p>Lister les commandes dont le total est supérieur à 10000€ ; on exclura dans le calcul du total les articles commandés en quantité supérieure ou égale à 1000.  </p>
+<blockquote>
+<p><em>Afficher numéro de commande et total</em></p>
+</blockquote>
+</li>
+<li>
+<p>Lister les commandes par nom de fournisseur.  </p>
+<blockquote>
+<p><em>Afficher nom du fournisseur, numéro de commande et date</em></p>
+</blockquote>
+</li>
+<li>
+<p>Sortir les produits des commandes ayant le mot "urgent' en observation.  </p>
+<blockquote>
+<p><em>Afficher numéro de commande, nom du fournisseur, libellé du produit et sous total (= quantité commandée * prix unitaire)</em></p>
+</blockquote>
+</li>
+<li>
+<p>Coder de 2 manières différentes la requête suivante : Lister le nom des fournisseurs susceptibles de livrer au moins un article.</p>
+</li>
+<li>
+<p>Coder de 2 manières différentes la requête suivante : Lister les commandes dont le fournisseur est celui de la commande n°70210.  </p>
+<blockquote>
+<p><em>Afficher numéro de commande et date</em></p>
+</blockquote>
+</li>
+<li>
+<p>Dans les articles susceptibles d’être vendus, lister les articles moins chers (basés sur Prix1) que le moins cher des rubans (article dont le premier caractère commence par R).  </p>
+<blockquote>
+<p><em>Afficher libellé de l’article et prix1</em></p>
+</blockquote>
+</li>
+<li>
+<p>Sortir la liste des fournisseurs susceptibles de livrer les produits dont le stock est inférieur ou égal à 150 % du stock d'alerte.  </p>
+<blockquote>
+<p><em>La liste sera triée par produit puis fournisseur</em></p>
+</blockquote>
+</li>
+<li>
+<p>Sortir la liste des fournisseurs susceptibles de livrer les produits dont le stock est inférieur ou égal à 150 % du stock d'alerte, et un délai de livraison d'au maximum 30 jours.  </p>
+<blockquote>
+<p><em>La liste sera triée par fournisseur puis produit</em></p>
+</blockquote>
+</li>
+<li>
+<p>Avec le même type de sélection que ci-dessus, sortir un total des stocks par fournisseur, triés par total décroissant.</p>
+</li>
+<li>
+<p>En fin d'année, sortir la liste des produits dont la quantité réellement commandée dépasse 90% de la quantité annuelle prévue.</p>
+</li>
+<li>
+<p>Calculer le chiffre d'affaire par fournisseur pour l'année 2018, sachant que les prix indiqués sont hors taxes et que le taux de TVA est 20%.</p>
+</li>
+</ol>
+<p><br>
+<br>
+<br></p></div><div class="menu-markdown"><img src="./nCode _ BDD - Cas Papyrus (extraction de données)_files/menu.png"><div data-id="1" class="titre">BDD - Cas Papyrus (extraction de données)</div><div data-id="3">Pré-requis</div><div data-id="4">&nbsp;&nbsp;&nbsp;&nbsp;1. LE MODELE PHYSIQUE DES DONNEES (MPD) :</div><div data-id="8">&nbsp;&nbsp;&nbsp;&nbsp;2. LE MODELE CONCEPTUEL DES DONNEES (MCD) :</div><div data-id="11">&nbsp;&nbsp;&nbsp;&nbsp;3. LE SCRIPT SQL</div><div data-id="14">Exercice</div><div data-id="17">&nbsp;&nbsp;&nbsp;&nbsp;<strong>Les besoins d'affichage</strong></div></div></div><script>hljs.initHighlightingOnLoad();//hljs.initLineNumbersOnLoad();</script><script src="./nCode _ BDD - Cas Papyrus (extraction de données)_files/menu-markdown.js"></script><script>document.title = "nCode | " + document.querySelector("h1").textContent;</script></body></html>

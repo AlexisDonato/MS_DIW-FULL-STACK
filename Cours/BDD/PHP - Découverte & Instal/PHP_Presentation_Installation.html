@@ -1,0 +1,91 @@
+<!DOCTYPE html>
+<!-- saved from url=(0093)https://ncode.amorce.org/ressources/Pool/MS_FULL_STACK/PHP/PHP_Presentation_Installation.html -->
+<html><head><meta http-equiv="Content-Type" content="text/html; charset=UTF-8"><title></title>
+        <meta name="viewport" content="width=device-width, initial-scale=1">
+        <link rel="stylesheet" href="./PHP_Presentation_Installation_files/font-awesome.min.css">
+        <link rel="stylesheet" href="./PHP_Presentation_Installation_files/bootstrap.min.css">
+        <link rel="stylesheet" href="./PHP_Presentation_Installation_files/darcula.css">
+        <!-- <link rel="stylesheet" href="/css/highlight/line-number.css"> -->
+        <link rel="stylesheet" href="./PHP_Presentation_Installation_files/github-markdown.css">
+        <!-- <link rel="stylesheet" href="/css/markdown_foad.css"> -->
+        <link rel="stylesheet" href="./PHP_Presentation_Installation_files/menu-markdown.css">
+        <!-- <script src="/js/highlightjs-line-numbers.min.js"></script> -->
+        <script src="./PHP_Presentation_Installation_files/jquery-3.4.1.min.js"></script>
+        <script src="./PHP_Presentation_Installation_files/popper.min.js"></script>
+        <script src="./PHP_Presentation_Installation_files/bootstrap.min.js"></script>
+        <script src="./PHP_Presentation_Installation_files/highlight.js"></script>
+        </head><body><div class="container"><div class="markdown-body"><h1 id="1">PHP - Découverte et installation</h1>
+<p><br>
+<br></p>
+<h2 id="3">Présentation</h2>
+<p><strong>Le <a href="https://www.php.net/" target="_blank"><em>PHP Hypertext Preprocessor</em></a>, alias PHP, est un langage permettant l'écriture de <em>scripts</em>, s'exécutant du côté du <em>serveur</em>, afin de générer spécifiquement des pages dynamiques en code HTML.</strong></p>
+<p>Pour ce faire, PHP fonctionne avec un <strong>serveur Web</strong> intégré : <a href="https://fr.wikipedia.org/wiki/Zend_Engine" target="_blank">Zend Engine</a>, moteur de script open source mis au point par la société <a href="https://www.zend.com/" target="_blank"><em>Zend Technologies Ltd.</em></a></p>
+<p><br></p>
+<p>Pour information, <strong>la première version de PHP a été mise au point en 1994</strong> par Rasmus Lerdorf ; le langage s'appelait alors <em>PHP/FI</em>. Cette première version n'avait de grandes ambitions que de pouvoir insérer quelques traitements simples dans une page HTML...<br>
+C'est aujourd'hui devenu un <strong>langage de programmation de référence</strong> dont le succès ne cesse de croître. Ce succès est dû au bon compromis entre puissance et simplicité.  </p>
+<p><br></p>
+<p>PHP est aujourd'hui un <strong>langage multi-plateformes</strong> disponible dans plusieurs environnements tels que Windows, Unix, mais <em>surtout Linux</em>.<br>
+De plus, le PHP est un <strong>langage sous licence <em>libre de droits</em></strong>, dont les sources et la documentation sont téléchargeables via Internet.<br>
+Une documentation très fournie, et systématiquement mise à jour, est disponible sur leur site internet : <a href="https://www.php.net/" target="_blank"></a><a href="https://www.php.net/">https://www.php.net/</a>.</p>
+<p><br></p>
+<h3 id="11"><strong>PHP dans une Applications Web</strong></h3>
+<p>Sur les applications Web, PHP est souvent adossé à un serveur HTTP - principalement <a href="https://www.apache.org/" target="_blank">Apache</a>.<br>
+Lors d'une requête, le serveur web intercepte les instructions écrites en PHP et les interprète <em>avant</em> que la page Web ne soit traitée par le navigateur (et donc, avant le traitement du code HTML) :</p>
+<img src="./PHP_Presentation_Installation_files/interpretation_php1.jpg" class="w-100" alt="Interprétation PHP">  
+<img src="./PHP_Presentation_Installation_files/interpretation_php2.jpg" class="w-100" alt="Interprétation PHP">
+<p><br></p>
+<p>Cela lui permet ainsi de pouvoir, si nécessaire, écrire certains morceaux de code HTML à partir de données externes, comme des fichiers, ou des bases de données... :  </p>
+<img src="./PHP_Presentation_Installation_files/architecture_web_2.jpg" class="w-100" alt="Architecture Web">
+<p><br></p>
+<p>De cette manière, PHP permet d'interagir facilement avec une base de données (souvent de type SQL).<br>
+D'une manière générale, les liaisons <em>BDD - site</em> établies par les serveurs Web, peuvent être représentées de la manière suivante :  </p>
+<img src="./PHP_Presentation_Installation_files/architecture_web_1.png" class="w-100" alt="Architecture Web">
+<p><br>
+<br></p>
+<h2 id="22">Installation de PHP</h2>
+<p>Bien sûr, quelques réglages pour commencer !  </p>
+<p><br></p>
+<p><strong><em>Si vous utilisez Ubuntu (Linux) :</em></strong></p>
+<p>Sur Ubuntu, le paquet <em>phpmyadmin</em> embarque (entre autres) tous les paquets pour faire tourner PHP. Nous allons donc en profiter !  </p>
+<p>A l'instar de HeidiSQL, <a href="https://www.phpmyadmin.net/" target="_blank">PHPMyAdmin</a> est une application Web d’administration et de gestion pour les systèmes de gestion de base de données MySQL et MariaDB, réalisée principalement en PHP.  </p>
+<p>Pour installer PHPMyAdmin :</p>
+<pre><code class="hljs nginx"><span class="hljs-attribute">sudo</span> apt install phpmyadmin</code></pre>
+<blockquote>
+<p>Demandez l'aide d'un formateur pour la configuration de PHPMyAdmin !</p>
+</blockquote>
+<p><br></p>
+<p>Puis, pour vérifier si PHP est installé correctement :</p>
+<pre><code class="hljs nginx"><span class="hljs-attribute">php</span> –v</code></pre>
+<!-- TODO: installation pour Windows (Wamp ou Laragon - cf. ressources /old/ + pour XDebug suivre: https://xdebug.org/wizard) -->
+<p><br>
+<br></p>
+<h2 id="35">Paramétrage de PHP pour le développement</h2>
+<p>Lors de l'installation, PHP est configuré pour le mode <em>production</em> et non le mode <em>développement</em> ; cela veut dire que par défaut, les erreurs dans le code ne génèrent pas d'affichage de message... Et nous voilà bien embêtés pour comprendre pourquoi le script s'arrête parfois seul !  </p>
+<p>Heureusement, il est possible de réactiver ces affichages. Pour cela, rendez-vous dans le répertoire d'installation de votre PHP.<br>
+Sur Ubuntu, avec le mode d'installation précédente, ouvrir un terminal et</p>
+<pre><code class="hljs nginx"><span class="hljs-attribute">cd</span> /etc/php/<span class="hljs-number">7</span>.<span class="hljs-number">4</span>/cli</code></pre>
+<blockquote>
+<p>Pensez à vérifier et adapter si nécessaire cette commande à votre version de PHP, trouvée grâce à <code>php -v</code> !</p>
+</blockquote>
+<p><br></p>
+<p>Une fois dans ce répertoire, nous avons besoin d'ouvrir le fichier <code>php.ini</code> dans un éditeur de texte, <strong>avec les droits administrateur pour le modifier</strong>. Saisissez la commande  </p>
+<pre><code class="hljs css"><span class="hljs-selector-tag">sudo</span> <span class="hljs-selector-tag">gedit</span> <span class="hljs-selector-tag">php</span><span class="hljs-selector-class">.ini</span></code></pre>
+<blockquote>
+<p>Vous pouvez choisir un autre éditeur si vous le souhaitez !</p>
+</blockquote>
+<p>Rendez-vous ensuite dans la section <code>Error handling and logging</code> (ligne ~419, mais cela peut varier selon votre configuration) et, dans celle-ci, modifiez les paramètres suivants comme suit :</p>
+<pre><code class="language-ini hljs"><span class="hljs-attr">error_reporting</span> = E_ALL         ; = ligne ~<span class="hljs-number">472</span>
+<span class="hljs-attr">display_errors</span> = <span class="hljs-literal">On</span>             ; = ligne ~<span class="hljs-number">489</span>
+<span class="hljs-attr">display_startup_errors</span> = <span class="hljs-literal">On</span>     ; = ligne ~<span class="hljs-number">500</span>
+<span class="hljs-attr">log_errors</span> = <span class="hljs-literal">On</span>                 ; = ligne ~<span class="hljs-number">510</span></code></pre>
+<p>Sauvegardez et quittez.</p>
+<p><br></p>
+<p>Enfin, nous allons ajouter (ou activer) une extension permettant de faciliter le <em>débogage</em> (ou <em>debug</em>, = correction de bugs). Celle-ci s'appelle <a href="https://xdebug.org/" target="_blank">XDebug</a>.  </p>
+<p>Sur Ubuntu, rien de plus simple : dans votre terminal, saisissez la commande d'installation de XDebug pour PHP :  </p>
+<pre><code class="hljs nginx"><span class="hljs-attribute">sudo</span> apt install php-xdebug</code></pre>
+<p>Laissez le paquet s'installer...<br>
+Puis, enfin, fermez le tout et redémarrez par sécurité votre serveur Apache, avec  </p>
+<pre><code class="hljs nginx"><span class="hljs-attribute">sudo</span> systemctl restart apache2</code></pre>
+<p><br>
+<br>
+<br></p></div><div class="menu-markdown"><img src="./PHP_Presentation_Installation_files/menu.png"><div data-id="1" class="titre">PHP - Découverte et installation</div><div data-id="3">Présentation</div><div data-id="11">&nbsp;&nbsp;&nbsp;&nbsp;<strong>PHP dans une Applications Web</strong></div><div data-id="22">Installation de PHP</div><div data-id="35">Paramétrage de PHP pour le développement</div></div></div><script>hljs.initHighlightingOnLoad();//hljs.initLineNumbersOnLoad();</script><script src="./PHP_Presentation_Installation_files/menu-markdown.js"></script></body></html>

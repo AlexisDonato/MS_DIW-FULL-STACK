@@ -1,0 +1,29 @@
+
+h1{
+  text-align: center;
+}
+
+.logoafpa{
+  display: block;
+  margin-left: auto;
+  margin-right: auto;
+  width: 6em;
+}
+
+
+/* ****Media Quieries: Responsive**** */
+
+  @media only screen and (min-width: 768px) {
+  /* tablettes et ordinateurs */
+  }
+  @media only screen and (max-width: 767px) {
+  /* smartphone */
+  }
+  @media only screen and (max-width: 767px) and (orientation: portrait) {
+  /* smartphone en mode portait */
+  }
+
+  /* ******************************** */
+
+
+

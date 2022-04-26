@@ -1,0 +1,76 @@
+<!DOCTYPE html>
+<!-- saved from url=(0080)https://ncode.amorce.org/ressources/Pool/MS_FULL_STACK/CSS_BOOTSTRAP/marges.html -->
+<html><head><meta http-equiv="Content-Type" content="text/html; charset=UTF-8"><title></title>
+        <meta name="viewport" content="width=device-width, initial-scale=1">
+        <link rel="stylesheet" href="./marges_files/font-awesome.min.css">
+        <link rel="stylesheet" href="./marges_files/bootstrap.min.css">
+        <link rel="stylesheet" href="./marges_files/darcula.css">
+        <!-- <link rel="stylesheet" href="/css/highlight/line-number.css"> -->
+        <link rel="stylesheet" href="./marges_files/github-markdown.css">
+        <!-- <link rel="stylesheet" href="/css/markdown_foad.css"> -->
+        <link rel="stylesheet" href="./marges_files/menu-markdown.css">
+        <!-- <script src="/js/highlightjs-line-numbers.min.js"></script> -->
+        <script src="./marges_files/jquery-3.4.1.min.js"></script>
+        <script src="./marges_files/popper.min.js"></script>
+        <script src="./marges_files/bootstrap.min.js"></script>
+        <script src="./marges_files/highlight.js"></script>
+        </head><body><div class="container"><div class="markdown-body"><h1 id="1"><strong>Bootstrap</strong> &gt; Marges (spacing)</h1>
+<p><br>
+<br></p>
+<p>Bootstrap gère les marges externes (appelées <code>margins</code>) et internes (appelées <code>paddings</code>) de chaque élément avec des classes représentées par un système de lettres : </p>
+<ul>
+<li><code>m</code> pour margin</li>
+<li><code>p</code> pour padding</li>
+</ul>
+<p><br></p>
+<p>Ensuite, d'autres lettres peuvent venir préciser sur quel(s) côté(s) s'applique(nt) la marge :</p>
+<ul>
+<li><code>t</code> pour <em>top</em> (<em>margin-top</em> ou <em>padding-top</em>) : en <strong>haut</strong>.</li>
+<li><code>b</code> pour <em>bottom</em> (<em>margin-bottom</em> ou <em>padding-bottom</em>) : en <strong>bas</strong>.</li>
+<li><code>l</code> pour <em>left</em> (<em>margin-left</em> ou <em>padding-left</em>) : à <strong>gauche</strong>.</li>
+<li><code>r</code> pour <em>right</em> (<em>margin-right</em> or <em>padding-right</em>) : à <strong>droite</strong>.</li>
+<li><code>x</code> pour l'<strong>axe horizontal</strong>, c'est-à-dire à la fois à gauche et à droite.</li>
+<li><code>y</code> pour l'<strong>axe vertical</strong>, c'est-à-dire à la fois en haut et en bas.</li>
+</ul>
+<p><br></p>
+<p>Enfin, il faut indiquer la taille de la marge, sur une échelle de 0 à 5. </p>
+<p>2 valeurs particulières :</p>
+<ul>
+<li><code>0</code> : pas de marge ou de padding</li>
+<li><code>auto</code> : marges automatiques appliquées par le CSS à l'élément.</li>
+</ul>
+<p><br>
+<br></p>
+<p><strong><em>Exemples</em></strong><br>
+<br></p>
+<pre><code class="language-html hljs xml"><span class="hljs-tag">&lt;<span class="hljs-name">p</span> <span class="hljs-attr">class</span>=<span class="hljs-string">"mt-5 bg-info"</span>&gt;</span>Un paragraphe avec une marge supérieure de 5.<span class="hljs-tag">&lt;/<span class="hljs-name">p</span>&gt;</span>
+
+<span class="hljs-tag">&lt;<span class="hljs-name">p</span> <span class="hljs-attr">class</span>=<span class="hljs-string">"pl-5 bg-info"</span>&gt;</span>Un paragraphe avec une marge interne gauche de 5.<span class="hljs-tag">&lt;/<span class="hljs-name">p</span>&gt;</span>
+
+<span class="hljs-tag">&lt;<span class="hljs-name">p</span> <span class="hljs-attr">class</span>=<span class="hljs-string">"mx-3 bg-info"</span>&gt;</span>Un paragraphe avec une marge externe gauche et droite de 3.<span class="hljs-tag">&lt;/<span class="hljs-name">p</span>&gt;</span>
+
+<span class="hljs-tag">&lt;<span class="hljs-name">p</span> <span class="hljs-attr">class</span>=<span class="hljs-string">"py-3 bg-info"</span>&gt;</span>Un paragraphe avec une marge externe en haut et en bas de 3.<span class="hljs-tag">&lt;/<span class="hljs-name">p</span>&gt;</span>
+
+<span class="hljs-tag">&lt;<span class="hljs-name">p</span> <span class="hljs-attr">class</span>=<span class="hljs-string">"mt-0 bg-info"</span>&gt;</span>Un paragraphe SANS marge externe supérieure.<span class="hljs-tag">&lt;/<span class="hljs-name">p</span>&gt;</span>
+
+<span class="hljs-tag">&lt;<span class="hljs-name">p</span> <span class="hljs-attr">class</span>=<span class="hljs-string">"mx-auto bg-info"</span>&gt;</span>Un paragraphe avec une marge externe automatique à gauche et à droite, qui sera donc centré<span class="hljs-tag">&lt;/<span class="hljs-name">p</span>&gt;</span></code></pre>
+<p><br></p>
+<p>Pour appliquer une marge ou un padding sur les 4 côtés, aucune indication n'est à spécifier avant la taille de marge :</p>
+<pre><code class="language-html hljs xml"><span class="hljs-tag">&lt;<span class="hljs-name">p</span> <span class="hljs-attr">class</span>=<span class="hljs-string">"m-5 bg-info"</span>&gt;</span>Un paragraphe avec une marge de 5 sur les 4 côtés.<span class="hljs-tag">&lt;/<span class="hljs-name">p</span>&gt;</span>
+
+<span class="hljs-tag">&lt;<span class="hljs-name">p</span> <span class="hljs-attr">class</span>=<span class="hljs-string">"p-3 bg-danger"</span>&gt;</span>Un paragraphe avec un padding de 3 sur les 4 côtés.<span class="hljs-tag">&lt;/<span class="hljs-name">p</span>&gt;</span></code></pre>
+<p><br></p>
+<p>Il est bien sûr possible de spécifier à la fois une marge externe et une marge interne : </p>
+<pre><code class="language-html hljs xml"><span class="hljs-tag">&lt;<span class="hljs-name">p</span> <span class="hljs-attr">class</span>=<span class="hljs-string">"m-5 p-3 bg-info"</span>&gt;</span>Un paragraphe avec une marge externe de 5 sur les 4 côtés et un padding de 3 sur les 4 côtés.<span class="hljs-tag">&lt;/<span class="hljs-name">p</span>&gt;</span></code></pre>
+<p><br></p>
+<p>Bootstrap permet aussi d'adapter les marges en fonction des <em>breakpoints</em> ; pour cela il faut ajouter le préfixe du breakpoint voulu :</p>
+<pre><code class="language-html hljs xml"><span class="hljs-tag">&lt;<span class="hljs-name">p</span> <span class="hljs-attr">class</span>=<span class="hljs-string">"px-sm-2 px-md-3 bg-info"</span>&gt;</span>Un paragraphe avec une marge interne à gauche et à droite de 2 pour le breakpoint sm (&gt;= 576 px) puis de 3 à partir du breakpoint md (&gt;= 768 px).<span class="hljs-tag">&lt;/<span class="hljs-name">p</span>&gt;</span></code></pre>
+<p><br></p>
+<blockquote>
+<p><strong>Testez les différents exemples.</strong></p>
+</blockquote>
+<p><br></p>
+<h3 id="27">--&gt; Voir ici la <a href="https://getbootstrap.com/docs/4.4/utilities/spacing/">documentation complète de Bootstrap sur les marges</a>.</h3>
+<p><br>
+<br>
+<br></p></div><div class="menu-markdown"><img src="./marges_files/menu.png"><div data-id="1" class="titre"><strong>Bootstrap</strong> &gt; Marges (spacing)</div><div data-id="27">&nbsp;&nbsp;&nbsp;&nbsp;--&gt; Voir ici la <a href="https://getbootstrap.com/docs/4.4/utilities/spacing/">documentation complète de Bootstrap sur les marges</a>.</div></div></div><script>hljs.initHighlightingOnLoad();//hljs.initLineNumbersOnLoad();</script><script src="./marges_files/menu-markdown.js"></script></body></html>

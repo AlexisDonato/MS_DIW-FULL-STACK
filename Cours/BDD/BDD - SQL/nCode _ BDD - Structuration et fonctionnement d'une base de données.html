@@ -1,0 +1,151 @@
+<!DOCTYPE html>
+<!-- saved from url=(0094)https://ncode.amorce.org/ressources/Pool/MS_FULL_STACK/BDD_Decouverte_MySQL/structuration.html -->
+<html><head><meta http-equiv="Content-Type" content="text/html; charset=UTF-8"><title>nCode | BDD - Structuration et fonctionnement d'une base de données</title>
+        <meta name="viewport" content="width=device-width, initial-scale=1">
+        <link rel="stylesheet" href="./nCode _ BDD - Structuration et fonctionnement d&#39;une base de données_files/font-awesome.min.css">
+        <link rel="stylesheet" href="./nCode _ BDD - Structuration et fonctionnement d&#39;une base de données_files/bootstrap.min.css">
+        <link rel="stylesheet" href="./nCode _ BDD - Structuration et fonctionnement d&#39;une base de données_files/darcula.css">
+        <!-- <link rel="stylesheet" href="/css/highlight/line-number.css"> -->
+        <link rel="stylesheet" href="./nCode _ BDD - Structuration et fonctionnement d&#39;une base de données_files/github-markdown.css">
+        <!-- <link rel="stylesheet" href="/css/markdown_foad.css"> -->
+        <link rel="stylesheet" href="./nCode _ BDD - Structuration et fonctionnement d&#39;une base de données_files/menu-markdown.css">
+        <!-- <script src="/js/highlightjs-line-numbers.min.js"></script> -->
+        <script src="./nCode _ BDD - Structuration et fonctionnement d&#39;une base de données_files/jquery-3.4.1.min.js"></script>
+        <script src="./nCode _ BDD - Structuration et fonctionnement d&#39;une base de données_files/popper.min.js"></script>
+        <script src="./nCode _ BDD - Structuration et fonctionnement d&#39;une base de données_files/bootstrap.min.js"></script>
+        <script src="./nCode _ BDD - Structuration et fonctionnement d&#39;une base de données_files/highlight.js"></script>
+        </head><body><div class="container"><div class="markdown-body"><h1 id="1">BDD - Structuration et fonctionnement d'une base de données</h1>
+<p><br>
+<br></p>
+<h2 id="3">Base De Données relationnelle</h2>
+<p>Prenons le cas d'un organisme de formation, dans lequel les stagiaires sont inscrits progressivement dans différents parcours qu'il faudrait pouvoir gérer par la suite (toute ressemblance avec une situation réelle est bien évidemment fortuite !).  </p>
+<p>Il nous faudrait donc  </p>
+<ul>
+<li>détenir la liste complète des stagiaires, que nous allons ranger dans une table que l'on nommera : table <em>Stagiaires</em></li>
+<li>détenir la liste complète des formations disponibles, que nous allons ranger dans une table que l'on nommera... (suspens !) : table <em>Formations</em></li>
+<li>pouvoir savoir quel stagiaire suit quelle formation : table <em>Formation_Stagiaire</em></li>
+</ul>
+<p><br></p>
+<p>Voici l'exemple d'un Modèle Conceptuel des Données (MCD), qui représenterait schématiquement la base de données nécessaire à ce projet :</p>
+<p><img src="./nCode _ BDD - Structuration et fonctionnement d&#39;une base de données_files/mcd_formations_stagiaires.png" alt="MCD Formations et Stagiaires"></p>
+<p><br></p>
+<p>Ici,</p>
+<ul>
+<li>
+<p>chaque <em>table</em> (<em>Stagiaires</em>, <em>Formations</em>, <em>Suivi</em>) représente un tableau de données, avec des colonnes (= champs d'information) et des lignes (= objet ou enregistrement)  </p>
+</li>
+<li>
+<p>chaque stagiaire du centre sera enregistré dans la table <em>Stagiaires</em> :  </p>
+<ul>
+<li>chaque <em>attribut</em> de la table (<em>sta_nom</em>, <em>sta_prenom</em>, etc.) représente une colonne du tableau final des stagiaires, contenant 1 information propre à ce stagiaire (nom, prénom, etc.)  </li>
+<li>chaque ligne de la table <em>Stagiaires</em>, appelée <em>enregistrement</em>, représentera 1 stagiaire ; ses informations seront donc rangées dans les colonnes correspondantes (nom, prénom, etc.)  </li>
+</ul>
+</li>
+<li>
+<p>chaque formation sera, de même, répertoriée dans la table <em>Formations</em>, avec 1 formation par ligne dans le tableau ;  </p>
+</li>
+<li>
+<p>chaque <em>enregistrement</em> (= ligne) de table sera identifié par un <em>ID</em>, généré automatiquement par le SGBDr et donc forcément unique  </p>
+</li>
+<li>
+<p>chaque donnée enregistrée devra respecter le type de données attendu (texte, numérique, date ; unique dans toute la colonne, ou respectant un RegExp, etc.)  </p>
+</li>
+<li>
+<p>lorsqu'un stagiaire sera inscrit dans une formation, on créera une ligne dans la table <em>Formation_Stagiaire</em>, avec l'ID du stagiaire (<em>sta_id</em>), l'ID de la formation (<em>form_id</em>), et les dates de début et de fin ;<br>
+Cela nous permettra ensuite, grâce à des requêtes que nous allons apprendre à coder, de pouvoir extraire directement, par exemple, avec une simple ligne de code, la liste des stagiaires par formation (en allant rechercher grâce aux IDs, d'un côté, les informations de chaque stagiaire, de l'autre, celles de la formation suivie, puis d'afficher le tout dans une seule et même table de résultat)</p>
+</li>
+</ul>
+<p><br></p>
+<p>Le script MySQL correspondant, permettant de générer la BDD sur le SGBDr, serait le suivant :  </p>
+<pre><code class="language-sql hljs"><span class="hljs-keyword">DROP</span> <span class="hljs-keyword">DATABASE</span> <span class="hljs-keyword">IF</span> <span class="hljs-keyword">EXISTS</span> <span class="hljs-string">`of`</span>;
+
+<span class="hljs-keyword">CREATE</span> <span class="hljs-keyword">DATABASE</span> <span class="hljs-string">`of`</span>;
+
+<span class="hljs-keyword">USE</span> <span class="hljs-string">`of`</span>;
+
+<span class="hljs-keyword">CREATE</span> <span class="hljs-keyword">TABLE</span> Stagiaires(
+        sta_id          <span class="hljs-built_in">INT</span> <span class="hljs-keyword">NOT</span> <span class="hljs-literal">NULL</span> PRIMARY <span class="hljs-keyword">KEY</span> AUTO_INCREMENT,
+        sta_nom         <span class="hljs-built_in">VARCHAR</span>(<span class="hljs-number">50</span>) <span class="hljs-keyword">NOT</span> <span class="hljs-literal">NULL</span>,
+        sta_prenom      <span class="hljs-built_in">VARCHAR</span>(<span class="hljs-number">50</span>) <span class="hljs-keyword">NOT</span> <span class="hljs-literal">NULL</span>,
+        sta_matricule   <span class="hljs-built_in">CHAR</span>(<span class="hljs-number">10</span>) <span class="hljs-keyword">NOT</span> <span class="hljs-literal">NULL</span> <span class="hljs-keyword">UNIQUE</span> <span class="hljs-keyword">CHECK</span> (sta_matricule <span class="hljs-keyword">RLIKE</span> <span class="hljs-string">'^[A-Z]{2}[0-9]{6}[a-z]{2}$'</span>),
+        sta_adresse     <span class="hljs-built_in">VARCHAR</span>(<span class="hljs-number">50</span>),
+        sta_tel         <span class="hljs-built_in">VARCHAR</span>(<span class="hljs-number">30</span>)
+);
+
+<span class="hljs-keyword">CREATE</span> <span class="hljs-keyword">TABLE</span> Formations(
+        form_id           <span class="hljs-built_in">INT</span> <span class="hljs-keyword">NOT</span> <span class="hljs-literal">NULL</span> PRIMARY <span class="hljs-keyword">KEY</span> AUTO_INCREMENT,
+        form_duree_heures <span class="hljs-built_in">INT</span> <span class="hljs-keyword">NOT</span> <span class="hljs-literal">NULL</span>,
+        form_libelle      <span class="hljs-built_in">VARCHAR</span>(<span class="hljs-number">50</span>) <span class="hljs-keyword">NOT</span> <span class="hljs-literal">NULL</span>,
+        form_description  <span class="hljs-built_in">VARCHAR</span>(<span class="hljs-number">50</span>)
+);
+
+<span class="hljs-keyword">CREATE</span> <span class="hljs-keyword">TABLE</span> Formation_Stagiaire(
+        sta_id          <span class="hljs-built_in">INT</span> <span class="hljs-keyword">NOT</span> <span class="hljs-literal">NULL</span>,
+        form_id         <span class="hljs-built_in">INT</span> <span class="hljs-keyword">NOT</span> <span class="hljs-literal">NULL</span>,
+        date_debut      <span class="hljs-built_in">DATE</span> <span class="hljs-keyword">NOT</span> <span class="hljs-literal">NULL</span>,
+        date_fin        <span class="hljs-built_in">DATE</span> <span class="hljs-keyword">NOT</span> <span class="hljs-literal">NULL</span>,
+        FOREIGN <span class="hljs-keyword">KEY</span> (form_id) <span class="hljs-keyword">REFERENCES</span> Formations (form_id),
+        FOREIGN <span class="hljs-keyword">KEY</span> (sta_id) <span class="hljs-keyword">REFERENCES</span> Stagiaires (sta_id),
+        PRIMARY <span class="hljs-keyword">KEY</span> (sta_id, form_id)
+);
+</code></pre>
+<p><br></p>
+<p>Voyons maintenant le détail des quelques mots-clés du script, appelés <em>contraintes</em>.  </p>
+<p><br></p>
+<h3 id="19"><code>NOT NULL</code></h3>
+<p><em>Null</em> est une valeur spécifique aux bases de données, qui représente une valeur inconnue, distincte d'un blanc (chaine vide) ou de la valeur 0.  </p>
+<p><code>NOT NULL</code> indique que la colonne n'acceptera pas les valeurs <em>Null</em>. Autrment dit, ce champ devra être renseigné obligatoirement lors de toute création ou modification d'un <em>enregistrement</em>.</p>
+<p>Dans notre exemple, hormis l'adresse et le numéro de téléphone du stagiaire, et la description de la formation, tous les champs sont obligatoires.  </p>
+<p><br></p>
+<h3 id="24"><code>CHECK</code></h3>
+<p>Les contraintes <code>CHECK</code> assurent l'intégrité du champ en limitant les valeurs placées dans une colonne.</p>
+<p>Cette contrainte indique un <strong>test de type booléen</strong> (qui retourne <code>TRUE</code> ou <code>FALSE</code>) appliquée à toutes les valeurs saisies dans la colonne ; toutes les valeurs ne prenant pas la valeur <code>TRUE</code> sont rejetées.</p>
+<p>Dans notre exemple, le matricule d'un stagiaire devra obligatoirement respecter le format <code>AB123456cd</code>...</p>
+<p><br></p>
+<h3 id="29"><code>UNIQUE</code></h3>
+<p>Comme leur nom l'indique, les contraintes <code>UNIQUE</code> garantissent le caractère <em>unique</em> des valeurs dans une même colonne de la table.  </p>
+<p>Dans une colonne <code>UNIQUE</code>, deux enregistrements d'une même table ne peuvent pas avoir la même valeur (autre que <em>Null</em>).</p>
+<p>Dans notre exemple, deux stagiaires ne pourront pas avoir le même matricule !  </p>
+<p><br></p>
+<h3 id="34"><code>PRIMARY KEY</code></h3>
+<p>Les contraintes <code>PRIMARY KEY</code> s'appliquent sur une colonne ou un ensemble de colonnes, dont la valeur (ou la combainson de valeurs) identifie de manière unique chaque ligne d'une table.</p>
+<blockquote>
+<p>Les <strong>clés primaires</strong> mettent aussi en application l'unicité des valeurs (<code>UNIQUE</code>), mais elles n'autorisent pas les valeurs <em>Null</em>.  </p>
+</blockquote>
+<p><br></p>
+<p><strong>Chaque table doit avoir une (et une seule) clé primaire.</strong>  </p>
+<p>L'usage le plus fréquent consiste à créer une colonne numérique (<code>INT</code>), obligatoire (<code>NOT NULL</code>), qui s'auto-incrémente à chaque enregistrement (<code>AUTO_INCREMENT</code>), pour s'assurer de l'unicité de l'identifiant.  </p>
+<p>Dans le cas toutefois, d'une table de liaison entre deux autres tables, il est courant que la clé primaire de cette table intermédiaire, soit une clé composée des ID des deux autres tables.<br>
+Cela permet notamment, de faire en sorte que la combinaison d'une ligne de chaque table soit unique.</p>
+<p>Dans notre exemple,  </p>
+<ul>
+<li>les <em>sta_id</em> et <em>form_id</em> sont les clés primaires respectives des tables <em>Stagiaires</em> et <em>Formations</em></li>
+<li>la table intermédiaire <em>Suivi</em> contient une clé primaire composée, formée à partir des ID renseignés d'un stagiaire et d'une formation (ce qui veut dire, qu'on ne pourra pas trouver deux lignes, avec le même stagiaire et la même formation)</li>
+</ul>
+<p><br></p>
+<h3 id="44"><code>FOREIGN KEY</code></h3>
+<p>Les contraintes <code>FOREIGN KEY</code> identifient les relations entre les tables.  </p>
+<p>Un champ identifié en <strong>clé étrangère</strong> fait référence à la clé primaire d'une autre table.</p>
+<blockquote>
+<p>Attention : <strong>un champ lié en clé étrangère doit donc avoir les mêmes <em>propriétés</em> que la clé primaire</strong> auquel il fait référence !<br>
+Seule exception : l'<code>AUTO_INCREMENT</code>, déclaré pour la clé primaire (pour automatiser le compteur et rendre la clé unique) ne sera pas à déclarer pour la clé étrangère (puisqu'on va renseigner nous-même, l'ID de référence voulu).</p>
+</blockquote>
+<p><br></p>
+<p>Cela signifie que :  </p>
+<ul>
+<li>un champ clé étrangère dans une table (n°2) va pointer vers un champ une clé primaire dans une autre table (n°1)  </li>
+<li>dans la table n°2, vous ne pourrez pas insérer d'enregistrement, si la valeur du champ en clé étrangère n'existe pas dans la colonne du champ en clé primaire dans la table n°1 (à défaut le cas échéant, la valeur de la clé étrangère sera <em>Null</em>, si la structure de la table l'y autorise).  </li>
+<li>de même, d'ordre général, vous ne pourrez pas supprimer de ligne dans la table n°1, référençant une clé primaire dont la valeur existe en clé étrangère dans la table n°2.  </li>
+</ul>
+<p>Dans notre exemple, la table <em>Suivi</em> est une table intermédiaire, où l'on pourra renseigner l'ID d'un des stagiaires existant dans la table <em>Stagiaires</em>, et l'ID d'une formation existant dans la table <em>Formations</em>.</p>
+<p><br></p>
+<h3 id="53">Portée d'une contrainte</h3>
+<p>Les contraintes peuvent porter sur une colonne ou une table.</p>
+<p>Une <strong>contrainte de colonne</strong> est déclarée comme faisant partie de la définition de la colonne, et ne s'applique <em>qu'à celle-ci</em> ; c'est le cas des contraintes des exemples précédents.</p>
+<p>Une <strong>contrainte de table</strong> est déclarée indépendamment de la définition de la colonne, et s'applique souvent <em>à toutes ou plusieurs colonnes</em> d'une table.<br>
+Les contraintes sont obligatoirement des contraintes de table, lorsque plusieurs colonnes doivent être incluses dans cette contrainte.  </p>
+<p>Si, par exemple, une table utilise deux colonnes ou plus pour constituer la clé primaire, vous devrez utiliser une contrainte de table pour inclure les deux colonnes dans la clé primaire.  </p>
+<p>Dans notre exemple, c'est le cas de la clé primaire composée, dans la table <em>Suivi</em>.</p>
+<p><br>
+<br>
+<br></p></div><div class="menu-markdown"><img src="./nCode _ BDD - Structuration et fonctionnement d&#39;une base de données_files/menu.png"><div data-id="1" class="titre">BDD - Structuration et fonctionnement d'une base de données</div><div data-id="3">Base De Données relationnelle</div><div data-id="19">&nbsp;&nbsp;&nbsp;&nbsp;<code>NOT NULL</code></div><div data-id="24">&nbsp;&nbsp;&nbsp;&nbsp;<code>CHECK</code></div><div data-id="29">&nbsp;&nbsp;&nbsp;&nbsp;<code>UNIQUE</code></div><div data-id="34">&nbsp;&nbsp;&nbsp;&nbsp;<code>PRIMARY KEY</code></div><div data-id="44">&nbsp;&nbsp;&nbsp;&nbsp;<code>FOREIGN KEY</code></div><div data-id="53">&nbsp;&nbsp;&nbsp;&nbsp;Portée d'une contrainte</div></div></div><script>hljs.initHighlightingOnLoad();//hljs.initLineNumbersOnLoad();</script><script src="./nCode _ BDD - Structuration et fonctionnement d&#39;une base de données_files/menu-markdown.js"></script><script>document.title = "nCode | " + document.querySelector("h1").textContent;</script></body></html>

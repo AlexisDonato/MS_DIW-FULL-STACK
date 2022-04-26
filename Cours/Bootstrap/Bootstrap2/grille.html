@@ -1,0 +1,193 @@
+<!DOCTYPE html>
+<!-- saved from url=(0080)https://ncode.amorce.org/ressources/Pool/MS_FULL_STACK/CSS_BOOTSTRAP/grille.html -->
+<html><head><meta http-equiv="Content-Type" content="text/html; charset=UTF-8"><title></title>
+        <meta name="viewport" content="width=device-width, initial-scale=1">
+        <link rel="stylesheet" href="./grille_files/font-awesome.min.css">
+        <link rel="stylesheet" href="./grille_files/bootstrap.min.css">
+        <link rel="stylesheet" href="./grille_files/darcula.css">
+        <!-- <link rel="stylesheet" href="/css/highlight/line-number.css"> -->
+        <link rel="stylesheet" href="./grille_files/github-markdown.css">
+        <!-- <link rel="stylesheet" href="/css/markdown_foad.css"> -->
+        <link rel="stylesheet" href="./grille_files/menu-markdown.css">
+        <!-- <script src="/js/highlightjs-line-numbers.min.js"></script> -->
+        <script src="./grille_files/jquery-3.4.1.min.js"></script>
+        <script src="./grille_files/popper.min.js"></script>
+        <script src="./grille_files/bootstrap.min.js"></script>
+        <script src="./grille_files/highlight.js"></script>
+        </head><body><div class="container"><div class="markdown-body"><h1 id="1"><strong>Bootstrap</strong> &gt; Le système de grille</h1>
+<p><br></p>
+<p>Avec Bootstrap, il n'est plus nécessaire d'écrire des requêtes CSS <strong>media queries</strong> : Bootstrap l'a déjà fait pour vous ! Il suffit d'utiliser des classes correspondant aux points de rupture, selon le tableau suivant : </p>
+<p><img src="./grille_files/breakpoints_tableau.jpg" alt="classes Bootstrap"></p>
+<p><br></p>
+<p>Le principe de <strong><em>grille</em></strong> consiste à découper votre page en cellules, comme dans un tableau, donc à créer des lignes (classes <code>.row</code>) et des colonnes (classes <code>.col-X</code>). Pour affiner la mise en forme, on utilise souvent des conteneurs (classes <code>.container</code> ou <code>.container-fluid</code>) dans lesquels nos grilles seront formatées.</p>
+<p><br>
+<br></p>
+<h2 id="8">Les conteneurs</h2>
+<p><br></p>
+<p>La classe CSS <code>container</code> permet d'encadrer un bloc de contenu, avec une largeur par défaut de 980px max sur PC (ce qui veut donc dire que sur un écran plus grand que 980px, on obtient un effet de centrage, avec des marges latérales de plus en plus grandes).  </p>
+<p>Dans ces conteneurs, on peut ensuite placer le reste des outils de grille, lignes (= rangées) et colonnes. Par exemple :  </p>
+<pre><code class="language-html hljs xml"><span class="hljs-tag">&lt;<span class="hljs-name">div</span> <span class="hljs-attr">class</span>=<span class="hljs-string">"container"</span>&gt;</span>
+    <span class="hljs-comment">&lt;!-- [...] --&gt;</span>
+<span class="hljs-tag">&lt;/<span class="hljs-name">div</span>&gt;</span></code></pre>
+<blockquote>
+<p>NB: il existe une seconde classe de type conteneur : <code>container-fluid</code>, permettant d'utiliser toute la largeur de l'écran (100%)</p>
+</blockquote>
+<p><br></p>
+<p>Pour harmoniser une page HTML, on utilise <strong>au moins</strong> un conteneur ; dans ce cas, celui-ci est placé immédiatement sous la balise <code>&lt;body&gt;</code> et se termine à la fin de la page (juste avant la fermeture de <code>&lt;/body&gt;</code>).  </p>
+<p>Il est néanmoins possible d'utiliser plusieurs conteneurs dans une page, y compris en mixant les classes <code>container</code> et <code>container-fluid</code>, et en imbriquant les conteneurs les uns dans les autres !</p>
+<p><br>
+<br></p>
+<h2 id="18">Les rangées</h2>
+<p><br></p>
+<p>On crée une rangée (ligne) en appliquant la classe <code>.row</code> à un élément. Depuis l'exemple ci-dessus, on peut créer une rangée en affectant cette classe à une balise <code>&lt;div&gt;</code>, dans notre conteneur :</p>
+<pre><code class="language-html hljs xml"><span class="hljs-tag">&lt;<span class="hljs-name">div</span> <span class="hljs-attr">class</span>=<span class="hljs-string">"container"</span>&gt;</span> 
+    <span class="hljs-tag">&lt;<span class="hljs-name">div</span> <span class="hljs-attr">class</span>=<span class="hljs-string">"row"</span>&gt;</span>
+        <span class="hljs-comment">&lt;!-- [ ... ] --&gt;</span>
+    <span class="hljs-tag">&lt;/<span class="hljs-name">div</span>&gt;</span>
+<span class="hljs-tag">&lt;/<span class="hljs-name">div</span>&gt;</span></code></pre>
+<blockquote>
+<p>NB: Chaque élément contenant la classe <code>.row</code> entrainera un retour à la ligne au sein de l'élément parent !</p>
+</blockquote>
+<p><br>
+<br></p>
+<h2 id="24">Les colonnes</h2>
+<p><br></p>
+<p>Bootstrap découpe l'écran en <strong>12 blocs de largeur égale, et proportionnelle</strong> à la largeur du dispositif.<br>
+Les classes <code>col-X</code> vont ensuite nous permettre spécifier combien de blocs on veut occuper.  </p>
+<p>Toujours dans notre exemple, on ordonne nos éléments en colonnes en appliquant la classe <code>col</code> à une ou plusieurs balises <code>&lt;div&gt;</code> : </p>
+<pre><code class="language-html hljs xml"><span class="hljs-tag">&lt;<span class="hljs-name">div</span> <span class="hljs-attr">class</span>=<span class="hljs-string">"container"</span>&gt;</span> 
+    <span class="hljs-tag">&lt;<span class="hljs-name">div</span> <span class="hljs-attr">class</span>=<span class="hljs-string">"row"</span>&gt;</span>
+        <span class="hljs-tag">&lt;<span class="hljs-name">div</span> <span class="hljs-attr">class</span>=<span class="hljs-string">"col-12"</span>&gt;</span>Une (seule) colonne occupant toute la largeur, soit 12 blocs<span class="hljs-tag">&lt;/<span class="hljs-name">div</span>&gt;</span>
+    <span class="hljs-tag">&lt;/<span class="hljs-name">div</span>&gt;</span>
+<span class="hljs-tag">&lt;/<span class="hljs-name">div</span>&gt;</span></code></pre>
+<blockquote>
+<p><strong>Testez l'exemple !</strong></p>
+</blockquote>
+<p><br></p>
+<p>Si l'on veut maintenant aligner plusieurs éléments :  </p>
+<pre><code class="language-html hljs xml"><span class="hljs-tag">&lt;<span class="hljs-name">div</span> <span class="hljs-attr">class</span>=<span class="hljs-string">"container"</span>&gt;</span> 
+    <span class="hljs-tag">&lt;<span class="hljs-name">div</span> <span class="hljs-attr">class</span>=<span class="hljs-string">"row"</span>&gt;</span>
+        <span class="hljs-tag">&lt;<span class="hljs-name">div</span> <span class="hljs-attr">class</span>=<span class="hljs-string">"col-8"</span>&gt;</span>Une première colonne qui utilise 8 blocs<span class="hljs-tag">&lt;/<span class="hljs-name">div</span>&gt;</span> 
+        <span class="hljs-tag">&lt;<span class="hljs-name">div</span> <span class="hljs-attr">class</span>=<span class="hljs-string">"col-4"</span>&gt;</span>Une seconde colonne qui utilise les 4 blocs restants<span class="hljs-tag">&lt;/<span class="hljs-name">div</span>&gt;</span>
+    <span class="hljs-tag">&lt;/<span class="hljs-name">div</span>&gt;</span>
+<span class="hljs-tag">&lt;/<span class="hljs-name">div</span>&gt;</span> </code></pre>
+<p>Dans cet exemple, il n'y a que 2 colonnes, une de 8 blocs et une de 4 blocs, le total étant bien de 12 ; les deux éléments sont alignés sur notre page !</p>
+<p><br></p>
+<p>Il est aussi possible d'aller plus loin :  </p>
+<pre><code class="language-html hljs xml"><span class="hljs-tag">&lt;<span class="hljs-name">div</span> <span class="hljs-attr">class</span>=<span class="hljs-string">"container"</span>&gt;</span> 
+    <span class="hljs-tag">&lt;<span class="hljs-name">div</span> <span class="hljs-attr">class</span>=<span class="hljs-string">"row"</span>&gt;</span>
+        <span class="hljs-tag">&lt;<span class="hljs-name">div</span> <span class="hljs-attr">class</span>=<span class="hljs-string">"col-8"</span>&gt;</span>Une première colonne de 8 blocs<span class="hljs-tag">&lt;/<span class="hljs-name">div</span>&gt;</span> 
+        <span class="hljs-tag">&lt;<span class="hljs-name">div</span> <span class="hljs-attr">class</span>=<span class="hljs-string">"col-4"</span>&gt;</span>Une seconde colonne de 4 blocs<span class="hljs-tag">&lt;/<span class="hljs-name">div</span>&gt;</span>
+        <span class="hljs-tag">&lt;<span class="hljs-name">div</span> <span class="hljs-attr">class</span>=<span class="hljs-string">"col-6"</span>&gt;</span>Une troisième colonne de 6 blocs, sur une 2e ligne puisque les 12 colonnes précédentes ont été occupées<span class="hljs-tag">&lt;/<span class="hljs-name">div</span>&gt;</span>
+        <span class="hljs-tag">&lt;<span class="hljs-name">div</span> <span class="hljs-attr">class</span>=<span class="hljs-string">"col"</span>&gt;</span>Une quatrième colonne, occupant la largeur disponible sur la ligne en cours, soit 6 blocs<span class="hljs-tag">&lt;/<span class="hljs-name">div</span>&gt;</span>
+    <span class="hljs-tag">&lt;/<span class="hljs-name">div</span>&gt;</span>
+<span class="hljs-tag">&lt;/<span class="hljs-name">div</span>&gt;</span> </code></pre>
+<blockquote>
+<p><strong>Testez l'exemple !</strong></p>
+</blockquote>
+<p>Ici, nous avons 24 blocs (2 x 12) :  </p>
+<ul>
+<li>la première ligne est occupée par les deux premières <code>&lt;div&gt;</code> : 8 + 4  = 12 blocs ; les deux éléments sont alignés</li>
+<li>la <code>&lt;div class="col-6"&gt;</code> est renvoyée sur une seconde ligne pour occuper l'espace dont elle a besoin</li>
+<li>la classe <code>.col</code> en fin de bloc permet à sa <code>&lt;div&gt;</code> d'occuper automatiquement le nombre de blocs restant sur la ligne, soit ici, 6 blocs encore</li>
+</ul>
+<p><br>
+<br></p>
+<p>Il existe de nombreuses possibilités de découpe, le total de blocs utilisés devant toujours être égal à 12. Par exemple : </p>
+<ul>
+<li>3 colonnes de 4 blocs  </li>
+<li>6 colonnes de 2 blocs  </li>
+<li>2 colonnes de 6 blocs  </li>
+<li>1 colonne de 7 blocs et 1 colonne de 5 blocs
+etc.</li>
+</ul>
+<p><br>
+<br></p>
+<p>Allons encore plus loin : </p>
+<ul>
+<li>Chaque grille peut être <strong>redécoupée à volonté</strong>, en créant par exemple dans une colonne une rangée, elle-même redécoupée en colonnes !  </li>
+<li>Les colonnes peuvent dimensionnées automatiquemen,
+<ul>
+<li>en indiquant uniquement la classe <a href="https://getbootstrap.com/docs/4.4/layout/grid/#auto-layout-columns"><code>.col</code></a> (cf. ci-dessus),</li>
+<li>ou encore en utilisant <a href="https://getbootstrap.com/docs/4.4/layout/grid/#variable-width-content"><code>.col-auto</code></a> ; dans ce cas la colonne est ajustée à la largeur de son contenu</li>
+</ul></li>
+<li>Des colonnes peuvent être "sautées" via la classe <a href="https://getbootstrap.com/docs/4.4/layout/grid/#offsetting-columns"><code>.offset-X</code></a> avant une classe <code>.col</code>, dans le même élément</li>
+</ul>
+<blockquote>
+<p>Ces 3 points permettent d'effectuer des mises en page assez complexes !</p>
+</blockquote>
+<p><br></p>
+<h3 id="48">--&gt; Voir ici la <a href="https://getbootstrap.com/docs/4.4/layout/grid/">documentation complète sur la grille Bootstrap</a></h3>
+<p><br>
+<br>
+<br></p>
+<h2 id="50"><strong>Affichage responsive</strong></h2>
+<p><br></p>
+<p>Toute la "magie" de Bootstrap est ici ! Nous allons mettre en oeuvre les <strong>points de rupture, ou <em>breakpoints</em></strong>. </p>
+<p>Reprenons l'exemple précédent avec 2 colonnes :</p>
+<pre><code class="language-html hljs xml"><span class="hljs-tag">&lt;<span class="hljs-name">div</span> <span class="hljs-attr">class</span>=<span class="hljs-string">"container"</span>&gt;</span> 
+    <span class="hljs-tag">&lt;<span class="hljs-name">div</span> <span class="hljs-attr">class</span>=<span class="hljs-string">"row"</span>&gt;</span>
+           <span class="hljs-tag">&lt;<span class="hljs-name">div</span> <span class="hljs-attr">class</span>=<span class="hljs-string">"col-8"</span>&gt;</span>Une première colonne qui utilise 8 blocs<span class="hljs-tag">&lt;/<span class="hljs-name">div</span>&gt;</span> 
+           <span class="hljs-tag">&lt;<span class="hljs-name">div</span> <span class="hljs-attr">class</span>=<span class="hljs-string">"col-4"</span>&gt;</span>Une seconde colonne qui utilise les 4 blocs restants<span class="hljs-tag">&lt;/<span class="hljs-name">div</span>&gt;</span> 
+        <span class="hljs-tag">&lt;/<span class="hljs-name">div</span>&gt;</span>
+    <span class="hljs-tag">&lt;/<span class="hljs-name">div</span>&gt;</span>  </code></pre>
+<p>Ce code s'affiche de la même façon sur tout les dispositifs. Mais on pourrait souhaiter obtenir un affichage différent selon la largeur d'écran !  </p>
+<p><br></p>
+<p>Par exemple : </p>
+<ul>
+<li><strong><em>Règle 1 -</em></strong> Une page présentant deux éléments : une partie centrale, d'une largeur de 8 blocs et une seconde colonne de largeur 4 sur les grands écrans ;  </li>
+<li><strong><em>Règle 2 -</em></strong> Pour les écrans supérieurs à 992px, la colonne de droite doit être un peu plus large ; on aura donc une largeur de 9 pour la partie centrale et une largeur de 3 pour l'autre colonne ;  </li>
+<li><strong><em>Règle 3 -</em></strong> Sur tablettes, en mode portrait, la colonne principale aura plutôt une largeur de 7 blocs et la seconde occupera les 5 blocs restant ;  </li>
+<li><strong><em>Règle 4 -</em></strong> Nos 2 colonnes auront une largeur égale (6 blocs) pour les dispositifs à partir de 576px et jusqu'au format tablette / portrait (768px) ;</li>
+<li><strong><em>Règle 5 -</em></strong> sur les mobiles enfin, l'affichage se fait sur une seule colonne, les deux éléments se retrouvant l'un en-dessous de l'autre</li>
+</ul>
+<p>Pour cela, on va ajouter un préfixe de <strong><em>point de rupture</em></strong> entre le <code>col-</code> et le nombre de blocs.<br>
+Par exemple, la classe <code>.col-md-7</code> va indiquer que pour les dimensions d'écran <em>à partir de</em> <code>md</code>, c'est-à-dire de 768 pixels, la colonne occupera 7 blocs.  </p>
+<p>Ce qui nous donne, pour l'affichage voulu : </p>
+<pre><code class="language-html hljs xml"><span class="hljs-tag">&lt;<span class="hljs-name">div</span> <span class="hljs-attr">class</span>=<span class="hljs-string">"container"</span>&gt;</span> 
+    <span class="hljs-tag">&lt;<span class="hljs-name">div</span> <span class="hljs-attr">class</span>=<span class="hljs-string">"row"</span>&gt;</span>
+        <span class="hljs-tag">&lt;<span class="hljs-name">div</span> <span class="hljs-attr">class</span>=<span class="hljs-string">"col-12 col-sm-6 col-md-7 col-lg-8 col-xl-9"</span>&gt;</span>Colonne 1<span class="hljs-tag">&lt;/<span class="hljs-name">div</span>&gt;</span> 
+        <span class="hljs-tag">&lt;<span class="hljs-name">div</span> <span class="hljs-attr">class</span>=<span class="hljs-string">"col-12 col-sm-6 col-md-5 col-lg-4 col-xl-3"</span>&gt;</span>Colonne 2<span class="hljs-tag">&lt;/<span class="hljs-name">div</span>&gt;</span> 
+    <span class="hljs-tag">&lt;/<span class="hljs-name">div</span>&gt;</span>
+<span class="hljs-tag">&lt;/<span class="hljs-name">div</span>&gt;</span>  </code></pre>
+<blockquote>
+<p><strong>Testez l'exemple.</strong></p>
+</blockquote>
+<p><br></p>
+<p><strong>Rappel</strong> : Bootstrap 4 étant <em>Mobile first</em>, on part d'abord de la dimension la plus petite, celle pour mobile (&lt; 576px), pour aller vers la plus grande (xl).</p>
+<p>Ici on a toujours 2 colonnes, sauf sur mobile puisqu'on a indiqué que les colonnes y occupaient les 12 blocs disponible (la seconde colonne se placera alors sous la 1<sup>ère</sup>).  </p>
+<p><br></p>
+<p><strong>Remarque</strong> : on a indiqué ici des souhaits pour tous les points de rupture, mais ce n'est pas obligatoire !<br>
+En effet, un <em>breakpoint</em> (point de rupture) s'applique à une taille d'écran minimale et <strong>pour toutes les tailles d'écran supérieures</strong>.<br>
+Cela signifie que si, dans notre exemple, nous n'avions pas précisé de répartition pour les tailles d'écran <code>-lg</code>, c'est la règle inférieure qui se serait appliquée (= <code>md</code>), autrement-dit : 7 + 5.</p>
+<p><br>
+<br></p>
+<h2 id="69">Masquer une zone ?</h2>
+<p><br></p>
+<p>Sur mobile, il peut être utile de ne pas afficher une zone, pour améliorer le temps de chargement ou parce que le contenu n'est pas pertinent (publicité par exemple).  </p>
+<p>Bootstrap propose un ensemble de classes pour afficher/masquer des éléments HTML selon les <em>breakpoints</em>, basées sur les classes <strong><em>display</em></strong> (= <em>affichage</em>) du CSS.  </p>
+<p>Par exemple :  </p>
+<pre><code class="language-html hljs xml"><span class="hljs-tag">&lt;<span class="hljs-name">div</span> <span class="hljs-attr">class</span>=<span class="hljs-string">"d-none d-sm-block"</span>&gt;</span>
+    Ce bloc sera masqué par défaut, pour tout (d-none).
+    L'affichage sera rétabli à partir de -sm, c'est-à-dire pour les écrans plus grands que 576px.
+    Cela signifie plus généralement que la zone sera masquée pour les mobiles, mais visible pour tous les écrans plus larges.
+<span class="hljs-tag">&lt;/<span class="hljs-name">div</span>&gt;</span>
+
+<span class="hljs-tag">&lt;<span class="hljs-name">div</span> <span class="hljs-attr">class</span>=<span class="hljs-string">"d-lg-none d-xl-block"</span>&gt;</span>
+    Ce bloc sera masqué à partir de la plage de breakpoints -lg (&gt;= 992px), puis rétabli à partir des écrans -xl, soit à partir de 1199px.
+    En-dessous de la plage -lg (jusqu'à 991px), la zone sera donc visible aussi !
+<span class="hljs-tag">&lt;/<span class="hljs-name">div</span>&gt;</span></code></pre>
+<p>Explications :</p>
+<ul>
+<li>le préfixe <code>d</code> signifie <em>display</em>, c'est-à-dire <em>affichage</em> ;</li>
+<li><code>none</code> signifie <em>aucun</em> ; autrement dit, <code>d-none</code> est utilisé pour <em>masquer</em> (équivalent de <code>display: none</code> en CSS) ;</li>
+<li><code>block</code> signifie <em>en bloc</em> ; autrement dit, <code>d-block</code> est utilisé pour <em>afficher</em> (équivalent de <code>display: block</code> en CSS) ;</li>
+<li>les préfixes de breakpoints, <code>-xs</code>, <code>-sm</code> etc. indiquent à partir de quelle(s) plage(s) d'écran afficher / masquer les éléments ;</li>
+<li>s'il n'y a pas de préfixe de classes (par exemple <code>d-none</code>), la règle s'applique par défaut à toutes les tailles d'écran, sauf mention contraire annulant cette règle (exemple du bloc 1 : masqué par défaut mais visible à partir des écrans de taille 576px et supérieur).  </li>
+</ul>
+<p><br>
+<br></p>
+<h3 id="78">--&gt; Pour bien comprendre, consultez <a href="https://getbootstrap.com/docs/4.4/utilities/display/#hiding-elements">ici les exemples de la documentation officielle</a></h3>
+<p><br>
+<br>
+<br></p></div><div class="menu-markdown"><img src="./grille_files/menu.png"><div data-id="1" class="titre"><strong>Bootstrap</strong> &gt; Le système de grille</div><div data-id="8">Les conteneurs</div><div data-id="18">Les rangées</div><div data-id="24">Les colonnes</div><div data-id="48">&nbsp;&nbsp;&nbsp;&nbsp;--&gt; Voir ici la <a href="https://getbootstrap.com/docs/4.4/layout/grid/">documentation complète sur la grille Bootstrap</a></div><div data-id="50"><strong>Affichage responsive</strong></div><div data-id="69">Masquer une zone ?</div><div data-id="78">&nbsp;&nbsp;&nbsp;&nbsp;--&gt; Pour bien comprendre, consultez <a href="https://getbootstrap.com/docs/4.4/utilities/display/#hiding-elements">ici les exemples de la documentation officielle</a></div></div></div><script>hljs.initHighlightingOnLoad();//hljs.initLineNumbersOnLoad();</script><script src="./grille_files/menu-markdown.js"></script></body></html>

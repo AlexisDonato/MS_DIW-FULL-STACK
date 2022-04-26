@@ -1,0 +1,326 @@
+<!DOCTYPE html>
+<!-- saved from url=(0093)https://ncode.amorce.org/ressources/Pool/MS_FULL_STACK/CSS_BOOTSTRAP/contenus_composants.html -->
+<html><head><meta http-equiv="Content-Type" content="text/html; charset=UTF-8"><title></title>
+        <meta name="viewport" content="width=device-width, initial-scale=1">
+        <link rel="stylesheet" href="./contenus_composants_files/font-awesome.min.css">
+        <link rel="stylesheet" href="./contenus_composants_files/bootstrap.min.css">
+        <link rel="stylesheet" href="./contenus_composants_files/darcula.css">
+        <!-- <link rel="stylesheet" href="/css/highlight/line-number.css"> -->
+        <link rel="stylesheet" href="./contenus_composants_files/github-markdown.css">
+        <!-- <link rel="stylesheet" href="/css/markdown_foad.css"> -->
+        <link rel="stylesheet" href="./contenus_composants_files/menu-markdown.css">
+        <!-- <script src="/js/highlightjs-line-numbers.min.js"></script> -->
+        <script src="./contenus_composants_files/jquery-3.4.1.min.js"></script>
+        <script src="./contenus_composants_files/popper.min.js"></script>
+        <script src="./contenus_composants_files/bootstrap.min.js"></script>
+        <script src="./contenus_composants_files/highlight.js"></script>
+        </head><body><div class="container"><div class="markdown-body"><h1 id="1"><strong>Bootstrap</strong> &gt; Contenus et composants</h1>
+<p><br>
+<br></p>
+<h2 id="3"><strong>Tableaux</strong></h2>
+<p><br></p>
+<p>Bootstrap fournit un ensemble de classes pour habiller les tableaux HTML. </p>
+<p>Pour commencer, il convient d'ajouter la classe <code>.table</code> à la balise HTML <code>&lt;table&gt;</code> :</p>
+<pre><code class="language-html hljs xml"><span class="hljs-tag">&lt;<span class="hljs-name">table</span> <span class="hljs-attr">class</span>=<span class="hljs-string">"table"</span>&gt;</span>
+    [ ... ]
+<span class="hljs-tag">&lt;/<span class="hljs-name">table</span>&gt;</span></code></pre>
+<p><br></p>
+<p>Différentes classes peuvent ensuite y être ajoutées :  </p>
+<ul>
+<li><code>.table-bordered</code> : affiche les bordures</li>
+<li><code>.table-striped</code> : ajoute un fond de couleur à une ligne sur deux pour faciliter la lisibilité  </li>
+<li><code>.table-hover</code> : surligne la ligne en cours de survol de la souris.</li>
+</ul>
+<p><br></p>
+<p>Les tableaux HTML doivent eux aussi être responsive : pour cela il est nécessaire d'englober tout le tableau dans un <code>&lt;div&gt;</code> supplémentaire avec en attribut la classe <code>.table-responsive</code>.  </p>
+<p><br></p>
+<p><strong><em>Exemple :</em></strong></p>
+<pre><code class="language-html hljs xml"><span class="hljs-tag">&lt;<span class="hljs-name">div</span> <span class="hljs-attr">class</span>=<span class="hljs-string">"table-responsive"</span>&gt;</span>
+    <span class="hljs-tag">&lt;<span class="hljs-name">table</span> <span class="hljs-attr">class</span>=<span class="hljs-string">"table table-striped table-hover table-bordered"</span>&gt;</span>
+    <span class="hljs-tag">&lt;<span class="hljs-name">thead</span>&gt;</span>
+    <span class="hljs-tag">&lt;<span class="hljs-name">tr</span>&gt;</span>
+        <span class="hljs-tag">&lt;<span class="hljs-name">th</span>&gt;</span>Nom<span class="hljs-tag">&lt;/<span class="hljs-name">th</span>&gt;</span>
+        <span class="hljs-tag">&lt;<span class="hljs-name">th</span>&gt;</span>Prénom<span class="hljs-tag">&lt;/<span class="hljs-name">th</span>&gt;</span>
+        <span class="hljs-tag">&lt;<span class="hljs-name">th</span>&gt;</span>Adresse<span class="hljs-tag">&lt;/<span class="hljs-name">th</span>&gt;</span>
+    <span class="hljs-tag">&lt;/<span class="hljs-name">tr</span>&gt;</span>   
+    <span class="hljs-tag">&lt;/<span class="hljs-name">thead</span>&gt;</span>
+    <span class="hljs-tag">&lt;<span class="hljs-name">tbody</span>&gt;</span>         
+    <span class="hljs-tag">&lt;<span class="hljs-name">tr</span>&gt;</span>
+        <span class="hljs-tag">&lt;<span class="hljs-name">td</span>&gt;</span>LOPER<span class="hljs-tag">&lt;/<span class="hljs-name">td</span>&gt;</span>
+        <span class="hljs-tag">&lt;<span class="hljs-name">td</span>&gt;</span>Dave<span class="hljs-tag">&lt;/<span class="hljs-name">td</span>&gt;</span>
+        <span class="hljs-tag">&lt;<span class="hljs-name">td</span>&gt;</span>30 rue de Poulainville 80000 Amiens<span class="hljs-tag">&lt;/<span class="hljs-name">td</span>&gt;</span>
+    <span class="hljs-tag">&lt;/<span class="hljs-name">tr</span>&gt;</span>
+    <span class="hljs-tag">&lt;<span class="hljs-name">tr</span>&gt;</span>
+        <span class="hljs-tag">&lt;<span class="hljs-name">td</span>&gt;</span>CHARPENTIER<span class="hljs-tag">&lt;/<span class="hljs-name">td</span>&gt;</span>
+        <span class="hljs-tag">&lt;<span class="hljs-name">td</span>&gt;</span>Joseph<span class="hljs-tag">&lt;/<span class="hljs-name">td</span>&gt;</span>
+        <span class="hljs-tag">&lt;<span class="hljs-name">td</span>&gt;</span>12 place de la grotte 99000 Bethléem<span class="hljs-tag">&lt;/<span class="hljs-name">td</span>&gt;</span>
+    <span class="hljs-tag">&lt;/<span class="hljs-name">tr</span>&gt;</span>
+    <span class="hljs-tag">&lt;/<span class="hljs-name">tbody</span>&gt;</span>        
+    <span class="hljs-tag">&lt;/<span class="hljs-name">table</span>&gt;</span>
+<span class="hljs-tag">&lt;/<span class="hljs-name">div</span>&gt;</span></code></pre>
+<blockquote>
+<p><strong>Testez l'exemple</strong></p>
+</blockquote>
+<p><br></p>
+<p>Bootstrap propose bien d'autres options pour les tableaux !  </p>
+<h3 id="19">--&gt; Voir ici la <a href="https://getbootstrap.com/docs/4.4/content/tables">documentation complète de Bootstrap sur les tableaux</a></h3>
+<p><br>
+<br>
+<br></p>
+<h2 id="21"><strong>Images</strong></h2>
+<p><br></p>
+<p>Bootstrap fournit des classes pour placer, habiller (bordures, arrondis) ou redimensionner les <strong>images</strong>.  </p>
+<p><br></p>
+<p>Par exemple, afin de les rendre responsive, il suffit d'appliquer la classe <code>img-fluid</code> sur la balise <code>&lt;img&gt;</code> tout en veillant à ne pas spécifier de dimensions fixes (= suppression des attributs <code>width</code> et <code>height</code>) ; ce qui donne :</p>
+<pre><code class="language-html hljs xml"><span class="hljs-tag">&lt;<span class="hljs-name">img</span> <span class="hljs-attr">src</span>=<span class="hljs-string">"image.jpg"</span> <span class="hljs-attr">class</span>=<span class="hljs-string">"img-fluid"</span> <span class="hljs-attr">alt</span>=<span class="hljs-string">"Image responsive"</span> <span class="hljs-attr">title</span>=<span class="hljs-string">"Image responsive"</span>&gt;</span></code></pre>
+<p>La classe <code>img-fluid</code> applique les règles CSS suivantes aux balises <code>&lt;img&gt;</code> :</p>
+<ul>
+<li><code>max-width: 100%;</code> : fixe la largeur de l'image à celle de son parent (pour résumer).</li>
+<li><code>height: auto;</code> : adapte la hauteur de l'image en fonction de sa largeur, afin de ne pas obtenir de distorsion de l'image.</li>
+</ul>
+<p><br></p>
+<blockquote>
+<p>NB: En dehors de cette classe et de Bootstrap, <a href="https://developer.mozilla.org/fr/Apprendre/HTML/Comment/Ajouter_des_images_adaptatives_%C3%A0_une_page_web">d'autres solutions</a> existent pour gérer la problématique responsive des images : plusieurs dimensions d’une même image (attributs <a href="https://www.alsacreations.com/article/lire/1621-responsive-images-srcset.html"><code>srcset</code> et <code>sizes</code></a>, balise
+<code>&lt;picture&gt;</code>), propriétés css (<a href="https://www.alsacreations.com/tuto/lire/1390-arriere-plans-css3-background.html"><code>cover</code></a> etc.).</p>
+</blockquote>
+<p><br>
+<br></p>
+<p>En outre, Bootstrap fournit d’autres classes applicables aux images pour gérer les miniatures, les arrondi ou encore leur placement.</p>
+<p><br></p>
+<h3 id="34">--&gt; Voir ici la <a href="https://getbootstrap.com/docs/4.4/content/images">documentation complète de Bootstrap pour les images</a></h3>
+<p><br>
+<br>
+<br></p>
+<h2 id="36"><strong>Boutons</strong></h2>
+<p><br></p>
+<p>Bootstrap permet d'habiller des boutons !  </p>
+<p>La classe principale est la classe <code>.btn</code>, qui ajoute des marges et une bordure arrondi au bouton classique :  </p>
+<p><img src="./contenus_composants_files/boutons.png" alt="Boutons avec et sans classe .btn"></p>
+<p><br></p>
+<p>De même, il est également possible d'utiliser des classes couleur et de taille.  </p>
+<p><br></p>
+<p><strong><em>Exemples :</em></strong></p>
+<p>Uun bouton avec fond bleu et texte blanc :</p>
+<pre><code class="language-html hljs xml"><span class="hljs-tag">&lt;<span class="hljs-name">button</span> <span class="hljs-attr">type</span>=<span class="hljs-string">"button"</span> <span class="hljs-attr">class</span>=<span class="hljs-string">"btn btn-primary"</span>&gt;</span>bouton bleu<span class="hljs-tag">&lt;/<span class="hljs-name">button</span>&gt;</span></code></pre>
+<p>Résultat : <button type="button" class="btn btn-primary">Bouton bleu</button></p>
+<p><br></p>
+<p>Un bouton vert, avec ajout de la classe <code>btn-lg</code> pour obtenir un bouton plus grand :  </p>
+<pre><code class="language-html hljs xml"><span class="hljs-tag">&lt;<span class="hljs-name">button</span> <span class="hljs-attr">type</span>=<span class="hljs-string">"button"</span> <span class="hljs-attr">class</span>=<span class="hljs-string">"btn btn-success btn-lg"</span>&gt;</span>Grand bouton vert<span class="hljs-tag">&lt;/<span class="hljs-name">button</span>&gt;</span> </code></pre>
+<p>Résultat : <button type="button" class="btn btn-success btn-lg">Grand bouton vert</button> </p>
+<p><br></p>
+<p>Ces classes de boutons peuvent être utilisées sur les liens (balises <code>&lt;a&gt;</code>) :</p>
+<pre><code class="language-html hljs xml"><span class="hljs-tag">&lt;<span class="hljs-name">a</span> <span class="hljs-attr">class</span>=<span class="hljs-string">"btn btn-warning btn-sm"</span>&gt;</span>Lien en forme de petit bouton orange<span class="hljs-tag">&lt;/<span class="hljs-name">a</span>&gt;</span></code></pre>
+<p>Résultat : <a class="btn btn-warning btn-sm">Lien en forme de petit bouton orange</a></p>
+<p><br></p>
+<h3 id="57">--&gt; Voir ici la <a href="https://getbootstrap.com/docs/4.4/components/buttons">documentation complète de Bootstrap sur les boutons</a></h3>
+<p><br>
+<br>
+<br></p>
+<h2 id="59"><strong>Formulaires</strong></h2>
+<p><br></p>
+<p>Bootstrap offre tout un panel de mise en forme pour les champs de formulaire (texte, sélecteurs, boutons radio, menus déroulants, etc.).  </p>
+<p>Par exemple, un champ de formulaire standard (<code>input type="text"</code>) est défini par le code suivant dans Bootstrap :  </p>
+<pre><code class="language-html hljs xml"><span class="hljs-tag">&lt;<span class="hljs-name">form</span>&gt;</span>
+    <span class="hljs-tag">&lt;<span class="hljs-name">div</span> <span class="hljs-attr">class</span>=<span class="hljs-string">"form-group"</span>&gt;</span>
+        <span class="hljs-tag">&lt;<span class="hljs-name">label</span> <span class="hljs-attr">for</span>=<span class="hljs-string">"courriel"</span>&gt;</span>Adresse mail<span class="hljs-tag">&lt;/<span class="hljs-name">label</span>&gt;</span>
+        <span class="hljs-tag">&lt;<span class="hljs-name">input</span> <span class="hljs-attr">type</span>=<span class="hljs-string">"email"</span> <span class="hljs-attr">class</span>=<span class="hljs-string">"form-control"</span> <span class="hljs-attr">name</span>=<span class="hljs-string">"mail_address"</span> <span class="hljs-attr">id</span>=<span class="hljs-string">"courriel"</span> <span class="hljs-attr">placeholder</span>=<span class="hljs-string">"Saisir votre adresse mail"</span>&gt;</span>     
+    <span class="hljs-tag">&lt;/<span class="hljs-name">div</span>&gt;</span>
+<span class="hljs-tag">&lt;/<span class="hljs-name">form</span>&gt;</span></code></pre>
+<blockquote>
+<p><strong>Testez l'exemple</strong></p>
+</blockquote>
+<p><br></p>
+<p>Explications :  </p>
+<ul>
+<li>Le champ <code>&lt;input&gt;</code>, et le <code>&lt;label&gt;</code> associé sont liés par l'ID du champ (référencé dans l'attribut <code>for</code> du label) et groupés dans un <code>&lt;div&gt;</code> qui prend en attribut la classe <code>.form-group</code></li>
+<li>Les champs <code>input</code> prennent une classe <code>form-control</code> pour permettre d'identifier sur quel élément est la saisie.</li>
+</ul>
+<p><br></p>
+<p>Ensuite, il existe différentes variantes, dont des classes permettant</p>
+<ul>
+<li>d'afficher des champs désactivés (<code>disabled</code>), ou en lecture seule (<code>readonly</code>)</li>
+<li>d'aligner des champs en ligne (classes <code>-inline</code>), au lieu de les mettre les uns sous les autres</li>
+<li>de personnaliser les champs (avec des logos, des labels alignés)</li>
+<li>d'ajouter des <em>feedbacks</em> pour valider les contrôles de saisie</li>
+<li>de gérer les couleurs, les tailles</li>
+<li>d'adapter les affichages pour que le formulaire soit <em>responsive</em></li>
+<li>etc.</li>
+</ul>
+<p><br></p>
+<h3 id="72">--&gt; Voir ici la <a href="https://getbootstrap.com/docs/4.4/components/forms">documentation complète de Bootstrap pour les formulaires</a></h3>
+<p><br>
+<br>
+<br></p>
+<h2 id="74"><strong>Messages</strong> (alert)</h2>
+<p><br></p>
+<p>Bootstrap propose un système de messages (boîtes d'alerte, ou <em>alert boxes</em>) pour communiquer avec l'utilisateur :</p>
+<pre><code class="language-html hljs xml"><span class="hljs-tag">&lt;<span class="hljs-name">div</span> <span class="hljs-attr">class</span>=<span class="hljs-string">"alert alert-warning alert-dismissible fade show"</span> <span class="hljs-attr">role</span>=<span class="hljs-string">"alert"</span>&gt;</span>
+    <span class="hljs-tag">&lt;<span class="hljs-name">h4</span> <span class="hljs-attr">class</span>=<span class="hljs-string">"alert-heading"</span>&gt;</span>La classe <span class="hljs-tag">&lt;<span class="hljs-name">b</span>&gt;</span>.alert<span class="hljs-tag">&lt;/<span class="hljs-name">b</span>&gt;</span> permet ce format d'affichage !<span class="hljs-tag">&lt;/<span class="hljs-name">h4</span>&gt;</span>
+    <span class="hljs-tag">&lt;<span class="hljs-name">small</span>&gt;</span><span class="hljs-tag">&lt;<span class="hljs-name">i</span>&gt;</span><span class="hljs-tag">&lt;<span class="hljs-name">b</span>&gt;</span>.alert-heading<span class="hljs-tag">&lt;/<span class="hljs-name">b</span>&gt;</span> dans la balise <span class="hljs-tag">&lt; <span class="hljs-attr">h4</span> &gt;</span> indique qu'il s'agit de l'entête.<span class="hljs-tag">&lt;/<span class="hljs-name">i</span>&gt;</span><span class="hljs-tag">&lt;/<span class="hljs-name">small</span>&gt;</span>
+    <span class="hljs-tag">&lt;<span class="hljs-name">hr</span>&gt;</span>
+    <span class="hljs-tag">&lt;<span class="hljs-name">p</span> <span class="hljs-attr">class</span>=<span class="hljs-string">"mb-0"</span>&gt;</span><span class="hljs-tag">&lt;<span class="hljs-name">b</span>&gt;</span>.alert-warning<span class="hljs-tag">&lt;/<span class="hljs-name">b</span>&gt;</span> gère la couleur de fond du message.<span class="hljs-tag">&lt;/<span class="hljs-name">p</span>&gt;</span>
+    <span class="hljs-tag">&lt;<span class="hljs-name">p</span> <span class="hljs-attr">class</span>=<span class="hljs-string">"mb-0"</span>&gt;</span><span class="hljs-tag">&lt;<span class="hljs-name">b</span>&gt;</span>.alert-dismissible<span class="hljs-tag">&lt;/<span class="hljs-name">b</span>&gt;</span> adapte l'emplacement du bouton de fermeture de l'alerte.<span class="hljs-tag">&lt;/<span class="hljs-name">p</span>&gt;</span>
+    <span class="hljs-tag">&lt;<span class="hljs-name">p</span> <span class="hljs-attr">class</span>=<span class="hljs-string">"mb-0"</span>&gt;</span><span class="hljs-tag">&lt;<span class="hljs-name">b</span>&gt;</span>.fade<span class="hljs-tag">&lt;/<span class="hljs-name">b</span>&gt;</span> rend un effet dégradé lors de la disparition du message.<span class="hljs-tag">&lt;/<span class="hljs-name">p</span>&gt;</span>
+    <span class="hljs-tag">&lt;<span class="hljs-name">p</span> <span class="hljs-attr">class</span>=<span class="hljs-string">"mb-0"</span>&gt;</span><span class="hljs-tag">&lt;<span class="hljs-name">b</span>&gt;</span>.show<span class="hljs-tag">&lt;/<span class="hljs-name">b</span>&gt;</span> permet de rendre l'alerte visible.<span class="hljs-tag">&lt;/<span class="hljs-name">p</span>&gt;</span>
+    <span class="hljs-tag">&lt;<span class="hljs-name">br</span>&gt;</span>
+    <span class="hljs-tag">&lt;<span class="hljs-name">p</span> <span class="hljs-attr">class</span>=<span class="hljs-string">"mb-0"</span>&gt;</span><span class="hljs-tag">&lt;<span class="hljs-name">a</span> <span class="hljs-attr">href</span>=<span class="hljs-string">"#"</span> <span class="hljs-attr">class</span>=<span class="hljs-string">"alert-link"</span>&gt;</span>La classe alert-link utilisée ici permet d'insérer un lien hypertexte.<span class="hljs-tag">&lt;/<span class="hljs-name">a</span>&gt;</span><span class="hljs-tag">&lt;/<span class="hljs-name">p</span>&gt;</span>
+    <span class="hljs-tag">&lt;<span class="hljs-name">br</span>&gt;</span>
+    <span class="hljs-tag">&lt;<span class="hljs-name">p</span>&gt;</span>Enfin, dans le bouton, la classe <span class="hljs-tag">&lt;<span class="hljs-name">b</span>&gt;</span>.close<span class="hljs-tag">&lt;/<span class="hljs-name">b</span>&gt;</span> applique le rôle de fermeture pour l'élément ayant le <span class="hljs-tag">&lt;<span class="hljs-name">b</span>&gt;</span>role="alert"<span class="hljs-tag">&lt;/<span class="hljs-name">b</span>&gt;</span> (renseigné dans <span class="hljs-tag">&lt;<span class="hljs-name">i</span>&gt;</span>data-dismiss<span class="hljs-tag">&lt;/<span class="hljs-name">i</span>&gt;</span>),
+        <span class="hljs-tag">&lt;<span class="hljs-name">button</span> <span class="hljs-attr">type</span>=<span class="hljs-string">"button"</span> <span class="hljs-attr">class</span>=<span class="hljs-string">"close"</span> <span class="hljs-attr">data-dismiss</span>=<span class="hljs-string">"alert"</span>&gt;</span>
+        <span class="hljs-tag">&lt;<span class="hljs-name">span</span>&gt;</span>&amp;times;<span class="hljs-tag">&lt;/<span class="hljs-name">span</span>&gt;</span>
+    <span class="hljs-tag">&lt;/<span class="hljs-name">button</span>&gt;</span>
+<span class="hljs-tag">&lt;/<span class="hljs-name">div</span>&gt;</span></code></pre>
+<p><br></p>
+<p>Résultat :  </p>
+<div class="alert alert-warning alert-dismissible fade show" role="alert">
+    <h4 class="alert-heading">La classe <b>.alert</b> permet ce format d'affichage !</h4>
+    <small><i><b>.alert-heading</b> dans la balise &lt; h4 &gt; indique qu'il s'agit de l'entête.</i></small>
+    <hr>
+    <p class="mb-0"><b>.alert-warning</b> gère la couleur de fond du message.</p>
+    <p class="mb-0"><b>.alert-dismissible</b> adapte l'emplacement du bouton de fermeture de l'alerte.</p>
+    <p class="mb-0"><b>.fade</b> rend un effet dégradé lors de la disparition du message.</p>
+    <p class="mb-0"><b>.show</b> permet de rendre l'alerte visible.</p>
+    <br>
+    <p class="mb-0"><a target="_blank" href="https://ncode.amorce.org/ressources/Pool/MS_FULL_STACK/CSS_BOOTSTRAP/#" class="alert-link">La classe alert-link utilisée ici permet d'insérer un lien hypertexte.</a></p>
+    <br>
+    <p>Enfin, dans le bouton, la classe <b>.close</b> applique le rôle de fermeture pour l'élément ayant le <b>role="alert"</b> (renseigné dans <i>data-dismiss</i>),
+        <button type="button" class="close" data-dismiss="alert">
+        <span>×</span>
+    </button>
+</p></div>
+<p><br></p>
+<h3 id="82">--&gt; Voir ici la <a href="https://getbootstrap.com/docs/4.4/components/alerts">documentation complète de Bootstrap pour les alertes</a></h3>
+<p><br>
+<br>
+<br></p>
+<h2 id="84"><strong>Cartes</strong> (cards)</h2>
+<p><br></p>
+<p>Bootstrap, à partir de la version 4, apporte un nouveau composant : les <strong>cartes</strong>, qui permettent l'habillage de blocs de contenus :   </p>
+<pre><code class="language-html hljs xml"><span class="hljs-tag">&lt;<span class="hljs-name">div</span> <span class="hljs-attr">class</span>=<span class="hljs-string">"row mt-5"</span>&gt;</span>
+    <span class="hljs-tag">&lt;<span class="hljs-name">div</span> <span class="hljs-attr">class</span>=<span class="hljs-string">"offset-1 col-5"</span>&gt;</span>
+        <span class="hljs-tag">&lt;<span class="hljs-name">div</span> <span class="hljs-attr">class</span>=<span class="hljs-string">"card"</span>&gt;</span>
+            <span class="hljs-tag">&lt;<span class="hljs-name">div</span> <span class="hljs-attr">class</span>=<span class="hljs-string">"card-header"</span>&gt;</span>
+                Une carte avec entête
+            <span class="hljs-tag">&lt;/<span class="hljs-name">div</span>&gt;</span>
+            <span class="hljs-tag">&lt;<span class="hljs-name">div</span> <span class="hljs-attr">class</span>=<span class="hljs-string">"card-body"</span>&gt;</span>
+                <span class="hljs-tag">&lt;<span class="hljs-name">h5</span> <span class="hljs-attr">class</span>=<span class="hljs-string">"card-title"</span>&gt;</span>On peut y ranger des titres,<span class="hljs-tag">&lt;/<span class="hljs-name">h5</span>&gt;</span>
+                <span class="hljs-tag">&lt;<span class="hljs-name">p</span> <span class="hljs-attr">class</span>=<span class="hljs-string">"card-text"</span>&gt;</span>insérer du contenu dans lequel on note ce que l'on veut, et où l'on peut rajouter :<span class="hljs-tag">&lt;/<span class="hljs-name">p</span>&gt;</span>
+                <span class="hljs-tag">&lt;<span class="hljs-name">ul</span> <span class="hljs-attr">class</span>=<span class="hljs-string">"list-group list-group-flush mb-3"</span>&gt;</span>
+                    <span class="hljs-tag">&lt;<span class="hljs-name">li</span> <span class="hljs-attr">class</span>=<span class="hljs-string">"list-group-item"</span>&gt;</span>des listes<span class="hljs-tag">&lt;/<span class="hljs-name">li</span>&gt;</span>
+                    <span class="hljs-tag">&lt;<span class="hljs-name">li</span> <span class="hljs-attr">class</span>=<span class="hljs-string">"list-group-item"</span>&gt;</span>des images<span class="hljs-tag">&lt;/<span class="hljs-name">li</span>&gt;</span>
+                    <span class="hljs-tag">&lt;<span class="hljs-name">li</span> <span class="hljs-attr">class</span>=<span class="hljs-string">"list-group-item"</span>&gt;</span>
+                        <span class="hljs-tag">&lt;<span class="hljs-name">a</span> <span class="hljs-attr">href</span>=<span class="hljs-string">"#"</span> <span class="hljs-attr">class</span>=<span class="hljs-string">"btn btn-primary"</span>&gt;</span>des boutons<span class="hljs-tag">&lt;/<span class="hljs-name">a</span>&gt;</span>
+                    <span class="hljs-tag">&lt;/<span class="hljs-name">li</span>&gt;</span>
+                <span class="hljs-tag">&lt;/<span class="hljs-name">ul</span>&gt;</span>
+                <span class="hljs-tag">&lt;<span class="hljs-name">br</span>&gt;</span>
+                <span class="hljs-tag">&lt;<span class="hljs-name">img</span> <span class="hljs-attr">class</span>=<span class="hljs-string">"card-img-bottom"</span> <span class="hljs-attr">src</span>=<span class="hljs-string">"https://htmlcss3tutorials.com/wp-content/uploads/images/cutomized-bootstrap-5-cards-example.webp"</span> <span class="hljs-attr">alt</span>=<span class="hljs-string">"Card images Pinterest"</span>&gt;</span>
+            <span class="hljs-tag">&lt;/<span class="hljs-name">div</span>&gt;</span>
+        <span class="hljs-tag">&lt;/<span class="hljs-name">div</span>&gt;</span>
+    <span class="hljs-tag">&lt;/<span class="hljs-name">div</span>&gt;</span>
+<span class="hljs-tag">&lt;/<span class="hljs-name">div</span>&gt;</span></code></pre>
+<p><br></p>
+<p>Résultat : </p>
+<div class="row mt-5">
+        <div class="offset-1 col-5">
+            <div class="card">
+                <div class="card-header">
+                    Une carte avec entête
+                </div>
+                <div class="card-body">
+                    <h5 class="card-title">On peut y ranger des titres,</h5>
+                    <p class="card-text">insérer du contenu dans lequel on note ce que l'on veut, et où l'on peut rajouter :</p>
+                    <ul class="list-group list-group-flush mb-3">
+                        <li class="list-group-item">des listes</li>
+                        <li class="list-group-item">des images</li>
+                        <li class="list-group-item">
+                            <a target="_blank" href="https://ncode.amorce.org/ressources/Pool/MS_FULL_STACK/CSS_BOOTSTRAP/#" class="btn btn-primary">des boutons</a>
+                        </li>
+                    </ul>
+                    <br>
+                    <img class="card-img-bottom" src="./contenus_composants_files/cutomized-bootstrap-5-cards-example.webp" alt="Card images Pinterest">
+                </div>
+            </div>
+        </div>
+    </div>
+<p><br></p>
+<p>Vous trouverez <a href="https://bootsnipp.com/tags/card">ici, des exemples de cartes personnalisées</a>.<br>
+A vous de trouver l'habillage qui correspond à vos besoins !</p>
+<p><br></p>
+<h3 id="94">--&gt; Voir ici la <a href="https://getbootstrap.com/docs/4.4/components/card">documentation complète de Bootstrap pour les cartes</a></h3>
+<p><br></p>
+<blockquote>
+<p><strong>edit:</strong> depuis la version 5 de Bootstrap également, les <strong>médias</strong> sont une alternative aux éléments <em>cards</em>.  </p>
+<h3>--&gt; Voir ici la <a href="https://getbootstrap.com/docs/5.1/utilities/flex/#media-object">documentation complète de Bootstrap pour les objets média</a></h3>
+</blockquote>
+<p><br>
+<br>
+<br></p>
+<h2 id="98"><strong>Typographie</strong></h2>
+<p><br></p>
+<p>Bootstrap fournit des outils pour gérer la typographie : taille et alignement de polices, stylisation (gras, italique, barré, etc.), mises en exergue (<code>&lt;mark&gt;</code>, <code>&lt;strong&gt;</code>), citations (<code>.blockquotes</code>), habillage des listes (<code>&lt;ul&gt;</code>, <code>&lt;li&gt;</code>), etc.<br>
+Voici quelques exemples des outils proposés :</p>
+<p><br>
+<br></p>
+<h3 id="102"><strong>Polices par défaut</strong></h3>
+<p><br></p>
+<p>La police de caractère affichée par défaut par Bootstrap varie en fonction du système d'exploitation. Par exemple : </p>
+<ul>
+<li><em>Segoe UI</em> sous Windows</li>
+<li><em>Roboto</em> sous Androïd </li>
+</ul>
+<blockquote>
+<p>NB: La police par défaut peut bien entendu être changée, via une feuille de style CSS...</p>
+</blockquote>
+<p><br>
+<br></p>
+<h3 id="108"><strong>Taille de police</strong></h3>
+<p><br></p>
+<p>Bootstrap définit par défaut la taille de police à <strong>16 pixels</strong>, donc une unité de taille fixe. En effet, Bootstrap ne gère pas le redimensionnement des textes pour qu'ils deviennent « responsive » : il faudra ajouter des <em>media queries</em> spécifiques.  </p>
+<p>Néanmoins, Bootstrap propose </p>
+<ul>
+<li>6 classes <em>headings</em>, notées <code>.hX</code> et offrant le même rendu que les balises du même nom</li>
+<li>4 classes <em>display</em>, notées <code>.display-X</code> et permettant d'agrandir un texte</li>
+</ul>
+<pre><code class="language-html hljs xml">    <span class="hljs-tag">&lt;<span class="hljs-name">p</span> <span class="hljs-attr">class</span>=<span class="hljs-string">"h1"</span>&gt;</span>h1 heading<span class="hljs-tag">&lt;/<span class="hljs-name">p</span>&gt;</span>
+    <span class="hljs-tag">&lt;<span class="hljs-name">p</span> <span class="hljs-attr">class</span>=<span class="hljs-string">"h2"</span>&gt;</span>h2 heading<span class="hljs-tag">&lt;/<span class="hljs-name">p</span>&gt;</span>
+    <span class="hljs-tag">&lt;<span class="hljs-name">p</span> <span class="hljs-attr">class</span>=<span class="hljs-string">"h3"</span>&gt;</span>h3 heading<span class="hljs-tag">&lt;/<span class="hljs-name">p</span>&gt;</span>
+    <span class="hljs-tag">&lt;<span class="hljs-name">p</span> <span class="hljs-attr">class</span>=<span class="hljs-string">"h4"</span>&gt;</span>h4 heading<span class="hljs-tag">&lt;/<span class="hljs-name">p</span>&gt;</span>
+    <span class="hljs-tag">&lt;<span class="hljs-name">p</span> <span class="hljs-attr">class</span>=<span class="hljs-string">"h5"</span>&gt;</span>h5 heading<span class="hljs-tag">&lt;/<span class="hljs-name">p</span>&gt;</span>
+    <span class="hljs-tag">&lt;<span class="hljs-name">p</span> <span class="hljs-attr">class</span>=<span class="hljs-string">"h6"</span>&gt;</span>h6 heading<span class="hljs-tag">&lt;/<span class="hljs-name">p</span>&gt;</span>
+    <span class="hljs-tag">&lt;<span class="hljs-name">p</span> <span class="hljs-attr">class</span>=<span class="hljs-string">"display-1"</span>&gt;</span>Display 1<span class="hljs-tag">&lt;/<span class="hljs-name">p</span>&gt;</span>
+    <span class="hljs-tag">&lt;<span class="hljs-name">p</span> <span class="hljs-attr">class</span>=<span class="hljs-string">"display-1"</span>&gt;</span>Display 1<span class="hljs-tag">&lt;/<span class="hljs-name">p</span>&gt;</span>
+    <span class="hljs-tag">&lt;<span class="hljs-name">p</span> <span class="hljs-attr">class</span>=<span class="hljs-string">"display-2"</span>&gt;</span>Display 2<span class="hljs-tag">&lt;/<span class="hljs-name">p</span>&gt;</span>
+    <span class="hljs-tag">&lt;<span class="hljs-name">p</span> <span class="hljs-attr">class</span>=<span class="hljs-string">"display-3"</span>&gt;</span>Display 3<span class="hljs-tag">&lt;/<span class="hljs-name">p</span>&gt;</span>
+    <span class="hljs-tag">&lt;<span class="hljs-name">p</span> <span class="hljs-attr">class</span>=<span class="hljs-string">"display-4"</span>&gt;</span>Display 4<span class="hljs-tag">&lt;/<span class="hljs-name">p</span>&gt;</span></code></pre>
+<blockquote>
+<p><strong>Testez l'exemple</strong></p>
+</blockquote>
+<p><br>
+<br></p>
+<h3 id="116"><strong>Alignement</strong></h3>
+<p><br></p>
+<p>Il existe des classes pour l'alignement du texte, équivalentes aux options du <code>text-align</code> en CSS :</p>
+<ul>
+<li><code>.text-left</code> : aligne le texte à gauche de son conteneur (par défaut)</li>
+<li><code>.text-right</code> : aligne le texte à droite de son conteneur</li>
+<li><code>.text-center</code>    : centre le texte dans son conteneur</li>
+<li><code>.text-justify</code> : justifie le texte</li>
+</ul>
+<p><br></p>
+<p><strong><em>Exemple :</em></strong></p>
+<pre><code class="language-html hljs xml"><span class="hljs-tag">&lt;<span class="hljs-name">div</span> <span class="hljs-attr">class</span>=<span class="hljs-string">"row"</span>&gt;</span>
+    <span class="hljs-tag">&lt;<span class="hljs-name">div</span> <span class="hljs-attr">class</span>=<span class="hljs-string">"col-12"</span>&gt;</span>
+       <span class="hljs-tag">&lt;<span class="hljs-name">p</span> <span class="hljs-attr">class</span>=<span class="hljs-string">"text-left"</span>&gt;</span>Texte aligné à gauche (normal)<span class="hljs-tag">&lt;/<span class="hljs-name">p</span>&gt;</span>
+       <span class="hljs-tag">&lt;<span class="hljs-name">p</span> <span class="hljs-attr">class</span>=<span class="hljs-string">"text-right"</span>&gt;</span>Texte aligné à droite<span class="hljs-tag">&lt;/<span class="hljs-name">p</span>&gt;</span>         
+       <span class="hljs-tag">&lt;<span class="hljs-name">p</span> <span class="hljs-attr">class</span>=<span class="hljs-string">"text-center"</span>&gt;</span>Texte centré<span class="hljs-tag">&lt;/<span class="hljs-name">p</span>&gt;</span>           
+       <span class="hljs-tag">&lt;<span class="hljs-name">p</span> <span class="hljs-attr">class</span>=<span class="hljs-string">"text-justify"</span>&gt;</span>Texte justifié. Lorem ipsum dolor sit amet, consecteturadipiscing elit. Donec eget mi lobortis, bibendum nibh eu, semper quam. In eget felisurna. Maecenas luctus lacus quis semper semper. Donec pellentesque ligula tortor, utpulvinar massa consequat ac.<span class="hljs-tag">&lt;/<span class="hljs-name">p</span>&gt;</span>        
+    <span class="hljs-tag">&lt;/<span class="hljs-name">div</span>&gt;</span>
+<span class="hljs-tag">&lt;/<span class="hljs-name">div</span>&gt;</span></code></pre>
+<blockquote>
+<p>NB: Ces classes peuvent être spécifiées pour un dispositif en particulier grâce aux préfixes de breakpoints : par exemple <code>text-sm-center</code> centrera le texte uniquement à la dimension correspondant à <code>sm</code>, c'est-à-dire à partir de 576 pixels.     </p>
+</blockquote>
+<p><br></p>
+<h3 id="125">--&gt; Voir ici la <a href="https://getbootstrap.com/docs/4.4/content/typography">documentation complète de Bootstrap sur la typographie</a></h3>
+<p><br>
+<br>
+<br></p></div><div class="menu-markdown"><img src="./contenus_composants_files/menu.png"><div data-id="1" class="titre"><strong>Bootstrap</strong> &gt; Contenus et composants</div><div data-id="3"><strong>Tableaux</strong></div><div data-id="19">&nbsp;&nbsp;&nbsp;&nbsp;--&gt; Voir ici la <a href="https://getbootstrap.com/docs/4.4/content/tables">documentation complète de Bootstrap sur les tableaux</a></div><div data-id="21"><strong>Images</strong></div><div data-id="34">&nbsp;&nbsp;&nbsp;&nbsp;--&gt; Voir ici la <a href="https://getbootstrap.com/docs/4.4/content/images">documentation complète de Bootstrap pour les images</a></div><div data-id="36"><strong>Boutons</strong></div><div data-id="57">&nbsp;&nbsp;&nbsp;&nbsp;--&gt; Voir ici la <a href="https://getbootstrap.com/docs/4.4/components/buttons">documentation complète de Bootstrap sur les boutons</a></div><div data-id="59"><strong>Formulaires</strong></div><div data-id="72">&nbsp;&nbsp;&nbsp;&nbsp;--&gt; Voir ici la <a href="https://getbootstrap.com/docs/4.4/components/forms">documentation complète de Bootstrap pour les formulaires</a></div><div data-id="74"><strong>Messages</strong> (alert)</div><div data-id="82">&nbsp;&nbsp;&nbsp;&nbsp;--&gt; Voir ici la <a href="https://getbootstrap.com/docs/4.4/components/alerts">documentation complète de Bootstrap pour les alertes</a></div><div data-id="84"><strong>Cartes</strong> (cards)</div><div data-id="94">&nbsp;&nbsp;&nbsp;&nbsp;--&gt; Voir ici la <a href="https://getbootstrap.com/docs/4.4/components/card">documentation complète de Bootstrap pour les cartes</a></div><div data-id="98"><strong>Typographie</strong></div><div data-id="102">&nbsp;&nbsp;&nbsp;&nbsp;<strong>Polices par défaut</strong></div><div data-id="108">&nbsp;&nbsp;&nbsp;&nbsp;<strong>Taille de police</strong></div><div data-id="116">&nbsp;&nbsp;&nbsp;&nbsp;<strong>Alignement</strong></div><div data-id="125">&nbsp;&nbsp;&nbsp;&nbsp;--&gt; Voir ici la <a href="https://getbootstrap.com/docs/4.4/content/typography">documentation complète de Bootstrap sur la typographie</a></div></div></div><script>hljs.initHighlightingOnLoad();//hljs.initLineNumbersOnLoad();</script><script src="./contenus_composants_files/menu-markdown.js"></script></body></html>

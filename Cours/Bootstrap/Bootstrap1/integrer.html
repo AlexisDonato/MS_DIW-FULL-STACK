@@ -1,0 +1,153 @@
+<!DOCTYPE html>
+<!-- saved from url=(0082)https://ncode.amorce.org/ressources/Pool/MS_FULL_STACK/CSS_BOOTSTRAP/integrer.html -->
+<html><head><meta http-equiv="Content-Type" content="text/html; charset=UTF-8"><title></title>
+        <meta name="viewport" content="width=device-width, initial-scale=1">
+        <link rel="stylesheet" href="./integrer_files/font-awesome.min.css">
+        <link rel="stylesheet" href="./integrer_files/bootstrap.min.css">
+        <link rel="stylesheet" href="./integrer_files/darcula.css">
+        <!-- <link rel="stylesheet" href="/css/highlight/line-number.css"> -->
+        <link rel="stylesheet" href="./integrer_files/github-markdown.css">
+        <!-- <link rel="stylesheet" href="/css/markdown_foad.css"> -->
+        <link rel="stylesheet" href="./integrer_files/menu-markdown.css">
+        <!-- <script src="/js/highlightjs-line-numbers.min.js"></script> -->
+        <script src="./integrer_files/jquery-3.4.1.min.js"></script>
+        <script src="./integrer_files/popper.min.js"></script>
+        <script src="./integrer_files/bootstrap.min.js"></script>
+        <script src="./integrer_files/highlight.js"></script>
+        </head><body><div class="container"><div class="markdown-body"><h1 id="1"><strong>Bootstrap</strong> &gt; Intégration</h1>
+<p><br>
+<br></p>
+<h2 id="3">En haut de page</h2>
+<p><br></p>
+<p>Dans la partie <code>&lt;head&gt;</code> de la page HTML :</p>
+<ol>
+<li>Ajouter la balise meta <em>viewport</em> : </li>
+</ol>
+<pre><code class="language-html hljs xml"><span class="hljs-tag">&lt;<span class="hljs-name">meta</span> <span class="hljs-attr">name</span>=<span class="hljs-string">"viewport"</span> <span class="hljs-attr">content</span>=<span class="hljs-string">"width=device-width, initial-scale=1, shrink-to-fit=no"</span>&gt;</span>   </code></pre>
+<p><br></p>
+<ol>
+<li>Puis le code pour intégrer la feuille de style CSS de Bootstrap (toujours dans <code>&lt;head&gt;</code>) : </li>
+</ol>
+<pre><code class="language-html hljs xml"><span class="hljs-tag">&lt;<span class="hljs-name">link</span> <span class="hljs-attr">rel</span>=<span class="hljs-string">"stylesheet"</span> <span class="hljs-attr">href</span>=<span class="hljs-string">"https://stackpath.bootstrapcdn.com/bootstrap/4.4.1/css/bootstrap.min.css"</span> <span class="hljs-attr">integrity</span>=<span class="hljs-string">"sha384-Vkoo8x4CGsO3+Hhxv8T/Q5PaXtkKtu6ug5TOeNV6gBiFeWPGFN9MuhOf23Q9Ifjh"</span> <span class="hljs-attr">crossorigin</span>=<span class="hljs-string">"anonymous"</span>&gt;</span></code></pre>
+<blockquote>
+<p>Les attributs <strong><em>integrity</em></strong> et <strong><em>crossorigin</em></strong> sont devenus indispensables lors du chargement de ressources, pour permettre au navigateur de vérifier leur provenance ;<br>
+--&gt; <a href="https://developer.mozilla.org/fr/docs/Web/HTML/Element/link">Plus d'informations</a></p>
+</blockquote>
+<p><br></p>
+<p><em>NB: Ici, on importe Bootstrap via une URL pointant sur un CDN (un serveur externe hébergeant des fichiers), mais rien n'empêche de télécharger directement les fichiers compilés de Bootstrap et de les intégrer dans l'arborescence de votre site...</em></p>
+<p><br></p>
+<p>Vous pourriez ensuite ajouter si besoin vos propres fichiers CSS, qui devront être chargés <strong>APRES</strong> celui de Bootstrap. Par exemple :  </p>
+<pre><code class="language-html hljs xml">    <span class="hljs-comment">&lt;!-- [...] --&gt;</span>
+    <span class="hljs-tag">&lt;<span class="hljs-name">link</span> <span class="hljs-attr">rel</span>=<span class="hljs-string">"stylesheet"</span> <span class="hljs-attr">href</span>=<span class="hljs-string">"https://stackpath.bootstrapcdn.com/bootstrap/4.4.1/css/bootstrap.min.css"</span> <span class="hljs-attr">integrity</span>=<span class="hljs-string">"sha384-Vkoo8x4CGsO3+Hhxv8T/Q5PaXtkKtu6ug5TOeNV6gBiFeWPGFN9MuhOf23Q9Ifjh"</span> <span class="hljs-attr">crossorigin</span>=<span class="hljs-string">"anonymous"</span>&gt;</span>
+    <span class="hljs-tag">&lt;<span class="hljs-name">link</span> <span class="hljs-attr">rel</span>=<span class="hljs-string">"stylesheet"</span> <span class="hljs-attr">href</span>=<span class="hljs-string">"css/messtyles.css"</span>&gt;</span>
+<span class="hljs-tag">&lt;/<span class="hljs-name">head</span>&gt;</span></code></pre>
+<p><br>
+<br></p>
+<h2 id="18">En bas de page</h2>
+<p><br></p>
+<ol start="3">
+<li>Intégrez enfin les fichiers Javascript nécessaires à Bootstrap; placez ce code <strong>avant</strong> la fermeture de la balise body (<code>&lt;/body&gt;</code>), l'ordre des fichiers est à respecter (JQuery, Popper puis Bootstrap) : </li>
+</ol>
+<pre><code class="language-html hljs xml">    <span class="hljs-tag">&lt;<span class="hljs-name">script</span> <span class="hljs-attr">src</span>=<span class="hljs-string">"https://code.jquery.com/jquery-3.4.1.slim.min.js"</span> <span class="hljs-attr">integrity</span>=<span class="hljs-string">"sha384-J6qa4849blE2+poT4WnyKhv5vZF5SrPo0iEjwBvKU7imGFAV0wwj1yYfoRSJoZ+n"</span> <span class="hljs-attr">crossorigin</span>=<span class="hljs-string">"anonymous"</span>&gt;</span><span class="undefined"></span><span class="hljs-tag">&lt;/<span class="hljs-name">script</span>&gt;</span>
+    <span class="hljs-tag">&lt;<span class="hljs-name">script</span> <span class="hljs-attr">src</span>=<span class="hljs-string">"https://cdn.jsdelivr.net/npm/popper.js@1.16.0/dist/umd/popper.min.js"</span> <span class="hljs-attr">integrity</span>=<span class="hljs-string">"sha384-Q6E9RHvbIyZFJoft+2mJbHaEWldlvI9IOYy5n3zV9zzTtmI3UksdQRVvoxMfooAo"</span> <span class="hljs-attr">crossorigin</span>=<span class="hljs-string">"anonymous"</span>&gt;</span><span class="undefined"></span><span class="hljs-tag">&lt;/<span class="hljs-name">script</span>&gt;</span>
+    <span class="hljs-tag">&lt;<span class="hljs-name">script</span> <span class="hljs-attr">src</span>=<span class="hljs-string">"https://stackpath.bootstrapcdn.com/bootstrap/4.4.1/js/bootstrap.min.js"</span> <span class="hljs-attr">integrity</span>=<span class="hljs-string">"sha384-wfSDF2E50Y2D1uUdj0O3uMBJnjuUD4Ih7YwaYd1iqfktj0Uod8GCExl3Og8ifwB6"</span> <span class="hljs-attr">crossorigin</span>=<span class="hljs-string">"anonymous"</span>&gt;</span><span class="undefined"></span><span class="hljs-tag">&lt;/<span class="hljs-name">script</span>&gt;</span>
+<span class="hljs-tag">&lt;/<span class="hljs-name">body</span>&gt;</span></code></pre>
+<blockquote>
+<p>NB: <a href="https://popper.js.org/">Popper JS</a> est optionnel ; il permet notamment de créer et de mettre en forme des infobulles (ex: messages d'erreur à l'utilisateur dans des formulaires)  </p>
+</blockquote>
+<p><br></p>
+<h3 id="24">--&gt; <a href="https://getbootstrap.com/docs/versions/">Retrouvez ici les CDN mis à jour</a> selon votre version de Bootstrap</h3>
+<p><br></p>
+<p>Vous pourriez ensuite ajouter si besoin vos propres fichiers JS qui devront être chargés <strong>APRES</strong> ceux de Bootstrap. Par exemple :  </p>
+<pre><code class="language-html hljs xml">    <span class="hljs-comment">&lt;!-- [...] --&gt;</span>
+    <span class="hljs-tag">&lt;<span class="hljs-name">script</span> <span class="hljs-attr">src</span>=<span class="hljs-string">"https://stackpath.bootstrapcdn.com/bootstrap/4.4.1/js/bootstrap.min.js"</span> <span class="hljs-attr">integrity</span>=<span class="hljs-string">"sha384-wfSDF2E50Y2D1uUdj0O3uMBJnjuUD4Ih7YwaYd1iqfktj0Uod8GCExl3Og8ifwB6"</span> <span class="hljs-attr">crossorigin</span>=<span class="hljs-string">"anonymous"</span>&gt;</span><span class="undefined"></span><span class="hljs-tag">&lt;/<span class="hljs-name">script</span>&gt;</span>
+    <span class="hljs-tag">&lt;<span class="hljs-name">script</span> <span class="hljs-attr">src</span>=<span class="hljs-string">"js/mesanimations.js"</span>&gt;</span><span class="undefined"></span><span class="hljs-tag">&lt;/<span class="hljs-name">script</span>&gt;</span>
+<span class="hljs-tag">&lt;/<span class="hljs-name">body</span>&gt;</span></code></pre>
+<p><br>
+<br></p>
+<h2 id="29">Template de démarrage</h2>
+<p><br></p>
+<p><em>Exemple de page (template) générique intégrant Bootstrap :<br>
+Source: <a href="https://getbootstrap.com/docs/4.4/getting-started/introduction/">getbootstrap.com</a></em>  </p>
+<pre><code class="language-html hljs xml"><span class="hljs-meta">&lt;!doctype html&gt;</span>
+<span class="hljs-tag">&lt;<span class="hljs-name">html</span> <span class="hljs-attr">lang</span>=<span class="hljs-string">"en"</span>&gt;</span>
+  <span class="hljs-tag">&lt;<span class="hljs-name">head</span>&gt;</span>
+
+    <span class="hljs-comment">&lt;!-- Required meta tags --&gt;</span>
+    <span class="hljs-tag">&lt;<span class="hljs-name">meta</span> <span class="hljs-attr">charset</span>=<span class="hljs-string">"utf-8"</span>&gt;</span>
+    <span class="hljs-tag">&lt;<span class="hljs-name">meta</span> <span class="hljs-attr">name</span>=<span class="hljs-string">"viewport"</span> <span class="hljs-attr">content</span>=<span class="hljs-string">"width=device-width, initial-scale=1, shrink-to-fit=no"</span>&gt;</span>
+
+    <span class="hljs-comment">&lt;!-- Bootstrap CSS --&gt;</span>
+    <span class="hljs-tag">&lt;<span class="hljs-name">link</span> <span class="hljs-attr">rel</span>=<span class="hljs-string">"stylesheet"</span> <span class="hljs-attr">href</span>=<span class="hljs-string">"https://stackpath.bootstrapcdn.com/bootstrap/4.4.1/css/bootstrap.min.css"</span> <span class="hljs-attr">integrity</span>=<span class="hljs-string">"sha384-Vkoo8x4CGsO3+Hhxv8T/Q5PaXtkKtu6ug5TOeNV6gBiFeWPGFN9MuhOf23Q9Ifjh"</span> <span class="hljs-attr">crossorigin</span>=<span class="hljs-string">"anonymous"</span>&gt;</span>
+
+    <span class="hljs-tag">&lt;<span class="hljs-name">title</span>&gt;</span>Hello, world!<span class="hljs-tag">&lt;/<span class="hljs-name">title</span>&gt;</span>
+  <span class="hljs-tag">&lt;/<span class="hljs-name">head</span>&gt;</span>
+
+  <span class="hljs-tag">&lt;<span class="hljs-name">body</span>&gt;</span>
+    <span class="hljs-tag">&lt;<span class="hljs-name">h1</span>&gt;</span>Hello, world!<span class="hljs-tag">&lt;/<span class="hljs-name">h1</span>&gt;</span>
+
+    <span class="hljs-comment">&lt;!-- Optional JavaScript --&gt;</span>
+    <span class="hljs-comment">&lt;!-- jQuery first, then Popper.js, then Bootstrap JS --&gt;</span>
+    <span class="hljs-tag">&lt;<span class="hljs-name">script</span> <span class="hljs-attr">src</span>=<span class="hljs-string">"https://code.jquery.com/jquery-3.4.1.slim.min.js"</span> <span class="hljs-attr">integrity</span>=<span class="hljs-string">"sha384-J6qa4849blE2+poT4WnyKhv5vZF5SrPo0iEjwBvKU7imGFAV0wwj1yYfoRSJoZ+n"</span> <span class="hljs-attr">crossorigin</span>=<span class="hljs-string">"anonymous"</span>&gt;</span><span class="undefined"></span><span class="hljs-tag">&lt;/<span class="hljs-name">script</span>&gt;</span>
+    <span class="hljs-tag">&lt;<span class="hljs-name">script</span> <span class="hljs-attr">src</span>=<span class="hljs-string">"https://cdn.jsdelivr.net/npm/popper.js@1.16.0/dist/umd/popper.min.js"</span> <span class="hljs-attr">integrity</span>=<span class="hljs-string">"sha384-Q6E9RHvbIyZFJoft+2mJbHaEWldlvI9IOYy5n3zV9zzTtmI3UksdQRVvoxMfooAo"</span> <span class="hljs-attr">crossorigin</span>=<span class="hljs-string">"anonymous"</span>&gt;</span><span class="undefined"></span><span class="hljs-tag">&lt;/<span class="hljs-name">script</span>&gt;</span>
+    <span class="hljs-tag">&lt;<span class="hljs-name">script</span> <span class="hljs-attr">src</span>=<span class="hljs-string">"https://stackpath.bootstrapcdn.com/bootstrap/4.4.1/js/bootstrap.min.js"</span> <span class="hljs-attr">integrity</span>=<span class="hljs-string">"sha384-wfSDF2E50Y2D1uUdj0O3uMBJnjuUD4Ih7YwaYd1iqfktj0Uod8GCExl3Og8ifwB6"</span> <span class="hljs-attr">crossorigin</span>=<span class="hljs-string">"anonymous"</span>&gt;</span><span class="undefined"></span><span class="hljs-tag">&lt;/<span class="hljs-name">script</span>&gt;</span>
+  <span class="hljs-tag">&lt;/<span class="hljs-name">body</span>&gt;</span>
+<span class="hljs-tag">&lt;/<span class="hljs-name">html</span>&gt;</span></code></pre>
+<p><br>
+<br></p>
+<h2 id="34">Barre de navigation (menu)</h2>
+<p><br></p>
+<p><em>Exemple de navbar (barre de navigation) :<br>
+<strong>à intégrer dans la balise <code>&lt;body&gt;</code></strong></em>  </p>
+<pre><code class="language-html hljs xml"><span class="hljs-tag">&lt;<span class="hljs-name">nav</span> <span class="hljs-attr">class</span>=<span class="hljs-string">"navbar navbar-expand-sm bg-dark navbar-dark"</span>&gt;</span>
+
+        <span class="hljs-comment">&lt;!-- Toggler/collapsible Button --&gt;</span>
+        <span class="hljs-tag">&lt;<span class="hljs-name">button</span> <span class="hljs-attr">class</span>=<span class="hljs-string">"navbar-toggler"</span> <span class="hljs-attr">type</span>=<span class="hljs-string">"button"</span> <span class="hljs-attr">data-toggle</span>=<span class="hljs-string">"collapse"</span> <span class="hljs-attr">data-target</span>=<span class="hljs-string">"#collapsibleNavbar"</span>&gt;</span>
+        <span class="hljs-tag">&lt;<span class="hljs-name">span</span> <span class="hljs-attr">class</span>=<span class="hljs-string">"navbar-toggler-icon"</span>&gt;</span><span class="hljs-tag">&lt;/<span class="hljs-name">span</span>&gt;</span>
+        <span class="hljs-tag">&lt;/<span class="hljs-name">button</span>&gt;</span>   
+        <span class="hljs-tag">&lt;<span class="hljs-name">div</span> <span class="hljs-attr">class</span>=<span class="hljs-string">"collapse navbar-collapse"</span> <span class="hljs-attr">id</span>=<span class="hljs-string">"collapsibleNavbar"</span>&gt;</span>
+            <span class="hljs-tag">&lt;<span class="hljs-name">ul</span> <span class="hljs-attr">class</span>=<span class="hljs-string">"navbar-nav"</span>&gt;</span>
+                <span class="hljs-tag">&lt;<span class="hljs-name">li</span> <span class="hljs-attr">class</span>=<span class="hljs-string">"nav-item"</span>&gt;</span>
+                    <span class="hljs-tag">&lt;<span class="hljs-name">a</span> <span class="hljs-attr">class</span>=<span class="hljs-string">"nav-link"</span> <span class="hljs-attr">href</span>=<span class="hljs-string">"index.php"</span>&gt;</span>Accueil<span class="hljs-tag">&lt;/<span class="hljs-name">a</span>&gt;</span>
+                <span class="hljs-tag">&lt;/<span class="hljs-name">li</span>&gt;</span>
+                <span class="hljs-tag">&lt;<span class="hljs-name">li</span> <span class="hljs-attr">class</span>=<span class="hljs-string">"nav-item"</span>&gt;</span>
+                    <span class="hljs-tag">&lt;<span class="hljs-name">a</span> <span class="hljs-attr">class</span>=<span class="hljs-string">"nav-link"</span> <span class="hljs-attr">href</span>=<span class="hljs-string">"tableau.php"</span>&gt;</span>Tableau<span class="hljs-tag">&lt;/<span class="hljs-name">a</span>&gt;</span>
+                <span class="hljs-tag">&lt;/<span class="hljs-name">li</span>&gt;</span>
+                <span class="hljs-tag">&lt;<span class="hljs-name">li</span> <span class="hljs-attr">class</span>=<span class="hljs-string">"nav-item"</span>&gt;</span>
+                    <span class="hljs-tag">&lt;<span class="hljs-name">a</span> <span class="hljs-attr">class</span>=<span class="hljs-string">"nav-link"</span> <span class="hljs-attr">href</span>=<span class="hljs-string">"formulaire.php"</span>&gt;</span>Formulaire wazaa<span class="hljs-tag">&lt;/<span class="hljs-name">a</span>&gt;</span>
+                <span class="hljs-tag">&lt;/<span class="hljs-name">li</span>&gt;</span>
+            <span class="hljs-tag">&lt;/<span class="hljs-name">ul</span>&gt;</span>
+        <span class="hljs-tag">&lt;/<span class="hljs-name">div</span>&gt;</span> 
+<span class="hljs-tag">&lt;/<span class="hljs-name">nav</span>&gt;</span></code></pre>
+<p><br></p>
+<p>Sur le fonctionnement des <em>navbar</em> : </p>
+<ul>
+<li>
+<p>ligne 1 : on ouvre la balise <code>&lt;nav&gt;</code> qui contient plusieurs classes obligatoires (mais variables) ; ici :  </p>
+<ul>
+<li><code>navbar</code> permet à Bootstrap d'identifier le début de formattage de la nav, et d'aligner automatiquement les marges</li>
+<li><strong><code>navbar-expand-sm</code></strong> indique à partir de quelle dimension (ici <code>sm</code>, donc à plus de 576px ; cf. le système de grilles de Bootstrap) la barre de navigation sera visible entièrement, au lieu d'afficher le bouton <em>hamburger</em></li>
+<li><code>bg-dark</code> donne un rendu sur fond sombre  </li>
+<li><code>navbar-dark</code> ajuste la couleur du texte et des liens pour les adapter à un rendu foncé<br>
+<br></li>
+</ul>
+</li>
+<li>
+<p>lignes 4-6 : on trouve ici une balise <code>&lt;button&gt;</code> : il s'agit du code du bouton <em>hamburger</em>. L'attribut <code>data-target</code> est obligatoire ; sa valeur doit être la même que celle de l'attribut <code>id</code> du <code>&lt;div&gt;</code> suivant (ici <code>collapsibleNavbar</code>) et préfixé du signe <code>#</code>.    </p>
+</li>
+<li>
+<p>lignes 7-19 : un <code>&lt;div&gt;</code> qui contient une liste de liens classiques.</p>
+</li>
+</ul>
+<p><br></p>
+<p>Les barres de navigation peuvent supporter :</p>
+<ul>
+<li>un nom de site/marque, éventuellement une image (logo) : <code>brand</code></li>
+<li>un formulaire (zone de saisie pour un champ de recherche) : <code>form</code></li>
+<li>des sous-menus, appelés <code>dropdowns</code></li>
+</ul>
+<p><br></p>
+<h3 id="45">--&gt; Retrouvez ici d'autres exemples de <a href="https://getbootstrap.com/docs/4.4/components/navbar">barres de navigation Bootstrap</a></h3>
+<p><br>
+<br>
+<br></p></div><div class="menu-markdown"><img src="./integrer_files/menu.png"><div data-id="1" class="titre"><strong>Bootstrap</strong> &gt; Intégration</div><div data-id="3">En haut de page</div><div data-id="18">En bas de page</div><div data-id="24">&nbsp;&nbsp;&nbsp;&nbsp;--&gt; <a href="https://getbootstrap.com/docs/versions/">Retrouvez ici les CDN mis à jour</a> selon votre version de Bootstrap</div><div data-id="29">Template de démarrage</div><div data-id="34">Barre de navigation (menu)</div><div data-id="45">&nbsp;&nbsp;&nbsp;&nbsp;--&gt; Retrouvez ici d'autres exemples de <a href="https://getbootstrap.com/docs/4.4/components/navbar">barres de navigation Bootstrap</a></div></div></div><script>hljs.initHighlightingOnLoad();//hljs.initLineNumbersOnLoad();</script><script src="./integrer_files/menu-markdown.js"></script></body></html>

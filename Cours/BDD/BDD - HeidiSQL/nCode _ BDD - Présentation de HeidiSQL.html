@@ -1,0 +1,125 @@
+<!DOCTYPE html>
+<!-- saved from url=(0098)https://ncode.amorce.org/ressources/Pool/MS_FULL_STACK/BDD_Decouverte_MySQL/heidisql/heidisql.html -->
+<html><head><meta http-equiv="Content-Type" content="text/html; charset=UTF-8"><title>nCode | BDD - Présentation de HeidiSQL</title>
+        <meta name="viewport" content="width=device-width, initial-scale=1">
+        <link rel="stylesheet" href="./nCode _ BDD - Présentation de HeidiSQL_files/font-awesome.min.css">
+        <link rel="stylesheet" href="./nCode _ BDD - Présentation de HeidiSQL_files/bootstrap.min.css">
+        <link rel="stylesheet" href="./nCode _ BDD - Présentation de HeidiSQL_files/darcula.css">
+        <!-- <link rel="stylesheet" href="/css/highlight/line-number.css"> -->
+        <link rel="stylesheet" href="./nCode _ BDD - Présentation de HeidiSQL_files/github-markdown.css">
+        <!-- <link rel="stylesheet" href="/css/markdown_foad.css"> -->
+        <link rel="stylesheet" href="./nCode _ BDD - Présentation de HeidiSQL_files/menu-markdown.css">
+        <!-- <script src="/js/highlightjs-line-numbers.min.js"></script> -->
+        <script src="./nCode _ BDD - Présentation de HeidiSQL_files/jquery-3.4.1.min.js"></script>
+        <script src="./nCode _ BDD - Présentation de HeidiSQL_files/popper.min.js"></script>
+        <script src="./nCode _ BDD - Présentation de HeidiSQL_files/bootstrap.min.js"></script>
+        <script src="./nCode _ BDD - Présentation de HeidiSQL_files/highlight.js"></script>
+        </head><body><div class="container"><div class="markdown-body"><h1 id="1"><strong>BDD</strong> - Présentation de HeidiSQL</h1>
+<p><br>
+<br></p>
+<p>HeidiSQL est un outil pour l'administration des BDD.</p>
+<p>Depuis ce logiciel vous allez pouvoir créer, alimenter et interroger vos bases de données.</p>
+<p><br>
+<br></p>
+<h2 id="6">Installation de HeidiSQL</h2>
+<p><strong>Pré-requis</strong>  </p>
+<ul>
+<li>Avoir installé un SGBDr (MySQL, MariaDB, etc.)</li>
+</ul>
+<p><br>
+<br></p>
+<p><strong><em>Si vous êtes sur Ubuntu (Linux) :</em></strong></p>
+<p>Accédez à <strong>Ubuntu Software</strong>, puis chercher "HeidiSQL", et installer le paquet.</p>
+<p><br>
+<br></p>
+<p><strong><em>Si vous êtes sur Windows :</em></strong></p>
+<p><strong>Avec Laragon</strong>, HeidiSQL est pré-installé.<br>
+Une fois votre SGBDr démarré (MySQL ou MariaDB), l'outil est directement accessible depuis le <strong>Menu (clic droit) &gt; MySQL <em>ou</em> MariaDB &gt; HeidiSQL</strong> :</p>
+<p><img src="./nCode _ BDD - Présentation de HeidiSQL_files/heidi_laragon.gif" alt="HeiSQL sur Laragon"></p>
+<p><br></p>
+<p>Si vous n'utilisez pas Laragon, rendez-vous sur <a href="https://www.heidisql.com/download.php" target="_blank">la page de téléchargement du site de HeidiSQL</a> pour télécharger l'<em>installer 32/64 bit</em>.  </p>
+<p>Exécutez le fichier et suivez les instructions pour installer HeidiSQL sur votre machine.</p>
+<p><br>
+<br></p>
+<p><strong>Paramétrage</strong>  </p>
+<p><strong>Par défaut, les paramètres</strong> des bases de données sont :  </p>
+<ul>
+<li>nom du serveur : <strong>localhost</strong> </li>
+<li>utilisateur : root@localhost (ou plus souvent, <strong>root</strong>)</li>
+<li>mot de passe : <strong><em>aucun</em></strong> (ou 0000, ou 1234)</li>
+</ul>
+<blockquote>
+<p>Si vous avez un utilisateur avec les droits administrateur, notamment sur Ubuntu (Linux), connectez-vous plutôt avec celui-ci !  </p>
+</blockquote>
+<p><br>
+<br></p>
+<h2 id="25">Fonctionnement du logiciel</h2>
+<p>Pour commencer, observons l'interface :  </p>
+<p><img src="./nCode _ BDD - Présentation de HeidiSQL_files/heidi_1.jpg" alt="HeidiSQL Interface"> </p>
+<ol>
+<li>
+<p>En haut à gauche, sur la fenêtre, vous retrouvez le chemin de la base et/ou de la table sélectionnée </p>
+</li>
+<li>
+<p>Dans le volet latéral de gauche, sont affichées toutes vos BDD </p>
+</li>
+<li>
+<p>Dans le volet principal, dans la barre de menu supérieure se trouvent différents onglets de navigation :  </p>
+<ul>
+<li><code>Hôte</code> : permet de choisir l'adresse du serveur (ici, <em>localhost</em>)  </li>
+<li><code>Base de données</code> : permet de se positionner sur la BDD voulue (ici, <em>eval</em>)  </li>
+<li><code>Table</code> : permet de sélectionner une table sélectionnée (ici, <em>client</em>) ; on retrouve plus bas, dans l'encart Colonnes, les différentes rubriques de cette table  </li>
+<li><code>Données</code> : liste les données de la table sélectionnée  </li>
+<li><code>Requête</code> : affiche les requêtes en cours  </li>
+</ul>
+</li>
+</ol>
+<p><br>
+<br></p>
+<h2 id="30">Exercice : votre première base de données !</h2>
+<p><img src="./nCode _ BDD - Présentation de HeidiSQL_files/heidi_bdd.gif" alt="HeidiSQL Création BDD"> </p>
+<p>Dans l'onglet Requête, nous écrivons nos scripts de création et d’insertion de la base ainsi que toutes les requêtes permettant d’interroger la base.  </p>
+<p><strong>En SQL, chaque instruction se termine par un point virgule <code>;</code>.</strong>  </p>
+<p>Pour exécuter vos scripts, vous pourrez  </p>
+<ul>
+<li>soit cliquer sur le bouton avec l'icône <code>Play</code> dans la barre d'outils</li>
+<li>soit appuyer sur la touche <code>F9</code></li>
+<li>pour exécuter une requête spécifique : clic droit sur la requête voulue et <em>Exécuter cette requête</em></li>
+</ul>
+<blockquote>
+<p>NB: Si vous ne voyez pas votre base : clic droit &gt; <em>Rafraîchir</em> ou <code>F5</code>  </p>
+</blockquote>
+<p><br></p>
+<h3 id="38">Création de la base <code>garage</code></h3>
+<p>Copiez-collez le script ci-dessous dans l'onglet <code>Requête</code> et exécutez-le :</p>
+<pre><code class="language-sql hljs"><span class="hljs-keyword">DROP</span> <span class="hljs-keyword">DATABASE</span> <span class="hljs-keyword">IF</span> <span class="hljs-keyword">EXISTS</span> garage; 
+
+<span class="hljs-keyword">CREATE</span> <span class="hljs-keyword">DATABASE</span> garage;  
+
+<span class="hljs-keyword">USE</span> garage; 
+
+<span class="hljs-keyword">CREATE</span> <span class="hljs-keyword">TABLE</span> voiture ( 
+    voit_id <span class="hljs-built_in">INT</span> <span class="hljs-keyword">NOT</span> <span class="hljs-literal">NULL</span> AUTO_INCREMENT PRIMARY <span class="hljs-keyword">KEY</span>, 
+    voit_marque <span class="hljs-built_in">VARCHAR</span>(<span class="hljs-number">50</span>) <span class="hljs-keyword">NOT</span> <span class="hljs-literal">NULL</span>, 
+    voit_prix <span class="hljs-built_in">INT</span> 
+); 
+
+<span class="hljs-keyword">INSERT</span> <span class="hljs-keyword">INTO</span> voiture (voit_id, voit_marque, voit_prix) <span class="hljs-keyword">VALUES</span> (<span class="hljs-number">1</span>, <span class="hljs-string">'Audi'</span>, <span class="hljs-number">29990</span>); 
+<span class="hljs-keyword">INSERT</span> <span class="hljs-keyword">INTO</span> voiture (voit_id, voit_marque, voit_prix) <span class="hljs-keyword">VALUES</span> (<span class="hljs-number">2</span>, <span class="hljs-string">'BMW'</span>, <span class="hljs-number">8500</span>); 
+<span class="hljs-keyword">INSERT</span> <span class="hljs-keyword">INTO</span> voiture (voit_id, voit_marque, voit_prix) <span class="hljs-keyword">VALUES</span> (<span class="hljs-number">3</span>, <span class="hljs-string">'Ford'</span>, <span class="hljs-number">15550</span>); </code></pre>
+<p><br></p>
+<p>Rafraichissez la page (<code>F5</code>), puis observez les onglets : </p>
+<ul>
+<li><code>Base de données : garage</code> </li>
+<li><code>Table : voiture</code>  </li>
+<li><code>Données :</code> </li>
+</ul>
+<p><br></p>
+<blockquote>
+<p>Attention : le script que vous écrivez dans l'onglet <code>Requête</code> ne sera pas sauvegardé au redémarrage de votre logiciel (mais vos bases seront toujours présentes) ;  </p>
+<p>Pour le moment, <strong>prenez l'habitude de créer vos fichiers dans votre IDE (Visual Studio Code par exemple) avec l'extension <code>.sql</code>, et de les enregistrer sur votre machine</strong>.  </p>
+<p>Il vous suffira alors de copier/coller votre script puis de l'exécuter. </p>
+</blockquote>
+<p><br>
+<br>
+<br></p></div><div class="menu-markdown"><img src="./nCode _ BDD - Présentation de HeidiSQL_files/menu.png"><div data-id="1" class="titre"><strong>BDD</strong> - Présentation de HeidiSQL</div><div data-id="6">Installation de HeidiSQL</div><div data-id="25">Fonctionnement du logiciel</div><div data-id="30">Exercice : votre première base de données !</div><div data-id="38">&nbsp;&nbsp;&nbsp;&nbsp;Création de la base <code>garage</code></div></div></div><script>hljs.initHighlightingOnLoad();//hljs.initLineNumbersOnLoad();</script><script src="./nCode _ BDD - Présentation de HeidiSQL_files/menu-markdown.js"></script><script>document.title = "nCode | " + document.querySelector("h1").textContent;</script></body></html>

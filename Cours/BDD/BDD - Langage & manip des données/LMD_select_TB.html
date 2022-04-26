@@ -1,0 +1,499 @@
+<!DOCTYPE html>
+<!-- saved from url=(0092)https://ncode.amorce.org/ressources/Pool/MS_FULL_STACK/BDD_Requetes_MySQL/LMD_select_TB.html -->
+<html><head><meta http-equiv="Content-Type" content="text/html; charset=UTF-8"><title></title>
+        <meta name="viewport" content="width=device-width, initial-scale=1">
+        <link rel="stylesheet" href="./LMD_select_TB_files/font-awesome.min.css">
+        <link rel="stylesheet" href="./LMD_select_TB_files/bootstrap.min.css">
+        <link rel="stylesheet" href="./LMD_select_TB_files/darcula.css">
+        <!-- <link rel="stylesheet" href="/css/highlight/line-number.css"> -->
+        <link rel="stylesheet" href="./LMD_select_TB_files/github-markdown.css">
+        <!-- <link rel="stylesheet" href="/css/markdown_foad.css"> -->
+        <link rel="stylesheet" href="./LMD_select_TB_files/menu-markdown.css">
+        <!-- <script src="/js/highlightjs-line-numbers.min.js"></script> -->
+        <script src="./LMD_select_TB_files/jquery-3.4.1.min.js"></script>
+        <script src="./LMD_select_TB_files/popper.min.js"></script>
+        <script src="./LMD_select_TB_files/bootstrap.min.js"></script>
+        <script src="./LMD_select_TB_files/highlight.js"></script>
+        </head><body><div class="container"><div class="markdown-body"><h1 id="1">Langage de manipulation de données</h1>
+<h2 id="2">Présentation</h2>
+<p>Après étude de ce document, vous serez capable de traduire en langage SQL un besoin de sélection de données stockées dans une base de données relationnelle.</p>
+<p>MySQL permet d’effectuer l’interrogation des données  à travers la commande de sélection de données SQL spécifique <code>SELECT</code> du LMD SQL.
+Cette commande <code>SELECT</code> permet d’affiner précisément le résultat obtenu et de reconstituer l’information globale disséminée dans les différentes tables (notion de jointure). Pour ce faire, la commande SQL <code>SELECT</code> présente de nombreuses variantes et options. </p>
+<p>Ce document couvre l’ensemble des variantes et options de la commande <code>SELECT</code> mais tout cela demande un peu d’entraînement avant de pouvoir traduire correctement un besoin de sélection de données en ordres SQL.</p>
+<p>Nous vous conseillons de parcourir une première fois le document dans son ensemble, puis de rechercher au cas par cas les informations nécessaires lors de la résolution de requêtes.</p>
+<h2 id="7">L’ORDRE SELECT</h2>
+<p>Cette commande permet la RECHERCHE d'informations en sélectionnant les données selon divers critères.</p>
+<pre><code class="language-sql hljs">    <span class="hljs-keyword">SELECT</span>  &lt;NOMS DE COLONNES OU EXPRESSIONS&gt;
+    <span class="hljs-keyword">FROM</span>    &lt;NOMS DE <span class="hljs-keyword">TABLES</span>&gt;
+    <span class="hljs-keyword">WHERE</span>   &lt;CONDITIONS DE RECHERCHE&gt;
+    <span class="hljs-keyword">GROUP</span> <span class="hljs-keyword">BY</span>    &lt;NOMS DE COLONNE DU <span class="hljs-keyword">SELECT</span>&gt;
+    <span class="hljs-keyword">HAVING</span>  &lt;CONDITION DE RECHERCHE&gt;
+    <span class="hljs-keyword">ORDER</span> <span class="hljs-keyword">BY</span>    &lt;NOM OU <span class="hljs-keyword">POSITION</span> DE COLONNE </code></pre>
+<p>Le résultat de la commande SELECT est une table, sous-ensemble de la (ou des) table(s) de départ :</p>
+<ul>
+<li>dont les colonnes dépendent des rubriques citées après SELECT (colonnes directement issues de la table d'origine, valeurs calculées, constantes, etc. ...)</li>
+<li>dont les lignes satisfont tant par leur contenu que pour leur présentation, aux options suivant, le cas échéant, le nom de la table.</li>
+</ul>
+<p>EXEMPLE : Lister le contenu de la table EMPLOYES</p>
+<pre><code class="language-sql hljs">    <span class="hljs-keyword">SELECT</span> * <span class="hljs-keyword">FROM</span> EMPLOYES</code></pre>
+<p>L’astérisque (*) inséré dans la liste de sélection permet d’extraire toutes les colonnes d’une table.
+EXEMPLE : Afficher les noms des employés contenus dans la table employés.</p>
+<pre><code class="language-sql hljs">    <span class="hljs-keyword">SELECT</span> NOM <span class="hljs-keyword">FROM</span> EMPLOYES</code></pre>
+<p>EXEMPLE : Lister le nom et le salaire des employés de  la table EMPLOYES.</p>
+<pre><code class="language-sql hljs">    <span class="hljs-keyword">SELECT</span> NOM, SALAIRE <span class="hljs-keyword">FROM</span> EMPLOYES</code></pre>
+<h3 id="18">SELECT AVEC EXPRESSION</h3>
+<p>Une ou plusieurs expressions peuvent suivre le mot-clé SELECT. Une expression spécifie un mode de calcul.</p>
+<p>Elle peut être :</p>
+<ul>
+<li>Un nom de colonne</li>
+<li>Une constante (numérique ou chaîne de caractères)</li>
+<li>Une fonction (CURRENT_TIMESTAMP, GETDATE() ...)</li>
+<li>Une combinaison de ces valeurs séparées :
+<ul>
+<li>par l'opérateur de concaténation + (chaînes de caractères)</li>
+<li>par l'un des opérateurs arithmétiques binaires (*, /, +, - évalués dans cet ordre) ou unaires (+, -) (numériques). </li>
+</ul></li>
+</ul>
+<p>Si l'un des opérandes a la valeur null, le résultat de l'expression est null.</p>
+<p>EXEMPLE : Lister le nom et le salaire en centimes de chaque employé.</p>
+<pre><code class="language-sql hljs"><span class="hljs-keyword">SELECT</span> <span class="hljs-keyword">CONCAT</span>(NOM,<span class="hljs-string">' '</span>,PRENOM),<span class="hljs-string">'SALAIRE :'</span>, SALAIRE * <span class="hljs-number">100</span>, <span class="hljs-string">'CENTIMES '</span>
+<span class="hljs-keyword">FROM</span> EMPLOYES</code></pre>
+<p>La lisibilité des noms de colonne peut être améliorée en utilisant le mot clé AS : les noms de colonne par défaut seront remplacés par des alias dans la liste de sélection.</p>
+<pre><code class="language-sql hljs"><span class="hljs-keyword">SELECT</span> <span class="hljs-keyword">CONCAT</span>(NOM,<span class="hljs-string">' '</span>,PRENOM) <span class="hljs-keyword">AS</span> <span class="hljs-string">'NOM DU SALARIE'</span>, SALAIRE * <span class="hljs-number">100</span> <span class="hljs-keyword">AS</span> <span class="hljs-string">'CENTIMES'</span>
+<span class="hljs-keyword">FROM</span> EMPLOYES</code></pre>
+<h3 id="27"><code>SELECT DISTINCT</code></h3>
+<p>L'option DISTINCT permet de ne conserver qu'un exemplaire de chaque ligne en double.</p>
+<pre><code class="language-sql hljs"><span class="hljs-keyword">SELECT</span> <span class="hljs-keyword">DISTINCT</span> WDEPT <span class="hljs-keyword">FROM</span> EMPLOYES</code></pre>
+<h3 id="30">LA CLAUSE <code>LIMIT</code></h3>
+<p>Exemple 1 : Lister les 5 premiers employés de la table EMPLOYES.</p>
+<pre><code class="language-sql hljs"><span class="hljs-keyword">SELECT</span> NOM,PRENOM <span class="hljs-keyword">FROM</span> EMPLOYES
+<span class="hljs-keyword">LIMIT</span> <span class="hljs-number">5</span>;</code></pre>
+<h3 id="33"><code>SELECT</code> CONDITIONNELLE AVEC <code>WHERE</code></h3>
+<p>La clause <code>WHERE</code> permet de préciser les conditions de recherche sur les lignes de la table.</p>
+<p>Les conditions peuvent contenir une liste illimitée de prédicats – expressions renvoyant la valeur TRUE (vrai), FALSE (faux) ou UNKNOWN (inconnu) , combinés à l’aide des opérateurs logiques  <code>AND</code> ou <code>OR</code> .</p>
+<pre><code class="hljs nginx"><span class="hljs-attribute">PRIX</span> &lt; <span class="hljs-number">100</span>.<span class="hljs-number">00</span> OR PRIX &gt; <span class="hljs-number">135</span>.<span class="hljs-number">00</span>
+NOT (AUTEUR = <span class="hljs-string">'DUMAS'</span>)</code></pre>
+<p>Conditions de recherche de la clause <code>WHERE</code></p>
+<p>Pour spécifier la condition de recherche dans la clause <code>WHERE</code>, on utilise indifféremment l’un des opérateurs conditionnels ci-après :</p>
+<table>
+<thead>
+<tr>
+<th>Description</th>
+<th>Opérateurs conditionnels</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>Opérateurs de comparaison</td>
+<td>=, &lt;&gt;, &gt;, &gt;=,  &lt;, &lt;=,</td>
+</tr>
+<tr>
+<td>Comparaisons de plage</td>
+<td><code>BETWEEN</code> et <code>NOT BETWEEN</code></td>
+</tr>
+<tr>
+<td>Comparaisons de listes</td>
+<td><code>IN</code> et<code>NOT IN</code></td>
+</tr>
+<tr>
+<td>Comparaisons de chaîne de caractères</td>
+<td><code>LIKE</code> et <code>NOT LIKE</code></td>
+</tr>
+<tr>
+<td>Valeurs inconnues</td>
+<td><code>IS NULL</code> et <code>IS NOT NULL</code></td>
+</tr>
+</tbody>
+</table>
+<p>Pour utiliser les opérateurs de comparaison</p>
+<ul>
+<li>Les 2 expressions doivent être de même type</li>
+<li>Les nombres sont comparés selon leur valeur algébrique (conversion)</li>
+<li>Les chaînes de caractères sont comparées de gauche à droite.</li>
+<li>Les données de type char, nchar, varchar, nvarchar, text, datetime et smalldatetime doivent être encadrées par des apostrophes.</li>
+</ul>
+<p>Quelques exemples :</p>
+<p>Rechercher dans la table EMPLOYES, les données concernant les employés qui travaillent dans le département 41 ou 50</p>
+<pre><code class="language-sql hljs"><span class="hljs-keyword">SELECT</span> * <span class="hljs-keyword">FROM</span> EMPLOYES <span class="hljs-keyword">WHERE</span> WDEPT = <span class="hljs-number">41</span> <span class="hljs-keyword">OR</span> WDEPT = <span class="hljs-string">'50'</span></code></pre>
+<p>Rechercher dans la table EMPLOYES, les données concernant les employés dont le matricule est supérieure à 00110 et dont le salaire est égal à 13000</p>
+<pre><code class="language-sql hljs"><span class="hljs-keyword">SELECT</span> NOM, SALAIRE, NOEMP <span class="hljs-keyword">FROM</span> EMPLOYES
+<span class="hljs-keyword">WHERE</span> NOEMP &gt; <span class="hljs-string">'19'</span> <span class="hljs-keyword">AND</span> SALAIRE = <span class="hljs-number">13000</span></code></pre>
+<p>Rechercher dans la table EMPLOYES, les données concernant les employés dont le matricule est supérieur ou égal à 11 et dont le salaire est égal à 22500 ou 23000</p>
+<pre><code class="language-sql hljs"><span class="hljs-keyword">SELECT</span> * <span class="hljs-keyword">FROM</span> EMPLOYES
+<span class="hljs-keyword">WHERE</span> (SALAIRE = <span class="hljs-number">22500</span> <span class="hljs-keyword">OR</span> SALAIRE = <span class="hljs-number">23000</span>) <span class="hljs-keyword">AND</span> NOEMP &gt;= <span class="hljs-string">'11'</span></code></pre>
+<h4 id="49">Le prédicat <code>BETWEEN</code></h4>
+<p>L’opérateur BETWEEN de la clause WHERE permet d’extraire des lignes appartenant à une plage de valeurs donnée.</p>
+<p>Lister le prénom et le nom des employés dont le salaire est compris entre 20000 et 30000 euros. </p>
+<pre><code class="language-sql hljs"><span class="hljs-keyword">SELECT</span> PRENOM, NOM <span class="hljs-keyword">FROM</span> EMPLOYES
+<span class="hljs-keyword">WHERE</span> SALAIRE <span class="hljs-keyword">BETWEEN</span> <span class="hljs-number">20000</span> <span class="hljs-keyword">AND</span> <span class="hljs-number">30000</span></code></pre>
+<ul>
+<li><code>BETWEEN</code> précise les bornes (comprises) entre lesquelles s'effectuera la sélection.</li>
+<li><code>NOT BETWEEN</code> précise les bornes en dehors desquelles s'effectuera la sélection.</li>
+</ul>
+<p>On aurait pu écrire :</p>
+<pre><code class="language-sql hljs"><span class="hljs-keyword">SELECT</span> PRENOM, NOM <span class="hljs-keyword">FROM</span> EMPLOYES
+<span class="hljs-keyword">WHERE</span> SALAIRE &gt;= <span class="hljs-number">20000</span> <span class="hljs-keyword">AND</span> SALAIRE &lt;= <span class="hljs-number">30000</span></code></pre>
+<h4 id="56">La clause <code>IN</code></h4>
+<p>L’opérateur IN de la clause WHERE permet d’extraire des lignes correspondant à une liste de valeurs donnée.</p>
+<p>Exemple 1:</p>
+<pre><code class="language-sql hljs"><span class="hljs-keyword">SELECT</span> * <span class="hljs-keyword">FROM</span> EMPLOYES
+<span class="hljs-keyword">WHERE</span> WDEPT <span class="hljs-keyword">IN</span> (<span class="hljs-number">31</span>, <span class="hljs-number">42</span>, <span class="hljs-number">33</span>, <span class="hljs-number">44</span>, <span class="hljs-number">50</span>)</code></pre>
+<p>Exemple 2:</p>
+<pre><code class="language-sql hljs"><span class="hljs-keyword">SELECT</span> * <span class="hljs-keyword">FROM</span> EMPLOYES
+<span class="hljs-keyword">WHERE</span> NOEMP <span class="hljs-keyword">IN</span> (<span class="hljs-string">'0001'</span>, <span class="hljs-string">'0002'</span>, <span class="hljs-string">'0003'</span>, <span class="hljs-string">'004'</span>, <span class="hljs-string">'00005'</span>)
+<span class="hljs-comment">-- ou</span>
+<span class="hljs-keyword">SELECT</span> * <span class="hljs-keyword">FROM</span> EMPLOYES
+<span class="hljs-keyword">WHERE</span> NOEMP <span class="hljs-keyword">BETWEEN</span> <span class="hljs-number">1</span> <span class="hljs-keyword">AND</span> <span class="hljs-number">5</span>
+<span class="hljs-comment">-- ou</span>
+<span class="hljs-keyword">SELECT</span> * <span class="hljs-keyword">FROM</span> EMPLOYES
+<span class="hljs-keyword">WHERE</span> NOEMP &gt;= <span class="hljs-number">1</span> <span class="hljs-keyword">AND</span> NOEMP &lt;= <span class="hljs-number">5</span></code></pre>
+<p>NB : On peut aussi utiliser NOT IN</p>
+<h4 id="63">L’opérateur <code>LIKE</code></h4>
+<p>L’opérateur LIKE de la clause WHERE conjointement aux caractères génériques, permet de comparer des chaînes de caractères inexactes.</p>
+<p>Pour une comparaison de chaîne exacte, remplacer l’opérateur LIKE par un opérateur de comparaison, par exemple, utiliser NOM = ‘BALZAC’ plutôt que NOM LIKE ‘BALZAC’</p>
+<p>LIKE ne peut être utilisé qu’avec des données de type char, nchar, varchar, nvarchar ou datetime
+Types de caractères génériques</p>
+<table>
+<thead>
+<tr>
+<th>Caractères génériques</th>
+<th>Description</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>%</td>
+<td>N’importe quelle chaîne comprise entre zéro et plusieurs caractères</td>
+</tr>
+<tr>
+<td>_ (trait de soulignement)</td>
+<td>N’importe quel caractère unique</td>
+</tr>
+<tr>
+<td>[ ]</td>
+<td>N’importe quel caractère unique dans la plage (par exemple [s-w] ou [aeiouy])</td>
+</tr>
+<tr>
+<td>[^]</td>
+<td>N’importe quel caractère unique n’appartenant pas à la plage (par exemple [^s-w] ou [^aeiouy])</td>
+</tr>
+</tbody>
+</table>
+<p>Exemple: Lister les données de la table EMPLOYES dont le nom commence par la lettre "B"</p>
+<pre><code class="language-sql hljs"><span class="hljs-keyword">SELECT</span> * <span class="hljs-keyword">FROM</span> EMPLOYES
+<span class="hljs-keyword">WHERE</span> NOM <span class="hljs-keyword">LIKE</span> <span class="hljs-string">'B%'</span></code></pre>
+<p><code>LIKE 'BAL%'</code>           tous les noms commençant par les lettres BAL</p>
+<p><code>LIKE '%BAL%'</code>      tous les noms contenant les lettres BAL</p>
+<p><code>LIKE '--LZ--'</code>         tous les noms de 6 caractères contenant LZ en 3ème et 4ème positions</p>
+<p><code>LIKE ‘[S-V]ENT’</code>       tous les noms de 4 lettres se terminant par les lettres ENT et commençant par n’importe quelle lettre comprise entre S et V.</p>
+<p><code>NOT LIKE</code> inverse de <code>LIKE</code></p>
+<h4 id="75">Le prédicat <code>IS NULL</code></h4>
+<p>L’opérateur IS NULL de la clause WHERE est utilisé pour extraire des lignes pour lesquelles il manque des informations dans une colonne donnée.</p>
+<p>Une colonne prend la valeur NULL si aucune valeur n’y est entrée au moment de la saisie des données et si aucune valeur par défaut n’a été définie pour cette colonne (c’est dans l’instruction CREATE TABLE que les colonnes sont autorisées à recevoir des valeurs NULL).</p>
+<p>Exemple: Lister le prénom et le nom des employés dont on ne connaît pas le taux de commission.</p>
+<pre><code class="language-sql hljs"><span class="hljs-keyword">SELECT</span> PRENOM, NOM <span class="hljs-keyword">FROM</span> EMPLOYES 
+<span class="hljs-keyword">WHERE</span> tauxcom <span class="hljs-keyword">IS</span> <span class="hljs-literal">NULL</span></code></pre>
+<p>Le prédicat IS (NOT) null permet de tester la ou les valeurs NULL contenues dans une colonne.</p>
+<h2 id="81">LES FONCTIONS</h2>
+<p>SQL offre la possibilité d'intégrer dans les expressions des fonctions retournant :</p>
+<ul>
+<li>Une valeur dépendant du contenu de colonnes (fonction sur les colonnes)</li>
+<li>Une valeur dépendant d'opérandes (fonctions scalaires)</li>
+</ul>
+<blockquote>
+<p>NB : à utiliser avec précaution ! Dans ce domaine des fonctions intégrées chaque SGBD apporte son lot d’extensions par rapport aux standards du langage SQL</p>
+</blockquote>
+<p>Exemple 1: Lister le salaire maximum du département 45</p>
+<pre><code class="language-sql hljs"><span class="hljs-keyword">SELECT</span> <span class="hljs-keyword">MAX</span>(SALAIRE) <span class="hljs-keyword">FROM</span> EMPLOYES
+<span class="hljs-keyword">WHERE</span> WDEPT = <span class="hljs-string">'45'</span></code></pre>
+<p>Lorsqu’une fonction d’agrégation est exécutée, SQL effectue la synthèse des valeurs d’une colonne spécifique pour la table complète ou pour des groupes de lignes de la table (clause <code>GROUP BY</code>) : une valeur d’agrégation unique est alors générée pour la table complète ou pour chaque groupe de lignes.</p>
+<p>Exemple 2: Lister le nombre de caractères du nom des employés.</p>
+<pre><code class="language-sql hljs"><span class="hljs-keyword">SELECT</span> <span class="hljs-keyword">LENGTH</span>(NOM) <span class="hljs-keyword">FROM</span> EMPLOYES</code></pre>
+<p>Les fonctions scalaires effectuent une opération sur une valeur unique et renvoie ensuite une valeur unique. Elles peuvent être utilisées pour autant que l’expression est valide.
+ </p>
+<h3 id="91">Les fonctions d’agrégation</h3>
+<p>Les fonctions d'agrégation effectuent un calcul sur un ensemble de valeurs et renvoient une valeur unique. </p>
+<p>A l'exception de la fonction COUNT(*), les fonctions d'agrégation ignorent les valeurs NULL. </p>
+<p>Pour les fonctions pour lesquelles ces valeurs sont précisées :</p>
+<p><code>DISTINCT</code> spécifie que la fonction doit seulement être appliquée à chaque instance unique d'une valeur, quel que soit le nombre d'occurrences de la valeur. </p>
+<p><code>AVG ([ALL | DISTINCT] expr )</code>
+Calcul de la moyenne des valeurs de la collection de nombres précisés par l'expression entre parenthèses.</p>
+<pre><code class="language-sql hljs"><span class="hljs-keyword">SELECT</span> <span class="hljs-keyword">AVG</span>(SALAIRE) <span class="hljs-keyword">FROM</span> EMPLOYES
+<span class="hljs-comment">-- ou</span>
+<span class="hljs-keyword">SELECT</span> <span class="hljs-keyword">AVG</span>(<span class="hljs-keyword">DISTINCT</span> SALAIRE) <span class="hljs-keyword">FROM</span> EMPLOYES</code></pre>
+<p><code>SUM ([ALL | DISTINCT] expr )</code>
+Somme des valeurs des nombres d'une colonne de type numérique</p>
+<pre><code class="language-sql hljs"><span class="hljs-keyword">SELECT</span> <span class="hljs-keyword">SUM</span>(SALAIRE) <span class="hljs-keyword">FROM</span> EMPLOYES
+<span class="hljs-keyword">WHERE</span> WDEPT = <span class="hljs-string">'45'</span></code></pre>
+<p><code>MAX(expr ) et MIN(expr )</code>
+Obtention de la valeur maximum (minimum) d'une collection de valeurs.</p>
+<p><code>COUNT (*)</code>
+Dénombrement d'une collection de lignes </p>
+<pre><code class="language-sql hljs"><span class="hljs-keyword">SELECT</span> <span class="hljs-keyword">COUNT</span>(*) <span class="hljs-keyword">FROM</span> EMPLOYES</code></pre>
+<p>La fonction COUNT renvoie le nombre d’employés. </p>
+<p>La fonction COUNT(*) ne requiert aucun paramètre et calcule le nombre de lignes de la table spécifiée sans supprimer les doublons. Elle compte chaque ligne séparément, même les lignes contenant des valeurs NULL. </p>
+<p><code>COUNT ([DISTINCT] expr )</code></p>
+<p>Dénombrement de toutes les expressions non nulles ou non nulles uniques </p>
+<pre><code class="language-sql hljs"><span class="hljs-keyword">SELECT</span> <span class="hljs-keyword">COUNT</span>(<span class="hljs-keyword">DISTINCT</span> WDEPT) <span class="hljs-keyword">FROM</span> EMPLOYES</code></pre>
+<p>La fonction COUNT renvoie le nombre de département non nuls uniques. </p>
+<h3 id="109">Les fonctions scalaires mathématiques</h3>
+<p>Les fonctions scalaires effectuent une opération sur une valeur ou sur un nombre fixe de valeurs, et non sur une collection de valeurs.</p>
+<p>Les fonctions scalaires mathématiques effectuent un calcul, généralement basé sur les valeurs d'entrée transmises comme arguments et elles renvoient une valeur numérique</p>
+<table>
+<thead>
+<tr>
+<th>Mathématiques</th>
+<th>Description</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td><code>ABS (expr )</code></td>
+<td>valeur absolue</td>
+</tr>
+<tr>
+<td><code>CEILING (expr ), FLOOR(expr )</code></td>
+<td>Plus petit (grand) entier supérieur(inférieur) ou égal à expr</td>
+</tr>
+<tr>
+<td><code>SIGN (expr )</code></td>
+<td>Renvoie 1 si expr positive, -1 si expr est négative, 0 si nulle</td>
+</tr>
+<tr>
+<td><code>SQRT (expr )</code></td>
+<td>racine carrée</td>
+</tr>
+<tr>
+<td><code>POWER (expr,n )</code></td>
+<td>élève expr à la puissance n</td>
+</tr>
+<tr>
+<td><code>SQUARE (expr )</code></td>
+<td>calcul le carré de expr</td>
+</tr>
+<tr>
+<td><code>SIN(expr ), COS(expr ), TAN(expr ), COTAN(expr )</code></td>
+</tr>
+<tr>
+<td><code>ASIN(expr ), ACOS(expr ), ATAN(expr )</code></td>
+</tr>
+<tr>
+<td><code>PI()</code></td>
+<td>renvoie la valeur PI : 3.14159265358979</td>
+</tr>
+<tr>
+<td><code>DEGREES(expr ),RADIANS(expr )</code></td>
+<td>Conversion de degrés (radians) en radians (degrés)</td>
+</tr>
+<tr>
+<td><code>LOG(expr ), EXP(expr ), LOG10(expr )</code></td>
+</tr>
+<tr>
+<td><code>RAND (expr )</code></td>
+<td>rend un nombre aléatoire entre 0 et 1 , expr représente la valeur de départ</td>
+</tr>
+<tr>
+<td><code>ROUND (expr, n )</code></td>
+<td>arrondit expr à la précision n</td>
+</tr>
+</tbody>
+</table>
+<h3 id="113">Les fonctions scalaires de chaîne</h3>
+<p>Les fonctions scalaires de chaîne effectuent une opération sur une valeur d'entrée de type chaîne et renvoient une valeur numérique ou de type chaîne.</p>
+<table>
+<thead>
+<tr>
+<th>Fonction</th>
+<th>Description</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td><code>CHAR (expr), NCHAR (expr)</code></td>
+<td>Convertit expr en un caractère ASCII ou un caractère UNICODE <br><code>CHAR(65) donne A</code></td>
+</tr>
+<tr>
+<td><code>ASCII (expr), UNICODE (expr)</code></td>
+<td>Renvoie le code ASCII ou unicode de expr <br><code>ASCII (A) donne 65</code></td>
+</tr>
+<tr>
+<td><code>LENGTH (expr)</code></td>
+<td>Renvoie le nombre de caractères d’une expression de chaîne <br><code>LEN ('MARTIN') donne 6</code></td>
+</tr>
+<tr>
+<td><code>LOWER (expr), UPPER (expr)</code></td>
+<td>Renvoie expr après avoir transformé les caractères majuscules en caractères minuscules, ou monuscules en majuscules <br><code>LOWER ('MARTIN') donne martin</code> <code>UPPER ('martin') donne MARTIN</code></td>
+</tr>
+<tr>
+<td><code>LEFT (expr, n) RIGHT (expr, n)</code></td>
+<td>Renvoie les n caractères les plus à gauche (droite) de expr <br><code>LEFT (‘MARTIN’, 2) donne MA</code> <code>RIGHT (‘MARTIN’, 2) donne IN</code></td>
+</tr>
+<tr>
+<td><code>LTRIM (expr), RTRIM (expr)</code></td>
+<td>Supprime les espaces à gauche (droite) de expr <br><code>LTRIM (‘  MARTIN’) donne MARTIN</code> <code>RTRIM (‘MARTIN  ’) donne MARTIN</code></td>
+</tr>
+<tr>
+<td><code>SUBSTRING (expr, p, n)</code></td>
+<td>Renvoie n caractères de la chaîne. expr  à partir de la position spécifiée par p <br><code>SUBSTRING (‘HUGO’, 2, 3) donne 'UGO'</code></td>
+</tr>
+</tbody>
+</table>
+<h3 id="116">Les fonctions scalaires de date et heure</h3>
+<p>Les fonctions scalaires de date et heure effectuent une opération sur une valeur d'entrée de type date et heure et renvoient soit une valeur numérique, de type date ou heure, ou de type chaîne. </p>
+<p><code>CURRENT_TIMESTAMP</code> Renvoie la date et l’heure courante </p>
+<p><code>DAY (expr), MONTH (expr), YEAR (expr)</code> Obtention d'un jour, mois ou année à partir de expr    </p>
+<p><code>DAY (CURRENT_TIMESTAMP)</code> donne le jour courant</p>
+<p><code>YEAR (CURRENT_TIMESTAMP)</code> extrait l'année courante</p>
+<p><code>DATEDIFF( date_début , date_fin)</code>
+Renvoie un entier spécifiant le nombre de jours compris entre date_début et date_fin.</p>
+<p><code>DATEDIFF (‘21/06/2001’, 01/07/2001’ )</code> renvoie 10</p>
+<p><code>DATEDIFF (‘21/06/2001’, ‘01/01/2002’)</code> renvoie 7
+ </p>
+<h3 id="125">Les fonctions de conversion</h3>
+<p>Conversion explicite d’une expression d'un type de données en une expression d'un type de données différent.</p>
+<p><code>CONVERT (expr, type_de_donnée)</code>
+Permet de convertir l’expression dans le type spécifié </p>
+<h2 id="128">LES AUTRES CLAUSES DU SELECT</h2>
+<h3 id="129">La clause <code>ORDER BY</code></h3>
+<p>La clause ORDER BY permet de préciser une séquence de tri pour le résultat d'une requête.</p>
+<ul>
+<li>ASC séquence croissante (valeur par défaut)</li>
+<li>DESC séquence décroissante</li>
+</ul>
+<p>Exemple 1: Lister le contenu de la table employé, trié par département croissant et nom décroissant</p>
+<pre><code class="language-sql hljs"><span class="hljs-keyword">SELECT</span> *<span class="hljs-keyword">FROM</span> EMPLOYES
+<span class="hljs-keyword">ORDER</span> <span class="hljs-keyword">BY</span> WDEPT <span class="hljs-keyword">ASC</span>, NOM <span class="hljs-keyword">DESC</span>
+<span class="hljs-comment">-- Equivalent à:</span>
+<span class="hljs-keyword">SELECT</span> * <span class="hljs-keyword">FROM</span> EMPLOYES
+<span class="hljs-keyword">ORDER</span> <span class="hljs-keyword">BY</span> WDEPT, NOM <span class="hljs-keyword">DESC</span></code></pre>
+<p>La clause ORDER BY doit être la dernière clause dans l’ordre SELECT et peut être spécifiée avec n’importe quelle colonne.</p>
+<p>Exemple 2: Lister par salaire décroissant et par département, le salaire en centimes, le prénom, le nom, et le département des employés.</p>
+<pre><code class="language-sql hljs"><span class="hljs-keyword">SELECT</span> SALAIRE*<span class="hljs-number">100</span>, PRENOM, NOM, WDEPT <span class="hljs-keyword">FROM</span> EMPLOYES
+<span class="hljs-keyword">ORDER</span> <span class="hljs-keyword">BY</span> <span class="hljs-number">1</span> <span class="hljs-keyword">DESC</span>, WDEPT</code></pre>
+<p>La valeur <code>NULL</code> occupe la position la plus élevée.</p>
+<h3 id="138">La clause <code>GROUP BY</code> simple</h3>
+<p>Ces options permettent de définir et de traiter des groupes afin de réaliser des sous-totaux par exemple.</p>
+<p>Un groupe est formé à partir d'un ensemble de lignes d'une table ayant une ou plusieurs caractéristiques communes.</p>
+<p>L'intérêt d'un groupe est de conserver la trace des éléments qu'il contient, par exemple pour les dénombrer ou effectuer des opérations telles que somme ou moyenne.</p>
+<p>Il y a autant de groupes que de valeurs de WDEPT distinctes.</p>
+<p>Ces groupes apparaissent en séquence croissante car un classement est nécessaire en interne pour constituer les groupes.</p>
+<p><code>GROUP BY</code> est suivi du nom d'une ou plusieurs colonnes présentes dans le <code>SELECT</code> appelées colonnes de regroupement.
+La liste de colonnes suivant SELECT ne peut comporter que les noms des colonnes de regroupement, ou des noms de fonctions.</p>
+<p>Exemple : Quel est le salaire moyen et le salaire minimum des employés à l'intérieur de chaque département pour les n° employés &gt; 00010</p>
+<pre><code class="language-sql hljs"><span class="hljs-keyword">SELECT</span> WDEPT, <span class="hljs-keyword">AVG</span>(SALAIRE), <span class="hljs-keyword">MIN</span>(SALAIRE)
+<span class="hljs-keyword">FROM</span> EMPLOYES 
+<span class="hljs-keyword">WHERE</span> NOEMP &gt; <span class="hljs-number">00010</span>
+<span class="hljs-keyword">GROUP</span> <span class="hljs-keyword">BY</span> WDEPT </code></pre>
+<ul>
+<li>Les colonnes WDEPT et SALAIRE sont sélectés seulement pour les N° d’employés supérieurs à 00010.</li>
+<li>Ces lignes sont triées dans la séquence GROUP BY</li>
+<li>La moyenne et le Min des salaires sont calculés, et une ligne par groupe est générée. </li>
+</ul>
+<h3 id="148">La clause <code>HAVING</code></h3>
+<p><strong>La clause <code>HAVING</code> est utilisée en conjonction avec la clause <code>GROUP BY</code></strong>
+La clause HAVING agit comme critère de sélection pour les groupes renvoyés avec la clause GROUP BY.</p>
+<p>Exemple 1 : Quel est le salaire moyen et le salaire minimum des employés à l'intérieur de chaque département pour les n° employés &gt; 00010 ?
+Lister uniquement les groupes pour lesquels la moyenne est supérieure a 16 000</p>
+<pre><code class="language-sql hljs"><span class="hljs-keyword">SELECT</span> WDEPT, <span class="hljs-keyword">AVG</span>(SALAIRE), <span class="hljs-keyword">MIN</span>(SALAIRE) <span class="hljs-keyword">FROM</span> EMPLOYES
+<span class="hljs-keyword">WHERE</span> NOEMP &gt; <span class="hljs-number">00010</span>
+<span class="hljs-keyword">GROUP</span> <span class="hljs-keyword">BY</span> WDEPT
+<span class="hljs-keyword">HAVING</span> <span class="hljs-keyword">AVG</span> (SALAIRE) &gt;= <span class="hljs-number">16000</span></code></pre>
+<p>La condition de recherche suivant HAVING ne peut porter que sur des colonnes de regroupement définies par la clause <code>GROUP BY</code>, ou sur des fonctions.</p>
+<p><strong>! Il ne faut pas confondre les clauses WHERE et HAVING</strong></p>
+<blockquote>
+<p><code>WHERE</code> permet de sélectionner des lignes avant la formation des groupes.
+<code>HAVING</code> permet de ne retenir que certains des groupes constitués par la clause GROUP BY.</p>
+</blockquote>
+<pre><code class="language-sql hljs"><span class="hljs-keyword">SELECT</span> WDEPT, <span class="hljs-keyword">AVG</span>(SALAIRE), <span class="hljs-keyword">MIN</span>(SALAIRE)
+<span class="hljs-keyword">FROM</span> EMPLOYES 
+<span class="hljs-keyword">WHERE</span> NOEMP &gt; <span class="hljs-number">00010</span>
+<span class="hljs-keyword">GROUP</span> <span class="hljs-keyword">BY</span> WDEPT 
+<span class="hljs-keyword">HAVING</span> <span class="hljs-keyword">AVG</span>(SALAIRE) &gt;= <span class="hljs-number">16000</span> </code></pre>
+<p>Les étapes suivantes sont réalisées :</p>
+<p><strong>1.</strong>  Les colonnes WDEPT et SALAIRE sont sélectées seulement pour les N° d’employées supérieurs à 00010.</p>
+<p><strong>2.</strong>  Ces lignes sont triées dans la séquence GROUP BY</p>
+<p><strong>3.</strong>  La moyenne et le Min des salaires sont calculés.</p>
+<p><strong>4.</strong>  Seuls les groupes ayant une moyenne des salaires supérieure à 1600 sont renvoyés.</p>
+<p>Exemple 2 : Quelle est la moyenne des salaires, le salaire minimum des employés des départements ayant plus d'un salarié ?</p>
+<pre><code class="language-sql hljs"><span class="hljs-keyword">SELECT</span> WDEPT, <span class="hljs-keyword">AVG</span>(SALAIRE), <span class="hljs-keyword">MIN</span>(SALAIRE) <span class="hljs-keyword">FROM</span> EMPLOYES
+<span class="hljs-keyword">WHERE</span> NOEMP &gt; <span class="hljs-number">00010</span>
+<span class="hljs-keyword">GROUP</span> <span class="hljs-keyword">BY</span> WDEPT
+<span class="hljs-keyword">HAVING</span> <span class="hljs-keyword">COUNT</span>(*) &gt; <span class="hljs-number">1</span></code></pre>
+<p> </p>
+<h2 id="164">L’OPERATION DE JOINTURE (<code>JOIN</code>)</h2>
+<p>Une jointure est une opération qui permet d’interroger plusieurs tables pour obtenir un jeu de résultats unique intégrant des lignes et des colonnes de chaque table.</p>
+<p>La plupart des conditions de jointure sont basées sur la <strong>clé primaire</strong> d’une table et la <strong>clé étrangère</strong> d’une autre table. </p>
+<p>Quand la jointure se fait sur des tables ayant des noms de colonne identiques, les noms en double doivent être préfixés par leur nom de table ou un nom associé.</p>
+<p>Il existe trois types de jointure : </p>
+<ul>
+<li>les jointures internes</li>
+<li>les jointures externes </li>
+<li>les jointures croisées</li>
+</ul>
+<p>Syntaxe  partielle:</p>
+<pre><code class="language-sql hljs"><span class="hljs-keyword">SELECT</span> nom_colonne1, nom_colonne2, ... nom_colonne n
+<span class="hljs-keyword">FROM</span> nom_table1
+[<span class="hljs-keyword">INNER</span> | {<span class="hljs-keyword">LEFT</span> | <span class="hljs-keyword">RIGHT</span> | <span class="hljs-keyword">FULL</span>} [<span class="hljs-keyword">OUTER</span>]} <span class="hljs-keyword">JOIN</span>
+nom_table2 <span class="hljs-keyword">ON</span> conditions _recherche</code></pre>
+<ul>
+<li>Le mot clé <code>JOIN</code> et ses options spécifient les tables à joindre et la manière de les joindre.</li>
+<li>Le mot clé <code>ON</code> spécifie les colonnes communes aux tables.
+La plupart des conditions de jointure sont basées sur la clé primaire d’une table et la clé étrangère d’une autre table.</li>
+</ul>
+<h3 id="173">Utilisation des jointures internes</h3>
+<p><strong>Exemple : Liste des employés avec le nom du département dans lequel ils sont affectés.</strong></p>
+<pre><code class="language-sql hljs"><span class="hljs-keyword">SELECT</span> NOM, PRENOM, SALAIRE, NOMDEPT <span class="hljs-keyword">FROM</span> EMPLOYES
+<span class="hljs-keyword">INNER</span> <span class="hljs-keyword">JOIN</span> DEPART
+<span class="hljs-keyword">ON</span> WDEPT = NODEPT</code></pre>
+<p>La jointure interne renvoie uniquement les lignes en correspondance.</p>
+<p>On aurait pu aussi coder la requête suivant la syntaxe suivante :</p>
+<pre><code class="language-sql hljs"><span class="hljs-keyword">SELECT</span> NOM, PRENOM, SALAIRE, NOMDEPT
+<span class="hljs-keyword">FROM</span> EMPLOYES, DEPART
+<span class="hljs-keyword">WHERE</span> WDEPT = NODEPT</code></pre>
+<h3 id="179">Utilisation des jointures externes gauche ou droite</h3>
+<ul>
+<li>
+<p>La jointure externe gauche <code>LEFT JOIN</code> permet d’afficher toutes les lignes de la première table nommée (table située à gauche de la clause JOIN).</p>
+</li>
+<li>
+<p>La jointure externe droite <code>RIGHT JOIN</code> permet d’afficher toutes les lignes de la seconde table nommée (table située à droite de la clause JOIN).</p>
+</li>
+<li>
+<p>La jointure externe complète <code>FULL OUTER JOIN</code> renvoie les lignes en correspondance <code>INNER JOIN</code> + les lignes sans correspondance des 2 tables.</p>
+</li>
+</ul>
+<p>Exemple : Liste des employés avec le nom du département dans lequel ils sont affectés.</p>
+<pre><code class="language-sql hljs"><span class="hljs-keyword">SELECT</span> NOM, PRENOM, SALAIRE, NOMDEPT <span class="hljs-keyword">FROM</span> EMPLOYES
+<span class="hljs-keyword">LEFT</span> <span class="hljs-keyword">JOIN</span> DEPART
+<span class="hljs-keyword">ON</span> WDEPT = NODEPT</code></pre>
+<p>La jointure externe renvoie toutes les lignes de la table EMPLOYES. La colonne NOMDEPT contient la valeur NULL pour les départements n’existant pas dans la table DEPART.</p>
+<h3 id="184">Jointure de plus de deux tables</h3>
+<p>Il est possible de joindre jusqu’à <strong>256 tables</strong> dans une seule requête !</p>
+<p>L’utilisation de plusieurs jointures peut être ramenée à une combinaison de jointures indépendantes :</p>
+<p>Exemple : Jointure entre les tables A, B et C </p>
+<p>La première jointure combine les tables <strong>A et B</strong> pour produire un jeu de résultats, lui-même combiné à la table <strong>C</strong> dans la deuxième jointure pour produire le jeu de résultats final.</p>
+<p>La requête pourra se coder sous la forme :</p>
+<pre><code class="language-sql hljs"><span class="hljs-keyword">SELECT</span> colonne_1, colonne_2, ..., colonne_n
+<span class="hljs-keyword">FROM</span> Table_1
+<span class="hljs-keyword">JOIN</span> Table_2
+<span class="hljs-keyword">ON</span> Table_1.colonne_i = Table_2.colonne_j
+<span class="hljs-keyword">JOIN</span> Table_3
+<span class="hljs-keyword">ON</span> Table_2.colonne_x = Table_3.colonne_y</code></pre>
+<p>La qualification des colonnes est nécessaire lorsque deux tables possèdent des colonnes de même nom.</p>
+<h3 id="192">L'Auto-jointure</h3>
+<p>Pour trouver des lignes ayant des valeurs en commun avec d’autres lignes de la même table, une table peut être jointe avec une autre instance d’elle-même</p>
+<ul>
+<li>
+<p><strong>Des alias de tables sont nécessaires pour référencer deux copies de la table</strong>
+Un alias de table est spécifié dans la clause FROM après le nom de la table.</p>
+</li>
+<li>
+<p>Il peut être nécessaire d’utiliser des conditions dans la clause WHERE pour exclure les lignes en double.</p>
+</li>
+</ul>
+<p>Exemple : Liste des employés ayant le même prénom </p>
+<pre><code class="language-sql hljs"><span class="hljs-keyword">SELECT</span> A.NOM,B.PRENOM,A.WDEPT 
+<span class="hljs-keyword">FROM</span> EMPLOYES A
+<span class="hljs-keyword">JOIN</span> EMPLOYES B
+<span class="hljs-keyword">ON</span> A.PRENOM = B.PRENOM
+<span class="hljs-keyword">WHERE</span> A.NOM &lt;&gt; B.NOM</code></pre></div><div class="menu-markdown"><img src="./LMD_select_TB_files/menu.png"><div data-id="1" class="titre">Langage de manipulation de données</div><div data-id="2">Présentation</div><div data-id="7">L’ORDRE SELECT</div><div data-id="18">&nbsp;&nbsp;&nbsp;&nbsp;SELECT AVEC EXPRESSION</div><div data-id="27">&nbsp;&nbsp;&nbsp;&nbsp;<code>SELECT DISTINCT</code></div><div data-id="30">&nbsp;&nbsp;&nbsp;&nbsp;LA CLAUSE <code>LIMIT</code></div><div data-id="33">&nbsp;&nbsp;&nbsp;&nbsp;<code>SELECT</code> CONDITIONNELLE AVEC <code>WHERE</code></div><div data-id="49">&nbsp;&nbsp;&nbsp;&nbsp;Le prédicat <code>BETWEEN</code></div><div data-id="56">&nbsp;&nbsp;&nbsp;&nbsp;La clause <code>IN</code></div><div data-id="63">&nbsp;&nbsp;&nbsp;&nbsp;L’opérateur <code>LIKE</code></div><div data-id="75">&nbsp;&nbsp;&nbsp;&nbsp;Le prédicat <code>IS NULL</code></div><div data-id="81">LES FONCTIONS</div><div data-id="91">&nbsp;&nbsp;&nbsp;&nbsp;Les fonctions d’agrégation</div><div data-id="109">&nbsp;&nbsp;&nbsp;&nbsp;Les fonctions scalaires mathématiques</div><div data-id="113">&nbsp;&nbsp;&nbsp;&nbsp;Les fonctions scalaires de chaîne</div><div data-id="116">&nbsp;&nbsp;&nbsp;&nbsp;Les fonctions scalaires de date et heure</div><div data-id="125">&nbsp;&nbsp;&nbsp;&nbsp;Les fonctions de conversion</div><div data-id="128">LES AUTRES CLAUSES DU SELECT</div><div data-id="129">&nbsp;&nbsp;&nbsp;&nbsp;La clause <code>ORDER BY</code></div><div data-id="138">&nbsp;&nbsp;&nbsp;&nbsp;La clause <code>GROUP BY</code> simple</div><div data-id="148">&nbsp;&nbsp;&nbsp;&nbsp;La clause <code>HAVING</code></div><div data-id="164">L’OPERATION DE JOINTURE (<code>JOIN</code>)</div><div data-id="173">&nbsp;&nbsp;&nbsp;&nbsp;Utilisation des jointures internes</div><div data-id="179">&nbsp;&nbsp;&nbsp;&nbsp;Utilisation des jointures externes gauche ou droite</div><div data-id="184">&nbsp;&nbsp;&nbsp;&nbsp;Jointure de plus de deux tables</div><div data-id="192">&nbsp;&nbsp;&nbsp;&nbsp;L'Auto-jointure</div></div></div><script>hljs.initHighlightingOnLoad();//hljs.initLineNumbersOnLoad();</script><script src="./LMD_select_TB_files/menu-markdown.js"></script></body></html>

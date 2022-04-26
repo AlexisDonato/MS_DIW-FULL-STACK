@@ -1,0 +1,144 @@
+<!DOCTYPE html>
+<!-- saved from url=(0096)https://ncode.amorce.org/ressources/Pool/MS_FULL_STACK/BDD_Interroger_MySQL/requetes_resume.html -->
+<html><head><meta http-equiv="Content-Type" content="text/html; charset=UTF-8"><title>nCode | BDD - Synthèse Requêtes SQL</title>
+        <meta name="viewport" content="width=device-width, initial-scale=1">
+        <link rel="stylesheet" href="./nCode _ BDD - Synthèse Requêtes SQL_files/font-awesome.min.css">
+        <link rel="stylesheet" href="./nCode _ BDD - Synthèse Requêtes SQL_files/bootstrap.min.css">
+        <link rel="stylesheet" href="./nCode _ BDD - Synthèse Requêtes SQL_files/darcula.css">
+        <!-- <link rel="stylesheet" href="/css/highlight/line-number.css"> -->
+        <link rel="stylesheet" href="./nCode _ BDD - Synthèse Requêtes SQL_files/github-markdown.css">
+        <!-- <link rel="stylesheet" href="/css/markdown_foad.css"> -->
+        <link rel="stylesheet" href="./nCode _ BDD - Synthèse Requêtes SQL_files/menu-markdown.css">
+        <!-- <script src="/js/highlightjs-line-numbers.min.js"></script> -->
+        <script src="./nCode _ BDD - Synthèse Requêtes SQL_files/jquery-3.4.1.min.js"></script>
+        <script src="./nCode _ BDD - Synthèse Requêtes SQL_files/popper.min.js"></script>
+        <script src="./nCode _ BDD - Synthèse Requêtes SQL_files/bootstrap.min.js"></script>
+        <script src="./nCode _ BDD - Synthèse Requêtes SQL_files/highlight.js"></script>
+        </head><body><div class="container"><div class="markdown-body"><h1 id="1">BDD - Synthèse Requêtes SQL</h1>
+<p><br>
+<br></p>
+<h3 id="3">Syntaxe globale</h3>
+<pre><code class="language-sql hljs"><span class="hljs-comment">-- clauses obligatoires :</span>
+<span class="hljs-keyword">SELECT</span>      NOM_COLONNE_1 [, NOM_COLONNE_2, ..., NOM_COLONNE_n]
+<span class="hljs-keyword">FROM</span>        NOM_TABLE_1
+<span class="hljs-comment">-- clauses optionnelles (selon besoins)</span>
+<span class="hljs-keyword">JOIN</span>        NOM_TABLE_2 <span class="hljs-keyword">ON</span> NOM_TABLE_1.CLE_PRIMAIRE = NOM_COLONNE_2.CLE_ETRANGERE
+<span class="hljs-keyword">WHERE</span>       &lt; CONDITIONS_FILTRE &gt;
+<span class="hljs-keyword">GROUP</span> <span class="hljs-keyword">BY</span>    &lt; NOM_COLONNE_REGROUPEMENT_1 [, NOM_COLONNE_REGROUPEMENT_2, ...] &gt;
+<span class="hljs-keyword">HAVING</span>      &lt; CONDITIONS_FILTRE_POUR_FONCTIONS_AGREGEES &gt;
+<span class="hljs-keyword">ORDER</span> <span class="hljs-keyword">BY</span>    NOM_COLONNE_TRI_1 [, NOM_COLONNE_TRI_2, ...]
+<span class="hljs-keyword">LIMIT</span>       &lt; NOMBRE_ENREGISTREMENTS &gt;</code></pre>
+<p><br></p>
+<h3 id="6"><code>SELECT</code>, <code>SELECT DISTINCT</code></h3>
+<ul>
+<li><code>ALL</code> (par défaut) : toutes les lignes sélectées figurent dans le résultat</li>
+<li><code>DISTINCT</code> : les doublons sont supprimés</li>
+</ul>
+<pre><code class="language-sql hljs"><span class="hljs-keyword">SELECT</span> [ALL] NOM_COLONNE_1, NOM_COLONNE_2, ..., NOM_COLONNE_n
+<span class="hljs-keyword">FROM</span> NOM_TABLE
+
+<span class="hljs-comment">-- par opposition à  :</span>
+<span class="hljs-keyword">SELECT</span> <span class="hljs-keyword">DISTINCT</span> NOM_COLONNE_1, NOM_COLONNE_2, ..., NOM_COLONNE_n
+<span class="hljs-keyword">FROM</span> NOM_TABLE</code></pre>
+<p><br></p>
+<h3 id="10"><code>FROM</code></h3>
+<p>La clause <code>FROM</code> spécifie la table sur laquelle on traite les données ; cette clause est obligatoire.  </p>
+<p><br></p>
+<h3 id="13"><code>JOIN ... ON</code></h3>
+<ul>
+<li>L'ajout d'une jointure SQL <code>JOIN</code> combine l'enregistrement de deux tables</li>
+<li>Le mot-clé <code>ON</code> identifie les colonnes de chaque table qui doivent correspondre pour que la jointure soit validée</li>
+<li>Une requête peut contenir 0, 1, ou plusieurs opérations de jointure</li>
+<li>les mots-clé <code>INNER</code> et <code>OUTER</code> sont facultatifs</li>
+</ul>
+<pre><code class="language-sql hljs"><span class="hljs-keyword">SELECT</span> NOM_COLONNE_1, NOM_COLONNE_2, ..., NOM_COLONNE_n
+<span class="hljs-keyword">FROM</span> NOM_TABLE_1
+<span class="hljs-keyword">JOIN</span> NOM_TABLE_2 <span class="hljs-keyword">ON</span> NOM_TABLE_2.CLE_ETRANGERE = NOM_TABLE_1.CLE_PRIMAIRE
+[<span class="hljs-keyword">JOIN</span> NOM_TABLE_3 <span class="hljs-keyword">ON</span> NOM_TABLE_3.CLE_ETRANGERE = NOM_TABLE_1.CLE_PRIMAIRE]
+[<span class="hljs-keyword">JOIN</span> NOM_TABLE_4 <span class="hljs-keyword">ON</span> NOM_TABLE_4.CLE_PRIMAIRE = NOM_TABLE_2.CLE_ETRANGERE]</code></pre>
+<p><br></p>
+<p>Types de jointure :  </p>
+<p><img src="./nCode _ BDD - Synthèse Requêtes SQL_files/join.jpg" alt="Types de jointures"> </p>
+<ul>
+<li><code>[INNER] JOIN</code> : Sélectionne des enregistrements ayant des valeurs correspondantes dans les deux tables</li>
+<li><code>FULL [OUTER] JOIN</code> : Rassemble les enregistrements des deux tables, avec ou sans correspondance</li>
+<li><code>LEFT [OUTER] JOIN</code> : Affiche les enregistrements de la table notée <em>avant</em> le <code>JOIN</code>, et associe les données correspondantes de la table notée <em>après</em></li>
+<li><code>RIGHT [OUTER] JOIN</code> : Affiche les enregistrements de la table notée <em>après</em> le <code>JOIN</code>, et associe les données correspondantes de la table notée <em>avant</em></li>
+</ul>
+<p><br></p>
+<h3 id="21"><code>WHERE</code></h3>
+<p>La clause <code>WHERE</code> permet de préciser les conditions de recherche sur les lignes de la table. </p>
+<p>Conditions de recherche de la clause <code>WHERE</code> :
+Pour spécifier la condition de recherche dans la clause <code>WHERE</code>, on utilise indifféremment l’un des opérateurs conditionnels ci-après :</p>
+<table>
+<thead>
+<tr>
+<th>Description</th>
+<th>Opérateurs conditionnels</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>Opérateurs de comparaison</td>
+<td><strong>=</strong>, <strong>&lt;&gt;</strong>, <strong>!=</strong>, <strong>&gt;</strong>, <strong>&gt;=</strong>, <strong>!&gt;</strong>, <strong>&lt;</strong>, <strong>&lt;=</strong>, <strong>!&lt;</strong></td>
+</tr>
+<tr>
+<td>Comparaisons de plage</td>
+<td><code>BETWEEN</code> et <code>NOT BETWEEN</code></td>
+</tr>
+<tr>
+<td>Comparaisons de listes</td>
+<td><code>IN</code> et <code>NOT IN</code></td>
+</tr>
+<tr>
+<td>Comparaisons de chaîne de caractères</td>
+<td><code>LIKE</code> et <code>NOT LIKE</code></td>
+</tr>
+<tr>
+<td>Valeurs inconnues</td>
+<td><code>IS NULL</code> et <code>IS NOT NULL</code></td>
+</tr>
+</tbody>
+</table>
+<p>Plusieurs critères de sélection peuvent s'enchainer, à l'aide des mots-clés <code>AND</code> (et), <code>OR</code> (ou), et <code>XOR</code> (ou exclusif).</p>
+<p><br></p>
+<h3 id="27"><code>GROUP BY</code></h3>
+<p>La clause <code>GROUP BY</code> permet de regrouper les calculs d'une fonction d'agrégation, selon certains critères.  </p>
+<p>La clause est optionnelle si le <code>SELECT</code> ne contient que la fonction, mais devient obligatoire dès lors que d'autres colonnes sont demandées en affichage.</p>
+<pre><code class="language-sql hljs"><span class="hljs-keyword">SELECT</span> NOM_COLONNE_1, <span class="hljs-keyword">MIN</span>(NOM_COLONNE_n)
+<span class="hljs-keyword">FROM</span> NOM_TABLE
+<span class="hljs-keyword">GROUP</span> <span class="hljs-keyword">BY</span> NOM_COLONNE_1</code></pre>
+<p><br></p>
+<h3 id="32"><code>HAVING</code></h3>
+<p>La clause <code>HAVING</code> permet de préciser des critères de filtrage sur les résultats de fonction d'agrégation, avant l'affichage des résultats finaux.</p>
+<p>Il ne faut pas confondre les clauses <code>WHERE</code> et <code>HAVING</code> :</p>
+<ul>
+<li><code>WHERE</code> permet de sélectionner des lignes en filtrant parmi les valeurs d'une colonne simple</li>
+<li><code>HAVING</code> permet de ne retenir que certains résultats de fonctions d'agrégation</li>
+</ul>
+<p>Ainsi, la clause <code>HAVING</code> est TOUJOURS utilisée en conjonction avec la clause <code>GROUP BY</code>.</p>
+<pre><code class="language-sql hljs"><span class="hljs-keyword">SELECT</span> NOM_COLONNE_1, <span class="hljs-keyword">AVG</span>(NOM_COLONNE_n)
+<span class="hljs-keyword">FROM</span> NOM_TABLE
+<span class="hljs-keyword">WHERE</span> NOM_COLONNE_1 <span class="hljs-keyword">IS</span> <span class="hljs-keyword">NOT</span> <span class="hljs-literal">NULL</span>
+<span class="hljs-keyword">GROUP</span> <span class="hljs-keyword">BY</span> NOM_COLONNE_1
+<span class="hljs-keyword">HAVING</span> <span class="hljs-keyword">AVG</span>(NOM_COLONNE_n) &gt; <span class="hljs-number">2</span></code></pre>
+<p><br></p>
+<h3 id="39"><code>ORDER BY</code></h3>
+<p>La clause <code>ORDER BY</code> permet de préciser une séquence de tri pour le résultat d'une requête :  </p>
+<ul>
+<li><code>ASC</code> séquence croissante (valeur par défaut)</li>
+<li><code>DESC</code> séquence décroissante</li>
+</ul>
+<pre><code class="language-sql hljs"><span class="hljs-keyword">SELECT</span> *
+<span class="hljs-keyword">FROM</span> NOM_TABLE
+<span class="hljs-keyword">ORDER</span> <span class="hljs-keyword">BY</span> NOM_COLONNE_1 [<span class="hljs-keyword">ASC</span>] [, NOM_COLONNE_2 <span class="hljs-keyword">DESC</span>]</code></pre>
+<p><br></p>
+<h3 id="44"><strong><code>LIMIT</code></strong></h3>
+<p>La clause <code>LIMIT</code> tronque le nombre de résultats à l'affichage final.  </p>
+<p>Pour afficher les 5 premiers employés de la table <em>Employes</em>, on utilisera :  </p>
+<pre><code class="language-sql hljs"><span class="hljs-keyword">SELECT</span> *
+<span class="hljs-keyword">FROM</span> NOM_TABLE
+<span class="hljs-keyword">LIMIT</span> <span class="hljs-number">5</span>;</code></pre>
+<p><br>
+<br>
+<br></p></div><div class="menu-markdown"><img src="./nCode _ BDD - Synthèse Requêtes SQL_files/menu.png"><div data-id="1" class="titre">BDD - Synthèse Requêtes SQL</div><div data-id="3">&nbsp;&nbsp;&nbsp;&nbsp;Syntaxe globale</div><div data-id="6">&nbsp;&nbsp;&nbsp;&nbsp;<code>SELECT</code>, <code>SELECT DISTINCT</code></div><div data-id="10">&nbsp;&nbsp;&nbsp;&nbsp;<code>FROM</code></div><div data-id="13">&nbsp;&nbsp;&nbsp;&nbsp;<code>JOIN ... ON</code></div><div data-id="21">&nbsp;&nbsp;&nbsp;&nbsp;<code>WHERE</code></div><div data-id="27">&nbsp;&nbsp;&nbsp;&nbsp;<code>GROUP BY</code></div><div data-id="32">&nbsp;&nbsp;&nbsp;&nbsp;<code>HAVING</code></div><div data-id="39">&nbsp;&nbsp;&nbsp;&nbsp;<code>ORDER BY</code></div><div data-id="44">&nbsp;&nbsp;&nbsp;&nbsp;<strong><code>LIMIT</code></strong></div></div></div><script>hljs.initHighlightingOnLoad();//hljs.initLineNumbersOnLoad();</script><script src="./nCode _ BDD - Synthèse Requêtes SQL_files/menu-markdown.js"></script><script>document.title = "nCode | " + document.querySelector("h1").textContent;</script></body></html>
