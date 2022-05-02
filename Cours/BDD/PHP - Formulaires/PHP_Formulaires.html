@@ -1,0 +1,126 @@
+<!DOCTYPE html>
+<!-- saved from url=(0079)https://ncode.amorce.org/ressources/Pool/MS_FULL_STACK/PHP/PHP_Formulaires.html -->
+<html><head><meta http-equiv="Content-Type" content="text/html; charset=UTF-8"><title></title>
+        <meta name="viewport" content="width=device-width, initial-scale=1">
+        <link rel="stylesheet" href="./PHP_Formulaires_files/font-awesome.min.css">
+        <link rel="stylesheet" href="./PHP_Formulaires_files/bootstrap.min.css">
+        <link rel="stylesheet" href="./PHP_Formulaires_files/darcula.css">
+        <!-- <link rel="stylesheet" href="/css/highlight/line-number.css"> -->
+        <link rel="stylesheet" href="./PHP_Formulaires_files/github-markdown.css">
+        <!-- <link rel="stylesheet" href="/css/markdown_foad.css"> -->
+        <link rel="stylesheet" href="./PHP_Formulaires_files/menu-markdown.css">
+        <!-- <script src="/js/highlightjs-line-numbers.min.js"></script> -->
+        <script src="./PHP_Formulaires_files/jquery-3.4.1.min.js"></script>
+        <script src="./PHP_Formulaires_files/popper.min.js"></script>
+        <script src="./PHP_Formulaires_files/bootstrap.min.js"></script>
+        <script src="./PHP_Formulaires_files/highlight.js"></script>
+        </head><body><div class="container"><div class="markdown-body"><h1 id="1">PHP - Les formulaires et les variables serveur</h1>
+<p><br>
+<br></p>
+<h2 id="3">Récupérer les données d'un formulaire</h2>
+<h3 id="4">Généralités</h3>
+<p>Pour récupérer les données en provenance d'un formulaire html, PHP met à votre disposition quelques fonctions bien utiles.</p>
+<p>Dans la création d'un formulaire HTML vous avez deux façons de l'envoyer vers un script PHP, soit par GET ou POST. Vous indiquez ce choix avec l'attribut <code>method</code> de la balise <code>form</code>. L'attribut <code>action</code> vous permet de spécifier quel script sera déclenché sur le serveur.</p>
+<pre><code class="language-html hljs xml"><span class="hljs-tag">&lt;<span class="hljs-name">form</span> <span class="hljs-attr">action</span>=<span class="hljs-string">"script.php"</span> <span class="hljs-attr">method</span>=<span class="hljs-string">"GET"</span>&gt;</span>
+
+<span class="hljs-tag">&lt;/<span class="hljs-name">form</span>&gt;</span></code></pre>
+<h3 id="8">Récupération des données</h3>
+<ul>
+<li>Si les données HTML sont transmises avec la méthode GET, dans votre script PHP vous utilisez:
+<code>$_GET</code> ou <code>$_REQUEST</code></li>
+<li>Si les données HTML sont transmises avec la méthode POST, dans votre script PHP vous utilisez:
+<code>$_POST</code> ou <code>$_REQUEST</code></li>
+</ul>
+<p>Remarquez que dans les deux cas, <code>$_REQUEST</code> peut être utilisé.</p>
+<p>Exemple : </p>
+<p>un champ nommé prenom:</p>
+<pre><code class="language-html hljs xml">    <span class="hljs-tag">&lt;<span class="hljs-name">input</span> <span class="hljs-attr">type</span>=<span class="hljs-string">"text"</span> <span class="hljs-attr">name</span>=<span class="hljs-string">"prenom"</span> /&gt;</span></code></pre>
+<ul>
+<li>Si il est transmis en GET sera récupéré de la manière suivante <code>$_GET["prenom"]</code> ou <code>$_REQUEST["prenom"]</code></li>
+<li>Si il est transmis en POST sera récupéré de la manière suivante <code>$_POST["prenom"]</code> ou <code>$_REQUEST["prenom"]</code></li>
+</ul>
+<p>On peut tester si l’envoi est fait par POST ou GET :</p>
+<pre><code class="language-php hljs"><span class="hljs-keyword">if</span> ( $_SERVER[<span class="hljs-string">'REQUEST_METHOD'</span>] == <span class="hljs-string">"GET"</span>) {
+
+}</code></pre>
+<h2 id="17">Gestion des données sur le serveur</h2>
+<p>DANS UN FORMULAIRE SIMPLE </p>
+<p>Voilà un exemple et son code </p>
+<pre><code class="language-html hljs xml">    <span class="hljs-tag">&lt;<span class="hljs-name">form</span> <span class="hljs-attr">action</span>=<span class="hljs-string">"script.php"</span> <span class="hljs-attr">method</span>=<span class="hljs-string">"post"</span>&gt;</span> 
+      Nom : <span class="hljs-tag">&lt;<span class="hljs-name">input</span> <span class="hljs-attr">type</span>=<span class="hljs-string">"text"</span> <span class="hljs-attr">name</span>=<span class="hljs-string">"nom"</span> <span class="hljs-attr">size</span>=<span class="hljs-string">"20"</span> <span class="hljs-attr">maxlength</span>=<span class="hljs-string">"40"</span> /&gt;</span> <span class="hljs-tag">&lt;<span class="hljs-name">br</span> /&gt;</span> 
+      Prenom : <span class="hljs-tag">&lt;<span class="hljs-name">input</span> <span class="hljs-attr">type</span>=<span class="hljs-string">"text"</span> <span class="hljs-attr">name</span>=<span class="hljs-string">"prenom"</span> <span class="hljs-attr">size</span>=<span class="hljs-string">"20"</span> <span class="hljs-attr">maxlength</span>=<span class="hljs-string">40</span> /&gt;</span> 
+      <span class="hljs-tag">&lt;<span class="hljs-name">input</span> <span class="hljs-attr">type</span>=<span class="hljs-string">"submit"</span> <span class="hljs-attr">value</span>=<span class="hljs-string">"ENVOYER"</span> /&gt;</span> 
+    <span class="hljs-tag">&lt;/<span class="hljs-name">form</span>&gt;</span> </code></pre>
+<p>Dans le fichier <code>script.php</code>, nous récupérons directement les variables issues du nom des champs du formulaire. </p>
+<pre><code class="language-php hljs">    <span class="hljs-comment">/* Récupère le nom et le prénom automatiquement */</span>
+    <span class="hljs-keyword">echo</span> <span class="hljs-string">"bonjour"</span> . $_REQUEST[<span class="hljs-string">'prenom'</span>] . <span class="hljs-string">" "</span> . $_REQUEST[<span class="hljs-string">'nom'</span>] . <span class="hljs-string">"&lt;br&gt;"</span>;</code></pre>
+<p>Ce qui à pour effet d'afficher le contenu des champs texte dur formulaire.</p>
+<p>Dans ce cas, vous pouvez lire les données du formulaire en utilisant les tableaux <code>$_REQUEST</code> ou <code>$_POST</code>.</p>
+<h3 id="25">Transmettre des champs de formulaire sous la forme d'un tableau</h3>
+<p>Voilà un exemple et son code : </p>
+<pre><code class="language-html hljs xml"><span class="hljs-tag">&lt;<span class="hljs-name">form</span> <span class="hljs-attr">action</span> =<span class="hljs-string">"check.php"</span> <span class="hljs-attr">method</span>=<span class="hljs-string">"post"</span>&gt;</span> 
+    Tu utilises internet plutôt le :<span class="hljs-tag">&lt;<span class="hljs-name">br</span> /&gt;</span> 
+    <span class="hljs-tag">&lt;<span class="hljs-name">input</span> <span class="hljs-attr">type</span>=<span class="hljs-string">"checkbox"</span> <span class="hljs-attr">name</span>=<span class="hljs-string">"Fjour[]"</span> <span class="hljs-attr">value</span>=<span class="hljs-string">"Lundi"</span> /&gt;</span>Lundi<span class="hljs-tag">&lt;<span class="hljs-name">br</span> /&gt;</span>
+    <span class="hljs-tag">&lt;<span class="hljs-name">input</span> <span class="hljs-attr">type</span>=<span class="hljs-string">"checkbox"</span> <span class="hljs-attr">name</span>=<span class="hljs-string">"Fjour[]"</span> <span class="hljs-attr">value</span>=<span class="hljs-string">"Mardi"</span> /&gt;</span>Mardi<span class="hljs-tag">&lt;<span class="hljs-name">br</span> /&gt;</span>
+    <span class="hljs-tag">&lt;<span class="hljs-name">input</span> <span class="hljs-attr">type</span>=<span class="hljs-string">"checkbox"</span> <span class="hljs-attr">name</span>=<span class="hljs-string">"Fjour[]"</span> <span class="hljs-attr">value</span>=<span class="hljs-string">"Mercredi"</span> /&gt;</span>Mercredi<span class="hljs-tag">&lt;<span class="hljs-name">br</span> /&gt;</span>
+    <span class="hljs-tag">&lt;<span class="hljs-name">input</span> <span class="hljs-attr">type</span>=<span class="hljs-string">"checkbox"</span> <span class="hljs-attr">name</span>=<span class="hljs-string">"Fjour[]"</span> <span class="hljs-attr">value</span>=<span class="hljs-string">"Jeudi"</span> /&gt;</span>Jeudi<span class="hljs-tag">&lt;<span class="hljs-name">br</span> /&gt;</span>
+    <span class="hljs-tag">&lt;<span class="hljs-name">input</span> <span class="hljs-attr">type</span>=<span class="hljs-string">"checkbox"</span> <span class="hljs-attr">name</span>=<span class="hljs-string">"Fjour[]"</span> <span class="hljs-attr">value</span>=<span class="hljs-string">"Vendredi"</span> /&gt;</span>Vendredi<span class="hljs-tag">&lt;<span class="hljs-name">br</span> /&gt;</span>
+    <span class="hljs-tag">&lt;<span class="hljs-name">input</span> <span class="hljs-attr">type</span>=<span class="hljs-string">"submit"</span> <span class="hljs-attr">name</span>=<span class="hljs-string">"Envoyer"</span> <span class="hljs-attr">value</span>=<span class="hljs-string">"ENVOYER"</span> /&gt;</span> 
+<span class="hljs-tag">&lt;/<span class="hljs-name">form</span>&gt;</span> </code></pre>
+<p>Vous remarquerez que nous passons en fait un tableau <code>Fjour[]</code> pour rassembler l'ensemble des valeurs possibles des différentes cases à cocher.</p>
+<p>Dans FORM ACTION nous postons cela au fichier check.php qui est composé comme cela : </p>
+<pre><code class="language-php hljs"><span class="hljs-keyword">echo</span> <span class="hljs-string">"Tu surfes sur le web en semaine plutôt le : "</span>; 
+
+<span class="hljs-comment">// Lecture du tableau </span>
+<span class="hljs-keyword">foreach</span> ($_REQUEST[<span class="hljs-string">"Fjour"</span>]) <span class="hljs-keyword">as</span> $jour)      
+{ 
+    <span class="hljs-keyword">echo</span> <span class="hljs-string">" $Jour - "</span>; 
+} 
+</code></pre>
+<h3 id="31">L'UTILISATION DES CHAMPS CACHES</h3>
+<pre><code class="language-html hljs xml"><span class="hljs-tag">&lt;<span class="hljs-name">form</span> <span class="hljs-attr">action</span>=<span class="hljs-string">"page.php"</span> <span class="hljs-attr">method</span>=<span class="hljs-string">"post"</span>&gt;</span>
+    Votre e-mail : <span class="hljs-tag">&lt;<span class="hljs-name">input</span> <span class="hljs-attr">type</span>=<span class="hljs-string">"text"</span> <span class="hljs-attr">name</span>=<span class="hljs-string">"email"</span> /&gt;</span>
+    <span class="hljs-tag">&lt;<span class="hljs-name">input</span> <span class="hljs-attr">type</span>=<span class="hljs-string">"hidden"</span> <span class="hljs-attr">name</span>=<span class="hljs-string">"secret"</span> <span class="hljs-attr">value</span>=<span class="hljs-string">"texte à passer discrètement"</span> /&gt;</span>
+    <span class="hljs-tag">&lt;<span class="hljs-name">input</span> <span class="hljs-attr">type</span>=<span class="hljs-string">"submit"</span> <span class="hljs-attr">value</span>=<span class="hljs-string">"OK"</span> /&gt;</span>
+<span class="hljs-tag">&lt;/<span class="hljs-name">form</span>&gt;</span> </code></pre>
+<p>Après avoir rempli la case "Votre Email" du formulaire et en cliquant sur "OK", celui-ci appellera la page "page.php" qui recevra les variables "Email" et "secret". </p>
+<blockquote>
+<p>L'utilisation du type "hidden" permet de passer des variables discrètement, sans qu'elles soient affichées à l'écran, mais elles sont visibles dans le code.</p>
+</blockquote>
+<h3 id="35">Passer des variables par l'URL (Method GET)</h3>
+<p>Pour passer une variable d'une page à une autre, il faudra ajouter un point d'interrogation (?) à l'URL suivi de la variable à transmettre. Pour passer plusieurs variables, il suffira de les séparer par le signe &amp; : </p>
+<pre><code class="language-html hljs xml">http://www.monserveur.com/page.php?prenom=bill&amp;lang=fr </code></pre>
+<p>Cela correspond à l'utilisation de la méthode GET</p>
+<p>LA PAGE FORMULAIRE ET LE SCRIPT PEUVENT NE FAIRE QU'UN:</p>
+<pre><code class="hljs xml"><span class="hljs-tag">&lt;<span class="hljs-name">form</span> <span class="hljs-attr">action</span>=<span class="hljs-string">"&lt;?php print $_SERVER[‘PHP_SELF’] ?&gt;"</span><span class="hljs-string">method="post"</span>&gt;</span>
+  <span class="hljs-tag">&lt;<span class="hljs-name">input</span> <span class="hljs-attr">type</span>=<span class="hljs-string">"text"</span> <span class="hljs-attr">name</span>=<span class="hljs-string">"zoneDeTexte"</span> <span class="hljs-attr">size</span>=<span class="hljs-string">"40"</span> <span class="hljs-attr">maxlength</span>=<span class="hljs-string">"40"</span>&gt;</span>
+  <span class="hljs-tag">&lt;<span class="hljs-name">input</span> <span class="hljs-attr">type</span>=<span class="hljs-string">"submit"</span> <span class="hljs-attr">name</span>=<span class="hljs-string">"btnEnvoyer"</span> <span class="hljs-attr">value</span>=<span class="hljs-string">"envoyer"</span>&gt;</span>
+<span class="hljs-tag">&lt;/<span class="hljs-name">form</span>&gt;</span></code></pre>
+<p>La variable <code>$_SERVER['PHP_SELF']</code> est créée par le système et contient le nom du script courant. </p>
+<p>Notre page affichée est donc construite par notre script PHP et à l'envoi du formulaire, c'est le même script qui est executé, pas nécessairement la même page qui est affiché.</p>
+<p>Remarque : La variable <code>$_SERVER['PHP_SELF']</code> pose parfois des problèmes chez certains hébergeurs, elle contient l'URL complète avec le nom de domaine. Pour travailler en local, pas de problèmes.</p>
+<p>Pour savoir ce qu'elle contient il suffit de faire un <code>echo $_SERVER['PHP_SELF']</code> dans un script PHP.</p>
+<p>Quel est l'intérêt d'utiliser le même script pour envoyer et recevoir ? Vous allez vite comprendre. Imaginons le formulaire qui lit ses informations dans une base de données, cela permet à l'utilisateur de corriger, supprimer et créer des fiches. </p>
+<p>On insère des boutons "création", "modification"... dans le formulaire :</p>
+<pre><code class="language-html hljs xml">    <span class="hljs-tag">&lt;<span class="hljs-name">input</span> <span class="hljs-attr">type</span>=<span class="hljs-string">"submit"</span> <span class="hljs-attr">name</span>=<span class="hljs-string">"delete"</span> <span class="hljs-attr">value</span>=<span class="hljs-string">"Supprimer"</span>&gt;</span>
+    <span class="hljs-tag">&lt;<span class="hljs-name">input</span> <span class="hljs-attr">type</span>=<span class="hljs-string">"submit"</span> <span class="hljs-attr">name</span>=<span class="hljs-string">"create"</span> <span class="hljs-attr">value</span>=<span class="hljs-string">"Créer"</span>&gt;</span>
+    <span class="hljs-tag">&lt;<span class="hljs-name">input</span> <span class="hljs-attr">type</span>=<span class="hljs-string">"submit"</span> <span class="hljs-attr">name</span>=<span class="hljs-string">"update"</span> <span class="hljs-attr">value</span>=<span class="hljs-string">"Modifier"</span>&gt;</span></code></pre>
+<p>Le script gère le bouton qui a été utilisé pour transmettre le formulaire afin de mettre en œuvre les actions adéquates. On utilise ici la fonction isset qui retourne true si la variable a reçu une valeur.</p>
+<pre><code class="language-php hljs">    <span class="hljs-keyword">if</span> ( <span class="hljs-keyword">isset</span>( $_POST[<span class="hljs-string">'update'</span>])) { <span class="hljs-comment">// mise à jour</span>
+        <span class="hljs-keyword">echo</span> <span class="hljs-string">"mise a jour"</span>;
+    } <span class="hljs-keyword">elseif</span> ( <span class="hljs-keyword">isset</span>($_POST[<span class="hljs-string">'delete'</span>]))) {
+        <span class="hljs-keyword">echo</span> <span class="hljs-string">"suppression"</span>;
+    } <span class="hljs-keyword">elseif</span> ( <span class="hljs-keyword">isset</span>($_POST[<span class="hljs-string">'create'</span>]))) {
+        <span class="hljs-keyword">echo</span> <span class="hljs-string">"Création"</span>;
+    }</code></pre>
+<p>Ensuite dans le corps de la page on affiche la fiche modifiée ou une fiche vierge avec des valeurs par défaut par exemple. Dans le cas de la suppression, il faut faire des choix soit la précédente ou la suivante, en testant que ce n'est pas suivant le cas la première ou la dernière.</p>
+<h2 id="51">Exercice</h2>
+<p>Reprenez le formulaire que vous avez réalisé dans la séance précédente (JavaScript).
+Dans ce formulaire, vous devez modifier l'attribut action de la balise form pour indiquer l'adresse d'un script PHP.</p>
+<pre><code class="language-html hljs xml">    <span class="hljs-tag">&lt;<span class="hljs-name">form</span> <span class="hljs-attr">action</span>=<span class="hljs-string">"monscript.php"</span>&gt;</span></code></pre>
+<p>Puis créer un script PHP permettant d'afficher l'ensemble des valeurs transmises.</p>
+<pre><code class="language-php hljs">    $_REQUEST[<span class="hljs-string">"nom_du_input"</span>] </code></pre>
+<p>Cette instruction permet de récupérer la valeur du paramètre <code>nom_du_input</code>. </p>
+<p><br>
+<br>
+<br></p></div><div class="menu-markdown"><img src="./PHP_Formulaires_files/menu.png"><div data-id="1" class="titre">PHP - Les formulaires et les variables serveur</div><div data-id="3">Récupérer les données d'un formulaire</div><div data-id="4">&nbsp;&nbsp;&nbsp;&nbsp;Généralités</div><div data-id="8">&nbsp;&nbsp;&nbsp;&nbsp;Récupération des données</div><div data-id="17">Gestion des données sur le serveur</div><div data-id="25">&nbsp;&nbsp;&nbsp;&nbsp;Transmettre des champs de formulaire sous la forme d'un tableau</div><div data-id="31">&nbsp;&nbsp;&nbsp;&nbsp;L'UTILISATION DES CHAMPS CACHES</div><div data-id="35">&nbsp;&nbsp;&nbsp;&nbsp;Passer des variables par l'URL (Method GET)</div><div data-id="51">Exercice</div></div></div><script>hljs.initHighlightingOnLoad();//hljs.initLineNumbersOnLoad();</script><script src="./PHP_Formulaires_files/menu-markdown.js"></script><div></div></body></html>
