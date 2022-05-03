@@ -1,0 +1,114 @@
+<!DOCTYPE html>
+<!-- saved from url=(0088)https://ncode.amorce.org/ressources/Pool/MS_FULL_STACK/PHP/PDO/PHP_PDO_crud_atelier.html -->
+<html><head><meta http-equiv="Content-Type" content="text/html; charset=UTF-8"><title></title>
+        <meta name="viewport" content="width=device-width, initial-scale=1">
+        <link rel="stylesheet" href="./PHP_PDO_crud_atelier_files/font-awesome.min.css">
+        <link rel="stylesheet" href="./PHP_PDO_crud_atelier_files/bootstrap.min.css">
+        <link rel="stylesheet" href="./PHP_PDO_crud_atelier_files/darcula.css">
+        <!-- <link rel="stylesheet" href="/css/highlight/line-number.css"> -->
+        <link rel="stylesheet" href="./PHP_PDO_crud_atelier_files/github-markdown.css">
+        <!-- <link rel="stylesheet" href="/css/markdown_foad.css"> -->
+        <link rel="stylesheet" href="./PHP_PDO_crud_atelier_files/menu-markdown.css">
+        <!-- <script src="/js/highlightjs-line-numbers.min.js"></script> -->
+        <script src="./PHP_PDO_crud_atelier_files/jquery-3.4.1.min.js"></script>
+        <script src="./PHP_PDO_crud_atelier_files/popper.min.js"></script>
+        <script src="./PHP_PDO_crud_atelier_files/bootstrap.min.js"></script>
+        <script src="./PHP_PDO_crud_atelier_files/highlight.js"></script>
+        </head><body><div class="container"><div class="markdown-body"><h1 id="1">PHP -&gt; PDO - CRUD : Atelier</h1>
+<p><br>
+<br></p>
+<h2 id="3">Objectifs</h2>
+<p>Dans les ressources précédentes, vous avez appris à extraire des données provenant d'une base et les manipuler.  </p>
+<p>Vous avez donc maintenant tous les éléments nécessaire pour poursuivre votre projet en mettant en place une <strong>gestion CRUD pour les <em>disques</em> de Velvet Record</strong>.</p>
+<p>A vous de jouer !</p>
+<p><br></p>
+<h2 id="8">La liste</h2>
+<p>La première page <em>discs.php</em>, illustrée ci-dessous, doit afficher la liste des enregistrements se trouvant dans la table <em>disc</em> :  </p>
+<p><img src="./PHP_PDO_crud_atelier_files/record_liste.png" alt=""></p>
+<p>Un lien <code>Détails</code> permet d'afficher les informations d'un disque. Ce lien doit transmettre en paramètre l'identifiant (clé primaire) de l'enregistrement souhaité.</p>
+<p>La page de liste doit proposer également un lien vers le formulaire d'ajout (en haut à droite sur notre image).</p>
+<p><br>
+<br></p>
+<h2 id="14">Le formulaire d'ajout</h2>
+<p><img src="./PHP_PDO_crud_atelier_files/record_form_ajout.png" alt=""></p>
+<p>Il doit permettre de saisir toutes les informations présentes dans la table <code>disc</code>. </p>
+<p>Vous devez donc créer le formulaire <code>disc_new.php</code>. </p>
+<blockquote>
+<p>Attention : ce formulaire contient une liste déroulante pour sélectionner l'artiste du disque.<br>
+Construisez cette liste à partir d'une requête sur la table <em>artist</em>, dont les résultats alimenteront les <code>option</code> du champ...</p>
+</blockquote>
+<p><br></p>
+<p>Le formulaire doit poster les informations sur le script <em>script_disc_ajout.php</em>.</p>
+<p>Ce script doit respecter les consignes suivantes :</p>
+<ol>
+<li>Récupération des informations transmises par le formulaire  </li>
+<li>Enregistrement des données dans la base (à l'aide d'une requête <code>INSERT</code>)</li>
+<li>Prise en compte du fichier uploadé (l'image devra être récupérée et enregistrée sur votre serveur)</li>
+<li>Redirection vers la liste initiale si l'ajout a réussi </li>
+</ol>
+<blockquote>
+<p>Pour rappel, une redirection s'effectue à l'aide de la commande suivante :  </p>
+<pre><code class="language-php hljs">header(<span class="hljs-string">"Location: mapage.php"</span>);</code></pre>
+</blockquote>
+<p><br>
+<br></p>
+<h2 id="25">La page de détail</h2>
+<p>Nous l'appellerons <em>disc_detail.php</em>. Elle doit afficher les informations du disque :</p>
+<p><img src="./PHP_PDO_crud_atelier_files/record_detail.png" alt=""> </p>
+<p>L'ID du disque (<code>disc_id</code>) est transmise dans l'URL via la méthode <code>GET</code></p>
+<pre><code class="language-html hljs xml">disc_form.php?disc_id=1</code></pre>
+<p>Si les informations sont affichées dans des champs (cf. image ci-dessus), ces champs doivent être en lecture seule.  </p>
+<p>En outre, cette page possède :</p>
+<ul>
+<li>un lien vers le formulaire de modification (<code>disc_id</code> est transmis dans l'URL)</li>
+<li>un lien vers le formulaire de suppression (<code>disc_id</code> est transmis dans l'URL)</li>
+<li>un lien de retour vers la liste</li>
+</ul>
+<p><br>
+<br></p>
+<h2 id="34">Le formulaire de modification</h2>
+<p><img src="./PHP_PDO_crud_atelier_files/record_form_modif.png" alt=""></p>
+<p>Ce formulaire doit permettre de modifier un enregistrement de la table <em>disc</em>.<br>
+Vous devez donc créer le formulaire <code>disc_form.php</code>. </p>
+<p>Le formulaire doit <strong>poster</strong> les informations sur le script <em>script_disc_modif.php</em>.</p>
+<p>Ce script doit respecter les consignes suivantes :</p>
+<ol>
+<li><strong>Pré-sélection de l'artiste du disque</strong> dans le menu déroulant du champ <em>Artist</em></li>
+<li>Récupération des informations transmises par le formulaire</li>
+<li>Enregistrement des données dans la base (à l'aide d'une requête <code>UPDATE</code>)</li>
+<li>Prise en compte du fichier uploadé (pour simplifier : si un fichier a bien été transmis, effectuez une deuxième requête <code>update</code> pour modifier l'image dans la base)</li>
+<li>Redirection vers la liste initiale si la mise à jour a réussi</li>
+</ol>
+<blockquote>
+<p>Astuce : le <code>disc_id</code> est transmis de la page <em>disc_detail.php</em> vers le formulaire <em>disc_form.php</em> par l'URL, puis vers le script <em>script_disc_modif.php</em> en champ caché...</p>
+</blockquote>
+<p><br>
+<br></p>
+<h2 id="42">Le formulaire de suppression</h2>
+<p>Un bouton, ajouté sur la page <em>disc_detail.php</em>, doit permettre de supprimer l'enregistrement de la table <em>disc</em>. </p>
+<p>La demande de suppression doit être confirmée par l'utilisateur via une boîte de dialogue.  </p>
+<blockquote>
+<p>Astuce : vous pouvez par exemple utiliser la méthode <code>confirm()</code> en JavaScript...</p>
+</blockquote>
+<p><br></p>
+<p>Un script <em>script_disc_delete.php</em> doit traiter cette suppression, et renvoyer sur la liste globale.</p>
+<p><br>
+<br></p>
+<h2 id="49">Sécuriser les requêtes SQL</h2>
+<p>N'oubliez pas de <strong>contrôler le contenu</strong> des champs envoyés par l'utilisateur !</p>
+<p>Et si votre requête contient des paramètres, vous devez utiliser des <strong>requêtes préparées</strong>.</p>
+<p><br>
+<br></p>
+<h2 id="53">Travailler avec une bibliothèque de fonctions</h2>
+<p>Essayez de découper vos pages pour isoler :</p>
+<ol>
+<li>la partie connexion à la base de données</li>
+<li>la partie entête de votre page (<em>header</em>)</li>
+<li>la partie pied de page (<em>footer</em>)</li>
+</ol>
+<p><br>
+<br></p>
+<h3 id="57">Bonne chance !</h3>
+<p><br>
+<br>
+<br></p></div><div class="menu-markdown"><img src="./PHP_PDO_crud_atelier_files/menu.png"><div data-id="1" class="titre">PHP -&gt; PDO - CRUD : Atelier</div><div data-id="3">Objectifs</div><div data-id="8">La liste</div><div data-id="14">Le formulaire d'ajout</div><div data-id="25">La page de détail</div><div data-id="34">Le formulaire de modification</div><div data-id="42">Le formulaire de suppression</div><div data-id="49">Sécuriser les requêtes SQL</div><div data-id="53">Travailler avec une bibliothèque de fonctions</div><div data-id="57">&nbsp;&nbsp;&nbsp;&nbsp;Bonne chance !</div></div></div><script>hljs.initHighlightingOnLoad();//hljs.initLineNumbersOnLoad();</script><script src="./PHP_PDO_crud_atelier_files/menu-markdown.js"></script></body></html>

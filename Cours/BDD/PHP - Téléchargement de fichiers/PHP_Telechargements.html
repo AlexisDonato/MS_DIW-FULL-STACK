@@ -1,0 +1,111 @@
+<!DOCTYPE html>
+<!-- saved from url=(0083)https://ncode.amorce.org/ressources/Pool/MS_FULL_STACK/PHP/PHP_Telechargements.html -->
+<html><head><meta http-equiv="Content-Type" content="text/html; charset=UTF-8"><title></title>
+        <meta name="viewport" content="width=device-width, initial-scale=1">
+        <link rel="stylesheet" href="./PHP_Telechargements_files/font-awesome.min.css">
+        <link rel="stylesheet" href="./PHP_Telechargements_files/bootstrap.min.css">
+        <link rel="stylesheet" href="./PHP_Telechargements_files/darcula.css">
+        <!-- <link rel="stylesheet" href="/css/highlight/line-number.css"> -->
+        <link rel="stylesheet" href="./PHP_Telechargements_files/github-markdown.css">
+        <!-- <link rel="stylesheet" href="/css/markdown_foad.css"> -->
+        <link rel="stylesheet" href="./PHP_Telechargements_files/menu-markdown.css">
+        <!-- <script src="/js/highlightjs-line-numbers.min.js"></script> -->
+        <script src="./PHP_Telechargements_files/jquery-3.4.1.min.js"></script>
+        <script src="./PHP_Telechargements_files/popper.min.js"></script>
+        <script src="./PHP_Telechargements_files/bootstrap.min.js"></script>
+        <script src="./PHP_Telechargements_files/highlight.js"></script>
+        </head><body><div class="container"><div class="markdown-body"><h1 id="1">PHP - Le téléchargement de fichiers</h1>
+<p><br>
+<br></p>
+<p>Les formulaires HTML offrent la possibilité de télécharger un fichier : par exemple une photo, la notice d'un produit, un C.V. sur un site d'emploi (donc au format Word ou PDF). </p>
+<p>Tout d'abord, un point sur le mot <em>télécharger</em> qui peut désigner aussi bien les opérations suivantes :</p>
+<ul>
+<li>enregistrement sur un PC d'un fichier présent sur un serveur distant (site web); il s'agit de <strong>download</strong>. </li>
+<li>envoi vers un serveur distant d'un fichier qui se trouve sur un PC : il s'agit de <strong>l'upload</strong>. </li>
+</ul>
+<p><strong>C'est ce second cas qui nous intéresse ici.</strong> </p>
+<h2 id="7">Formulaire HTML</h2>
+<p>Pour que le téléchargement soit possible, il faut ajouter l'attribut <code>enctype</code> à la balise <code>&lt;form&gt;</code>. La valeur doit être <code>multipart/form-data</code> :</p>
+<pre><code class="hljs xml"><span class="hljs-tag">&lt;<span class="hljs-name">form</span> <span class="hljs-attr">action</span>=<span class="hljs-string">"post.php"</span> <span class="hljs-attr">method</span>=<span class="hljs-string">"post"</span> <span class="hljs-attr">enctype</span>=<span class="hljs-string">"multipart/form-data"</span>&gt;</span></code></pre>
+<p>Ensuite, on a besoin d'un champ de type <code>file</code>, qui fera apparaître un bouton contenant le texte <em>Parcourir</em> avec lequel on pourra choisir un fichier présent sur le PC : </p>
+<pre><code class="hljs bash">&lt;input <span class="hljs-built_in">type</span>=<span class="hljs-string">"file"</span> name=<span class="hljs-string">"fichier"</span>&gt; </code></pre>
+<!-- +++ TODO +++ à déplacer, subtilité avec les limtes de la configuration en PHP 
+Il est possible d'ajouter un second champ, de type `hidden` pour spécifier le poids maximum des fichiers à envoyer :  
+    <input type="hidden" name="MAX_FILE_SIZE" value="30000">
+-->
+<h2 id="12">Traitement en PHP</h2>
+<p>Dans le fichier de traitement PHP (celui assigné comme valeur à l'attribut <code>action</code>, lorsque le formulaire est soumis, on récupère les informations sur le fichier via la variable superglobale <code>$_FILES</code>. Comme les 7 autres superglobales, cette variable se comporte comme un tableau PHP. </p>
+<p><strong>Exercice : créer un formulaire d'upload et le fichier PHP de traitement correspondant, dans le fichier PHP écrivez juste <code>var_dump($_FILES);</code> et observez le résultat.</strong>   </p>
+<p>Vous devriez avoir quelque chose du genre : </p>
+<ul>
+<li>'name' =&gt; string 'monfichier.jpg' (length=10)  <strong>= nom du fichier d'origine</strong></li>
+<li>'type' =&gt; string 'img/jpeg' (length=10) <strong>= type MIME du fichier</strong></li>
+<li>'tmp_name' =&gt; string 'C:\tmp\phpC1CD.tmp' (length=23) <strong>= nom et chemin du fichier temporaire</strong></li>
+<li>'error' =&gt; int 0 <strong>= erreurs (s'il y en a, elles sont retournées via un tableau PHP) </strong></li>
+<li>'size' =&gt; int 100813 <strong>= taille du fichier, en octets</strong></li>
+</ul>
+<h2 id="17">Gestion des erreurs</h2>
+<p>Si le téléchargmeent échoue, les erreurs sont retournées dans <code>$_FILES["fichier"]["error"]</code>, les cas d'erreur sont prédéfinis dans un tableau.  </p>
+<ul>
+<li>S'il n'y a pas d'erreur, <code>$_FILES["fichier"]["error"]</code> vaut 0,</li>
+<li>S'il y en a, la taille du tableau est supérieure à 0  </li>
+</ul>
+<p>Pour savoir si le tableau contient des erreurs, il faut donc faire : </p>
+<pre><code class="hljs markdown">if (sizeof($_FILES[<span class="hljs-string">"fichier"</span>][<span class="hljs-symbol">"error"</span>]) &gt; 0) { ... } </code></pre>
+<p>--&gt; <a href="http://php.net/manual/fr/features.file-upload.errors.php" target="_blank">Voir ici la documentation complète de PHP sur la gestion des erreurs d'<em>upload</em></a></p>
+<h2 id="23">Sécurité</h2>
+<p>Le problème principal de l'upload d'un fichier est la sécurité : c'est l'utilisateur qui envoie un fichier présent sur son PC, et comme il ne faut jamais faire confiance aux actions de l'utilisateur, il faut vérifier que le fichier reçu est bien du type attendu et ne comporte pas de code malicieux (tentative d'attaque via un fichier exécutable, virus, logiciel espion etc.). </p>
+<p>Il faut ensuite s'assurer des droits sur ce fichier (écriture, lecture, exécution) et le stocker correctement sur le serveur (s'agit-il d'un fichier accessible publiquement à tous les internautes ou d'un <a href="https://www.cnil.fr/fr/optical-center-sanction-de-250000eu-pour-une-atteinte-la-securite-des-donnees-des-clients-du-site" target="_blank">contenu confidentiel</a> ?).  </p>
+<h3 id="26">Vérifier le type</h3>
+<p>On doit tout d'abord s'assurer de points basiques :</p>
+<ul>
+<li>un fichier a-t-il bien été téléchargé ?</li>
+<li>le type du fichier envoyé par l'utilisateur est-il celui attendu (image, document Word, PDF...) ?  </li>
+</ul>
+<p>Les fausses bonnes idées, car les informations retournées ne sont pas fiables :</p>
+<ul>
+<li>tester uniquement l'extension comme chaîne de caractère</li>
+<li>tester <a href="https://fr.wikipedia.org/wiki/Type_de_m%C3%A9dias" target="_blank">le type MIME</a> retourné par le navigateur (celui dans <code>$_FILES["fichier"]["type"]</code>).</li>
+</ul>
+<p>PHP fournit un extension nommée _FILE<em>INFO</em> qui fait référence en termes de sécurité. Voici comment l'utiliser, pour un type :</p>
+<!-- https://www.saotn.org/validate-mime-types-with-php-fileinfo -->
+<pre><code class="hljs php"><span class="hljs-comment">// On met les types autorisés dans un tableau (ici pour une image)</span>
+$aMimeTypes = <span class="hljs-keyword">array</span>(<span class="hljs-string">"img/gif"</span>, <span class="hljs-string">"img/jpeg"</span>, <span class="hljs-string">"img/pjpeg"</span>, <span class="hljs-string">"img/png"</span>, <span class="hljs-string">"img/x-png"</span>, <span class="hljs-string">"img/tiff"</span>);
+
+<span class="hljs-comment">// On extrait le type du fichier via l'extension FILE_INFO </span>
+$finfo = finfo_open(FILEINFO_MIME_TYPE);
+$mimetype = finfo_file($finfo, $_FILES[<span class="hljs-string">"fichier"</span>][<span class="hljs-string">"tmp_name"</span>]);
+finfo_close($finfo);
+
+<span class="hljs-keyword">if</span> (in_array($mimetype, $aMimeTypes))
+{
+    <span class="hljs-comment">/* Le type est parmi ceux autorisés, donc OK, on va pouvoir 
+       déplacer et renommer le fichier */</span>
+
+} 
+<span class="hljs-keyword">else</span> 
+{
+   <span class="hljs-comment">// Le type n'est pas autorisé, donc ERREUR</span>
+
+   <span class="hljs-keyword">echo</span> <span class="hljs-string">"Type de fichier non autorisé"</span>;    
+   <span class="hljs-keyword">exit</span>;
+}    </code></pre>
+<h3 id="33">Déplacer et renommer le fichier</h3>
+<p>Par défaut, le fichier téléchargé est stocké dans le répertoire <code>tmp</code> de votre serveur. Mais ce fichier devra sans doute se trouver dans un répertoire de votre projet, il faut donc le déplacer. </p>
+<p>Il est nécessaire aussi de renommer le fichier, pour répondre à une éventuelle charte de nommage et surtout pour que l'utilisateur ne puisse tenter d'exécuter le fichier via l'url (le nom sur le serveur sera différent de celui qu'il connaissait). </p>
+<p>Pour cela, PHP propose une fonction "2 en 1" : <a href="http://php.net/manual/fr/function.move-uploaded-file.php" target="_blank"><code>move_uploaded_file()</code></a>. </p>
+<p>Exemple : déplacer et renommer un fichier (de type image) de <code>tmp</code> vers un répertoire nommé <code>images</code> d'un projet :</p>
+<pre><code class="hljs bash">move_uploaded_file(<span class="hljs-variable">$_FILES</span>[<span class="hljs-string">"fichier"</span>][<span class="hljs-string">"tmp_name"</span>], <span class="hljs-string">"img/photo.jpg"</span>);      </code></pre>
+<blockquote>
+<p>La logique veut que les contrôles de sécurité ait été réalisés avant le déplacement. </p>
+</blockquote>
+<h3 id="40">Spécifier des droits sur le fichier</h3>
+<p>Sur les systèmes d'exploitation (Windows, Linux...), les fichiers possèdent des droits (ou permissions) de lecture, d'exécution et d'écriture accordés aux utilisateurs. Il s'agit d'un système un peu complexe mais qui participe grandement à la sécurité.</p>
+<p>Lire ces ressources :</p>
+<ul>
+<li><a href="https://codex.wordpress.org/fr:Modifier_les_Permissions_sur_les_Fichiers" target="_blank">Modifier les permissions sur un fichier</a></li>
+<li><a href="http://php.net/manual/fr/function.chmod.php" target="_blank">La fonction <code>chmod()</code> de PHP</a></li>
+</ul>
+<p><br>
+<br>
+<br></p></div><div class="menu-markdown"><img src="./PHP_Telechargements_files/menu.png"><div data-id="1" class="titre">PHP - Le téléchargement de fichiers</div><div data-id="7">Formulaire HTML</div><div data-id="12">Traitement en PHP</div><div data-id="17">Gestion des erreurs</div><div data-id="23">Sécurité</div><div data-id="26">&nbsp;&nbsp;&nbsp;&nbsp;Vérifier le type</div><div data-id="33">&nbsp;&nbsp;&nbsp;&nbsp;Déplacer et renommer le fichier</div><div data-id="40">&nbsp;&nbsp;&nbsp;&nbsp;Spécifier des droits sur le fichier</div></div></div><script>hljs.initHighlightingOnLoad();//hljs.initLineNumbersOnLoad();</script><script src="./PHP_Telechargements_files/menu-markdown.js"></script></body></html>

@@ -1,0 +1,163 @@
+<!DOCTYPE html>
+<!-- saved from url=(0087)https://ncode.amorce.org/ressources/Pool/MS_FULL_STACK/PHP/PDO/PHP_PDO_crud_update.html -->
+<html><head><meta http-equiv="Content-Type" content="text/html; charset=UTF-8"><title></title>
+        <meta name="viewport" content="width=device-width, initial-scale=1">
+        <link rel="stylesheet" href="./PHP_PDO_crud_update_files/font-awesome.min.css">
+        <link rel="stylesheet" href="./PHP_PDO_crud_update_files/bootstrap.min.css">
+        <link rel="stylesheet" href="./PHP_PDO_crud_update_files/darcula.css">
+        <!-- <link rel="stylesheet" href="/css/highlight/line-number.css"> -->
+        <link rel="stylesheet" href="./PHP_PDO_crud_update_files/github-markdown.css">
+        <!-- <link rel="stylesheet" href="/css/markdown_foad.css"> -->
+        <link rel="stylesheet" href="./PHP_PDO_crud_update_files/menu-markdown.css">
+        <!-- <script src="/js/highlightjs-line-numbers.min.js"></script> -->
+        <script src="./PHP_PDO_crud_update_files/jquery-3.4.1.min.js"></script>
+        <script src="./PHP_PDO_crud_update_files/popper.min.js"></script>
+        <script src="./PHP_PDO_crud_update_files/bootstrap.min.js"></script>
+        <script src="./PHP_PDO_crud_update_files/highlight.js"></script>
+        </head><body><div class="container"><div class="markdown-body"><h1 id="1">PHP - PDO -&gt; CRUD : Update</h1>
+<p><br>
+<br></p>
+<p>Une fois nos enregistrements en BDD, il faut pouvoir modifier les fiches afin de les mettre à jour.</p>
+<p><br></p>
+<h2 id="5">Création d'un lien vers le formulaire</h2>
+<p>Modifiez la page contenant le détail de votre fiche Artiste (page <em>artist_detail.php</em>) pour ajouter un bouton permettant de la modifier :  </p>
+<pre><code class="language-php hljs"><span class="hljs-comment">// Début de page : traitement PHP + entête HTML</span>
+<span class="hljs-comment">// ...</span>
+
+    &lt;body&gt;
+        Artiste N°<span class="hljs-meta">&lt;?php</span> <span class="hljs-keyword">echo</span> $myArtist-&gt;artist_id <span class="hljs-meta">?&gt;</span>
+        Nom de l<span class="hljs-string">'artiste : &lt;?= $myArtist-&gt;artist_name ?&gt;
+        Site Internet : &lt;?= $myArtist-&gt;artist_url ?&gt;
+        &lt;a href="artist_form.php?id=&lt;?= $myArtist-&gt;artist_id ?&gt;"&gt;Modifier&lt;/a&gt;
+    &lt;/body&gt;
+
+// Fin de page : fermetures de blocs HTML</span></code></pre>
+<p>Ce bouton nous envoie sur une page nommée <em>artist_form.php</em>, qui a la possibilité de réceptionner, via la méthode <code>GET</code> (visible dans l'URL grâce au <code>?</code>), l'ID de la fiche à modifier.</p>
+<p><br></p>
+<p>A nous maintenant de fournir un formulaire de modification à notre utilisateur !</p>
+<p><br>
+<br></p>
+<h2 id="12">Création du formulaire</h2>
+<p>Notre formulaire de modification, pour la fiche n°8 par exemple, sera appelé grâce à l'URL suivante :  </p>
+<pre><code class="hljs dts"><span class="hljs-symbol">https:</span><span class="hljs-comment">//urlduserveurlocal/artist_form.php?id=8</span></code></pre>
+<p>De la même manière que pour le formulaire d'ajout, créons notre formulaire HTML, appelé cette fois <em>artist_form.php</em> pour la modification d'une fiche.<br>
+Les données saisies dans le formulaire seront envoyées vers <em>script_artist_modif.php</em> via la méthode <code>POST</code> :  </p>
+<pre><code class="language-php hljs">&lt;!DOCTYPE html&gt;
+&lt;html lang=<span class="hljs-string">"fr"</span>&gt;
+&lt;head&gt;
+    &lt;meta charset=<span class="hljs-string">"UTF-8"</span>&gt;
+    &lt;meta name=<span class="hljs-string">"viewport"</span> content=<span class="hljs-string">"width=device-width, initial-scale=1.0"</span>&gt;
+    &lt;meta http-equiv=<span class="hljs-string">"X-UA-Compatible"</span> content=<span class="hljs-string">"ie=edge"</span>&gt;
+    &lt;title&gt;Ajout&lt;/title&gt;
+&lt;/head&gt;
+&lt;body&gt;
+
+    &lt;h1&gt;Artiste n°<span class="hljs-meta">&lt;?</span>= $resultat-&gt;artist_id; <span class="hljs-meta">?&gt;</span>&lt;/h1&gt;
+
+    &lt;a href=<span class="hljs-string">"artists.php"</span>&gt;Retour à la liste des artistes&lt;/a&gt;
+
+    &lt;br&gt;
+    &lt;br&gt;
+
+    &lt;form action =<span class="hljs-string">"script_artist_modif.php"</span> method=<span class="hljs-string">"post"</span>&gt;
+
+        &lt;label <span class="hljs-keyword">for</span>=<span class="hljs-string">"nom_for_label"</span>&gt;Nom de l<span class="hljs-string">'artiste :&lt;/label&gt;&lt;br&gt;
+        &lt;input type="text" name="nom" id="nom_for_label"&gt;
+        &lt;br&gt;&lt;br&gt;
+
+        &lt;label for="url_for_label"&gt;Adresse site internet :&lt;/label&gt;&lt;br&gt;
+        &lt;input type="text" name="url" id="url_for_label"&gt;
+        &lt;br&gt;&lt;br&gt;
+
+        &lt;input type="reset" value="Annuler"&gt;
+        &lt;input type="submit" value="Modifier"&gt;
+
+    &lt;/form&gt;
+&lt;/body&gt;
+&lt;/html&gt;</span></code></pre>
+<p><br></p>
+<p>Mis à part la particularité de l'ID, rien d'exceptionnel jusqu'ici... Sauf que notre formulaire initial est vide !<br>
+Il nous faut donc charger en amont les informations de notre enregistrement et les injecter dans les champs.  </p>
+<p>Ajoutez le bloc PHP ci-dessous en haut de la page <em>artist_form.php</em>, avant le HTML :</p>
+<pre><code class="language-php hljs">    <span class="hljs-comment">// On charge l'enregistrement correspondant à l'ID passé en paramètre :</span>
+    <span class="hljs-keyword">require</span> <span class="hljs-string">"db.php"</span>;
+    $db = connexionBase();
+    $requete = $db-&gt;prepare(<span class="hljs-string">"SELECT * FROM artist WHERE artist_id=?"</span>);
+    $requete-&gt;execute(<span class="hljs-keyword">array</span>($_GET[<span class="hljs-string">"id"</span>]));
+    $myArtist = $requete-&gt;fetch(PDO::FETCH_OBJ);
+    $requete-&gt;closeCursor();</code></pre>
+<p>Les données de notre artiste (si tant est que l'enregistrement a bien été trouvé en BDD), se trouvent donc maintenant dans la variable <code>$myArtist</code>.  </p>
+<p>De la même manière, ici, que pour l'affichage des données de l'artiste dans la page <em>artist_detail.php</em>, nous allons injecter les différentes informations dans le champ de formulaire correspondant :  </p>
+<blockquote>
+<p>Souvenez-vous que le contenu des champs HTML est stocké dans l'attribut <code>value</code> !</p>
+</blockquote>
+<pre><code class="language-php hljs">    &lt;form action =<span class="hljs-string">"script_artist_modif.php"</span> method=<span class="hljs-string">"post"</span>&gt;
+
+        &lt;input type=<span class="hljs-string">"hidden"</span> name=<span class="hljs-string">"id"</span> value=<span class="hljs-string">"&lt;?= $myArtist-&gt;artist_id ?&gt;"</span>&gt;
+
+        &lt;label <span class="hljs-keyword">for</span>=<span class="hljs-string">"nom_for_label"</span>&gt;Nom de l<span class="hljs-string">'artiste :&lt;/label&gt;&lt;br&gt;
+        &lt;input type="text" name="nom" id="nom_for_label" value="&lt;?= $myArtist-&gt;artist_name ?&gt;"&gt;
+        &lt;br&gt;&lt;br&gt;
+
+        &lt;label for="url_for_label"&gt;Adresse site internet :&lt;/label&gt;&lt;br&gt;
+        &lt;input type="text" name="url" id="url_for_label" value="&lt;?= $myArtist-&gt;artist_url ?&gt;"&gt;
+        &lt;br&gt;&lt;br&gt;
+
+        &lt;input type="reset" value="Annuler"&gt;
+        &lt;input type="submit" value="Modifier"&gt;
+
+    &lt;/form&gt;</span></code></pre>
+<blockquote>
+<p><strong>Avez-vous remarqué l'<code>input</code> contenant l'ID, ajouté au formulaire et contenant l'attribut <code>type="hidden"</code> ?</strong><br>
+Comme nous allons modifier notre fiche, nous aurons besoin d'une requête <code>UPDATE</code>, qui aille sélectionner l'enregistrement voulu pour le mettre à jour.<br>
+L'ID d'un enregistrement ne doit pas être modifié, donc <strong>le champ ne doit pas être laissé au libre court de l'utilisateur</strong>, mais pour autant, nous avons besoin que l'ID soit envoyé avec les données dans le <code>POST</code> pour que notre <em>script_artist_modif.php</em> puisse le récupérer.  </p>
+<p>Au stade où nous en sommes, un champ caché est donc un très bon compromis !<br>
+Mais nous pourrions aussi, par exemple, le faire apparaitre en lecture seule avec l'attribut <code>readonly</code>...</p>
+</blockquote>
+<p><br>
+<br></p>
+<h2 id="27">Création du script de modification</h2>
+<p>Le principe est le même que pour un formulaire d'ajout (contrôles de saisie à faire, redirection éventuelle vers le formulaire, etc.), si ce n'est que, évidemment, l'instruction à écrire pour le traitement en BDD sera non pas, un <code>INSERT</code>, mais un <code>UPDATE</code> :  </p>
+<pre><code class="language-php hljs"><span class="hljs-meta">&lt;?php</span>
+    <span class="hljs-comment">// Récupération des valeurs :</span>
+    $id = (<span class="hljs-keyword">isset</span>($_POST[<span class="hljs-string">'id'</span>]) &amp;&amp; $_POST[<span class="hljs-string">'id'</span>] != <span class="hljs-string">""</span>) ? $_POST[<span class="hljs-string">'id'</span>] : <span class="hljs-keyword">Null</span>;
+    $nom = (<span class="hljs-keyword">isset</span>($_POST[<span class="hljs-string">'nom'</span>]) &amp;&amp; $_POST[<span class="hljs-string">'nom'</span>] != <span class="hljs-string">""</span>) ? $_POST[<span class="hljs-string">'nom'</span>] : <span class="hljs-keyword">Null</span>;
+    $url = (<span class="hljs-keyword">isset</span>($_POST[<span class="hljs-string">'url'</span>]) &amp;&amp; $_POST[<span class="hljs-string">'url'</span>] != <span class="hljs-string">""</span>) ? $_POST[<span class="hljs-string">'url'</span>] : <span class="hljs-keyword">Null</span>;
+
+    <span class="hljs-comment">// En cas d'erreur, on renvoie vers le formulaire</span>
+    <span class="hljs-keyword">if</span> ($id == <span class="hljs-keyword">Null</span>) {
+        header(<span class="hljs-string">"Location: artists.php"</span>);
+    }
+    <span class="hljs-keyword">elseif</span> ($nom == <span class="hljs-keyword">Null</span> || $url == <span class="hljs-keyword">Null</span>) {
+        header(<span class="hljs-string">"Location: artist_form.php?id="</span>.$id);
+    }
+
+    <span class="hljs-comment">// Si la vérification des données est ok :</span>
+    <span class="hljs-keyword">require</span> <span class="hljs-string">"db.php"</span>; 
+    $db = connexionBase();
+
+    <span class="hljs-keyword">try</span> {
+        <span class="hljs-comment">// Construction de la requête UPDATE sans injection SQL :</span>
+        $requete = $db-&gt;prepare(<span class="hljs-string">"UPDATE artist SET artist_name = :nom, artist_url = :url WHERE artist_id = :id;"</span>);
+        $requete-&gt;bindValue(<span class="hljs-string">":id"</span>, $id, PDO::PARAM_INT);
+        $requete-&gt;bindValue(<span class="hljs-string">":nom"</span>, $nom, PDO::PARAM_STR);
+        $requete-&gt;bindValue(<span class="hljs-string">":url"</span>, $url, PDO::PARAM_STR);
+
+        $requete-&gt;execute();
+        $requete-&gt;closeCursor();
+    }
+
+    <span class="hljs-keyword">catch</span> (<span class="hljs-keyword">Exception</span> $e) {
+        <span class="hljs-keyword">echo</span> <span class="hljs-string">"Erreur : "</span> . $requete-&gt;errorInfo()[<span class="hljs-number">2</span>] . <span class="hljs-string">"&lt;br&gt;"</span>;
+        <span class="hljs-keyword">die</span>(<span class="hljs-string">"Fin du script (script_artist_modif.php)"</span>);
+    }
+
+    <span class="hljs-comment">// Si OK: redirection vers la page artist_detail.php</span>
+    header(<span class="hljs-string">"Location: artist_detail.php?id="</span> . $id);
+    <span class="hljs-keyword">exit</span>;</code></pre>
+<blockquote>
+<p>Vous vous en doutez... : vérifiez en BDD que votre mise à jour est OK !  </p>
+</blockquote>
+<p><br>
+<br>
+<br></p></div><div class="menu-markdown"><img src="./PHP_PDO_crud_update_files/menu.png"><div data-id="1" class="titre">PHP - PDO -&gt; CRUD : Update</div><div data-id="5">Création d'un lien vers le formulaire</div><div data-id="12">Création du formulaire</div><div data-id="27">Création du script de modification</div></div></div><script>hljs.initHighlightingOnLoad();//hljs.initLineNumbersOnLoad();</script><script src="./PHP_PDO_crud_update_files/menu-markdown.js"></script></body></html>

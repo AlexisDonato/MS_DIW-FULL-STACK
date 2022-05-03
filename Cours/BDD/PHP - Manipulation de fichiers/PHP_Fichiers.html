@@ -1,0 +1,166 @@
+<!DOCTYPE html>
+<!-- saved from url=(0076)https://ncode.amorce.org/ressources/Pool/MS_FULL_STACK/PHP/PHP_Fichiers.html -->
+<html><head><meta http-equiv="Content-Type" content="text/html; charset=UTF-8"><title></title>
+        <meta name="viewport" content="width=device-width, initial-scale=1">
+        <link rel="stylesheet" href="./PHP_Fichiers_files/font-awesome.min.css">
+        <link rel="stylesheet" href="./PHP_Fichiers_files/bootstrap.min.css">
+        <link rel="stylesheet" href="./PHP_Fichiers_files/darcula.css">
+        <!-- <link rel="stylesheet" href="/css/highlight/line-number.css"> -->
+        <link rel="stylesheet" href="./PHP_Fichiers_files/github-markdown.css">
+        <!-- <link rel="stylesheet" href="/css/markdown_foad.css"> -->
+        <link rel="stylesheet" href="./PHP_Fichiers_files/menu-markdown.css">
+        <!-- <script src="/js/highlightjs-line-numbers.min.js"></script> -->
+        <script src="./PHP_Fichiers_files/jquery-3.4.1.min.js"></script>
+        <script src="./PHP_Fichiers_files/popper.min.js"></script>
+        <script src="./PHP_Fichiers_files/bootstrap.min.js"></script>
+        <script src="./PHP_Fichiers_files/highlight.js"></script>
+        </head><body><div class="container"><div class="markdown-body"><h1 id="1">PHP - La manipulation de fichiers</h1>
+<p><br>
+<br></p>
+<p>Avant d'aborder un exemple de manipulation de fichiers en PHP nous allons voir les différentes façons d'ouvrir un fichier.</p>
+<h2 id="4">Ouverture d'un fichier</h2>
+<ul>
+<li>Ouverture en lecture seulement depuis le début du fichier ("r") : <code>$fp = fopen(string fichier, "r");</code> </li>
+<li>Ouverture en écriture seulement depuis le début du fichier ("w") : <code>$fp = fopen(string fichier, "w");</code> </li>
+<li>Ouverture en écriture seulement depuis la fin du fichier ("a") : <code>$fp = fopen(string fichier, "a");</code> </li>
+</ul>
+<p>Exemples : </p>
+<pre><code class="hljs perl">$fp = fopen(<span class="hljs-string">"/home/rasmus/file.txt"</span>, <span class="hljs-string">"r"</span>); 
+$fp = fopen(<span class="hljs-string">"../exemple.txt"</span>,<span class="hljs-string">"a"</span>); 
+$fp = fopen(<span class="hljs-string">"http://www.php.net/"</span>, <span class="hljs-string">"r"</span>); 
+$fp = fopen(<span class="hljs-string">"ftp://user:password@example.com/"</span>, <span class="hljs-string">"w"</span>); </code></pre>
+<p>Il faut garder à l'esprit que l'on définit ici les fichiers au sens général du terme, vous pouvez donc grâce à ces instructions manipuler des fichiers <em>html</em>, <em>txt</em>, <em>php</em> etc.
+ </p>
+<blockquote>
+<p><code>$fp</code> étant une variable, son nommage est bien entendu libre; il s'agit ici de la convention adoptée dans la documentation officielle PHP.  </p>
+</blockquote>
+<h2 id="10">Les instructions principales</h2>
+<h3 id="11">Ecriture dans un fichier</h3>
+<p>La fonction <code>fputs()</code> permet de lire un fichier; elle reçoit 2 arguments obligatoires et troisième faculatif <code>fputs($fp, $str, length);</code> :  </p>
+<ul>
+<li><code>$fp</code> : pointe sur le numéro de fichier ouvert par <code>fopen()</code> </li>
+<li><code>$str</code> : représente la variable à enregistrer </li>
+<li><code>length</code> : 3<sup>ème</sup> argument, faculatif, qui représente la longueur de la variable </li>
+</ul>
+<p>Exemple </p>
+<pre><code class="hljs php"> <span class="hljs-comment">// On déclare une variable dont la valeur (contenu) sera écrite dans le fichier</span>
+ $myVar = <span class="hljs-string">"Bonjour le monde"</span>;
+
+<span class="hljs-comment">// Ouverture en écriture seule </span>
+$fp = fopen(<span class="hljs-string">"essai.txt"</span>, <span class="hljs-string">"a"</span>); 
+
+<span class="hljs-comment">// Ecriture du contenu ($myVar) </span>
+fputs($fp, $myVar); 
+
+<span class="hljs-comment">// Fermeture du fichier  </span>
+fclose($fp); </code></pre>
+<p>Ouvrez le fichier <em>essai.txt</em> et vérifiez que la phrase <em>Bonjour le monde</em> s'y trouve. </p>
+<h3 id="17">Lecture dans un fichier</h3>
+<p>La fonction <code>fgets()</code> permet de lire un fichier; elle reçoit 2 arguments : <code>fgets($fp, length);</code> : </p>
+<ul>
+<li><code>$fp</code> : pointe sur la ressource de fichier ouvert avec <code>fopen()</code> </li>
+<li><code>length</code> : représente la longueur d'enregistrement à lire (en octets) </li>
+</ul>
+<p>Exemple : </p>
+<pre><code class="hljs php"><span class="hljs-comment">// Ouverture en lecture seule  </span>
+$fp = fopen(<span class="hljs-string">"essai.txt"</span>, <span class="hljs-string">"r"</span>); 
+
+<span class="hljs-comment">// Boucle jusqu'à la fin du fichier</span>
+<span class="hljs-keyword">while</span> (!feof($fp)) 
+{ 
+    <span class="hljs-comment">// Lecture d'une ligne, le contenu de la ligne est affecté à la variable $ligne  </span>
+    $ligne = fgets($fp, <span class="hljs-number">4096</span>); 
+    <span class="hljs-keyword">echo</span> $ligne.<span class="hljs-string">"&lt;br&gt;"</span>; 
+} </code></pre>
+<p>En fait l'instruction <code>fgets()</code> lit la ligne jusqu'à ce qu'elle rencontre un caractère de retour à la ligne <code>\n</code>.
+Par sécurité il est préférable de lui indiquer de lire 4096 caractères pour qu'elle puisse lire une ligne entière.
+Pour lire l'ensemble d'un fichier, vous pouvez aussi utilisez la fonction <code>file()</code>.</p>
+<h2 id="23">Les autres fonctions de gestion de fichiers</h2>
+<h3 id="24">La fonction <code>basename()</code></h3>
+<p>Cette fonction retourne le nom d'un fichier dans un URL ou un chemin d'accès à un fichier </p>
+<p>Exemple : </p>
+<pre><code class="hljs bash"><span class="hljs-variable">$path</span> = <span class="hljs-string">"/home/httpd/html/index.php"</span>; 
+<span class="hljs-variable">$file</span> = basename(<span class="hljs-variable">$path</span>); // <span class="hljs-variable">$file</span> retourne <span class="hljs-string">"index.php"</span>  </code></pre>
+<h3 id="28">La fonction <code>copy()</code></h3>
+<p>Copie un fichier vers un autre :  </p>
+<pre><code class="hljs php">$fichier =<span class="hljs-string">"toto.txt"</span>; 
+<span class="hljs-comment">/* création d'un fichier toto.txt.bak */</span>
+copy($fichier, $fichier.<span class="hljs-string">'.bak'</span>);</code></pre>
+<h3 id="31">La fonction <code>dirname()</code></h3>
+<p>Retourne le répertoire (<em>directory</em>) dans lequel se trouve le fichier : </p>
+<pre><code class="hljs bash"><span class="hljs-variable">$path</span> = <span class="hljs-string">"/etc/passwd"</span>; 
+<span class="hljs-variable">$file</span> = dirname(<span class="hljs-variable">$path</span>); /* <span class="hljs-variable">$file</span> retourne <span class="hljs-string">"/etc"</span> */ </code></pre>
+<h3 id="34">La fonction <code>file()</code></h3>
+<p>Pour lire l'ensemble d'un fichier et le retourne dans un tableau, chaque ligne du tableau correspond à un ligne du fichier.</p>
+<h3 id="36">La fonction <code>file_exists()</code></h3>
+<p>Retourne true (vrai) si le fichier existe.</p>
+<h3 id="38">La fonction <code>is_dir()</code></h3>
+<p>Retourne true si le fichier existe avec un directory.</p>
+<h3 id="40">La fonction <code>is_file()</code></h3>
+<p>Retourne true si le fichier existe et est un regular file. </p>
+<h2 id="42">Un compteur texte en PHP</h2>
+<p>Vous voulez avoir un compteur différent pour toutes les pages de votre site ? </p>
+<p>Voici un petit script en PHP qui fera l'affaire :</p>
+<pre><code class="language-php hljs">    <span class="hljs-comment">// On ouvre le fichier moncompteur.txt</span>
+    $fichier = fopen(<span class="hljs-string">"moncompteur.txt"</span>,<span class="hljs-string">"r+"</span>);
+
+    <span class="hljs-comment">// on lit la première ligne du fichier, le résultat est stocké dans la variable $visiteurs</span>
+    $visiteurs = fgets($fichier);
+
+    <span class="hljs-comment">// on ajoute 1 au nombre de visiteurs</span>
+    $visiteurs++;
+
+    <span class="hljs-comment">// on se positionne au début du fichier</span>
+    fseek($fichier,<span class="hljs-number">0</span>);
+
+    <span class="hljs-comment">// on écrit le nouveau nombre dans le fichier</span>
+    fputs($fichier,$visiteurs);
+
+    <span class="hljs-comment">// on referme le fichier moncompteur.txt</span>
+    fclose($fichier);
+
+    <span class="hljs-comment">// on indique sur la page le nombre de visiteurs</span>
+    <span class="hljs-keyword">echo</span> <span class="hljs-string">"$visiteurs personnes sont passées par ici"</span>;</code></pre>
+<p><em>Quelques précisions et explications :</em> </p>
+<ul>
+<li>Vous devez placer sur votre site un fichier <code>moncompteur.txt</code> avec juste le chiffre 0 dedans. Bien entendu si vous désirez que votre compteur démarre à 1254, vous pouvez le faire.</li>
+<li>La fonction <code>fopen()</code> permet d'ouvrir un fichier présent sur votre site. L'attribut <em>r+</em> permet de l'ouvrir en lecture et écriture.</li>
+<li>La fonction <code>fgets()</code> permet de lire la première ligne du fichier.</li>
+<li><code>fseek()</code> permet de se repositionner au début du fichier. Ainsi, lorsque l'on réécrit le nouveau nombre de visiteurs, on est sûr d'effacer l'ancien.</li>
+<li><code>fputs()</code> permet de réécrire la variable incrémentée dans le fichier.</li>
+<li><code>fclose()</code> permet de refermer le fichier <em>moncompteur.txt</em> que l'on a ouvert au début du script.</li>
+</ul>
+<p>Voici une autre version plus concise.</p>
+<pre><code class="language-php hljs">$visiteurs = file_get_contents(<span class="hljs-string">"moncompteur.txt"</span>);
+
+$visiteurs++;
+
+file_put_contents(<span class="hljs-string">"moncompteur.txt"</span>, $visiteurs);
+
+<span class="hljs-keyword">print</span>(<span class="hljs-string">"$visiteurs personnes sont passées par ici"</span>);
+</code></pre>
+<h2 id="50">Exercices</h2>
+<h4 id="51">Lecture d'un fichier</h4>
+<p>Téléchargez <a target="_blank" href="https://ncode.amorce.org/ressources/Pool/MS_FULL_STACK/PHP/src/liens.txt">ce fichier</a>, qui contient une liste de sites indispensables à la compréhension du monde moderne. </p>
+<p>Écrire un programme qui lit ce fichier et qui construit une page web contenant une liste de liens hypertextes.</p>
+<blockquote>
+<p>Utilisez la fonction <code>file()</code> qui permet de lire directement un fichier et renvoie son contenu sous forme de tableau.</p>
+</blockquote>
+<h4 id="55">Récupération d'un fichier distant</h4>
+<p>Un site partenaire mets à votre disposition une liste des nouveaux utilisateurs inscrits. </p>
+<p>Cette liste est disponible à cette adresse : <a href="http://bienvu.net/misc/customers.csv" target="_blank"></a><a href="http://bienvu.net/misc/customers.csv">http://bienvu.net/misc/customers.csv</a>.</p>
+<p>Il s'agit d'un fichier <code>CSV</code> où chaque ligne représente un nouvel utilisateur. Les différents champs sont <code>Surname</code>, <code>Firstname</code>, <code>Email</code>, <code>Phone</code>, <code>City</code>, <code>State</code>, ils sont séparés par une virgule <code>,</code>.</p>
+<ol>
+<li>
+<p>Utilisez la fonction <code>file()</code> pour récupérer le contenu de ce fichier.</p>
+</li>
+<li>
+<p>Découpez chaque ligne en utilisant une des fonctions suivantes: <code>explode()</code> ou <code>preg_split()</code></p>
+</li>
+<li>
+<p>Affichez le résultat dans un tableau HTML (avec Bootstrap si possible) en prenant bien soin de nommer les colonnes du tableau.</p>
+</li>
+</ol>
+<p><br>
+<br>
+<br></p></div><div class="menu-markdown"><img src="./PHP_Fichiers_files/menu.png"><div data-id="1" class="titre">PHP - La manipulation de fichiers</div><div data-id="4">Ouverture d'un fichier</div><div data-id="10">Les instructions principales</div><div data-id="11">&nbsp;&nbsp;&nbsp;&nbsp;Ecriture dans un fichier</div><div data-id="17">&nbsp;&nbsp;&nbsp;&nbsp;Lecture dans un fichier</div><div data-id="23">Les autres fonctions de gestion de fichiers</div><div data-id="24">&nbsp;&nbsp;&nbsp;&nbsp;La fonction <code>basename()</code></div><div data-id="28">&nbsp;&nbsp;&nbsp;&nbsp;La fonction <code>copy()</code></div><div data-id="31">&nbsp;&nbsp;&nbsp;&nbsp;La fonction <code>dirname()</code></div><div data-id="34">&nbsp;&nbsp;&nbsp;&nbsp;La fonction <code>file()</code></div><div data-id="36">&nbsp;&nbsp;&nbsp;&nbsp;La fonction <code>file_exists()</code></div><div data-id="38">&nbsp;&nbsp;&nbsp;&nbsp;La fonction <code>is_dir()</code></div><div data-id="40">&nbsp;&nbsp;&nbsp;&nbsp;La fonction <code>is_file()</code></div><div data-id="42">Un compteur texte en PHP</div><div data-id="50">Exercices</div><div data-id="51">&nbsp;&nbsp;&nbsp;&nbsp;Lecture d'un fichier</div><div data-id="55">&nbsp;&nbsp;&nbsp;&nbsp;Récupération d'un fichier distant</div></div></div><script>hljs.initHighlightingOnLoad();//hljs.initLineNumbersOnLoad();</script><script src="./PHP_Fichiers_files/menu-markdown.js"></script></body></html>

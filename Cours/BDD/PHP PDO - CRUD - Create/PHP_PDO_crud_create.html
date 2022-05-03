@@ -1,0 +1,141 @@
+<!DOCTYPE html>
+<!-- saved from url=(0087)https://ncode.amorce.org/ressources/Pool/MS_FULL_STACK/PHP/PDO/PHP_PDO_crud_create.html -->
+<html><head><meta http-equiv="Content-Type" content="text/html; charset=UTF-8"><title></title>
+        <meta name="viewport" content="width=device-width, initial-scale=1">
+        <link rel="stylesheet" href="./PHP_PDO_crud_create_files/font-awesome.min.css">
+        <link rel="stylesheet" href="./PHP_PDO_crud_create_files/bootstrap.min.css">
+        <link rel="stylesheet" href="./PHP_PDO_crud_create_files/darcula.css">
+        <!-- <link rel="stylesheet" href="/css/highlight/line-number.css"> -->
+        <link rel="stylesheet" href="./PHP_PDO_crud_create_files/github-markdown.css">
+        <!-- <link rel="stylesheet" href="/css/markdown_foad.css"> -->
+        <link rel="stylesheet" href="./PHP_PDO_crud_create_files/menu-markdown.css">
+        <!-- <script src="/js/highlightjs-line-numbers.min.js"></script> -->
+        <script src="./PHP_PDO_crud_create_files/jquery-3.4.1.min.js"></script>
+        <script src="./PHP_PDO_crud_create_files/popper.min.js"></script>
+        <script src="./PHP_PDO_crud_create_files/bootstrap.min.js"></script>
+        <script src="./PHP_PDO_crud_create_files/highlight.js"></script>
+        </head><body><div class="container"><div class="markdown-body"><h1 id="1">PHP - PDO -&gt; CRUD : Create</h1>
+<p><br>
+<br></p>
+<p>Si l'administrateur du site Velvet Record veut pouvoir mettre à jour son site, et qu'il n'est pas développeur, il va falloir lui permettre de créer (puis de gérer) ses différentes <em>fiches</em> d'artistes et disques.<br>
+Allons-y !</p>
+<p><br></p>
+<h2 id="5">Création du formulaire</h2>
+<p>Utilisons un formulaire qui permettra de saisir de nouveaux artistes. Créez un fichier <em>artist_new.php</em>, et collez-y le code suivant :</p>
+<pre><code class="language-html hljs xml"><span class="hljs-meta">&lt;!DOCTYPE html&gt;</span>
+<span class="hljs-tag">&lt;<span class="hljs-name">html</span> <span class="hljs-attr">lang</span>=<span class="hljs-string">"fr"</span>&gt;</span>
+<span class="hljs-tag">&lt;<span class="hljs-name">head</span>&gt;</span>
+    <span class="hljs-tag">&lt;<span class="hljs-name">meta</span> <span class="hljs-attr">charset</span>=<span class="hljs-string">"UTF-8"</span>&gt;</span>
+    <span class="hljs-tag">&lt;<span class="hljs-name">meta</span> <span class="hljs-attr">name</span>=<span class="hljs-string">"viewport"</span> <span class="hljs-attr">content</span>=<span class="hljs-string">"width=device-width, initial-scale=1.0"</span>&gt;</span>
+    <span class="hljs-tag">&lt;<span class="hljs-name">meta</span> <span class="hljs-attr">http-equiv</span>=<span class="hljs-string">"X-UA-Compatible"</span> <span class="hljs-attr">content</span>=<span class="hljs-string">"ie=edge"</span>&gt;</span>
+    <span class="hljs-tag">&lt;<span class="hljs-name">title</span>&gt;</span>PDO - Ajout<span class="hljs-tag">&lt;/<span class="hljs-name">title</span>&gt;</span>
+<span class="hljs-tag">&lt;/<span class="hljs-name">head</span>&gt;</span>
+<span class="hljs-tag">&lt;<span class="hljs-name">body</span>&gt;</span>
+
+    <span class="hljs-tag">&lt;<span class="hljs-name">h1</span>&gt;</span>Saisie d'un nouvel artiste<span class="hljs-tag">&lt;/<span class="hljs-name">h1</span>&gt;</span>
+
+    <span class="hljs-tag">&lt;<span class="hljs-name">a</span> <span class="hljs-attr">href</span>=<span class="hljs-string">"artists.php"</span>&gt;</span><span class="hljs-tag">&lt;<span class="hljs-name">button</span>&gt;</span>Retour à la liste des artistes<span class="hljs-tag">&lt;/<span class="hljs-name">button</span>&gt;</span><span class="hljs-tag">&lt;/<span class="hljs-name">a</span>&gt;</span>
+
+    <span class="hljs-tag">&lt;<span class="hljs-name">br</span>&gt;</span>
+    <span class="hljs-tag">&lt;<span class="hljs-name">br</span>&gt;</span>
+
+    <span class="hljs-tag">&lt;<span class="hljs-name">form</span> <span class="hljs-attr">action</span> =<span class="hljs-string">"script_artist_ajout.php"</span> <span class="hljs-attr">method</span>=<span class="hljs-string">"post"</span>&gt;</span>
+
+        <span class="hljs-tag">&lt;<span class="hljs-name">label</span> <span class="hljs-attr">for</span>=<span class="hljs-string">"nom_for_label"</span>&gt;</span>Nom de l'artiste :<span class="hljs-tag">&lt;/<span class="hljs-name">label</span>&gt;</span><span class="hljs-tag">&lt;<span class="hljs-name">br</span>&gt;</span>
+        <span class="hljs-tag">&lt;<span class="hljs-name">input</span> <span class="hljs-attr">type</span>=<span class="hljs-string">"text"</span> <span class="hljs-attr">name</span>=<span class="hljs-string">"nom"</span> <span class="hljs-attr">id</span>=<span class="hljs-string">"nom_for_label"</span>&gt;</span>
+        <span class="hljs-tag">&lt;<span class="hljs-name">br</span>&gt;</span><span class="hljs-tag">&lt;<span class="hljs-name">br</span>&gt;</span>
+
+        <span class="hljs-tag">&lt;<span class="hljs-name">label</span> <span class="hljs-attr">for</span>=<span class="hljs-string">"url_for_label"</span>&gt;</span>Adresse site internet :<span class="hljs-tag">&lt;/<span class="hljs-name">label</span>&gt;</span><span class="hljs-tag">&lt;<span class="hljs-name">br</span>&gt;</span>
+        <span class="hljs-tag">&lt;<span class="hljs-name">input</span> <span class="hljs-attr">type</span>=<span class="hljs-string">"text"</span> <span class="hljs-attr">name</span>=<span class="hljs-string">"url"</span> <span class="hljs-attr">id</span>=<span class="hljs-string">"url_for_label"</span>&gt;</span>
+        <span class="hljs-tag">&lt;<span class="hljs-name">br</span>&gt;</span><span class="hljs-tag">&lt;<span class="hljs-name">br</span>&gt;</span>
+
+        <span class="hljs-tag">&lt;<span class="hljs-name">input</span> <span class="hljs-attr">type</span>=<span class="hljs-string">"submit"</span> <span class="hljs-attr">value</span>=<span class="hljs-string">"Ajouter"</span>&gt;</span>
+
+    <span class="hljs-tag">&lt;/<span class="hljs-name">form</span>&gt;</span>
+<span class="hljs-tag">&lt;/<span class="hljs-name">body</span>&gt;</span>
+<span class="hljs-tag">&lt;/<span class="hljs-name">html</span>&gt;</span></code></pre>
+<p>On voit ici que notre formulaire sera envoyé avec la méthode <code>POST</code>, vers une page nommée <em>script_artist_ajout.php</em>. Il s'agit donc d'un script local, faisant partie du même projet, soit, un script que nous allons composer nous-mêmes !</p>
+<p><br></p>
+<h2 id="10">Création du script d'ajout</h2>
+<h3 id="11">Récupération des données</h3>
+<p>Récupérons dans un premier temps les données transmises par le formulaire, puis connectons-nous à la base de données.<br>
+Créez le fichier <em>script_artist_ajout.php</em> et collez-y le code suivant :  </p>
+<pre><code class="language-php hljs"><span class="hljs-meta">&lt;?php</span>
+    <span class="hljs-comment">// Récupération du Nom :</span>
+    <span class="hljs-keyword">if</span> (<span class="hljs-keyword">isset</span>($_POST[<span class="hljs-string">'nom'</span>]) &amp;&amp; $_POST[<span class="hljs-string">'nom'</span>] != <span class="hljs-string">""</span>) {
+        $nom = $_POST[<span class="hljs-string">'nom'</span>];
+    }
+    <span class="hljs-keyword">else</span> {
+        $nom = <span class="hljs-keyword">Null</span>;
+    }
+
+    <span class="hljs-comment">// Récupération de l'URL (même traitement, avec une syntaxe abrégée)</span>
+    $url = (<span class="hljs-keyword">isset</span>($_POST[<span class="hljs-string">'url'</span>]) &amp;&amp; $_POST[<span class="hljs-string">'url'</span>] != <span class="hljs-string">""</span>) ? $_POST[<span class="hljs-string">'url'</span>] : <span class="hljs-keyword">Null</span>;
+
+    <span class="hljs-comment">// En cas d'erreur, on renvoie vers le formulaire</span>
+    <span class="hljs-keyword">if</span> ($nom == <span class="hljs-keyword">Null</span> || $url == <span class="hljs-keyword">Null</span>) header(<span class="hljs-string">"Location: artist_new.php"</span>);
+
+    <span class="hljs-comment">// S'il n'y a pas eu de redirection vers le formulaire (= si la vérification des données est ok) :</span>
+    <span class="hljs-keyword">require</span> <span class="hljs-string">"db.php"</span>; 
+    $db = connexionBase();</code></pre>
+<blockquote>
+<p>Pour rappel :<br>
+en PHP, les données envoyées en <code>POST</code> sont stockées dans la superglobale <code>$_POST</code>. Chaque input du formulaire portant un attribut <code>name</code> génère une cellule dans <code>$_POST</code> (qui est un tableau associatif), accessible grâce à la syntaxe suivante : <code>$valeur_input = $_POST["attribut_name"]</code>.</p>
+</blockquote>
+<p><br></p>
+<h3 id="16">Construction de la requête et exécution</h3>
+<p>Nous voulons maintenant créer un enregsitrement dans notre table <em>artist</em>, contenant les données récupérées via notre formulaire.<br>
+Pour ce faire, nous allons créer une <em>requête préparée</em> afin d'éviter les injections SQL. Nous utiliserons ici des <em>marqueurs nommés</em> afin d'envoyer nos données.  </p>
+<p>Ajoutez le code suivant à la suite de <em>script_artist_ajout.php</em> :</p>
+<pre><code class="language-php hljs">
+<span class="hljs-keyword">try</span> {
+    <span class="hljs-comment">// Construction de la requête INSERT sans injection SQL :</span>
+    $requete = $db-&gt;prepare(<span class="hljs-string">"INSERT INTO artist (artist_name, artist_url) VALUES (:nom, :url);"</span>);
+
+    <span class="hljs-comment">// Association des valeurs aux paramètres via bindValue() :</span>
+    $requete-&gt;bindValue(<span class="hljs-string">":url"</span>, $url, PDO::PARAM_STR);
+    $requete-&gt;bindValue(<span class="hljs-string">":nom"</span>, $nom, PDO::PARAM_STR);
+
+    <span class="hljs-comment">// Lancement de la requête :</span>
+    $requete-&gt;execute();
+
+    <span class="hljs-comment">// Libération de la requête (utile pour lancer d'autres requêtes par la suite) :</span>
+    $requete-&gt;closeCursor();
+}
+
+<span class="hljs-comment">// Gestion des erreurs</span>
+<span class="hljs-keyword">catch</span> (<span class="hljs-keyword">Exception</span> $e) {
+    var_dump($requete-&gt;queryString);
+    var_dump($requete-&gt;errorInfo());
+    <span class="hljs-keyword">echo</span> <span class="hljs-string">"Erreur : "</span> . $requete-&gt;errorInfo()[<span class="hljs-number">2</span>] . <span class="hljs-string">"&lt;br&gt;"</span>;
+    <span class="hljs-keyword">die</span>(<span class="hljs-string">"Fin du script (script_artist_ajout.php)"</span>);
+}
+
+<span class="hljs-comment">// Si OK: redirection vers la page artists.php</span>
+header(<span class="hljs-string">"Location: artists.php"</span>);
+
+<span class="hljs-comment">// Fermeture du script</span>
+<span class="hljs-keyword">exit</span>;
+<span class="hljs-meta">?&gt;</span></code></pre>
+<blockquote>
+<p>NB: comme notre colonne <em>artist_id</em> est en <code>AUTO INCREMENT</code>, <strong>nous n'avons pas besoin d'associer une valeur pour cette colonne</strong>.   </p>
+</blockquote>
+<p><br></p>
+<p>Ici la <em>requête préparée</em> d'ajout qui contient des données de formulaire à envoyer, est décomposée en 3 étapes :  </p>
+<ul>
+<li>La préparation de l'instruction (<code>INSERT</code>), avec des marqueurs nommés (<code>:nom</code>, <code>:url</code>) aux endroits où il faut injecter les données</li>
+<li>L'envoi des données à la requête avec la méthode <code>bindValue()</code></li>
+<li>Le lancement du traitement avec la méthode <code>execute()</code></li>
+</ul>
+<p>Une fois le traitement finalisé, et nos données ajoutées en BDD si tout va bien, le script renvoie l'utilisateur vers une autre page (ici, <em>artists.php</em>), et se clôture (<code>exit</code>).</p>
+<blockquote>
+<p>Si vous arrivez jusqu'ici, vérifiez en BDD que votre enregistrement est bien arrivé !  </p>
+</blockquote>
+<p><br></p>
+<p>Vous remarquerez en outre qu'on a placé tout notre traitement dans un <code>TRY ... CATCH</code> afin de récupérer le message d'erreur du SGBDr (MariaDB, MySQL, etc.) le cas échéant, grâce aux informations retournées par la méthode <code>errorInfo()</code> de PDO.  </p>
+<blockquote>
+<p>Faites plusieurs tests d'erreurs volontaires ("cassez" la syntaxe de l'instruction <code>INSERT</code> - par exemple en écrivant <em>atist</em> au lieu de <em>artist</em>, retirez un <code>bindValue()</code>, etc.) pour voir les messages d'erreur générés par votre SGBDr !</p>
+</blockquote>
+<p><br>
+<br>
+<br></p></div><div class="menu-markdown"><img src="./PHP_PDO_crud_create_files/menu.png"><div data-id="1" class="titre">PHP - PDO -&gt; CRUD : Create</div><div data-id="5">Création du formulaire</div><div data-id="10">Création du script d'ajout</div><div data-id="11">&nbsp;&nbsp;&nbsp;&nbsp;Récupération des données</div><div data-id="16">&nbsp;&nbsp;&nbsp;&nbsp;Construction de la requête et exécution</div></div></div><script>hljs.initHighlightingOnLoad();//hljs.initLineNumbersOnLoad();</script><script src="./PHP_PDO_crud_create_files/menu-markdown.js"></script></body></html>

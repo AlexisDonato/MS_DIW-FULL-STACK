@@ -1,0 +1,105 @@
+<!DOCTYPE html>
+<!-- saved from url=(0084)https://ncode.amorce.org/ressources/Pool/MS_FULL_STACK/PHP/PDO/PHP_PDO_synthese.html -->
+<html><head><meta http-equiv="Content-Type" content="text/html; charset=UTF-8"><title></title>
+        <meta name="viewport" content="width=device-width, initial-scale=1">
+        <link rel="stylesheet" href="./PHP_PDO_synthese_files/font-awesome.min.css">
+        <link rel="stylesheet" href="./PHP_PDO_synthese_files/bootstrap.min.css">
+        <link rel="stylesheet" href="./PHP_PDO_synthese_files/darcula.css">
+        <!-- <link rel="stylesheet" href="/css/highlight/line-number.css"> -->
+        <link rel="stylesheet" href="./PHP_PDO_synthese_files/github-markdown.css">
+        <!-- <link rel="stylesheet" href="/css/markdown_foad.css"> -->
+        <link rel="stylesheet" href="./PHP_PDO_synthese_files/menu-markdown.css">
+        <!-- <script src="/js/highlightjs-line-numbers.min.js"></script> -->
+        <script src="./PHP_PDO_synthese_files/jquery-3.4.1.min.js"></script>
+        <script src="./PHP_PDO_synthese_files/popper.min.js"></script>
+        <script src="./PHP_PDO_synthese_files/bootstrap.min.js"></script>
+        <script src="./PHP_PDO_synthese_files/highlight.js"></script>
+        </head><body><div class="container"><div class="markdown-body"><h1 id="1">PHP -&gt; PDO - Synthèse</h1>
+<p><br>
+<br></p>
+<h2 id="3">Se connecter à une base de données</h2>
+<pre><code class="language-php hljs"><span class="hljs-keyword">try</span> {
+    $db = <span class="hljs-keyword">new</span> PDO(<span class="hljs-string">'mysql:host=localhost;dbname=record'</span>, <span class="hljs-string">'admin'</span>, <span class="hljs-string">'votremotdepasse'</span>);
+    $db-&gt;setAttribute(PDO::ATTR_ERRMODE, PDO::ERRMODE_EXCEPTION);
+} <span class="hljs-keyword">catch</span> (PDOException $e) {
+    <span class="hljs-keyword">print</span> <span class="hljs-string">"Erreur !: "</span> . $e-&gt;getMessage() . <span class="hljs-string">"&lt;br&gt;"</span>;
+    <span class="hljs-keyword">die</span>();
+}</code></pre>
+<p><br>
+<br></p>
+<h2 id="6">Exécuter une requête</h2>
+<h3 id="7"><strong>Lecture globale</strong></h3>
+<pre><code class="language-php hljs"><span class="hljs-comment">// recherche de tous les artistes :</span>
+$requete = $db-&gt;query(<span class="hljs-string">"SELECT * FROM artist"</span>);
+
+<span class="hljs-comment">// récupération de tous les enregistrements trouvés avec fetchAll() :</span>
+$tableau = $requete-&gt;fetchAll(PDO::FETCH_OBJ);
+
+<span class="hljs-comment">// manipulation des données :</span>
+<span class="hljs-keyword">foreach</span> ($tableau <span class="hljs-keyword">as</span> $ligne) {
+    <span class="hljs-comment">// syntaxe avec $variable-&gt;nomcolonne à cause du mode PDO::FETCH_OBJ dans fetchAll()</span>
+    <span class="hljs-keyword">echo</span> $ligne-&gt;artist_name;
+}</code></pre>
+<p><strong><em>ou</em></strong></p>
+<pre><code class="language-php hljs"><span class="hljs-comment">// recherche de tous les artistes :</span>
+$requete = $db-&gt;query(<span class="hljs-string">"SELECT * FROM artist"</span>);
+
+<span class="hljs-comment">// récupération d'un enregistrement à la fois avec fetch() :</span>
+<span class="hljs-keyword">while</span> ($ligne = $requete-&gt;fetch())
+{
+    <span class="hljs-comment">// syntaxe avec $variable["nomcolonne"] car par défaut le fetch() prend le mode PDO::FETCH_ASSOC</span>
+    <span class="hljs-keyword">echo</span> $ligne[<span class="hljs-string">"artist_name"</span>];
+}</code></pre>
+<p><br></p>
+<h3 id="12"><strong>Lecture avec paramètres</strong></h3>
+<pre><code class="language-php hljs"><span class="hljs-comment">// exemple avec "Neil Young" :</span>
+$name = <span class="hljs-string">"Neil Young"</span>;
+
+$requete = $db-&gt;prepare(<span class="hljs-string">"SELECT * FROM artist WHERE artist_name= :nom"</span>);
+$requete-&gt;bindValue(<span class="hljs-string">":nom"</span>, $name);
+$requete-&gt;execute();
+
+<span class="hljs-comment">// puis lecture des données :</span>
+$tableau = $requete-&gt;fetchAll(PDO::FETCH_OBJ);</code></pre>
+<p><strong><em>ou</em></strong></p>
+<pre><code class="language-php hljs">$requete = $db-&gt;prepare(<span class="hljs-string">"SELECT * FROM artist WHERE artist_name=?"</span>);
+$requete-&gt;execute(<span class="hljs-keyword">array</span>($name));
+
+$tableau = $requete-&gt;fetchAll(PDO::FETCH_OBJ);</code></pre>
+<p><strong><em>ou</em></strong></p>
+<pre><code class="language-php hljs">$requete = $db-&gt;prepare(<span class="hljs-string">"SELECT * FROM artist WHERE artist_name= :nom"</span>);
+$requete-&gt;bindParameter(<span class="hljs-string">":nom"</span>, $name);
+
+<span class="hljs-comment">// ... autres traitements pouvant éventuellement changer la valeur de $name</span>
+$requete-&gt;execute();
+
+$tableau = $requete-&gt;fetchAll(PDO::FETCH_OBJ);</code></pre>
+<p><br></p>
+<h3 id="19"><strong>Action d'insertion de données</strong></h3>
+<pre><code class="language-php hljs">$requete = $db-&gt;prepare(<span class="hljs-string">"INSERT INTO artist (artist_name, artist_url) VALUES (?, ?);"</span>);
+$requete-&gt;execute(<span class="hljs-keyword">array</span>($name, $url));</code></pre>
+<p><br></p>
+<h3 id="22"><strong>Action de modification de données</strong></h3>
+<pre><code class="language-php hljs">$requete = $db-&gt;prepare(<span class="hljs-string">"UPDATE artist SET artist_name = :nom, artist_url = :url WHERE artist_id = :id;"</span>);
+$requete-&gt;bindValue(<span class="hljs-string">":id"</span>, $id)
+$requete-&gt;bindValue(<span class="hljs-string">":nom"</span>, $name)
+$requete-&gt;bindValue(<span class="hljs-string">":url"</span>, $url)
+$requete-&gt;execute();</code></pre>
+<p><br></p>
+<h3 id="25"><strong>Action de suppression de données</strong></h3>
+<pre><code class="language-php hljs">$requete = $db-&gt;prepare(<span class="hljs-string">"DELETE FROM artist WHERE artist_id = :id;"</span>);
+$requete-&gt;execute(<span class="hljs-keyword">array</span>($id));</code></pre>
+<p><br>
+<br></p>
+<h2 id="28">Ressources complémentaires</h2>
+<ul>
+<li><a href="https://fr.wikipedia.org/wiki/PHP_Data_Objects">Définition de PDO</a></li>
+<li><a href="https://www.php.net/manual/fr/book.pdo.php">Liste complète des méthodes de PDO</a></li>
+<li><a href="https://www.php.net/manual/fr/pdo.setattribute.php">La méthode <code>setAttribute()</code></a>  </li>
+<li><a href="https://apprendre-php.com/tutoriels/tutoriel-29-les-classes-et-objets.html">Les classes et objets en PHP</a></li>
+<li><a href="https://www.php.net/manual/fr/language.exceptions.php">Les exceptions</a>  </li>
+<li><a href="https://www.php.net/manual/fr/class.pdoexception.php">La classe PDOException</a>  </li>
+</ul>
+<p><br>
+<br>
+<br></p></div><div class="menu-markdown"><img src="./PHP_PDO_synthese_files/menu.png"><div data-id="1" class="titre">PHP -&gt; PDO - Synthèse</div><div data-id="3">Se connecter à une base de données</div><div data-id="6">Exécuter une requête</div><div data-id="7">&nbsp;&nbsp;&nbsp;&nbsp;<strong>Lecture globale</strong></div><div data-id="12">&nbsp;&nbsp;&nbsp;&nbsp;<strong>Lecture avec paramètres</strong></div><div data-id="19">&nbsp;&nbsp;&nbsp;&nbsp;<strong>Action d'insertion de données</strong></div><div data-id="22">&nbsp;&nbsp;&nbsp;&nbsp;<strong>Action de modification de données</strong></div><div data-id="25">&nbsp;&nbsp;&nbsp;&nbsp;<strong>Action de suppression de données</strong></div><div data-id="28">Ressources complémentaires</div></div></div><script>hljs.initHighlightingOnLoad();//hljs.initLineNumbersOnLoad();</script><script src="./PHP_PDO_synthese_files/menu-markdown.js"></script></body></html>

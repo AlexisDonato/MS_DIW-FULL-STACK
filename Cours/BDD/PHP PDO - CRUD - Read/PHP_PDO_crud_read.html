@@ -1,0 +1,104 @@
+<!DOCTYPE html>
+<!-- saved from url=(0085)https://ncode.amorce.org/ressources/Pool/MS_FULL_STACK/PHP/PDO/PHP_PDO_crud_read.html -->
+<html><head><meta http-equiv="Content-Type" content="text/html; charset=UTF-8"><title></title>
+        <meta name="viewport" content="width=device-width, initial-scale=1">
+        <link rel="stylesheet" href="./PHP_PDO_crud_read_files/font-awesome.min.css">
+        <link rel="stylesheet" href="./PHP_PDO_crud_read_files/bootstrap.min.css">
+        <link rel="stylesheet" href="./PHP_PDO_crud_read_files/darcula.css">
+        <!-- <link rel="stylesheet" href="/css/highlight/line-number.css"> -->
+        <link rel="stylesheet" href="./PHP_PDO_crud_read_files/github-markdown.css">
+        <!-- <link rel="stylesheet" href="/css/markdown_foad.css"> -->
+        <link rel="stylesheet" href="./PHP_PDO_crud_read_files/menu-markdown.css">
+        <!-- <script src="/js/highlightjs-line-numbers.min.js"></script> -->
+        <script src="./PHP_PDO_crud_read_files/jquery-3.4.1.min.js"></script>
+        <script src="./PHP_PDO_crud_read_files/popper.min.js"></script>
+        <script src="./PHP_PDO_crud_read_files/bootstrap.min.js"></script>
+        <script src="./PHP_PDO_crud_read_files/highlight.js"></script>
+        </head><body><div class="container"><div class="markdown-body"><h1 id="1">PHP - PDO -&gt; CRUD : Read</h1>
+<p><br>
+<br></p>
+<p>Créons ici une interface permettant de visualiser le détail d'une fiche (pour éventuellement ensuite, la modifier ou la supprimer).  </p>
+<p><br></p>
+<h2 id="5">Création d'un lien vers la fiche</h2>
+<p>Modifiez le tableau contenant la liste de vos artistes (page <em>artists.php</em>) pour ajouter une colonne qui contiendra un lien de redirection vers la fiche détaillée chaque artiste :</p>
+<pre><code class="language-php hljs"><span class="hljs-comment">// Début de page : traitement PHP + entête HTML</span>
+<span class="hljs-comment">// ...</span>
+
+    &lt;table&gt;
+        &lt;tr&gt;
+            &lt;th&gt;ID&lt;/th&gt;
+            &lt;th&gt;Nom&lt;/th&gt;
+            &lt;!-- Ici, on ajoute une colonne pour insérer un lien --&gt;
+            &lt;th&gt;&lt;/th&gt;
+        &lt;/tr&gt;
+
+        <span class="hljs-meta">&lt;?php</span> <span class="hljs-keyword">foreach</span> ($tableau <span class="hljs-keyword">as</span> $artist): <span class="hljs-meta">?&gt;</span>
+        &lt;tr&gt;
+            &lt;td&gt;<span class="hljs-meta">&lt;?</span>= $artist-&gt;artist_id <span class="hljs-meta">?&gt;</span>&lt;/td&gt;
+            &lt;td&gt;<span class="hljs-meta">&lt;?</span>= $artist-&gt;artist_name <span class="hljs-meta">?&gt;</span>&lt;/td&gt;
+            &lt;!-- Ici, on ajoute un lien par artiste pour accéder à sa fiche : --&gt;
+            &lt;td&gt;&lt;a href=<span class="hljs-string">"artist_detail.php?id=&lt;?= $artist-&gt;artist_id ?&gt;"</span>&gt;Détail&lt;/a&gt;&lt;/td&gt;
+        &lt;/tr&gt;
+        <span class="hljs-meta">&lt;?php</span> <span class="hljs-keyword">endforeach</span>; <span class="hljs-meta">?&gt;</span>
+
+    &lt;/table&gt;
+
+<span class="hljs-comment">// Fin de page : fermetures de blocs HTML</span></code></pre>
+<blockquote>
+<p>Testez ce nouvel affichage !</p>
+</blockquote>
+<p>En survolant chaque lien avec la souris, on se rend vite compte  </p>
+<ul>
+<li>que <code>Détail</code> renvoie systématiquement vers la page <em>artist_detail.php</em>,  </li>
+<li>et qu'un paramètre nommé <code>id</code>, contenant l'identifiant de la fiche de l'artiste concerné dans la ligne du tableau, est envoyé à cette page via la méthode <code>GET</code> (visible dans l'URL grâce au <code>?</code>).</li>
+</ul>
+<p><br></p>
+<p>Construisons maintenant cette page <em>artist_detail.php</em> !</p>
+<p><br>
+<br></p>
+<h2 id="14">Affichage des informations d'un enregistrement</h2>
+<p>Nous allons maintenant concevoir la page permettant d'afficher le détail d'un de nos artistes. Le numéro identifiant de la fiche a été passé en paramètre à la page, via la méthode <code>GET</code>.</p>
+<p>Si la page se nomme <em>artist_detail.php</em>, elle sera donc déclenchée de cette façon :</p>
+<pre><code class="hljs dts"><span class="hljs-symbol">https:</span><span class="hljs-comment">//urlduserveurlocal/artist_detail.php?id=4</span></code></pre>
+<p>Et contiendra le code suivant :  </p>
+<pre><code class="language-php hljs"><span class="hljs-meta">&lt;?php</span>
+    <span class="hljs-comment">// On se connecte à la BDD via notre fichier db.php :</span>
+    <span class="hljs-keyword">require</span> <span class="hljs-string">"db.php"</span>;
+    $db = connexionBase();
+
+    <span class="hljs-comment">// On récupère l'ID passé en paramètre :</span>
+    $id = $_GET[<span class="hljs-string">"id"</span>];
+
+    <span class="hljs-comment">// On crée une requête préparée avec condition de recherche :</span>
+    $requete = $db-&gt;prepare(<span class="hljs-string">"SELECT * FROM artist WHERE artist_id=?"</span>);
+    <span class="hljs-comment">// on ajoute l'ID du disque passé dans l'URL en paramètre et on exécute :</span>
+    $requete-&gt;execute(<span class="hljs-keyword">array</span>($id));
+
+    <span class="hljs-comment">// on récupère le 1e (et seul) résultat :</span>
+    $myArtist = $requete-&gt;fetch(PDO::FETCH_OBJ);
+
+    <span class="hljs-comment">// on clôt la requête en BDD</span>
+    $requete-&gt;closeCursor();
+<span class="hljs-meta">?&gt;</span>
+
+&lt;!DOCTYPE html&gt;
+&lt;html lang=<span class="hljs-string">"fr"</span>&gt;
+    &lt;head&gt;
+        &lt;meta charset=<span class="hljs-string">"UTF-8"</span>&gt;
+        &lt;meta http-equiv=<span class="hljs-string">"X-UA-Compatible"</span> content=<span class="hljs-string">"IE=edge"</span>&gt;
+        &lt;meta name=<span class="hljs-string">"viewport"</span> content=<span class="hljs-string">"width=device-width, initial-scale=1.0"</span>&gt;
+        &lt;title&gt;PDO - Détail&lt;/title&gt;
+    &lt;/head&gt;
+    &lt;body&gt;
+        Artiste N°<span class="hljs-meta">&lt;?php</span> <span class="hljs-keyword">echo</span> $myArtist-&gt;artist_id <span class="hljs-meta">?&gt;</span>
+        Nom de l<span class="hljs-string">'artiste : &lt;?= $myArtist-&gt;artist_name ?&gt;
+        Site Internet : &lt;?= $myArtist-&gt;artist_url ?&gt;
+    &lt;/body&gt;
+&lt;/html&gt;</span></code></pre>
+<p><br></p>
+<p>Testez cette page avec différentes valeurs pour vérifier son bon fonctionnement !  </p>
+<p>Essayez avec un ID d'artiste qui n'existe pas : la variable <code>$myArtist</code> contient la valeur <code>null</code> (vérifiez avec un <code>var_dump();</code>).</p>
+<p>Faites ensuite en sorte que votre page affiche un message particulier si la fiche n'est pas trouvée en BDD.</p>
+<p><br>
+<br>
+<br></p></div><div class="menu-markdown"><img src="./PHP_PDO_crud_read_files/menu.png"><div data-id="1" class="titre">PHP - PDO -&gt; CRUD : Read</div><div data-id="5">Création d'un lien vers la fiche</div><div data-id="14">Affichage des informations d'un enregistrement</div></div></div><script>hljs.initHighlightingOnLoad();//hljs.initLineNumbersOnLoad();</script><script src="./PHP_PDO_crud_read_files/menu-markdown.js"></script></body></html>

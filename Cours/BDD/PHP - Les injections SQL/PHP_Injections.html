@@ -1,0 +1,116 @@
+<!DOCTYPE html>
+<!-- saved from url=(0078)https://ncode.amorce.org/ressources/Pool/MS_FULL_STACK/PHP/PHP_Injections.html -->
+<html><head><meta http-equiv="Content-Type" content="text/html; charset=UTF-8"><title></title>
+        <meta name="viewport" content="width=device-width, initial-scale=1">
+        <link rel="stylesheet" href="./PHP_Injections_files/font-awesome.min.css">
+        <link rel="stylesheet" href="./PHP_Injections_files/bootstrap.min.css">
+        <link rel="stylesheet" href="./PHP_Injections_files/darcula.css">
+        <!-- <link rel="stylesheet" href="/css/highlight/line-number.css"> -->
+        <link rel="stylesheet" href="./PHP_Injections_files/github-markdown.css">
+        <!-- <link rel="stylesheet" href="/css/markdown_foad.css"> -->
+        <link rel="stylesheet" href="./PHP_Injections_files/menu-markdown.css">
+        <!-- <script src="/js/highlightjs-line-numbers.min.js"></script> -->
+        <script src="./PHP_Injections_files/jquery-3.4.1.min.js"></script>
+        <script src="./PHP_Injections_files/popper.min.js"></script>
+        <script src="./PHP_Injections_files/bootstrap.min.js"></script>
+        <script src="./PHP_Injections_files/highlight.js"></script>
+        </head><body><div class="container"><div class="markdown-body"><h1 id="1">PHP - Les injections SQL</h1>
+<p><br>
+<br></p>
+<h2 id="3">Quel est le problème ?</h2>
+<p>L'<em>injection SQL</em> est un type d'attaque qui consiste à tenter l'exécution de requêtes SQL non souhaitées :</p>
+<ul>
+<li>soit par saisie dans un champ de formulaire, </li>
+<li>soit par ajout de en paramètres d'une url. </li>
+</ul>
+<p><br></p>
+<p>Il s'agit d'une faille de sécurité spécifique au SQL, on la retrouve donc aussi bien dans MySql, SQL Server etc. et quel que soit le langage côté serveur utilisé : PHP, Java, .Net...   </p>
+<p>Les principaux risques sont : </p>
+<ul>
+<li>un accès non autorisé à des données ou à des pages en théorie protégées par session </li>
+<li>l'exécution d'actions non voulues sur la base (modification/suppression d'enregistrements, de tables...)</li>
+<li>l'usurpation / élévation de droits</li>
+</ul>
+<p><br>
+<br></p>
+<h2 id="11">Exemple 1 : attaque d'un formulaire de connexion</h2>
+<p>L'attaque consiste à tenter de passer outre l'authentification sur un site, grâce à l'ajout de conditions de recherche sur un utilisateur en BDD.<br>
+Cela peut permettre de dévoiler en outre d'autres informations (voir tous les logins, et éventuellement les niveaux d'habilitation/rôles).   </p>
+<p>Code HTML du formulaire :</p>
+<pre><code class="language-html hljs xml"><span class="hljs-tag">&lt;<span class="hljs-name">form</span> <span class="hljs-attr">action</span>=<span class="hljs-string">"login.php"</span> <span class="hljs-attr">method</span>=<span class="hljs-string">"post"</span>&gt;</span>                                           
+    <span class="hljs-tag">&lt;<span class="hljs-name">label</span> <span class="hljs-attr">for</span>=<span class="hljs-string">"login"</span>&gt;</span>Login<span class="hljs-tag">&lt;/<span class="hljs-name">label</span>&gt;</span> 
+        <span class="hljs-tag">&lt;<span class="hljs-name">input</span> <span class="hljs-attr">type</span>=<span class="hljs-string">"text"</span> <span class="hljs-attr">name</span>=<span class="hljs-string">"login"</span> <span class="hljs-attr">value</span>=<span class="hljs-string">"' or '1=1"</span>&gt;</span>
+
+    <span class="hljs-tag">&lt;<span class="hljs-name">label</span> <span class="hljs-attr">for</span>=<span class="hljs-string">"password"</span>&gt;</span>Mot de passe<span class="hljs-tag">&lt;/<span class="hljs-name">label</span>&gt;</span> 
+    <span class="hljs-tag">&lt;<span class="hljs-name">input</span> <span class="hljs-attr">type</span>=<span class="hljs-string">"text"</span> <span class="hljs-attr">name</span>=<span class="hljs-string">"password"</span> <span class="hljs-attr">value</span>=<span class="hljs-string">"' or '1=1"</span>&gt;</span>                                  
+
+    <span class="hljs-tag">&lt;<span class="hljs-name">input</span> <span class="hljs-attr">type</span>=<span class="hljs-string">"submit"</span> <span class="hljs-attr">value</span>=<span class="hljs-string">"Connexion"</span>&gt;</span>
+<span class="hljs-tag">&lt;/<span class="hljs-name">form</span>&gt;</span>          </code></pre>
+<p>Code du fichier PHP de traitement :</p>
+<pre><code class="language-php hljs">$sql = <span class="hljs-string">"SELECT * FROM users WHERE login='"</span>.$_POST[<span class="hljs-string">"login"</span>].<span class="hljs-string">"' AND password='"</span>.$_POST[<span class="hljs-string">"password"</span>].<span class="hljs-string">"'"</span>;
+
+$result = $db-&gt;query($sql);</code></pre>
+<p><br></p>
+<p>La requête qui devrait <strong>normalement</strong> être exécutée est la suivante (les valeurs <em>Pierre</em> et <em>azerty1</em> sont dans la table <em>users</em>) : </p>
+<pre><code class="language-sql hljs"><span class="hljs-keyword">SELECT</span> * <span class="hljs-keyword">FROM</span> <span class="hljs-keyword">users</span> <span class="hljs-keyword">WHERE</span> login=<span class="hljs-string">'Pierre'</span> <span class="hljs-keyword">AND</span> <span class="hljs-keyword">password</span>=<span class="hljs-string">'azerty1'</span>  </code></pre>
+<p>La requête <strong>réellement</strong> exécutée :</p>
+<pre><code class="language-sql hljs"><span class="hljs-keyword">SELECT</span> * <span class="hljs-keyword">FROM</span> <span class="hljs-keyword">users</span> <span class="hljs-keyword">WHERE</span> login=<span class="hljs-string">''</span> <span class="hljs-keyword">or</span> <span class="hljs-string">'1=1'</span> <span class="hljs-keyword">AND</span> <span class="hljs-keyword">password</span>=<span class="hljs-string">''</span> <span class="hljs-keyword">or</span> <span class="hljs-string">'1=1'</span></code></pre>
+<p>Explications :</p>
+<ul>
+<li>Pour le champ login, le guillement simple issu de la saisie vient fermer le <code>WHERE login='</code>  </li>
+<li>Ensuite <code>OR '1=1'</code> pose un <em>OU</em> , comme il n'y a pas de login avecune valeur vide dans la base c'est la condition du <code>OR</code> qui s'applique et comme 1=1 est toujours vrai, c'est ce résultat qui est considéré comme bon.</li>
+<li>Pour le login, on a le même mécanisme (puisqu'il a aété saisi la même chose).     </li>
+</ul>
+<p><br></p>
+<p>Dans ce formulaire de connexion, la suite du script est bien sûr d'ouvrir une session considérant que le login/mot de passe est bon : </p>
+<pre><code class="language-php hljs">$user = $result-&gt;fetch(PDO::FETCH_OBJ);
+
+var_dump($user);
+
+<span class="hljs-keyword">if</span> ($user) {
+    $_SESSION[<span class="hljs-string">"connected"</span>] = <span class="hljs-keyword">TRUE</span>;
+} <span class="hljs-keyword">else</span> {
+    $_SESSION[<span class="hljs-string">"connected"</span>] = <span class="hljs-keyword">FALSE</span>;
+}</code></pre>
+<p>Comme notre requête non sécurisée retourne bien un résultat, on se retrouve bien avec une session ouverte, malgré qu'aucun login ni mot de passe corrects n'aient été saisis !  </p>
+<blockquote>
+<p>Cet exemple va fonctionner selon l'écriture des guillemets (simples ou doubles) ; mais les hackers vont, eux, essayer toutes les combinaisons ! </p>
+</blockquote>
+<p><br></p>
+<p>Ci-dessous, des exemples de syntaxes implémentant l'injection SQL :</p>
+<pre><code class="language-php hljs">$sql = <span class="hljs-string">"SELECT * FROM users WHERE login='$login' AND password='$password'"</span>;
+$sql = <span class="hljs-string">"SELECT * FROM users WHERE login='"</span>.$login.<span class="hljs-string">"' AND password='"</span>.$password.<span class="hljs-string">"'"</span>; 
+$sql = <span class="hljs-string">"SELECT * FROM users WHERE login='"</span>.$_POST[<span class="hljs-string">"login"</span>].<span class="hljs-string">"' AND password='"</span>.$_POST[<span class="hljs-string">"password"</span>].<span class="hljs-string">"'"</span>; 
+$sql = <span class="hljs-string">"SELECT * FROM users WHERE login='{$_POST["</span>login<span class="hljs-string">"]}' AND password='{$_POST["</span>password<span class="hljs-string">"]}'"</span>;    </code></pre>
+<p>Et ci-dessous, syntaxe n'implémentant <em>pas</em> l'injection SQL :</p>
+<pre><code class="language-php hljs">$sql = <span class="hljs-string">"SELECT * FROM users WHERE login=\""</span>.$_POST[<span class="hljs-string">"login"</span>].<span class="hljs-string">"\" AND password=\""</span>.$_POST[<span class="hljs-string">"password"</span>].<span class="hljs-string">"\""</span>;</code></pre>
+<p><br>
+<br></p>
+<h2 id="35">Exemple 2 : exécution d'une requête de suppression</h2>
+<p>L'injection SQL permet en théorie d'exécuter tout type de requête.</p>
+<p>On pourrait par exemple saisir ceci dans un champ de formulaire de connexion : </p>
+<pre><code class="hljs sql">Pierre'; <span class="hljs-keyword">DELETE</span> <span class="hljs-keyword">FROM</span> <span class="hljs-keyword">users</span> </code></pre>
+<p>Ce qui donnerait comme requête :</p>
+<pre><code class="language-sql hljs"><span class="hljs-keyword">SELECT</span> * <span class="hljs-keyword">FROM</span> <span class="hljs-keyword">users</span> <span class="hljs-keyword">WHERE</span> login=<span class="hljs-string">'Pierre'</span>; <span class="hljs-keyword">DELETE</span> <span class="hljs-keyword">FROM</span> <span class="hljs-keyword">users</span>;  </code></pre>
+<p><br></p>
+<p>En PHP, les fonctions d'exécution de requêtes - <code>mysqli_query</code> ou, avec PDO, <code>-&gt;query</code> et <code>-&gt;exec()</code> bloquent désormais les requêtes multiples. Attention, ceci n'est peut-être pas le cas pour d'autres langages. </p>
+<p><br>
+<br></p>
+<h2 id="44">Parades</h2>
+<ul>
+<li>En priorité, utiliser le connecteur PDO et, surtout des <strong>requêtes préparées</strong></li>
+<li>Echapper les caractères à risques, avec les fonctions PHP <a href="http://php.net/manual/fr/function.htmlspecialchars.php" target="_blank"><code>htmlspecialchars()</code></a> ou <a href="http://php.net/manual/fr/function.htmlentities.php" target="_blank"><code>htmlentities()</code></a>, qui transforment les caractères spéciaux en entités HTML (cf. la faille XSS)</li>
+<li>Bien filtrer les données saisies dans un formulaire ou transmises par les urls : <strong>ne jamais faire confiance à l'utilisateur</strong> !</li>
+<li>Spécifier des droits et des rôles utilisateur sur les bases de données. </li>
+</ul>
+<p><br>
+<br></p>
+<h2 id="47">Ressources complémentaires</h2>
+<p>D'autres exemples d'injection SQL en PHP :</p>
+<ul>
+<li><a href="http://php.net/manual/fr/security.database.sql-injection.php" target="_blank">Exemple 1</a></li>
+<li><a href="https://www.phpsecure.info/v2/article/InjSql.php" target="_blank">Exemple 2</a></li>
+</ul>
+<p><br>
+<br>
+<br></p></div><div class="menu-markdown"><img src="./PHP_Injections_files/menu.png"><div data-id="1" class="titre">PHP - Les injections SQL</div><div data-id="3">Quel est le problème ?</div><div data-id="11">Exemple 1 : attaque d'un formulaire de connexion</div><div data-id="35">Exemple 2 : exécution d'une requête de suppression</div><div data-id="44">Parades</div><div data-id="47">Ressources complémentaires</div></div></div><script>hljs.initHighlightingOnLoad();//hljs.initLineNumbersOnLoad();</script><script src="./PHP_Injections_files/menu-markdown.js"></script></body></html>

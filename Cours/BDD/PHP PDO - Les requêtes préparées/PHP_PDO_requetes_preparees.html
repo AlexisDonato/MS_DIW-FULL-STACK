@@ -1,0 +1,141 @@
+<!DOCTYPE html>
+<!-- saved from url=(0094)https://ncode.amorce.org/ressources/Pool/MS_FULL_STACK/PHP/PDO/PHP_PDO_requetes_preparees.html -->
+<html><head><meta http-equiv="Content-Type" content="text/html; charset=UTF-8"><title></title>
+        <meta name="viewport" content="width=device-width, initial-scale=1">
+        <link rel="stylesheet" href="./PHP_PDO_requetes_preparees_files/font-awesome.min.css">
+        <link rel="stylesheet" href="./PHP_PDO_requetes_preparees_files/bootstrap.min.css">
+        <link rel="stylesheet" href="./PHP_PDO_requetes_preparees_files/darcula.css">
+        <!-- <link rel="stylesheet" href="/css/highlight/line-number.css"> -->
+        <link rel="stylesheet" href="./PHP_PDO_requetes_preparees_files/github-markdown.css">
+        <!-- <link rel="stylesheet" href="/css/markdown_foad.css"> -->
+        <link rel="stylesheet" href="./PHP_PDO_requetes_preparees_files/menu-markdown.css">
+        <!-- <script src="/js/highlightjs-line-numbers.min.js"></script> -->
+        <script src="./PHP_PDO_requetes_preparees_files/jquery-3.4.1.min.js"></script>
+        <script src="./PHP_PDO_requetes_preparees_files/popper.min.js"></script>
+        <script src="./PHP_PDO_requetes_preparees_files/bootstrap.min.js"></script>
+        <script src="./PHP_PDO_requetes_preparees_files/highlight.js"></script>
+        </head><body><div class="container"><div class="markdown-body"><h1 id="1">PHP - PDO -&gt; Les requêtes préparées</h1>
+<p><br>
+<br></p>
+<p>Une <em>requête préparée</em> est en quelques sortes un "modèle" de requête, qui sera gardé en mémoire et qui pourra être réutilisé plusieurs fois (avec les mêmes paramètres, ou des paramètres différents). Elle utilise donc moins de ressources, et s'exécute plus rapidement !  </p>
+<p>Elle permet en outre d'éviter les <em>injections SQL</em> !</p>
+<p><br>
+<br></p>
+<h2 id="6">Construction d'une requête préparée</h2>
+<h3 id="7">Préparation de l'instruction</h3>
+<p>On utilise la méthode <code>prepare()</code> pour construire notre "modèle" de requête.  </p>
+<p>Comme <strong>nous n'allons pas mettre directement les valeurs dans celle-ci</strong> afin de pouvoir l'utiliser plusieurs fois, nous mettrons à la place ce que l'on appelle des <strong>marqueurs</strong> (qui seront bien sûr remplacés par nos valeurs, plus tard).  </p>
+<p>Il existe deux types de marqueurs :  </p>
+<ul>
+<li>Les marqueurs <strong>nommés</strong>, qui ont la syntaxe suivante : <code>:data</code></li>
+<li>Les marqueurs <strong>interrogatifs</strong>, qui prennent la forme d'un <code>?</code>    </li>
+</ul>
+<p><br></p>
+<p><strong><em>Exemple :</em></strong> </p>
+<p>Avec des marqueurs interrogatifs :</p>
+<pre><code class="language-php hljs"><span class="hljs-comment">// Préparation de la requête</span>
+$requete = <span class="hljs-string">"INSERT INTO artist (artist_name, artist_url) VALUES (?, ?)"</span>;
+$req = $db-&gt;prepare($requete);</code></pre>
+<p>ou encore, sans variable, et avec des marqueurs nommés :  </p>
+<pre><code class="language-php hljs"><span class="hljs-comment">// Préparation de la requête</span>
+$db-&gt;prepare(<span class="hljs-string">"INSERT INTO artist (artist_name, artist_url) VALUES (:nom_artiste, :url_artiste)"</span>);</code></pre>
+<p><br>
+<br></p>
+<h2 id="19">Association de valeurs et lancement de la requête</h2>
+<h3 id="20">Remplacement des marqueurs</h3>
+<p>Nous allons ensuite devoir associer nos valeurs à ces marqueurs pour pouvoir exécuter notre requête. Pour ce faire, nous allons utiliser la méthode <a href="https://www.php.net/manual/fr/pdostatement.bindvalue.php" target="_blank"><code>bindValue()</code></a>.</p>
+<p><br></p>
+<p><strong><em>Exemple :</em></strong> </p>
+<p>Avec des marqueurs nommés :</p>
+<pre><code class="language-php hljs">$requete = <span class="hljs-string">"INSERT INTO artist (artist_name, artist_url) VALUES (:nom_artiste, :url_artiste)"</span>;
+$req = $db-&gt;prepare($requete);
+
+<span class="hljs-comment">// Association des valeurs aux paramètres :</span>
+$req-&gt;bindValue(<span class="hljs-string">":nom_artiste"</span>, $monartiste);
+$req-&gt;bindValue(<span class="hljs-string">":url_artiste"</span>, $urldemonartiste);</code></pre>
+<p>Et avec des marqueurs interrogatifs :  </p>
+<pre><code class="language-php hljs">$req = $db-&gt;prepare(<span class="hljs-string">"INSERT INTO artist (artist_name, artist_url) VALUES (?, ?)"</span>);
+
+<span class="hljs-comment">// Association des valeurs aux paramètres :</span>
+$req-&gt;bindValue(<span class="hljs-number">1</span>, $monartiste);
+$req-&gt;bindValue(<span class="hljs-number">2</span>, $urldemonartiste);</code></pre>
+<p><br></p>
+<h3 id="29">Exécution de la requête</h3>
+<p>Une fois nos données ajoutées, il ne reste simplement plus qu'à utiliser la méthode <code>execute()</code>, pour lancer notre requête :  </p>
+<blockquote>
+<p>Ajoutons un <code>TRY ... CATCH</code> pour plus de sécurité tout de même...</p>
+</blockquote>
+<pre><code class="language-php hljs"><span class="hljs-keyword">try</span> {
+    $req = $db-&gt;prepare(<span class="hljs-string">"INSERT INTO artist (artist_name, artist_url) VALUES (:nom_artiste, :url_artiste)"</span>);
+    $req-&gt;bindValue(:sta_nom, $monartiste);
+    $req-&gt;bindValue(:sta_altitude, $urldemonartiste);
+
+    <span class="hljs-comment">// Exécution de la requête :</span>
+    $req-&gt;execute();  
+}
+<span class="hljs-keyword">catch</span> (<span class="hljs-keyword">Exception</span> $e) {
+    <span class="hljs-comment">// gestion des erreurs</span>
+}</code></pre>
+<p><br></p>
+<h3 id="34">Syntaxe raccourcie</h3>
+<p>L'écriture raccourcie consiste à utiliser directement un tableau pour lier nos valeurs à nos marqueurs.<br>
+Auquel cas, la méthode <code>bindValue</code> sera appelée de manière <em>implicite</em>, en même temps que <code>execute()</code> :  </p>
+<pre><code class="language-php hljs">$req = $db-&gt;prepare(<span class="hljs-string">"INSERT INTO artist (artist_name, artist_url) VALUES (?, ?)"</span>);
+
+<span class="hljs-comment">// Exécution de la requête avec appel au bindValue() :</span>
+$req-&gt;execute(<span class="hljs-keyword">array</span>($monartiste, $urldemonartiste));</code></pre>
+<p>Avec les marqueurs nommés, il nous faut un tableau associatif :</p>
+<pre><code class="language-php hljs">$req = $db-&gt;prepare(<span class="hljs-string">"INSERT INTO artist (artist_name, artist_url) VALUES (:nom_artiste, :url_artiste)"</span>);
+
+<span class="hljs-comment">// Exécution de la requête avec appel au bindValue() :</span>
+$req-&gt;execute(<span class="hljs-keyword">array</span>(
+<span class="hljs-string">':sta_nom'</span> =&gt; $monartiste,
+<span class="hljs-string">':sta_altitude'</span> =&gt; $urldemonartiste
+));</code></pre>
+<p><br></p>
+<h3 id="40">Récupération différée des valeurs</h3>
+<p>Il existe une autre méthode en PHP pour gérer les paramètres de requête et éviter les injections SQL : la méthode <a href="https://www.php.net/manual/fr/pdostatement.bindparam.php" target="_blank"><code>bindParam()</code></a>.  </p>
+<p>Les méthodes <code>bindValue()</code> et <code>bindParam()</code> ont le même objectif : remplacer les marqueurs par des données. La différence tient au <em>moment</em> où les données associées vont être lues par le serveur :  </p>
+<ul>
+<li>avec <code>bindValue()</code>, on récupère les données au moment où la méthode <code>bindValue()</code> est appelée</li>
+<li>avec <code>bindParam()</code>, on récupère les données au moment où la requête est lancée (méthode <code>exeute()</code>)</li>
+</ul>
+<p><br></p>
+<p>Cela veut dire que pour le code suivant :</p>
+<pre><code class="language-php hljs">$monartiste = <span class="hljs-string">"Bon Jovi"</span>;
+$urldemonartiste = <span class="hljs-string">"https://www.metalzone.fr/bon-jovi/"</span>;
+
+$req = $db-&gt;prepare(<span class="hljs-string">"INSERT INTO artist (artist_name, artist_url) VALUES (:nom_artiste, :url_artiste)"</span>);
+
+$req-&gt;bindValue(<span class="hljs-string">":nom_artiste"</span>, $monartiste);
+$req-&gt;bindValue(<span class="hljs-string">":url_artiste"</span>, $urldemonartiste);
+
+$monartiste = <span class="hljs-string">"BON JOVI"</span>;
+
+$req-&gt;execute();</code></pre>
+<p>le nom de l'artiste ajouté en BDD par cette requête sera <strong><code>Bon Jovi</code></strong>, soit la valeur de la variable <code>$monartiste</code> au moment du <code>bindValue()</code>...  </p>
+<p><br></p>
+<p>Mais si l'on utilise le même code, avec <code>bindParam()</code> :</p>
+<pre><code class="language-php hljs">$monartiste = <span class="hljs-string">"Bon Jovi"</span>;
+$urldemonartiste = <span class="hljs-string">"https://www.metalzone.fr/bon-jovi/"</span>;
+
+$req = $db-&gt;prepare(<span class="hljs-string">"INSERT INTO artist (artist_name, artist_url) VALUES (:nom_artiste, :url_artiste)"</span>);
+
+$req-&gt;bindParam(<span class="hljs-string">":nom_artiste"</span>, $monartiste);
+$req-&gt;bindParam(<span class="hljs-string">":url_artiste"</span>, $urldemonartiste);
+
+$monartiste = <span class="hljs-string">"BON JOVI"</span>;
+
+$req-&gt;execute();</code></pre>
+<p>la requête enregistrera en BDD l'artiste comme <strong><code>BON JOVI</code></strong>, soit cette fois, la valeur de la variable <code>$monartiste</code> au moment du <code>execute()</code> !</p>
+<p><br>
+<br></p>
+<h2 id="53">Ressources complémentaires</h2>
+<ul>
+<li><a href="https://www.php.net/manual/fr/mysqli.quickstart.prepared-statements.php">Documentation PHP sur les requêtes préparées</a>  </li>
+<li><a href="https://www.pierre-giraud.com/php-mysql-apprendre-coder-cours/requete-preparee/">Les requêtes préparées, cours de Pierre Giraud</a></li>
+<li><a href="https://www.julp.fr/blog/posts/19-quelle-est-la-difference-entre-les-methodes-pdostatement-execute-bindvalue-et-bindparam-pour-realiser-les-binds">Différence entre bindValue et bindParam</a></li>
+</ul>
+<p><br>
+<br>
+<br></p></div><div class="menu-markdown"><img src="./PHP_PDO_requetes_preparees_files/menu.png"><div data-id="1" class="titre">PHP - PDO -&gt; Les requêtes préparées</div><div data-id="6">Construction d'une requête préparée</div><div data-id="7">&nbsp;&nbsp;&nbsp;&nbsp;Préparation de l'instruction</div><div data-id="19">Association de valeurs et lancement de la requête</div><div data-id="20">&nbsp;&nbsp;&nbsp;&nbsp;Remplacement des marqueurs</div><div data-id="29">&nbsp;&nbsp;&nbsp;&nbsp;Exécution de la requête</div><div data-id="34">&nbsp;&nbsp;&nbsp;&nbsp;Syntaxe raccourcie</div><div data-id="40">&nbsp;&nbsp;&nbsp;&nbsp;Récupération différée des valeurs</div><div data-id="53">Ressources complémentaires</div></div></div><script>hljs.initHighlightingOnLoad();//hljs.initLineNumbersOnLoad();</script><script src="./PHP_PDO_requetes_preparees_files/menu-markdown.js"></script></body></html>

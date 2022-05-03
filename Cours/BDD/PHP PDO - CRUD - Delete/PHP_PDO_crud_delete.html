@@ -1,0 +1,76 @@
+<!DOCTYPE html>
+<!-- saved from url=(0087)https://ncode.amorce.org/ressources/Pool/MS_FULL_STACK/PHP/PDO/PHP_PDO_crud_delete.html -->
+<html><head><meta http-equiv="Content-Type" content="text/html; charset=UTF-8"><title></title>
+        <meta name="viewport" content="width=device-width, initial-scale=1">
+        <link rel="stylesheet" href="./PHP_PDO_crud_delete_files/font-awesome.min.css">
+        <link rel="stylesheet" href="./PHP_PDO_crud_delete_files/bootstrap.min.css">
+        <link rel="stylesheet" href="./PHP_PDO_crud_delete_files/darcula.css">
+        <!-- <link rel="stylesheet" href="/css/highlight/line-number.css"> -->
+        <link rel="stylesheet" href="./PHP_PDO_crud_delete_files/github-markdown.css">
+        <!-- <link rel="stylesheet" href="/css/markdown_foad.css"> -->
+        <link rel="stylesheet" href="./PHP_PDO_crud_delete_files/menu-markdown.css">
+        <!-- <script src="/js/highlightjs-line-numbers.min.js"></script> -->
+        <script src="./PHP_PDO_crud_delete_files/jquery-3.4.1.min.js"></script>
+        <script src="./PHP_PDO_crud_delete_files/popper.min.js"></script>
+        <script src="./PHP_PDO_crud_delete_files/bootstrap.min.js"></script>
+        <script src="./PHP_PDO_crud_delete_files/highlight.js"></script>
+        </head><body><div class="container"><div class="markdown-body"><h1 id="1">PHP - PDO -&gt; CRUD : Delete</h1>
+<p><br>
+<br></p>
+<p>Des enregistrements en trop ? Nous allons pouvoir les supprimer !</p>
+<p><br></p>
+<h2 id="5">Création d'un lien vers le formulaire</h2>
+<p>Vous voyez sans doute venir l'idée : modifiez la page contenant le détail de votre fiche Artiste (page <em>artist_detail.php</em>) pour ajouter un bouton permettant de la supprimer :  </p>
+<pre><code class="language-php hljs"><span class="hljs-comment">// Début de page : traitement PHP + entête HTML</span>
+<span class="hljs-comment">// ...</span>
+
+    &lt;body&gt;
+        Artiste N°<span class="hljs-meta">&lt;?php</span> <span class="hljs-keyword">echo</span> $myArtist-&gt;artist_id <span class="hljs-meta">?&gt;</span>
+        Nom de l<span class="hljs-string">'artiste : &lt;?= $myArtist-&gt;artist_name ?&gt;
+        Site Internet : &lt;?= $myArtist-&gt;artist_url ?&gt;
+        &lt;a href="artist_form.php?id=&lt;?= $myArtist-&gt;artist_id ?&gt;"&gt;Modifier&lt;/a&gt;
+        &lt;a href="script_artist_delete.php?id=&lt;?= $myArtist-&gt;artist_id ?&gt;"&gt;Supprimer&lt;/a&gt;
+    &lt;/body&gt;
+
+// Fin de page : fermetures de blocs HTML</span></code></pre>
+<p>Petite particularité pour la suppression : puisqu'a priori il n'est pas nécessaire de ré-afficher un formulaire, on peut directement faire pointer le lien vers le script de suppresion nommé <em>script_artist_delete.php</em> (que nous allons écrire) en envoyant, ici aussi l'ID de la fiche à supprimer, en paramètre à la page via la méthode <code>GET</code>.</p>
+<p><br></p>
+<blockquote>
+<p><strong>Pour éviter toute suppression involontaire, ajoutez une demande de confirmation</strong> (par exemple, en JavaScript), qui permettra si on annule, de stopper le processus de suppression en BDD !</p>
+</blockquote>
+<p><br>
+<br></p>
+<h2 id="12">Création du script de suppression</h2>
+<p>La demande de suppression de fiche est effective ? C'est parti, envoyons l'instruction en BDD !<br>
+Créez votre <em>script_artist_delete.php</em> auquel on accèdera grâce à l'URL construite dans notre lien :  </p>
+<pre><code class="hljs dts"><span class="hljs-symbol">https:</span><span class="hljs-comment">//urlduserveurlocal/script_artist_delete.php?id=10</span></code></pre>
+<p>Le script contiendra, très succintement le code suivant :  </p>
+<pre><code class="language-php hljs"><span class="hljs-meta">&lt;?php</span>
+    <span class="hljs-comment">// Contrôle de l'ID (si inexistant ou &lt;= 0, retour à la liste) :</span>
+    <span class="hljs-keyword">if</span> (!(<span class="hljs-keyword">isset</span>($_GET[<span class="hljs-string">'id'</span>])) || intval($_GET[<span class="hljs-string">'id'</span>]) &lt;= <span class="hljs-number">0</span>) : <span class="hljs-keyword">GOTO</span> TrtRedirection;
+
+    <span class="hljs-comment">// Si la vérification est ok :</span>
+    <span class="hljs-keyword">require</span> <span class="hljs-string">"db.php"</span>; 
+    $db = connexionBase();
+
+    <span class="hljs-keyword">try</span> {
+        <span class="hljs-comment">// Construction de la requête DELETE sans injection SQL :</span>
+        $requete = $db-&gt;prepare(<span class="hljs-string">"DELETE FROM artist WHERE artist_id = ?"</span>);
+        $requete-&gt;execute(<span class="hljs-keyword">array</span>($_GET[<span class="hljs-string">"id"</span>]));
+        $requete-&gt;execute();
+        $requete-&gt;closeCursor();
+    }
+    <span class="hljs-keyword">catch</span> (<span class="hljs-keyword">Exception</span> $e) {
+        <span class="hljs-keyword">echo</span> <span class="hljs-string">"Erreur : "</span> . $requete-&gt;errorInfo()[<span class="hljs-number">2</span>] . <span class="hljs-string">"&lt;br&gt;"</span>;
+        <span class="hljs-keyword">die</span>(<span class="hljs-string">"Fin du script (script_artist_modif.php)"</span>);
+    }
+
+    <span class="hljs-comment">// Si OK: redirection vers la page artists.php</span>
+    TrtRedirection:
+    header(<span class="hljs-string">"Location: artists.php"</span>);
+    <span class="hljs-keyword">exit</span>;</code></pre>
+<p>L'instruction <code>GOTO</code> permet de rediriger la lecture du code vers l'ancre définie. Ici donc, si aucun ID n'a été envoyé en <code>GET</code>, on "saute" tout le traitement du dessous pour faire exécuter uniquement le traitement <code>header()</code> de redirection vers notre liste.<br>
+--&gt; <a target="_blank" href="https://ncode.amorce.org/ressources/Pool/MS_FULL_STACK/PHP/PDO/">Voir ici la documentation PHP sur l'instruction <code>GOTO</code></a></p>
+<p><br>
+<br>
+<br></p></div><div class="menu-markdown"><img src="./PHP_PDO_crud_delete_files/menu.png"><div data-id="1" class="titre">PHP - PDO -&gt; CRUD : Delete</div><div data-id="5">Création d'un lien vers le formulaire</div><div data-id="12">Création du script de suppression</div></div></div><script>hljs.initHighlightingOnLoad();//hljs.initLineNumbersOnLoad();</script><script src="./PHP_PDO_crud_delete_files/menu-markdown.js"></script></body></html>
