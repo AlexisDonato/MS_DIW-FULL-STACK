@@ -1,6 +1,7 @@
 <?php
     // Contrôle de l'ID (si inexistant ou <= 0, retour à la liste) :
-    if (!(isset($_GET['id'])) || intval($_GET['id']) <= 0) : GOTO TrtRedirection;
+    if (!(isset($_GET['id'])) || intval($_GET['id']) <= 0)
+      GOTO TrtRedirection;
 
     // Si la vérification est ok :
     require "db.php"; 
