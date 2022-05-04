@@ -3,6 +3,19 @@
 require "db.php";
 $artists = fetchDisc();
 
+// // On récupère l'ID passé en paramètre :
+// $id = $_GET["id"];
+
+// // On crée une requête préparée avec condition de recherche :
+// $requete = $db->prepare("SELECT * FROM artist WHERE artist_id=?");
+// // on ajoute l'ID du disque passé dans l'URL en paramètre et on exécute :
+// $requete->execute(array($id));
+
+// // on récupère le 1e (et seul) résultat :
+// $myArtist = $requete->fetch(PDO::FETCH_OBJ);
+
+// // on clôt la requête en BDD
+// $requete->closeCursor();
 ?>
 
 
@@ -26,10 +39,11 @@ $artists = fetchDisc();
 <div class="container">
     <div class="row align-items-center">
         <div class="col-9 ml-0 p-0">
-            <h1>Liste des disques(<?php echo count($artists)?>)</h1>
+            <h1>Discs list(<?php echo count($artists)?>)</h1>
         </div>
         <div class="col-3">
-        <a href="disc_new.php"><button class="btn btn-primary btn-sm">Ajouter</button></a>
+        <a href="disc_new.php"><button class="btn btn-primary btn-sm">Add disc</button></a>
+        <input type = "button" class="btn btn-primary btn-sm" value = "Back" onclick = "history.back()"> 
         </div>
     </div>
 
