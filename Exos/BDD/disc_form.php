@@ -1,7 +1,6 @@
 <?php
 require "db.php";
 $disc = fetchId($_GET['id']);
-var_dump($disc);
 $artists2 = fetchDisc2();
 ?>
 
@@ -28,7 +27,8 @@ $artists2 = fetchDisc2();
             </div>
 
             <div class="col-12">
-                <form action="script_disc_modif.php" name="form_modif" id="form_modif" method="post" accept-charset="utf-8" enctype="multipart/form-data">
+                <form action="script_disc_modif.php" name="form_modif" id="form_modif" method="post"
+                    accept-charset="utf-8" enctype="multipart/form-data">
                     <fieldset>
                         <legend>Modify a disc</legend>
                         <input type="text" id="id" name="id" class="form-control" value="<?=$disc->disc_id?>" hidden>
@@ -44,7 +44,9 @@ $artists2 = fetchDisc2();
                             <label for="artistname">Artist</label>
                             <select name="artistname" id="artistname" name="artistname" class="form-control" required>
                                 <?php foreach ($artists2 as $artist2) { ?>
-                                <option value="<?= $artist2->artist_id?>" <?= ($artist2->artist_id == $disc->artist_id) ? "selected" : ""?>><?= $artist2->artist_name ?></option>
+                                <option value="<?= $artist2->artist_id?>"
+                                    <?= ($artist2->artist_id == $disc->artist_id) ? "selected" : ""?>>
+                                    <?= $artist2->artist_name ?></option>
                                 <?php } ?>
                             </select>
                             <br>

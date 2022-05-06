@@ -1,6 +1,5 @@
 <?php
-// var_dump($_GET);
-// die;
+
     // Contrôle de l'ID (si inexistant ou <= 0, retour à la liste) :
     if (!(isset($_GET['id'])) || intval($_GET['id']) <= 0)
       GOTO TrtRedirection;

@@ -1,0 +1,71 @@
+<!DOCTYPE html>
+<html lang="fr">
+<head>
+<meta charset="utf-8">
+
+<title>Les Formulaires</title>
+
+</head>
+
+    <body>
+
+    <h1>Les Formulaires</h1>
+
+<!-- ************************************* -->
+<!-- **********Formulaire***************** -->
+<!-- ************************************* -->
+
+    <form action="http://bienvu.net/script.php" method="POST" id="formulaire_contact">  
+
+<p>* Ces zones sont obligatoires</p>
+
+        <fieldset>
+
+            <legend>Vos Coordonnées</legend>
+            <label for="nom">Nom* :</label><input type="text" placeholder="Entrez votre nom" pattern="^[a-z]+$" required title="Entrez votre nom (que des caractères entre a et z)"><br>
+            <label for="?">Prénom* :</label><input type="text" placeholder="Entrez votre prénom" pattern="^[a-z]+$" required title="Entrez votre prénom (que des caractères entre a et z)"><br>
+            
+            <p></p>
+
+            <label for="sexe">Sexe :</label><input type="radio" name="sexe" value="Féminin"> Féminin 
+            <input type="radio" name="sexe" value="Masculin"> Masculin <br>
+            
+            <p></p>
+    
+            <label for="date">Date de naissance:</label><input type="date" name="ddn" id="date"><br>
+            <label for="code postal">Code postal* :</label><input type="text" placeholder="Code postal" pattern="^[0-9]+$" maxlength="5" required title="Entrez votre Code postal"><br>
+            <label for="adresse">Adresse :</label><input type="text" name="adresse" id="adresse"><br>
+            <label for="ville">Ville :</label><input type="text" name="ville" id="ville"><br>
+            <label for="email">Email* :</label><input type="text" placeholder="fou.lestaque@afpa.fr" pattern="^[a-z]+$" required title="Entrez votre Email"><br>
+
+        </fieldset>
+
+                <p></p>
+
+        <fieldset>
+
+            <legend>Votre demande</legend>
+            <label for="sujet">Sujet* :</label>
+            <select id="sujet"> 
+                <option value="">Veuillez sélectionner un sujet</option>
+                <option value="commandes">Mes commandes</option>
+                <option value="produit">Question sur un produit</option>
+                <option value="réclamation">Réclamation</option>
+                <option value="autres">Autres</option>
+            </select>
+            <br>
+            <label for="question">Votre question* :</label>
+            <textarea name="commentaire" rows="2" cols="20"></textarea> 
+            <br>
+            <input type="checkbox" name="accepter" value="accepter">* J'accepte le traitement informatique de ce formulaire<br>
+            <input type="submit" name="envoyer" value="Envoyer">
+            <input type="reset" name="annuler" value="Annuler">
+
+
+        </fieldset>
+
+    </form>   
+
+    </body>
+
+</html>

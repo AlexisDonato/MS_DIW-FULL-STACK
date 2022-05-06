@@ -1,0 +1,120 @@
+<!DOCTYPE html>
+<!-- saved from url=(0084)https://ncode.amorce.org/ressources/Pool/MS_FULL_STACK/PHP/PHP_Authentification.html -->
+<html><head><meta http-equiv="Content-Type" content="text/html; charset=UTF-8"><title></title>
+        <meta name="viewport" content="width=device-width, initial-scale=1">
+        <link rel="stylesheet" href="./PHP_Authentification_files/font-awesome.min.css">
+        <link rel="stylesheet" href="./PHP_Authentification_files/bootstrap.min.css">
+        <link rel="stylesheet" href="./PHP_Authentification_files/darcula.css">
+        <!-- <link rel="stylesheet" href="/css/highlight/line-number.css"> -->
+        <link rel="stylesheet" href="./PHP_Authentification_files/github-markdown.css">
+        <!-- <link rel="stylesheet" href="/css/markdown_foad.css"> -->
+        <link rel="stylesheet" href="./PHP_Authentification_files/menu-markdown.css">
+        <!-- <script src="/js/highlightjs-line-numbers.min.js"></script> -->
+        <script src="./PHP_Authentification_files/jquery-3.4.1.min.js"></script>
+        <script src="./PHP_Authentification_files/popper.min.js"></script>
+        <script src="./PHP_Authentification_files/bootstrap.min.js"></script>
+        <script src="./PHP_Authentification_files/highlight.js"></script>
+        </head><body><div class="container"><div class="markdown-body"><h1 id="1">PHP - L'authentification et les mots de passe</h1>
+<p><br>
+<br></p>
+<h2 id="3">La gestion des mots de passe</h2>
+<h3 id="4">Introduction</h3>
+<p>Le mot de passe est sûrement l'élément auquel on pense en premier lieu en termes de sécurité informatique et en constitue aussi le maillon faible.  </p>
+<p><a href="https://password.kaspersky.com/fr" target="_blank">Combien faut-il de temps pour craquer votre mot de passe ?</a></p>
+<p><a href="https://www.undernews.fr/nos-services/tester-la-force-de-votre-mot-de-passe" target="_blank">Testeur de robustesse</a></p>
+<h3 id="8">Stockage des mots de passe</h3>
+<p>Un mot de passe ne doit <strong>jamais être stocké en clair</strong> : il doit être crypté à l’aide d’un algorithme de cryptage afin que sa valeur ne puisse être lue.</p>
+<p>Exemple : le mot de passe <code>vacances</code> sera transformé en <code>$2y$10$xybwIx80qUbemOsCiobdZeK4JIg2qe8BrT83vGJF1QqyJ9bnycrx6</code></p>
+<p>Si le sujet vous intéresse, vous pouvez consulter les ressources suivantes : </p>
+<ul>
+<li><a href="https://www.cnil.fr/fr/comprendre-les-grands-principes-de-la-cryptologie-et-du-chiffrement" target="_blank"></a><a href="https://www.cnil.fr/fr/comprendre-les-grands-principes-de-la-cryptologie-et-du-chiffrement">https://www.cnil.fr/fr/comprendre-les-grands-principes-de-la-cryptologie-et-du-chiffrement</a></li>
+<li><a href="https://www.ssi.gouv.fr/particulier/bonnes-pratiques/crypto-le-webdoc/crypto-sensu" target="_blank"></a><a href="https://www.ssi.gouv.fr/particulier/bonnes-pratiques/crypto-le-webdoc/crypto-sensu">https://www.ssi.gouv.fr/particulier/bonnes-pratiques/crypto-le-webdoc/crypto-sensu</a></li>
+</ul>
+<blockquote>
+<p>On peut lire sur le web des exemples utilisant les algorithmes <em>MD5</em> ou <em>SHA1</em>. C'était valable il y a une dizaine d'années, mais ces algorithmes été cassés (de nombreux sites web permettent de réafficher en clair une chaîne hachée en MD5 ou SHA1). </p>
+</blockquote>
+<p>Aujourd'hui, les fonctions PHP telles que <code>password_hash()</code> et <code>password_verify()</code> permettent de gérer à moindre coût le problème du stockage des mots de passe.  </p>
+<h3 id="15">La fonction PHP password_hash()</h3>
+<p>La fonction <a href="http://php.net/manual/fr/function.password-hash.php" target="_blank"><code>password_hash()</code></a> permet d’utiliser des algorithmes de cryptage en PHP et donc de générer le hash d’une chaîne de caractères, grain de sel inclus. </p>
+<pre><code class="language-php hljs">    password_hash($chaine, $algorithme);</code></pre>
+<ul>
+<li>1er argument (<code>$chaine</code>) : la chaîne à crypter (le mot de passe).</li>
+<li>2ème argument (<code>$algorithme</code>) : l’algorithme de cryptage à utiliser.</li>
+</ul>
+<p>Comme l'algorithme de cryptage (2ème argument) est obligatoire, il faut donc en indiquer un, y compris si on souhaite utiliser celui proposé par défaut : dans ce cas il faut indiquer la valeur <code>PASSWORD_DEFAULT</code>. </p>
+<p>La chaîne sera alors hachée avec <a href="https://fr.wikipedia.org/wiki/Bcrypt" target="_blank">bcrypt</a>, et le hash généré aura toujours une longueur de 60 caractères (la doc officielle propose de prévoir un type <code>varchar(60)</code> pour le champ qui stockera le mot de passe crypté dans la base de données) . </p>
+<p>Exemple :</p>
+<pre><code class="language-php hljs">    $password_hash = password_hash(<span class="hljs-string">"vacances"</span>, PASSWORD_DEFAULT);
+    <span class="hljs-keyword">echo</span> $password_hash; </code></pre>
+<p>Ceci affichera <code>$2y$10$xybwIx80qUbemOsCiobdZeK4JIg2qe8BrT83vGJF1QqyJ9bnycrx6</code>. <strong>C'est cette valeur qu’il faut stocker en base de données</strong>. </p>
+<h3 id="24">La fonction PHP password_verify()</h3>
+<p>Pour vérifier si un mot de passe saisi est bien celui enregistré en base, il faut utiliser la fonction <a href="http://php.net/manual/fr/function.password-verify.php" target="_blank"><code>password_verify()</code></a>.</p>
+<p>Cette fonction reçoit 2 paramètres obligatoires :</p>
+<pre><code class="hljs bash">password_verify(<span class="hljs-variable">$chaine_saisie_en_clair</span>, <span class="hljs-variable">$hash_stocke_en_bdd</span>);</code></pre>
+<h3 id="28">Recommandations officielles</h3>
+<p>L'Agence Nationale de la Sécurité des Systèmes Informatiques (ANSSI) et la CNIL éditent des recommandations officielles pour les mots de passe :</p>
+<ul>
+<li><a href="https://www.ssi.gouv.fr/guide/mot-de-passe" target="_blank"></a><a href="https://www.ssi.gouv.fr/guide/mot-de-passe">https://www.ssi.gouv.fr/guide/mot-de-passe</a></li>
+<li><a href="https://www.cnil.fr/fr/les-conseils-de-la-cnil-pour-un-bon-mot-de-passe" target="_blank"></a><a href="https://www.cnil.fr/fr/les-conseils-de-la-cnil-pour-un-bon-mot-de-passe">https://www.cnil.fr/fr/les-conseils-de-la-cnil-pour-un-bon-mot-de-passe</a>]</li>
+</ul>
+<h3 id="31">Spécifications fonctionnelles</h3>
+<h4 id="32">Création d'un compte</h4>
+<ul>
+<li>L'utilisateur renseigne un formulaire avec, pour identifiant unique, une adresse mail. L'information qui sert d'identifiant doit être strictement unique dans la base.</li>
+<li>Un mot de passe est saisi par l'utilisateur</li>
+<li>Si l'utilisateur choisit librement son mot de passe, il doit le saisir 2 fois (un second champ <em>Confirmation</em>)</li>
+<li>Tester la validité (comparer notamment les 2 saisies demandées), la robustesse (utiliser des expressions régulières) pour s'assurer que le mot de passe respecte les recommandations officielles.</li>
+<li>Une fois que tout est valide, le mot de passe doit être haché.</li>
+<li>la version hachée du mot de passe est ensuite enregistrée en base de données. </li>
+<li>Ne jamais stocker un mot de passe en clair, ne jamais le mettre en session , envoyer un mail de confirmation sans renvoyer le mot de passe en clair comme on peut le voir parfois.</li>
+</ul>
+<h4 id="34">Authentification</h4>
+<ul>
+<li>
+<p>L'utilisateur saisit son identifiant et son mot de passe. Limiter les essais de connexion à 3 tentatives (recommandation officielle) et donc bloquer les utilisateurs qui ont atteint ce nombre (à stocker dans une colonne en base de données).    </p>
+</li>
+<li>
+<p>Une fois l'utilisateur connecté, on stocke certaines informations (identifiant, nom/prénom) en session, mais jamais le mot de passe. </p>
+</li>
+</ul>
+<h4 id="36">Perte du mot de passe</h4>
+<p>Lorsqu'un utilisateur ne se souvient plus de son mot de passe, il faut bien entendu lui permettre d'en saisir un nouveau (impossible de lui renvoyer l'actuel, puisqu'il est stocké en base sous forme hashée ). </p>
+<p>Pour cela : </p>
+<ul>
+<li>Placer un lien du type <strong>mot de passe perdu</strong> sur le formulaire de connexion, qui aboutit donc sur un second formulaire</li>
+<li>Le second formulaire demande l'identifiant : celui-ci demande le login ou l'adresse email de l'utilisateur</li>
+<li>Si l'utilisateur est trouvé en base, on lui envoie un mail (qui permet de s'assurer qu'il s'agit du bon utilisateur) avec un lien vers un formulaire de saisie d’un nouveau mot de passe. </li>
+</ul>
+<blockquote>
+<p>Ne jamais envoyer un mail contenant un nouveau mot de passe .  </p>
+</blockquote>
+<h3 id="41">Exercice : formulaire d'authentification</h3>
+<p>Créer un formulaire d'authentification utilisant le principe des sessions. </p>
+<ul>
+<li>
+<p>Créer un formulaire <code>login_form.php</code> contenant 2 champs : login (qui peut être l'adresse email) et mot de passe. Ce formulaire doit poster les données sur le script <code>login_script.php</code>.</p>
+</li>
+<li>
+<p>Le fichier <code>login_script.php</code> doit traiter les données du formulaire de la façon suivante:</p>
+</li>
+<li>
+<p>Si le login et le mot de passe sont corrects (pour exemple login='admin' et mot de passe='admin') alors nous initialisons une variable de session <code>auth</code> avec la valeur <code>ok</code>.</p>
+</li>
+<li>
+<p>Sinon la variable de session <code>auth</code> est détruite.</p>
+</li>
+<li>
+<p>Une autre page PHP devra être accessible uniquement si une session a été initialisée, c'est-à-dire si l'utilisateur s'est authentifié correctement (donc i la variable de session <code>auth</code> existe et contient la valeur <code>ok</code>). Si ce n'est pas le cas, l'utilisateur devra être redirigé sur la page de connexion.</p>
+</li>
+</ul>
+<h3 id="44">Exercice : mot de passe</h3>
+<p>Reprendre l'exercice précédent et y ajouter la gestion des mots de passe selon les consignes suivantes :</p>
+<ul>
+<li>Créer une table <code>user</code> destinée à stocker le nom, le prénom, l'adresse mail, le mot de passe.  </li>
+<li>Créer un formulaire d'inscription pour renseigner et enregistrer les informations demandées. Celles-ci doivent être vérifiées correctement avant d'être enregistrées.   </li>
+<li>Modifier le script PHP d'authentification pour vérifier le login et le mot de passe par rapport au contenu de la table <code>user</code>.    </li>
+<li>Vous devrez utiliser les fonctions PHP <code>password_hash()</code> et <code>password_verify()</code>.</li>
+</ul>
+<p><br>
+<br>
+<br></p></div><div class="menu-markdown"><img src="./PHP_Authentification_files/menu.png"><div data-id="1" class="titre">PHP - L'authentification et les mots de passe</div><div data-id="3">La gestion des mots de passe</div><div data-id="4">&nbsp;&nbsp;&nbsp;&nbsp;Introduction</div><div data-id="8">&nbsp;&nbsp;&nbsp;&nbsp;Stockage des mots de passe</div><div data-id="15">&nbsp;&nbsp;&nbsp;&nbsp;La fonction PHP password_hash()</div><div data-id="24">&nbsp;&nbsp;&nbsp;&nbsp;La fonction PHP password_verify()</div><div data-id="28">&nbsp;&nbsp;&nbsp;&nbsp;Recommandations officielles</div><div data-id="31">&nbsp;&nbsp;&nbsp;&nbsp;Spécifications fonctionnelles</div><div data-id="32">&nbsp;&nbsp;&nbsp;&nbsp;Création d'un compte</div><div data-id="34">&nbsp;&nbsp;&nbsp;&nbsp;Authentification</div><div data-id="36">&nbsp;&nbsp;&nbsp;&nbsp;Perte du mot de passe</div><div data-id="41">&nbsp;&nbsp;&nbsp;&nbsp;Exercice : formulaire d'authentification</div><div data-id="44">&nbsp;&nbsp;&nbsp;&nbsp;Exercice : mot de passe</div></div></div><script>hljs.initHighlightingOnLoad();//hljs.initLineNumbersOnLoad();</script><script src="./PHP_Authentification_files/menu-markdown.js"></script></body></html>

@@ -1,7 +1,29 @@
 <?php
+
+// On met les types autorisés dans un tableau (ici pour une image)
+$aMimeTypes = array("img/gif", "img/jpeg", "img/pjpeg", "img/png", "img/x-png", "img/tiff");
+
+// On extrait le type du fichier via l'extension FILE_INFO 
+$finfo = finfo_open(FILEINFO_MIME_TYPE);
+$mimetype = finfo_file($finfo, $_FILES["picture"]["tmp_name"]);
+finfo_close($finfo);
+
+if (in_array($mimetype, $aMimeTypes))
+{
+    /* Le type est parmi ceux autorisés, donc OK, on va pouvoir 
+       déplacer et renommer le fichier */
+
+} 
+else 
+{
+   // Le type n'est pas autorisé, donc ERREUR
+
+   echo "Type de fichier non autorisé";    
+   exit;
+}    
+move_uploaded_file($_FILES["picture"]["tmp_name"], "img2/".$artist->disc_id.".jpeg");
+
     // Récupération des valeurs :
-    // var_dump($_POST);
-    // die;
     foreach ($_POST as $key => $value)
       $$key = $value;
 
