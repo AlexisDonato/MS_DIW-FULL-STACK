@@ -1,7 +1,7 @@
 <?php
 
 // On met les types autorisés dans un tableau (ici pour une image)
-$aMimeTypes = array("img/gif", "img/jpeg", "img/pjpeg", "img/png", "img/x-png", "img/tiff");
+$aMimeTypes = array("img/gif", "img/jpeg","img/jpg", "img/pjpeg", "img/png", "img/x-png", "img/tiff");
 
 // On extrait le type du fichier via l'extension FILE_INFO 
 $finfo = finfo_open(FILEINFO_MIME_TYPE);

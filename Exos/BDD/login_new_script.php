@@ -35,7 +35,7 @@ catch (Exception $e) {
   die("Fin du script (login_add_script.php)");
 }
 
-// Si OK: redirection vers la page artists.php
+// Si OK: redirection vers la page login_form.php
 header("Location: login_form.php");
 
 // Fermeture du script

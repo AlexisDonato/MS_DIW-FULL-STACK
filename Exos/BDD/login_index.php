@@ -13,7 +13,7 @@
 <body>
     <div class="container">
         <div class="row">
-            <h1>Bienvenue <?php echo $_SESSION['user']?></h1>
+            <h1>Bienvenue <?php echo $_SESSION['user'].'<br>'?></h1>
 
             <div class="form-group">
                 <a href="login_mod.php"><button class="btn btn-danger btn-sm">Modify</button></a>
@@ -24,7 +24,7 @@
         </div>
     </div>
 
-    <script src="js.js">
+    <script src="/home/alexis/Documents/DIW/Exos/BDD/login_js.js">
     </script>
     <script src="https://code.jquery.com/jquery-3.4.1.slim.min.js"
         integrity="sha384-J6qa4849blE2+poT4WnyKhv5vZF5SrPo0iEjwBvKU7imGFAV0wwj1yYfoRSJoZ+n" crossorigin="anonymous">

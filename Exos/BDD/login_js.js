@@ -2,7 +2,7 @@ function checkForm(event) {
 
     let email = document.getElementById("email");
     let missEmail = document.getElementById("missEmail");
-    let emailRE = new RegExp(/^(([^<()[\]\\.,;:\s@\]+(\.[^<()[\]\\.,;:\s@\]+)*)|(.+))@(([[0-9]{1,3}.[0-9]{1,3}.[0-9]{1,3}.[0-9]{1,3}])|(([a-zA-Z-0-9]+.)+[a-zA-Z]{2,}))$/);
+    let emailRE = new RegExp(/^(([^<>()\[\]\\.,;:\s@"]+(\.[^<>()\[\]\\.,;:\s@"]+)*)|(".+"))@((\[[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}])|(([a-zA-Z\-0-9]+\.)+[a-zA-Z]{2,}))$/);
 
     let password = document.getElementById("password");
     let missPassword = document.getElementById('missPassword');
@@ -34,6 +34,6 @@ function checkForm(event) {
 }
 
 let submit = document.getElementById("submit");
-submit.addEventListener("click", event => {
-    checkForm();
-});
+submit.addEventListener("click",
+    checkForm
+);
