@@ -10,11 +10,10 @@ $password_hash = password_hash($password, PASSWORD_DEFAULT);
 
 try {
   // Construction de la requête INSERT sans injection SQL :
-  $requete = $cb->prepare("INSERT INTO user (user_id, user_name, user_lastname, user_email, user_password) 
-                          VALUES (:id, :name, :lastname, :email, :password);");
+  $requete = $cb->prepare("INSERT INTO user (user_name, user_lastname, user_email, user_password) 
+                          VALUES (:name, :lastname, :email, :password);");
 
   // Association des valeurs aux paramètres via bindValue() :
-  $requete->bindValue(":id", $id, PDO::PARAM_STR);
   $requete->bindValue(":name", $name, PDO::PARAM_STR);
   $requete->bindValue(":lastname", $lastname, PDO::PARAM_STR);
   $requete->bindValue(":email", $email, PDO::PARAM_STR);
@@ -40,4 +39,10 @@ header("Location: login_form.php");
 
 // Fermeture du script
 exit;
+
+if ($email == $user->user_email) {
+  echo 'Email already used<br>';
+  echo '<a href = "login_new.php"><button class="btn-danger">Try another email</button></a>';
+  die();
+}
 ?>
