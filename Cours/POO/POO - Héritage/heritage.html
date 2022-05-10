@@ -1,0 +1,46 @@
+<!DOCTYPE html>
+<!-- saved from url=(0082)https://ncode.amorce.org/ressources/Pool/MS_FULL_STACK/PHP_POO/bases/heritage.html -->
+<html><head><meta http-equiv="Content-Type" content="text/html; charset=UTF-8"><title></title>
+        <meta name="viewport" content="width=device-width, initial-scale=1">
+        <link rel="stylesheet" href="./heritage_files/font-awesome.min.css">
+        <link rel="stylesheet" href="./heritage_files/bootstrap.min.css">
+        <link rel="stylesheet" href="./heritage_files/darcula.css">
+        <!-- <link rel="stylesheet" href="/css/highlight/line-number.css"> -->
+        <link rel="stylesheet" href="./heritage_files/github-markdown.css">
+        <!-- <link rel="stylesheet" href="/css/markdown_foad.css"> -->
+        <link rel="stylesheet" href="./heritage_files/menu-markdown.css">
+        <!-- <script src="/js/highlightjs-line-numbers.min.js"></script> -->
+        <script src="./heritage_files/jquery-3.4.1.min.js"></script>
+        <script src="./heritage_files/popper.min.js"></script>
+        <script src="./heritage_files/bootstrap.min.js"></script>
+        <script src="./heritage_files/highlight.js"></script>
+        </head><body><div class="container"><div class="markdown-body"><h1 id="1">Héritage</h1>
+<p>La P.O.O. présente un mécanisme dit d'héritage :</p>
+<ul>
+<li>Une classe B peut utiliser les membres d'une classe A; on dit alors que B hérite de A (ou : dérive, étend),</li>
+<li>La classe A est alors appelée classe parente (ou : mère, super-classe),</li>
+<li>La classe B est alors appelée classe fille (ou : enfant, héritée, dérivée, sous-classe) </li>
+</ul>
+<p>L'héritage peut être résumé par la formule <em>la classe B est une sorte (sous-espèce) de la classe A</em>, la classe B ayant des caractéristiques communes avec la classe parente A. </p>
+<p>Par exemple : voiture, camion, bus, moto, bateau sont des types de véhicules : </p>
+<ul>
+<li>ils ont en commun des attributs (un nom de marque, de modèle, une puissance, une couleur etc.) et des méthodes (avancer, freiner...)</li>
+<li>mais ils ont certains points de différences : un camion possède un poids maxi, un bus un nombre de passagers etc. </li>
+</ul>
+<p><strong>Possibilités et limites de l'héritage :</strong> </p>
+<ul>
+<li>Une classe fille ne peut posséder qu'une seule classe parente mais avoir une infinité de classes filles.  </li>
+<li>Une classe mère peut posséder une infinité de classes filles (ex : la classe <code>Vehicule</code> pourraient avoir pour  classes filles <code>voiture</code>, <code>moto</code>, <code>camion</code>, <code>bus</code>, <code>velo</code>, <code>bateau</code> etc.).  </li>
+</ul>
+<p>L'héritage peut se faire faire sur plusieurs niveaux hiérarchiques : par exemple une classe C hérite de la classe B qui hérite elle-même de la classe A (donc ici sur 3 niveaux).    </p>
+<p>Pour implémenter l'héritage, la classe fille doit utiliser le mot-clé <code>extends</code> suivi du nom de la classe parente (ou classe mère) dans la définition de la classe : </p>
+<pre><code class="hljs xml"><span class="php"><span class="hljs-meta">&lt;?php</span>
+<span class="hljs-class"><span class="hljs-keyword">class</span> <span class="hljs-title">Voiture</span> <span class="hljs-keyword">extends</span> <span class="hljs-title">Vehicule</span>
+</span>{   
+    [ CODE ]
+} <span class="hljs-comment">// -- fin de la classe</span></span></code></pre>
+<ul>
+<li>Ici, la classe <code>Voiture</code> hérite de la classe <code>Vehicule</code> : la classe <code>Voiture</code> est donc la classe fille (ou classe dérivée) et la classe <code>Vehicule</code> la classe parente.  </li>
+<li>La classe <code>Voiture</code> aura accès (selon la visibilité des membres) aux attributs et méthodes de la classe <code>Vehicule</code> parente. Le mot clé <code>parent::</code> devra être utilisé pour appleer un attribut/méthode de la classe parente. (par exemple <code>parent::avancer()</code> appelle la méthode <code>avancer()</code> de la classe parente).  </li>
+</ul>
+<p><br><br><br><br> </p></div><div class="menu-markdown"><img src="./heritage_files/menu.png"><div data-id="1" class="titre">Héritage</div></div></div><script>hljs.initHighlightingOnLoad();//hljs.initLineNumbersOnLoad();</script><script src="./heritage_files/menu-markdown.js"></script></body></html>

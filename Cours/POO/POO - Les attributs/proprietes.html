@@ -1,0 +1,55 @@
+<!DOCTYPE html>
+<!-- saved from url=(0084)https://ncode.amorce.org/ressources/Pool/MS_FULL_STACK/PHP_POO/bases/proprietes.html -->
+<html><head><meta http-equiv="Content-Type" content="text/html; charset=UTF-8"><title></title>
+        <meta name="viewport" content="width=device-width, initial-scale=1">
+        <link rel="stylesheet" href="./proprietes_files/font-awesome.min.css">
+        <link rel="stylesheet" href="./proprietes_files/bootstrap.min.css">
+        <link rel="stylesheet" href="./proprietes_files/darcula.css">
+        <!-- <link rel="stylesheet" href="/css/highlight/line-number.css"> -->
+        <link rel="stylesheet" href="./proprietes_files/github-markdown.css">
+        <!-- <link rel="stylesheet" href="/css/markdown_foad.css"> -->
+        <link rel="stylesheet" href="./proprietes_files/menu-markdown.css">
+        <!-- <script src="/js/highlightjs-line-numbers.min.js"></script> -->
+        <script src="./proprietes_files/jquery-3.4.1.min.js"></script>
+        <script src="./proprietes_files/popper.min.js"></script>
+        <script src="./proprietes_files/bootstrap.min.js"></script>
+        <script src="./proprietes_files/highlight.js"></script>
+        </head><body><div class="container"><div class="markdown-body"><h1 id="1">Les attributs (ou propriétés)</h1>
+<p>Une classe PHP est constituée en deux types d'informations distinctes :</p>
+<p>• les attributs,<br>
+• les méthodes.</p>
+<p><strong>Les attributs sont les données</strong> qui différencient un objet d'un autre. Ils peuvent servir à déterminer l'aspect, l'état et d'autres qualités d'un objet appartenant à une classe. <strong>Dans une classe les attributs sont définis par des variables.</strong> Ces "variables" pourront prendre une valeur différente pour chaque objet et évoluer dans le temps.</p>
+<h2 id="5">Propriétés d'instance</h2>
+<p>Nous avons indiqué qu'un animal pouvait se définir par ses caractéristiques. En P.O.O, on appelle ces caractéristiques des <strong>propriétés</strong> et elles sont représentées par des variables (le terme <strong>propriété</strong> permet de les distinguer des variables classiques qui n'appartiennent à aucune classe)</p>
+<p>Ajoutons donc des propriétés à notre classe:</p>
+<pre><code class="hljs php"><span class="hljs-class"><span class="hljs-keyword">class</span> <span class="hljs-title">Animal</span>
+</span>{
+    <span class="hljs-keyword">public</span> $_espece;
+    <span class="hljs-keyword">public</span> $_regimeAlimentaire;
+    <span class="hljs-keyword">public</span> $_taille;
+    <span class="hljs-keyword">public</span> $_poids;
+}</code></pre>
+<p>La déclaration d'une propriété ressemble en tout point à la déclaration d'une variable classique. </p>
+<p>Notez le mot clé <code>public</code> au début de chaque déclaration. Il permet de définir la <strong>portée</strong> de la propriété. Dans notre cas, cela signifie que cette propriété peut être utilisée depuis l'intérieur de la classe (c'est à dire entre les acolades qui délimitent la définition de la classe) mais également depuis l'exterieur de la classe. (pour en apprendre plus, consultez la ressource sur <a target="_blank" href="https://ncode.amorce.org/ressources/Pool/MS_FULL_STACK/PHP_POO/bases/scope.html">la portée des variables</a>)</p>
+<p>Nous allons maintenant voir comment initialiser ces propriétés.</p>
+<p>Commençons par créer un animal :</p>
+<pre><code class="hljs php">$oChien = <span class="hljs-keyword">new</span> Animal()</code></pre>
+<p>Notre objet chien nouvellement créé possède donc une propriété :</p>
+<ul>
+<li><code>$_espece</code></li>
+<li><code>$_regimeAlimentaire</code></li>
+<li><code>$_taille</code></li>
+<li>et <code>$_poids</code></li>
+</ul>
+<p>Initialisons maintenant ces propriétés :</p>
+<pre><code class="hljs php">$chien-&gt;_espece = <span class="hljs-string">"Chien"</span>;
+$chien-&gt;_regimeAlimentaire = <span class="hljs-string">"Carnivore"</span>;
+$chien-&gt;_taille = <span class="hljs-number">110</span>;
+$chien-&gt;_poids = <span class="hljs-number">16000</span>;</code></pre>
+<p>Pour accéder à une propriété d'un objet, on utilise le symbole <code>-&gt;</code> (appelé <strong>opérateur objet</strong>) accolé au nom de l'objet et suivi du nom de la  propriété.</p>
+<h2 id="19">Propriétés de classe</h2>
+<p>Les <strong>propriétés de classe</strong> sont différentes des propriétés d'instance en cela qu'elles n'existent qu'en un seul exemplaire.</p>
+<p>Nous avions vu que chaque objet possède en quelque sorte ses propres exemplaires des attributs et des méthodes définis dans la classe, c'est-à- dire que pour chaque objet, ces propriétés auront des valeurs différentes.
+Pour une propriété de classe, c'est l'inverse. Il s'agit d'une propriété dont la valeur sera partagée par tous les objets d'une même classe.</p>
+<p>Il faut tout de même prendre en compte certaines conventions que les développeurs ont adoptées afin de clarifier le code.</p>
+<div style="margin-bottom: 45px;"></div></div><div class="menu-markdown"><img src="./proprietes_files/menu.png"><div data-id="1" class="titre">Les attributs (ou propriétés)</div><div data-id="5">Propriétés d'instance</div><div data-id="19">Propriétés de classe</div></div></div><script>hljs.initHighlightingOnLoad();//hljs.initLineNumbersOnLoad();</script><script src="./proprietes_files/menu-markdown.js"></script></body></html>

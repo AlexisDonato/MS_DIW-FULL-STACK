@@ -1,0 +1,296 @@
+<!DOCTYPE html>
+<!-- saved from url=(0083)https://ncode.amorce.org/ressources/Pool/MS_FULL_STACK/PHP_POO/PHP_POO_avancee.html -->
+<html><head><meta http-equiv="Content-Type" content="text/html; charset=UTF-8"><title></title>
+        <meta name="viewport" content="width=device-width, initial-scale=1">
+        <link rel="stylesheet" href="./PHP_POO_avancee_files/font-awesome.min.css">
+        <link rel="stylesheet" href="./PHP_POO_avancee_files/bootstrap.min.css">
+        <link rel="stylesheet" href="./PHP_POO_avancee_files/darcula.css">
+        <!-- <link rel="stylesheet" href="/css/highlight/line-number.css"> -->
+        <link rel="stylesheet" href="./PHP_POO_avancee_files/github-markdown.css">
+        <!-- <link rel="stylesheet" href="/css/markdown_foad.css"> -->
+        <link rel="stylesheet" href="./PHP_POO_avancee_files/menu-markdown.css">
+        <!-- <script src="/js/highlightjs-line-numbers.min.js"></script> -->
+        <script src="./PHP_POO_avancee_files/jquery-3.4.1.min.js"></script>
+        <script src="./PHP_POO_avancee_files/popper.min.js"></script>
+        <script src="./PHP_POO_avancee_files/bootstrap.min.js"></script>
+        <script src="./PHP_POO_avancee_files/highlight.js"></script>
+        </head><body><div class="container"><div class="markdown-body"><h1 id="1">POO - Notions complémentaires</h1>
+<p><br>
+<br></p>
+<p>Le but de cette séquence est de porter à votre connaissance l'existence des concepts avancés de la programmation orientée objet et de comprendre leur utilité, pas de les manipuler. </p>
+<blockquote>
+<p>Retenez que la plupart de ces concepts ne sont pas spécifiques au PHP, on les rencontre dans d'autres langages orientés objets ! </p>
+</blockquote>
+<p><br>
+<br></p>
+<h2 id="6">Chargement automatique de classes</h2>
+<p>Afin d'éviter de charger les classes une par une, il existe une astuce. Le préalable est d'avoir préfixé l'extension de fichier php par <code>class</code> : vos fichiers de classes doivent donc avoir le format <code>nomdelaclasse.class.php</code></p>
+<!-- TODO: exemple avec fonction -->
+<pre><code class="hljs php">spl_autoload_register(<span class="hljs-function"><span class="hljs-keyword">function</span><span class="hljs-params">($class)</span> 
+</span>{
+      <span class="hljs-keyword">include</span> <span class="hljs-string">"classes/"</span>.$class.<span class="hljs-string">".class.php"</span>;
+});</code></pre>
+<p><br>
+<br></p>
+<h2 id="10">Espaces de noms</h2>
+<p>Les espaces de noms - <em>namespace</em> en anglais - permettent de regrouper plusieurs classes sous une même entité portant un nom; on obtient ainsi des composants (ou encore modules ou packages).    </p>
+<p>Pour créer un espace de nom, on ajoute le mot-clé <code>namespace</code> suivi du nom qu'on veut lui donner :</p>
+<pre><code class="hljs cs"><span class="hljs-keyword">namespace</span> <span class="hljs-title">ventes</span>;</code></pre>
+<p>On place cette ligne dans un fichier ou une classe, mais au tout début : <strong>aucune ligne de code ne doit précéder cette déclaration</strong>.</p>
+<p><br></p>
+<p><strong>Exemple</strong></p>
+<pre><code class="hljs cpp"><span class="hljs-keyword">namespace</span> Ventes   
+
+<span class="hljs-keyword">class</span> Vehicule 
+{
+     <span class="hljs-comment">// [CODE]</span>
+} </code></pre>
+<p>Pour utiliser l'espace de nom, on utilise, le mot-clé <code>use</code> suivi du nom :</p>
+<pre><code class="hljs php"><span class="hljs-keyword">use</span> <span class="hljs-title">Ventes</span>;</code></pre>
+<p>On place cette ligne là où on souhaite utiliser l'un des éléments (classes...) appartenant à l'espace de nom.  </p>
+<blockquote>
+<p>On peut déclarer des espaces de noms sur plusieurs niveaux, alors séparés par un antislash. Exemples : <code>namespace Crm\Ventes</code> ou encore <code>Crm\Ventes\Vehicules</code>, <code>Crm\Ventes\Services</code>. </p>
+</blockquote>
+<p>Les espaces de noms ont un autre avantage : on peut utiliser des noms de fichiers, de classes ou de variables identiques dans une application si ces derniers appartiennent à des espaces de noms distincts :</p>
+<ul>
+<li>classe A et classe B dans l'espace de nom C.</li>
+<li>une autre classe A et une autre classe B dans un espace de nom D. </li>
+</ul>
+<p><br>
+<br></p>
+<h2 id="25">Typage de variables</h2>
+<p>Le typage explicite (<em>type hinting</em> en anglais) permet de s'assurer du type d'une variable en le précisant devant cette variable lorsqu'elle est passée en argument à une méthode. </p>
+<p><br></p>
+<p><strong>Exemple</strong> </p>
+<p>Dans la méthode <code>ajouter()</code>, on spécifie que la variable <code>$datas</code> doit être un tableau (<code>array</code>) : </p>
+<pre><code class="hljs php"><span class="hljs-class"><span class="hljs-keyword">class</span> <span class="hljs-title">Vehicule</span> 
+</span>{
+     <span class="hljs-keyword">public</span> <span class="hljs-function"><span class="hljs-keyword">function</span> <span class="hljs-title">ajouter</span><span class="hljs-params">(array $datas)</span> </span>{
+        <span class="hljs-comment">// [CODE]</span>
+     }  </code></pre>
+<p>Si la variable n'est pas du type attendu, une erreur fatale est levée. </p>
+<p>Les types peuvent être un tableau, le nom d'une classe ou d'une interface, mais pas un entier ni une chaîne simple ni un trait. </p>
+<p>--&gt; Voir ici la <a href="http://php.net/manual/fr/language.oop5.typehinting.php">documentation complète de PHP sur le typage de variables</a></p>
+<p><br>
+<br></p>
+<h2 id="35">Chaînage de méthodes</h2>
+<p>Le chaînage de méthode permet d'exécuter plusieurs méthodes d'une classe à la fois.</p>
+<p><br></p>
+<p><strong>Exemple</strong> </p>
+<p>Au lieu d'écrire :</p>
+<pre><code class="hljs php">$o = <span class="hljs-keyword">new</span> Vehicule();
+$o-&gt;avancer();
+$o-&gt;freiner();
+$o-&gt;arreter();  </code></pre>
+<p>On peut écrit ceci :  </p>
+<pre><code class="hljs php">$o-&gt;avancer()-&gt;freiner()-&gt;arreter();</code></pre>
+<p><br>
+<br></p>
+<h2 id="44">Appel de méthodes parentes</h2>
+<p>Dans une classe fille, on fait appel à une méthode de la classe parente via le mot-clé <code>parent</code>, suivi de 2 points puis du nom de la méthode souhaitée : <code>parent::method()</code>.  </p>
+<blockquote>
+<p>Le signe <code>::</code> est appelé opérateur de résolution de portée.</p>
+</blockquote>
+<p><br>
+<br></p>
+<h2 id="48">Propriétés et méthodes statiques</h2>
+<p>Les propriétés et méthodes statiques sont des propriétés et méthodes qui appartiennent exclusivement à une classe, et non pas à un objet ; ceux-ci vont donc être les mêmes pour toutes les instances d'une classe.  </p>
+<p>L'appel à une méthode statique se fait directement, c'est-à-dire sans instanciation (pas de <code>new maclasse()</code>. Il n'y a pas d'état/contexte et on ne peut donc pas utiliser le mot-clé <code>$this</code>.  </p>
+<p>Une méthode est déclarée statique avec le mot-clé <code>static</code>.</p>
+<p>Pour invoquer une méthode statique dans une autre méthode de la même classe, on utilise l'opérateur <code>self</code> suivi de 2 points puis du nom de la méthode statique : <code>self::method()</code>.</p>
+<p>--&gt; Voir ici le <a href="https://www.pierre-giraud.com/php-mysql/cours-complet/php-poo-constantes-methodes-proprietes-statiques.php">cours de Pierre Giraud sur les méthodes statiques</a></p>
+<p><br>
+<br></p>
+<h2 id="55">Classes abstraites</h2>
+<p>Une classe abstraite est un début d'implémentation d'une classe. On définit certaines méthodes et attributs en obligeant les classes dérivées à les implémenter. On peut ainsi présenter un début d'implémentation et forcer les gens qui la réutilisent à l'étendre en la complétant.</p>
+<p>--&gt; Voir ici le cours de Pierre Giraud sur les <a href="https://www.pierre-giraud.com/php-mysql-apprendre-coder-cours/oriente-objet-methode-classe-abstraite">classes abstraites en PHP</a></p>
+<p>Exemple de déclaration d'une classe abstraite : </p>
+<pre><code class="hljs xml"><span class="php"><span class="hljs-meta">&lt;?php</span>
+<span class="hljs-keyword">abstract</span> <span class="hljs-class"><span class="hljs-keyword">class</span> <span class="hljs-title">vehicule</span> 
+</span>{
+    <span class="hljs-keyword">abstract</span> <span class="hljs-keyword">public</span> <span class="hljs-function"><span class="hljs-keyword">function</span> <span class="hljs-title">avancer</span><span class="hljs-params">()</span></span>;
+    <span class="hljs-keyword">abstract</span> <span class="hljs-keyword">protected</span> <span class="hljs-function"><span class="hljs-keyword">function</span> <span class="hljs-title">freiner</span><span class="hljs-params">()</span></span>;            
+} </span></code></pre>
+<p><strong>Remarques :</strong></p>
+<ul>
+<li>Le mot-clé <code>abstract</code> précède <code>class</code> et les méthodes abstraites</li>
+<li>Aucun code dans les méthodes; seul leur nom est indiqué; le code sera défini dans les classes utilisant la classe abstraite</li>
+<li>La visibilité des méthodes doit être au moins au même niveau (ou inférieur) dans la classe abstraite et les classes filles; elle ne peut avoir la visibilité privée  </li>
+<li>Dans une classe abstraite, toutes les méthodes ne sont pas forcèment abstraites; par contre si au moins l'une l'est, il faut déclarer la classe comme étant abstraite (c'est-à-dire ajout du mot-clé <code>abstract</code> devant <code>class</code>). </li>
+<li>Une classe abstraite n'est pas instanciable.</li>
+</ul>
+<p>Utilisation de la classe abstraite par une classe :</p>
+<pre><code class="hljs xml"><span class="php"><span class="hljs-meta">&lt;?php</span>   
+<span class="hljs-class"><span class="hljs-keyword">class</span> <span class="hljs-title">voiture</span> <span class="hljs-keyword">extends</span> <span class="hljs-title">vehicule</span> 
+</span>{
+    <span class="hljs-function"><span class="hljs-keyword">function</span> <span class="hljs-title">avancer</span><span class="hljs-params">()</span> 
+    </span>{
+        <span class="hljs-keyword">echo</span> <span class="hljs-string">'on avance'</span> ;
+    }
+}</span></code></pre>
+<p><strong>Remarques :</strong></p>
+<ul>
+<li>Ligne 1 : la classe fille hérite de la classe abstraite via le mot-clé <code>extends</code> (pareil que pour un héritage normal)</li>
+<li>Ligne 4 : on définit la fonction <code>avancer()</code></li>
+</ul>
+<p><br>
+<br></p>
+<h2 id="67">Interfaces</h2>
+<p>La notion d'interface est proche de celle de classe abstraite, mais un peu plus générique.</p>
+<p>Les interfaces sont utiles pour forcer la présence de méthodes et de fonctionnalités appelables par l'utilisateur. Seules des méthodes publiques peuvent donc être déclarées dans une interface.</p>
+<p>On déclare une interface de manière similaire à une classe abstraite mais avec le mot-clé <code>interface</code>. Les méthodes sont forcément publiques.</p>
+<p>--&gt; Voir ici le <a href="https://www.pierre-giraud.com/php-mysql-apprendre-coder-cours/oriente-objet-interface">cours de Pierre Giraud sur les interfaces en PHP</a></p>
+<p><br></p>
+<p><strong>Exemple</strong></p>
+<ul>
+<li>
+<p>Déclaration d'une interface (nommée <em>crud</em>) :</p>
+<pre><code class="hljs php"><span class="hljs-class"><span class="hljs-keyword">interface</span> <span class="hljs-title">crud</span>
+</span>{
+    <span class="hljs-keyword">public</span> <span class="hljs-function"><span class="hljs-keyword">function</span> <span class="hljs-title">liste</span><span class="hljs-params">($datas)</span></span>;
+    <span class="hljs-keyword">public</span> <span class="hljs-function"><span class="hljs-keyword">function</span> <span class="hljs-title">afficher</span><span class="hljs-params">($id)</span></span>;
+    <span class="hljs-keyword">public</span> <span class="hljs-function"><span class="hljs-keyword">function</span> <span class="hljs-title">ajouter</span><span class="hljs-params">($datas)</span></span>;
+    <span class="hljs-keyword">public</span> <span class="hljs-function"><span class="hljs-keyword">function</span> <span class="hljs-title">modifier</span><span class="hljs-params">($datas)</span></span>;
+    <span class="hljs-keyword">public</span> <span class="hljs-function"><span class="hljs-keyword">function</span> <span class="hljs-title">supprimer</span><span class="hljs-params">($id)</span></span>;
+}</code></pre>
+</li>
+<li>
+<p>Utilisation d'une interface : on crée une nouvelle classe (ici <em>Voiture</em>) qui "implémente" l'interface. On utilise le mot-clé <code>implements</code> :</p>
+</li>
+</ul>
+<pre><code class="hljs php">    <span class="hljs-class"><span class="hljs-keyword">class</span> <span class="hljs-title">voiture</span> <span class="hljs-keyword">implements</span> <span class="hljs-title">crud</span>
+     </span>{
+         <span class="hljs-keyword">public</span> <span class="hljs-function"><span class="hljs-keyword">function</span> <span class="hljs-title">liste</span><span class="hljs-params">($datas)</span>
+         </span>{
+            [ CODE ]
+         }
+
+         <span class="hljs-keyword">public</span> <span class="hljs-function"><span class="hljs-keyword">function</span> <span class="hljs-title">afficher</span><span class="hljs-params">($id)</span>
+         </span>{
+            [ CODE ]
+         }   
+
+         <span class="hljs-comment">// etc...</span>
+    }</code></pre>
+<p>--&gt; Voir ici la <a href="http://php.net/manual/fr/language.oop5.interfaces.php">documentation complète de PHP sur les interfaces</a></p>
+<p><br></p>
+<h3 id="78">Différence entre classe abstraite et interface</h3>
+<p>Lisez <a href="https://www.pierre-giraud.com/php-mysql-apprendre-coder-cours/oriente-objet-interface">la section <em>Interface ou classe abstraite : comment choisir ?</em> sur cette page</a>.</p>
+<p><br>
+<br></p>
+<h2 id="81">Traits</h2>
+<p>En PHP, une classe ne peut hériter que d'une seule classe mère à la fois : c'est <em>l'héritage simple</em>. </p>
+<p>Le contraire est <em>l'héritage multiple</em>, qui existe dans certains langage (C++ par exemple).   </p>
+<p>Le problème : si une classe B n'hérite pas de la classe A, il n'est pas possible de réutiliser dans B une méthode présente dans A. Il faudrait dupliquer dans B le code de la méthode de A, or ce code est strictement identique car il fait la même chose; cela fait donc doublon.    </p>
+<p>Un trait résoud ce problème en rendant possible l'utilisation d'une méthode de la classe A dans la classe B sans que B ne soit déclarée comme fille de A. Un trait "zappe" donc la notion d'héritage. </p>
+<p>En pratique, on va mettre dans le trait (une sorte de classe) la méthode à utiliser dans les 2 classes A et B :  </p>
+<p>Le trait : </p>
+<pre><code class="hljs xml"><span class="php"><span class="hljs-meta">&lt;?php</span>
+<span class="hljs-keyword">trait</span> crud 
+{
+   <span class="hljs-keyword">public</span> <span class="hljs-function"><span class="hljs-keyword">function</span> <span class="hljs-title">convertir</span><span class="hljs-params">($valeur)</span> 
+   </span>{
+      <span class="hljs-comment">// [ CODE ]          </span>
+   }   
+}</span></code></pre>
+<p><br></p>
+<p>Utilisation dans la classe A :</p>
+<pre><code class="hljs xml"><span class="php"><span class="hljs-meta">&lt;?php</span>
+<span class="hljs-class"><span class="hljs-keyword">class</span> <span class="hljs-title">A</span> 
+</span>{
+    <span class="hljs-comment">// Appel du trait </span>
+    <span class="hljs-keyword">use</span> <span class="hljs-title">crud</span>;
+
+     <span class="hljs-keyword">public</span> <span class="hljs-function"><span class="hljs-keyword">function</span> <span class="hljs-title">freiner</span><span class="hljs-params">($nbkm)</span> </span>{
+          $nbkm = $this-&gt;convertir($nbkm);
+    } 
+}</span></code></pre>
+<p><br></p>
+<p>Utilisation dans la classe B : </p>
+<pre><code class="hljs xml"><span class="php"><span class="hljs-meta">&lt;?php</span>
+<span class="hljs-class"><span class="hljs-keyword">class</span> <span class="hljs-title">B</span> 
+</span>{
+    <span class="hljs-comment">// Appel du trait </span>
+    <span class="hljs-keyword">use</span> <span class="hljs-title">crud</span>;
+
+    <span class="hljs-keyword">public</span> <span class="hljs-function"><span class="hljs-keyword">function</span> <span class="hljs-title">avancer</span> <span class="hljs-params">($nbkm)</span> 
+    </span>{
+          $nbkm = $this-&gt;convertir($nbkm);
+    } 
+}</span></code></pre>
+<blockquote>
+<p>Retenez qu'il est possible d'utiliser plusieurs traits au sein d'une même classe ; dans ce cas on peut écrire <code>use nom_trait_1, nom_trait_2;</code></p>
+</blockquote>
+<p>--&gt; Voir ici la <a href="http://php.net/manual/fr/language.oop5.traits.php">documentation complète de PHP sur les traits</a></p>
+<p><br>
+<br></p>
+<h2 id="98">Classes et méthodes finales</h2>
+<p>Une classe ou une méthode est dite <em>finale</em> lorsqu'on souhaite qu'elle ne soit plus redéfinie dans une classe fille (on veut stopper la surcharge/le polymorphisme).    </p>
+<ul>
+<li>Si une classe est finale, aucune de ses méthodes ne peut être redéfinie</li>
+<li>Si une méthode est finale, seule cette méthode ne peut être redéfinie (les autres méthodes de la classe peuvent encore l'être, du moins si celles qui ne sont pas déclarées finales)</li>
+</ul>
+<p>On indique cet état en ajoutant le mot-clé <code>final</code>.</p>
+<p>Exemple pour une classe : </p>
+<pre><code class="hljs php"><span class="hljs-keyword">final</span> <span class="hljs-class"><span class="hljs-keyword">class</span> <span class="hljs-title">Velo</span> <span class="hljs-keyword">extends</span> <span class="hljs-title">DeuxRoues</span> 
+</span>{
+     <span class="hljs-keyword">public</span> <span class="hljs-function"><span class="hljs-keyword">function</span> <span class="hljs-title">avancer</span><span class="hljs-params">()</span> </span>{
+        <span class="hljs-comment">// [CODE]</span>
+     }
+
+      <span class="hljs-keyword">public</span> <span class="hljs-function"><span class="hljs-keyword">function</span> <span class="hljs-title">freiner</span><span class="hljs-params">()</span> </span>{
+        <span class="hljs-comment">// [CODE]</span>
+     }
+}  </code></pre>
+<p>Exemple pour une méthode </p>
+<pre><code class="hljs php"><span class="hljs-class"><span class="hljs-keyword">class</span> <span class="hljs-title">Velo</span> <span class="hljs-keyword">extends</span> <span class="hljs-title">DeuxRoues</span> 
+</span>{
+     <span class="hljs-keyword">public</span> <span class="hljs-keyword">final</span> <span class="hljs-function"><span class="hljs-keyword">function</span> <span class="hljs-title">avancer</span><span class="hljs-params">()</span> </span>{
+        <span class="hljs-comment">// [CODE]</span>
+     }
+
+     <span class="hljs-keyword">public</span> <span class="hljs-function"><span class="hljs-keyword">function</span> <span class="hljs-title">freiner</span><span class="hljs-params">()</span> </span>{
+        <span class="hljs-comment">// [CODE]</span>
+     }
+}  </code></pre>
+<p><br>
+<br></p>
+<h2 id="107">Design patterns</h2>
+<p>Un <em>design pattern</em> (motif de conception, patron de conception) est un modèle de classe qui permet de résoudre un problème d'algorithmique spécifique, c'est-à-dire qui propose une solution type reconnue par l'ensemble de la profession.</p>
+<p>Il existe de nombreux design patterns : les plus connus sont <em>factory</em>, <em>singleton</em>, <em>strategy</em>, <em>observer</em>... </p>
+<p>--&gt; Voir ici pour en savoir plus sur les <a href="https://g-rossolini.developpez.com/tutoriels/php/ibmdw/5-design-patterns">design patterns en PHP</a></p>
+<p><br>
+<br></p>
+<h2 id="112">Classes anonymes (PHP 7)</h2>
+<p>Le PHP 7 a introduit le concept de <a href="https://secure.php.net/manual/fr/language.oop5.anonymous.php">classe anonyme</a>.</p>
+<p>--&gt; Voir ici le <a href="https://www.pierre-giraud.com/php-mysql/cours-complet/php-poo-closures-classes-anonymes.php">cours de Pierre Giraud sur les classes anonymes en php</a></p>
+<p><br>
+<br></p>
+<h2 id="116">Introspection et débogage</h2>
+<h3 id="117">Métaconstantes</h3>
+<p>Pour déboguer vos classes, il existe en PHP un type de variables appelés métaconstantes :</p>
+<ul>
+<li><code>__CLASS__</code> : retourne le nom de la classe utilisée</li>
+<li><code>__METHOD__</code> : retourne la méthode de classe</li>
+<li><code>__NAMESPACE__</code> : retourne l'espace de nom utilisé (s'il y en a un de déclaré)</li>
+<li><code>__FILE__</code> : indique dans quel fichier on se trouve (peut être utilisé hors des classes, dans n'importe quel fichier PHP). Dans la même veine, <code>__LINE__</code> donne le numéro de ligne.</li>
+</ul>
+<p>Exemple : <code>echo"Fichier : ".__FILE__", ligne : ".__LINE__;</code></p>
+<p><br></p>
+<h3 id="122">Clonage</h3>
+<p>Il est parfois utile de devoir copier (dupliquer) un objet dans son état actuel pour, par exemple, effectuer un test tout en conservant son état (valeurs initiales des attributs). Il existe pour cela un mécanisme appelé  clonage.</p>
+<p>Lisez ce <a href="https://apprendre-php.com/tutoriels/tutoriel-74-mthodes-magiques-clone.html">cours sur le clonage</a>.</p>
+<p>--&gt; Voir ici la <a href="http://php.net/manual/fr/language.oop5.cloning.php">documentation complète de PHP sur le clonage</a></p>
+<p><br></p>
+<h3 id="127">Reflexivité</h3>
+<p>PHP propose un mécanisme donnant des informations sur une classe (y-a-t-il une classe parente ? Quels sont les attributs etc.). Ce mécanisme est appelé reflexivité (<em>Reflection</em> en anglais) et permet l'introspection des classes PHP au sein du code. </p>
+<p>Lisez ce <a href="https://openclassrooms.com/fr/courses/1665806-programmez-en-oriente-objet-en-php/1667552-lapi-de-reflexivite">cours sur la reflexivité</a>.</p>
+<p>--&gt; Voir ici la <a href="http://php.net/manual/fr/book.reflection.php">documentation complète de PHP sur la réflexivité</a> </p>
+<p><br></p>
+<h3 id="132">Itération</h3>
+<p>PHP fournit plusieurs classes (interfaces) d'itérateurs pour parcourir un objet. Ces itérateurs permettent de parcourir les attributs d'une instance d'objet.    </p>
+<p>Lisez ce <a href="https://www.berejeb.com/2013/01/les-iterateurs-en-php-comment-ca-marche">cours sur les itérations</a>.</p>
+<p>--&gt; Voir ici la <a href="http://php.net/manual/fr/language.oop5.iterations.php">documentation complète de PHP sur les itérations</a></p>
+<p><br>
+<br>
+<br></p></div><div class="menu-markdown"><img src="./PHP_POO_avancee_files/menu.png"><div data-id="1" class="titre">POO - Notions complémentaires</div><div data-id="6">Chargement automatique de classes</div><div data-id="10">Espaces de noms</div><div data-id="25">Typage de variables</div><div data-id="35">Chaînage de méthodes</div><div data-id="44">Appel de méthodes parentes</div><div data-id="48">Propriétés et méthodes statiques</div><div data-id="55">Classes abstraites</div><div data-id="67">Interfaces</div><div data-id="78">&nbsp;&nbsp;&nbsp;&nbsp;Différence entre classe abstraite et interface</div><div data-id="81">Traits</div><div data-id="98">Classes et méthodes finales</div><div data-id="107">Design patterns</div><div data-id="112">Classes anonymes (PHP 7)</div><div data-id="116">Introspection et débogage</div><div data-id="117">&nbsp;&nbsp;&nbsp;&nbsp;Métaconstantes</div><div data-id="122">&nbsp;&nbsp;&nbsp;&nbsp;Clonage</div><div data-id="127">&nbsp;&nbsp;&nbsp;&nbsp;Reflexivité</div><div data-id="132">&nbsp;&nbsp;&nbsp;&nbsp;Itération</div></div></div><script>hljs.initHighlightingOnLoad();//hljs.initLineNumbersOnLoad();</script><script src="./PHP_POO_avancee_files/menu-markdown.js"></script></body></html>

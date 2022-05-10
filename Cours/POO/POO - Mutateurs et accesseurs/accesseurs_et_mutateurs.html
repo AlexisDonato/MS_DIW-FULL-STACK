@@ -1,0 +1,43 @@
+<!DOCTYPE html>
+<!-- saved from url=(0097)https://ncode.amorce.org/ressources/Pool/MS_FULL_STACK/PHP_POO/bases/accesseurs_et_mutateurs.html -->
+<html><head><meta http-equiv="Content-Type" content="text/html; charset=UTF-8"><title></title>
+        <meta name="viewport" content="width=device-width, initial-scale=1">
+        <link rel="stylesheet" href="./accesseurs_et_mutateurs_files/font-awesome.min.css">
+        <link rel="stylesheet" href="./accesseurs_et_mutateurs_files/bootstrap.min.css">
+        <link rel="stylesheet" href="./accesseurs_et_mutateurs_files/darcula.css">
+        <!-- <link rel="stylesheet" href="/css/highlight/line-number.css"> -->
+        <link rel="stylesheet" href="./accesseurs_et_mutateurs_files/github-markdown.css">
+        <!-- <link rel="stylesheet" href="/css/markdown_foad.css"> -->
+        <link rel="stylesheet" href="./accesseurs_et_mutateurs_files/menu-markdown.css">
+        <!-- <script src="/js/highlightjs-line-numbers.min.js"></script> -->
+        <script src="./accesseurs_et_mutateurs_files/jquery-3.4.1.min.js"></script>
+        <script src="./accesseurs_et_mutateurs_files/popper.min.js"></script>
+        <script src="./accesseurs_et_mutateurs_files/bootstrap.min.js"></script>
+        <script src="./accesseurs_et_mutateurs_files/highlight.js"></script>
+        </head><body><div class="container"><div class="markdown-body"><h2 id="1">Mutateurs et accesseurs</h2>
+<p>L'encapsulation et les principes de visibilité édictent que les attributs d'uen classe ne devraient jamais être manipulés directement à l'extérieur de la classe (pour éviter des acciddents tels que suppression, mauvaise valeur etc.). </p>
+<p>¨Par conséquent, les attributs devraient toujours être déclarés comme privés, avec le mot-clé <code>private</code>.  et être manipulés ensuite par des méthodes appelées <a href="https://openclassrooms.com/fr/courses/1665806-programmez-en-oriente-objet-en-php/1666060-utiliser-la-classe">accesseurs et mutateurs</a> (<em>getters</em> et <em>setters</em> en anglais).  </p>
+<h3 id="4">Mutateur</h3>
+<p>La méthode qui sert de mutateur permet de définir la valeur d'un attribut. Elle reçoit en argument la variable qui contient cette valeur.    </p>
+<p>Par convention, les mutateurs ont le préfixe <code>set</code> et il est pratique de leur donner le nom de l'attribut concerné :  </p>
+<pre><code class="hljs xml"><span class="php"><span class="hljs-meta">&lt;?php</span>
+<span class="hljs-comment">// vehicule.class.php  </span>
+
+<span class="hljs-comment">// Mutateur : définit/modifie la valeur passée en argument à l'attribut </span>
+<span class="hljs-keyword">public</span> <span class="hljs-function"><span class="hljs-keyword">function</span> <span class="hljs-title">setMarque</span><span class="hljs-params">($sMarque)</span> 
+</span>{
+   <span class="hljs-keyword">return</span> $this-&gt;_marque = $sMarque;
+}</span></code></pre>
+<blockquote>
+<p>Il faut écrire une méthode mutateur <strong>pour chaque attribut</strong>.  </p>
+</blockquote>
+<h3 id="9">Accesseur</h3>
+<pre><code class="hljs xml"> <span class="php"><span class="hljs-meta">&lt;?php</span>
+<span class="hljs-comment">// vehicule.class.php  </span>
+
+<span class="hljs-comment">// Accesseur : renvoie la valeur d'un attribut  </span>
+<span class="hljs-keyword">public</span> <span class="hljs-function"><span class="hljs-keyword">function</span> <span class="hljs-title">getMarque</span><span class="hljs-params">()</span> 
+</span>{
+    <span class="hljs-keyword">return</span> $this-&gt;_marque;
+}</span></code></pre>
+<div style="margin-bottom: 45px;"></div></div><div class="menu-markdown"><img src="./accesseurs_et_mutateurs_files/menu.png"><div data-id="1">Mutateurs et accesseurs</div><div data-id="4">&nbsp;&nbsp;&nbsp;&nbsp;Mutateur</div><div data-id="9">&nbsp;&nbsp;&nbsp;&nbsp;Accesseur</div></div></div><script>hljs.initHighlightingOnLoad();//hljs.initLineNumbersOnLoad();</script><script src="./accesseurs_et_mutateurs_files/menu-markdown.js"></script></body></html>

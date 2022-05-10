@@ -1,0 +1,50 @@
+<!DOCTYPE html>
+<!-- saved from url=(0082)https://ncode.amorce.org/ressources/Pool/MS_FULL_STACK/PHP_POO/bases/methodes.html -->
+<html><head><meta http-equiv="Content-Type" content="text/html; charset=UTF-8"><title></title>
+        <meta name="viewport" content="width=device-width, initial-scale=1">
+        <link rel="stylesheet" href="./methodes_files/font-awesome.min.css">
+        <link rel="stylesheet" href="./methodes_files/bootstrap.min.css">
+        <link rel="stylesheet" href="./methodes_files/darcula.css">
+        <!-- <link rel="stylesheet" href="/css/highlight/line-number.css"> -->
+        <link rel="stylesheet" href="./methodes_files/github-markdown.css">
+        <!-- <link rel="stylesheet" href="/css/markdown_foad.css"> -->
+        <link rel="stylesheet" href="./methodes_files/menu-markdown.css">
+        <!-- <script src="/js/highlightjs-line-numbers.min.js"></script> -->
+        <script src="./methodes_files/jquery-3.4.1.min.js"></script>
+        <script src="./methodes_files/popper.min.js"></script>
+        <script src="./methodes_files/bootstrap.min.js"></script>
+        <script src="./methodes_files/highlight.js"></script>
+        </head><body><div class="container"><div class="markdown-body"><h1 id="1">Les méthodes</h1>
+<p>Les méthodes d'instance en PHP fonctionnent de la même manière que les fonctions que vous avez déjà déclarées. La seule différence est qu'une méthode appartient forcément à une classe. L'appel à la méthode est donc différent de l'appel classique à une fonction.</p>
+<p>Après les déclarations d'attributs et de constantes, on trouve des fonctions, qui, dans une classe, sont appelées <strong>méthodes</strong>. Celles-ci ont un comportement similaire aux fonctions standard (traitement d'opération, réception d'arguments et retour de variables).     </p>
+<p><strong>Exemple</strong></p>
+<pre><code class="hljs xml"><span class="php"><span class="hljs-meta">&lt;?php</span>
+<span class="hljs-class"><span class="hljs-keyword">class</span> <span class="hljs-title">Voiture</span>
+</span>{
+    <span class="hljs-keyword">public</span> $_marque;
+    <span class="hljs-keyword">public</span> $_puissanceFiscale;
+    <span class="hljs-keyword">public</span> $_vitesseMax;
+    <span class="hljs-keyword">protected</span> $_vitesseCourante;
+
+    <span class="hljs-keyword">public</span> <span class="hljs-function"><span class="hljs-keyword">function</span> <span class="hljs-title">demarrer</span><span class="hljs-params">()</span>
+    </span>{
+        <span class="hljs-keyword">echo</span> <span class="hljs-string">"je démarre.&lt;br&gt;"</span>;
+    }
+
+    <span class="hljs-keyword">public</span> <span class="hljs-function"><span class="hljs-keyword">function</span> <span class="hljs-title">avancer</span><span class="hljs-params">(int $nbKm)</span>
+    </span>{
+        <span class="hljs-keyword">echo</span> <span class="hljs-string">"la voiture avance de "</span>.$nbKm.<span class="hljs-string">" kilomètres.&lt;br&gt;"</span>;
+    }
+} <span class="hljs-comment">// -- fin de la classe Voiture</span>
+
+<span class="hljs-comment">// Il nous faut d'abord instancier un objet de la classe</span>
+$oVoiture = <span class="hljs-keyword">new</span> Voiture();
+
+<span class="hljs-comment">// Ensuite seulement on peut appeler les méthodes en passant par l'objet nouvellement créé.</span>
+$oVoiture-&gt;demarrer();
+$oVoiture-&gt;avancer(<span class="hljs-number">50</span>);</span></code></pre>
+<p>Comme on peut le voir, l'appel à un attribut de la classe au sein d'une méthode n'a pas besoin de recevoir l'attribut en argument.   </p>
+<blockquote>
+<p>Comme pour les attributs, les méthodes ont une visibilité qui ont les mêmes valeurs <code>public</code>, <code>private</code> et <code>protected</code> et le même fonctionnement que pour les attributs. En général, les méthodes sont publiques sinon elles ne pourraient pas être appellées par le reste de l'application, mais certains cas peuvent nécessiter une visibilité privée ou protégée.     </p>
+</blockquote>
+<p><br><br><br><br></p></div><div class="menu-markdown"><img src="./methodes_files/menu.png"><div data-id="1" class="titre">Les méthodes</div></div></div><script>hljs.initHighlightingOnLoad();//hljs.initLineNumbersOnLoad();</script><script src="./methodes_files/menu-markdown.js"></script></body></html>

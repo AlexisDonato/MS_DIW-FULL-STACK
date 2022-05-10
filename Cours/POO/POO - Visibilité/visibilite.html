@@ -1,0 +1,89 @@
+<!DOCTYPE html>
+<!-- saved from url=(0084)https://ncode.amorce.org/ressources/Pool/MS_FULL_STACK/PHP_POO/bases/visibilite.html -->
+<html><head><meta http-equiv="Content-Type" content="text/html; charset=UTF-8"><title></title>
+        <meta name="viewport" content="width=device-width, initial-scale=1">
+        <link rel="stylesheet" href="./visibilite_files/font-awesome.min.css">
+        <link rel="stylesheet" href="./visibilite_files/bootstrap.min.css">
+        <link rel="stylesheet" href="./visibilite_files/darcula.css">
+        <!-- <link rel="stylesheet" href="/css/highlight/line-number.css"> -->
+        <link rel="stylesheet" href="./visibilite_files/github-markdown.css">
+        <!-- <link rel="stylesheet" href="/css/markdown_foad.css"> -->
+        <link rel="stylesheet" href="./visibilite_files/menu-markdown.css">
+        <!-- <script src="/js/highlightjs-line-numbers.min.js"></script> -->
+        <script src="./visibilite_files/jquery-3.4.1.min.js"></script>
+        <script src="./visibilite_files/popper.min.js"></script>
+        <script src="./visibilite_files/bootstrap.min.js"></script>
+        <script src="./visibilite_files/highlight.js"></script>
+        </head><body><div class="container"><div class="markdown-body"><h1 id="1">POO -&gt; Visibilité</h1>
+<p>La visibilité d'une propriété, d'une méthode ou (à partir de PHP 7.1.0) d'une constante peut être définie en préfixant sa déclaration avec un mot - clé: public, protected, ou private.Les éléments déclarés comme publics sont accessibles partout.</p>
+<p>L'accès aux éléments protégés est limité à la classe elle-même, ainsi qu'aux classes qui en héritent et parente. L'accès aux éléments privés est uniquement réservé à la classe qui les a définis.</p>
+<p><br></p>
+<h2 id="5">Visibilité des propriétés</h2>
+<p>Les propriétés des classes doivent généralement être définies comme publiques, protégées ou privées.</p>
+<!-- Si une propriété est déclarée en utilisant `var`, elle sera alors définie comme publique. -->
+<ul>
+<li><code>public</code>: ce mot-clé placé avant la déclaration d'une propriété ou d'une méthode, signifie que cette propriété (ou cette méthode) sera visible et utilisable partout.</li>
+<li><code>protected</code>: ce mot-clé signifie que la propriété ne sera visible que depuis la classe qui la défini ou depuis l'une de ses classes filles (les classes qui héritent d'elle).</li>
+<li>
+<p><code>private</code>: ce mot-clé signifie que cette propriété ne sera visible et utilisable que depuis la classe elle-même.</p>
+<pre><code class="hljs php"><span class="hljs-comment">/**
+* Définition de MyClass
+*/</span>
+
+<span class="hljs-class"><span class="hljs-keyword">class</span> <span class="hljs-title">MyClass</span>
+</span>{
+   <span class="hljs-keyword">public</span> $public = <span class="hljs-string">'Public'</span>;
+   <span class="hljs-keyword">protected</span> $protected = <span class="hljs-string">'Protected'</span>;
+   <span class="hljs-keyword">private</span> $private = <span class="hljs-string">'Private'</span>;
+
+   <span class="hljs-function"><span class="hljs-keyword">function</span> <span class="hljs-title">printHello</span><span class="hljs-params">()</span>
+   </span>{
+       <span class="hljs-keyword">echo</span> $this-&gt;public;
+       <span class="hljs-keyword">echo</span> $this-&gt;protected;
+       <span class="hljs-keyword">echo</span> $this-&gt;private;
+   }
+
+ } <span class="hljs-comment">// -- fin de la classe MyClass</span>
+
+ $obj = <span class="hljs-keyword">new</span> MyClass();
+
+ <span class="hljs-keyword">echo</span> $obj-&gt;public; <span class="hljs-comment">// Fonctionne</span>
+ <span class="hljs-keyword">echo</span> $obj-&gt;protected; <span class="hljs-comment">// Erreur fatale</span>
+ <span class="hljs-keyword">echo</span> $obj-&gt;private; <span class="hljs-comment">// Erreur fatale</span>
+
+ $obj-&gt;printHello(); <span class="hljs-comment">// Affiche Public, Protected et Private</span>
+
+ <span class="hljs-comment">/**
+ * Définition de MyClass2
+ */</span>
+
+ <span class="hljs-class"><span class="hljs-keyword">class</span> <span class="hljs-title">MyClass2</span> <span class="hljs-keyword">extends</span> <span class="hljs-title">MyClass</span>
+ </span>{
+     <span class="hljs-comment">// On peut redéclarer les propriétés publics ou protégés, mais pas ceux privés</span>
+     <span class="hljs-keyword">public</span> $public = <span class="hljs-string">'Public2'</span>;
+     <span class="hljs-keyword">protected</span> $protected = <span class="hljs-string">'Protected2'</span>;
+
+     <span class="hljs-function"><span class="hljs-keyword">function</span> <span class="hljs-title">printHello</span><span class="hljs-params">()</span>
+     </span>{
+        <span class="hljs-keyword">echo</span> $this-&gt;public;
+        <span class="hljs-keyword">echo</span> $this-&gt;protected;
+        <span class="hljs-keyword">echo</span> $this-&gt;private;
+     }
+ } <span class="hljs-comment">// -- fin de la classe MyClass2()</span>
+
+ $obj2 = <span class="hljs-keyword">new</span> MyClass2();
+ <span class="hljs-keyword">echo</span> $obj2-&gt;public; <span class="hljs-comment">// Fonctionne</span>
+ <span class="hljs-keyword">echo</span> $obj2-&gt;protected; <span class="hljs-comment">// Erreur fatale</span>
+ <span class="hljs-keyword">echo</span> $obj2-&gt;private; <span class="hljs-comment">// Indéfini</span>
+
+ $obj2-&gt;printHello(); <span class="hljs-comment">// Affiche Public2, Protected2 et Undefined (Indéfini)</span></code></pre>
+</li>
+</ul>
+<p><br></p>
+<blockquote>
+<p>Il existe une autre forme de visibilité : <code>static</code>, qui permet l'appel direct à l'attribut sans instanciation de l'objet (nous définirons plus loin ce qu'est une instanciation) ;<br>
+Cela signifie notamment que la valeur de cette propriété <strong>ne changera pas en fonction de l'objet</strong>, cette valeur sera propre à la classe toute entière.</p>
+</blockquote>
+<p><br>
+<br>
+<br></p></div><div class="menu-markdown"><img src="./visibilite_files/menu.png"><div data-id="1" class="titre">POO -&gt; Visibilité</div><div data-id="5">Visibilité des propriétés</div></div></div><script>hljs.initHighlightingOnLoad();//hljs.initLineNumbersOnLoad();</script><script src="./visibilite_files/menu-markdown.js"></script></body></html>

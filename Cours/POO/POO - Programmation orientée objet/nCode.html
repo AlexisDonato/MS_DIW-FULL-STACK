@@ -1,0 +1,913 @@
+<!DOCTYPE html>
+<!-- saved from url=(0042)https://ncode.amorce.org/parcours/178/6841 -->
+<html lang="fr"><head><meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
+
+    
+    <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
+    <title>nCode</title>
+    <link rel="stylesheet" href="./nCode_files/font-awesome.min.css">
+    <link rel="stylesheet" href="./nCode_files/bootstrap.min.css">
+    <link rel="stylesheet" href="./nCode_files/jquery-ui.css">
+    <link rel="stylesheet" href="./nCode_files/atom-one-dark.min.css">
+    <script src="./nCode_files/highlight.min.js"></script>
+
+    <style>
+    .bordure-gauche {
+        border-left: 8px rgb(131, 131, 131) solid;
+    }
+
+    .couleur-fond1 {
+        background-color: rgb(138, 138, 138);
+    }
+
+    .couleur-fond2 {
+        background-color: rgba(255, 255, 255, 0.1);
+    }
+
+    .couleur-fond3 {
+        background-color: rgba(255, 255, 255, 0.2);
+    }
+
+    .selection {
+        color: black;
+        background-color: rgb(236, 236, 236);
+        font-weight: bold;
+    }
+
+    .noselection {
+        color: white;
+    }
+</style>
+<link rel="stylesheet" href="./nCode_files/darcula.css">
+<link rel="stylesheet" href="./nCode_files/line-number.css"> 
+<link rel="stylesheet" href="./nCode_files/github-markdown.css">
+<!-- <link rel="stylesheet" href="/css/markdown_foad.css"> -->
+    <link rel="stylesheet" href="./nCode_files/style.css">
+<style type="text/css" id="notify-bootstrap">.notifyjs-bootstrap-base {
+	font-weight: bold;
+	padding: 8px 15px 8px 14px;
+	text-shadow: 0 1px 0 rgba(255, 255, 255, 0.5);
+	background-color: #fcf8e3;
+	border: 1px solid #fbeed5;
+	-webkit-border-radius: 4px;
+	-moz-border-radius: 4px;
+	border-radius: 4px;
+	white-space: nowrap;
+	padding-left: 25px;
+	background-repeat: no-repeat;
+	background-position: 3px 7px;
+}
+.notifyjs-bootstrap-error {
+	color: #B94A48;
+	background-color: #F2DEDE;
+	border-color: #EED3D7;
+	background-image: url(data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAABQAAAAUCAYAAACNiR0NAAAAGXRFWHRTb2Z0d2FyZQBBZG9iZSBJbWFnZVJlYWR5ccllPAAAAtRJREFUeNqkVc1u00AQHq+dOD+0poIQfkIjalW0SEGqRMuRnHos3DjwAH0ArlyQeANOOSMeAA5VjyBxKBQhgSpVUKKQNGloFdw4cWw2jtfMOna6JOUArDTazXi/b3dm55socPqQhFka++aHBsI8GsopRJERNFlY88FCEk9Yiwf8RhgRyaHFQpPHCDmZG5oX2ui2yilkcTT1AcDsbYC1NMAyOi7zTX2Agx7A9luAl88BauiiQ/cJaZQfIpAlngDcvZZMrl8vFPK5+XktrWlx3/ehZ5r9+t6e+WVnp1pxnNIjgBe4/6dAysQc8dsmHwPcW9C0h3fW1hans1ltwJhy0GxK7XZbUlMp5Ww2eyan6+ft/f2FAqXGK4CvQk5HueFz7D6GOZtIrK+srupdx1GRBBqNBtzc2AiMr7nPplRdKhb1q6q6zjFhrklEFOUutoQ50xcX86ZlqaZpQrfbBdu2R6/G19zX6XSgh6RX5ubyHCM8nqSID6ICrGiZjGYYxojEsiw4PDwMSL5VKsC8Yf4VRYFzMzMaxwjlJSlCyAQ9l0CW44PBADzXhe7xMdi9HtTrdYjFYkDQL0cn4Xdq2/EAE+InCnvADTf2eah4Sx9vExQjkqXT6aAERICMewd/UAp/IeYANM2joxt+q5VI+ieq2i0Wg3l6DNzHwTERPgo1ko7XBXj3vdlsT2F+UuhIhYkp7u7CarkcrFOCtR3H5JiwbAIeImjT/YQKKBtGjRFCU5IUgFRe7fF4cCNVIPMYo3VKqxwjyNAXNepuopyqnld602qVsfRpEkkz+GFL1wPj6ySXBpJtWVa5xlhpcyhBNwpZHmtX8AGgfIExo0ZpzkWVTBGiXCSEaHh62/PoR0p/vHaczxXGnj4bSo+G78lELU80h1uogBwWLf5YlsPmgDEd4M236xjm+8nm4IuE/9u+/PH2JXZfbwz4zw1WbO+SQPpXfwG/BBgAhCNZiSb/pOQAAAAASUVORK5CYII=);
+}
+.notifyjs-bootstrap-success {
+	color: #468847;
+	background-color: #DFF0D8;
+	border-color: #D6E9C6;
+	background-image: url(data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAABQAAAAUCAYAAACNiR0NAAAAGXRFWHRTb2Z0d2FyZQBBZG9iZSBJbWFnZVJlYWR5ccllPAAAAutJREFUeNq0lctPE0Ecx38zu/RFS1EryqtgJFA08YCiMZIAQQ4eRG8eDGdPJiYeTIwHTfwPiAcvXIwXLwoXPaDxkWgQ6islKlJLSQWLUraPLTv7Gme32zoF9KSTfLO7v53vZ3d/M7/fIth+IO6INt2jjoA7bjHCJoAlzCRw59YwHYjBnfMPqAKWQYKjGkfCJqAF0xwZjipQtA3MxeSG87VhOOYegVrUCy7UZM9S6TLIdAamySTclZdYhFhRHloGYg7mgZv1Zzztvgud7V1tbQ2twYA34LJmF4p5dXF1KTufnE+SxeJtuCZNsLDCQU0+RyKTF27Unw101l8e6hns3u0PBalORVVVkcaEKBJDgV3+cGM4tKKmI+ohlIGnygKX00rSBfszz/n2uXv81wd6+rt1orsZCHRdr1Imk2F2Kob3hutSxW8thsd8AXNaln9D7CTfA6O+0UgkMuwVvEFFUbbAcrkcTA8+AtOk8E6KiQiDmMFSDqZItAzEVQviRkdDdaFgPp8HSZKAEAL5Qh7Sq2lIJBJwv2scUqkUnKoZgNhcDKhKg5aH+1IkcouCAdFGAQsuWZYhOjwFHQ96oagWgRoUov1T9kRBEODAwxM2QtEUl+Wp+Ln9VRo6BcMw4ErHRYjH4/B26AlQoQQTRdHWwcd9AH57+UAXddvDD37DmrBBV34WfqiXPl61g+vr6xA9zsGeM9gOdsNXkgpEtTwVvwOklXLKm6+/p5ezwk4B+j6droBs2CsGa/gNs6RIxazl4Tc25mpTgw/apPR1LYlNRFAzgsOxkyXYLIM1V8NMwyAkJSctD1eGVKiq5wWjSPdjmeTkiKvVW4f2YPHWl3GAVq6ymcyCTgovM3FzyRiDe2TaKcEKsLpJvNHjZgPNqEtyi6mZIm4SRFyLMUsONSSdkPeFtY1n0mczoY3BHTLhwPRy9/lzcziCw9ACI+yql0VLzcGAZbYSM5CCSZg1/9oc/nn7+i8N9p/8An4JMADxhH+xHfuiKwAAAABJRU5ErkJggg==);
+}
+.notifyjs-bootstrap-info {
+	color: #3A87AD;
+	background-color: #D9EDF7;
+	border-color: #BCE8F1;
+	background-image: url(data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAABQAAAAUCAYAAACNiR0NAAAABmJLR0QA/wD/AP+gvaeTAAAACXBIWXMAAAsTAAALEwEAmpwYAAAAB3RJTUUH3QYFAhkSsdes/QAAA8dJREFUOMvVlGtMW2UYx//POaWHXg6lLaW0ypAtw1UCgbniNOLcVOLmAjHZolOYlxmTGXVZdAnRfXQm+7SoU4mXaOaiZsEpC9FkiQs6Z6bdCnNYruM6KNBw6YWewzl9z+sHImEWv+vz7XmT95f/+3/+7wP814v+efDOV3/SoX3lHAA+6ODeUFfMfjOWMADgdk+eEKz0pF7aQdMAcOKLLjrcVMVX3xdWN29/GhYP7SvnP0cWfS8caSkfHZsPE9Fgnt02JNutQ0QYHB2dDz9/pKX8QjjuO9xUxd/66HdxTeCHZ3rojQObGQBcuNjfplkD3b19Y/6MrimSaKgSMmpGU5WevmE/swa6Oy73tQHA0Rdr2Mmv/6A1n9w9suQ7097Z9lM4FlTgTDrzZTu4StXVfpiI48rVcUDM5cmEksrFnHxfpTtU/3BFQzCQF/2bYVoNbH7zmItbSoMj40JSzmMyX5qDvriA7QdrIIpA+3cdsMpu0nXI8cV0MtKXCPZev+gCEM1S2NHPvWfP/hL+7FSr3+0p5RBEyhEN5JCKYr8XnASMT0xBNyzQGQeI8fjsGD39RMPk7se2bd5ZtTyoFYXftF6y37gx7NeUtJJOTFlAHDZLDuILU3j3+H5oOrD3yWbIztugaAzgnBKJuBLpGfQrS8wO4FZgV+c1IxaLgWVU0tMLEETCos4xMzEIv9cJXQcyagIwigDGwJgOAtHAwAhisQUjy0ORGERiELgG4iakkzo4MYAxcM5hAMi1WWG1yYCJIcMUaBkVRLdGeSU2995TLWzcUAzONJ7J6FBVBYIggMzmFbvdBV44Corg8vjhzC+EJEl8U1kJtgYrhCzgc/vvTwXKSib1paRFVRVORDAJAsw5FuTaJEhWM2SHB3mOAlhkNxwuLzeJsGwqWzf5TFNdKgtY5qHp6ZFf67Y/sAVadCaVY5YACDDb3Oi4NIjLnWMw2QthCBIsVhsUTU9tvXsjeq9+X1d75/KEs4LNOfcdf/+HthMnvwxOD0wmHaXr7ZItn2wuH2SnBzbZAbPJwpPx+VQuzcm7dgRCB57a1uBzUDRL4bfnI0RE0eaXd9W89mpjqHZnUI5Hh2l2dkZZUhOqpi2qSmpOmZ64Tuu9qlz/SEXo6MEHa3wOip46F1n7633eekV8ds8Wxjn37Wl63VVa+ej5oeEZ/82ZBETJjpJ1Rbij2D3Z/1trXUvLsblCK0XfOx0SX2kMsn9dX+d+7Kf6h8o4AIykuffjT8L20LU+w4AZd5VvEPY+XpWqLV327HR7DzXuDnD8r+ovkBehJ8i+y8YAAAAASUVORK5CYII=);
+}
+.notifyjs-bootstrap-warn {
+	color: #C09853;
+	background-color: #FCF8E3;
+	border-color: #FBEED5;
+	background-image: url(data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAABQAAAAUCAMAAAC6V+0/AAABJlBMVEXr6eb/2oD/wi7/xjr/0mP/ykf/tQD/vBj/3o7/uQ//vyL/twebhgD/4pzX1K3z8e349vK6tHCilCWbiQymn0jGworr6dXQza3HxcKkn1vWvV/5uRfk4dXZ1bD18+/52YebiAmyr5S9mhCzrWq5t6ufjRH54aLs0oS+qD751XqPhAybhwXsujG3sm+Zk0PTwG6Shg+PhhObhwOPgQL4zV2nlyrf27uLfgCPhRHu7OmLgAafkyiWkD3l49ibiAfTs0C+lgCniwD4sgDJxqOilzDWowWFfAH08uebig6qpFHBvH/aw26FfQTQzsvy8OyEfz20r3jAvaKbhgG9q0nc2LbZxXanoUu/u5WSggCtp1anpJKdmFz/zlX/1nGJiYmuq5Dx7+sAAADoPUZSAAAAAXRSTlMAQObYZgAAAAFiS0dEAIgFHUgAAAAJcEhZcwAACxMAAAsTAQCanBgAAAAHdElNRQfdBgUBGhh4aah5AAAAlklEQVQY02NgoBIIE8EUcwn1FkIXM1Tj5dDUQhPU502Mi7XXQxGz5uVIjGOJUUUW81HnYEyMi2HVcUOICQZzMMYmxrEyMylJwgUt5BljWRLjmJm4pI1hYp5SQLGYxDgmLnZOVxuooClIDKgXKMbN5ggV1ACLJcaBxNgcoiGCBiZwdWxOETBDrTyEFey0jYJ4eHjMGWgEAIpRFRCUt08qAAAAAElFTkSuQmCC);
+}
+</style><style type="text/css" id="core-notify">.notifyjs-corner {
+	position: fixed;
+	margin: 5px;
+	z-index: 1050;
+}
+
+.notifyjs-corner .notifyjs-wrapper,
+.notifyjs-corner .notifyjs-container {
+	position: relative;
+	display: block;
+	height: inherit;
+	width: inherit;
+	margin: 3px;
+}
+
+.notifyjs-wrapper {
+	z-index: 1;
+	position: absolute;
+	display: inline-block;
+	height: 0;
+	width: 0;
+}
+
+.notifyjs-container {
+	display: none;
+	z-index: 1;
+	position: absolute;
+}
+
+.notifyjs-hidable {
+	cursor: pointer;
+}
+
+[data-notify-text],[data-notify-html] {
+	position: relative;
+}
+
+.notifyjs-arrow {
+	position: absolute;
+	z-index: 2;
+	width: 0;
+	height: 0;
+}</style></head>
+
+<body>
+<div class="container-fluid">
+    <div class="row bg-primary">
+        <div class="col-12">
+            <nav class="navbar fixed-top navbar-expand-md navbar-dark bg-primary" style="padding: 0.5rem;">
+                <a class="navbar-brand" href="https://ncode.amorce.org/"><code>{Alexis}</code></a>
+            <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarSupportedContent" aria-controls="navbarSupportedContent" aria-expanded="false" aria-label="Toggle navigation">
+                <span class="navbar-toggler-icon"></span>
+            </button>
+
+            <div class="collapse navbar-collapse" id="navbarSupportedContent">
+                <ul class="navbar-nav mr-auto">
+                    
+                                                                <li class="nav-item ">
+                            <a class="nav-link" href="https://ncode.amorce.org/parcours/156"><b>TB Dev</b> <sup>21196</sup></a>
+                        </li>
+                                            <li class="nav-item active">
+                            <a class="nav-link" href="https://ncode.amorce.org/parcours/178"><b>MS DIW</b> <sup>22091</sup></a>
+                        </li>
+                                        
+                </ul>
+                <ul class="navbar-nav ml-auto navbar-right">
+                                            <li class="nav-item dropdown mr-2">
+                            <a href="https://ncode.amorce.org/stagiaire/526" class="nav-link btn-lg" title="Mon profil">
+                                   <i class="fa fa-user-o" aria-hidden="true"></i>
+                            </a>
+                        </li>
+                        <li class="nav-item dropdown mr-2">
+                        
+                                <a href="https://ncode.amorce.org/stagiaire/edit/526" class="nav-link btn-lg" title="Mes paramètres" btn-lg="">
+                                   <i class="fa fa-cog" aria-hidden="true"></i>
+                                </a>
+                        </li>
+                        <li class="nav-item dropdown mr-2">
+                        
+                                <a class="nav-link" href="https://ncode.amorce.org/logout" tabindex="-1">Déconnexion</a>
+                        </li>
+                                    </ul>
+                            </div>
+        </nav>
+    </div>
+
+    </div>
+    <div class="row">
+        <div class="col-12">
+                    </div>
+    </div>
+    <div class="row mt-6">
+            <div class="col-sm-4">
+        <h2>
+            MS DIW - 22091
+                        <a href="https://ncode.amorce.org/parcours/monlivret/178" class="btn btn-outline-primary btn-sm float-right mt-3 ">
+                Voir mon livret de suivi
+            </a>
+                    </h2>
+    </div>
+    <div class="col-sm-8 ">
+
+                    
+                        <h4 class="text-success mt-3">
+                                        <span class=" ">
+                            séance prévue du <b>17/06/2022</b> au <b>17/06/2022</b>
+                        </span>
+                                                        <a href="https://ncode.amorce.org/parcours/valide_seance/178/6841" class="btn btn-success btn-sm float-right ">
+                            Je déclare avoir terminé cette séance
+                        </a>
+                            </h4>
+                                </div>
+
+
+
+    <div class="accordion col-sm-4" id="menu">
+                <div class="">
+            <div class="bg-primary">
+                <a class="btn" data-toggle="collapse" data-target="#module_762">
+                    <div class="text-light text-left">Accueil</div>
+                </a>
+            </div>
+            <div id="module_762" class="collapse " data-parent="#menu">
+                <div class="">
+                                        <div class="bordure-gauche">
+                        <div class="bg-primary ">
+                            <div class="couleur-fond2 ">
+                                <a class="btn" data-toggle="collapse" data-target="#sequence_1920">
+                                <div class="text-light text-left">Présentation</div>
+                            </a>
+                        </div>
+                    </div>
+                    <div id="sequence_1920" class="collapse " data-parent="#module_762">
+                            <div class="bg-primary">
+                                <div class="couleur-fond3 bordure-gauche">
+                                                                        <div class="text-light ">
+                                        <a class="btn noselection " href="https://ncode.amorce.org/parcours/178/6802">
+                                            <div class=" text-left ">
+                                                                                                Informations sur la formation
+                                            </div>
+                                        </a>
+                                    </div>
+                                                                        <div class="text-light ">
+                                        <a class="btn noselection " href="https://ncode.amorce.org/parcours/178/6803">
+                                            <div class=" text-left ">
+                                                                                                Découverte du métier
+                                            </div>
+                                        </a>
+                                    </div>
+                                                                        <div class="text-light ">
+                                        <a class="btn noselection " href="https://ncode.amorce.org/parcours/178/6804">
+                                            <div class=" text-left ">
+                                                                                                Devenir Eco-citoyen
+                                            </div>
+                                        </a>
+                                    </div>
+                                                                        <div class="text-light ">
+                                        <a class="btn noselection " href="https://ncode.amorce.org/parcours/178/6805">
+                                            <div class=" text-left ">
+                                                                                                Style d'apprentissage
+                                            </div>
+                                        </a>
+                                    </div>
+                                                                    </div>
+                            </div>
+                        </div>
+                    </div>
+                                        <div class="bordure-gauche">
+                        <div class="bg-primary ">
+                            <div class="couleur-fond2 ">
+                                <a class="btn" data-toggle="collapse" data-target="#sequence_1921">
+                                <div class="text-light text-left">Adopter de bonnes méthodes de travail</div>
+                            </a>
+                        </div>
+                    </div>
+                    <div id="sequence_1921" class="collapse " data-parent="#module_762">
+                            <div class="bg-primary">
+                                <div class="couleur-fond3 bordure-gauche">
+                                                                        <div class="text-light ">
+                                        <a class="btn noselection " href="https://ncode.amorce.org/parcours/178/6806">
+                                            <div class=" text-left ">
+                                                                                                Prendre en main VSCode
+                                            </div>
+                                        </a>
+                                    </div>
+                                                                        <div class="text-light ">
+                                        <a class="btn noselection " href="https://ncode.amorce.org/parcours/178/6807">
+                                            <div class=" text-left ">
+                                                                                                Gérer ses versions avec Git
+                                            </div>
+                                        </a>
+                                    </div>
+                                                                    </div>
+                            </div>
+                        </div>
+                    </div>
+                                    </div>
+            </div>
+        </div>
+                <div class="">
+            <div class="bg-primary">
+                <a class="btn" data-toggle="collapse" data-target="#module_763">
+                    <div class="text-light text-left">Fabriquer une interface utilisateur</div>
+                </a>
+            </div>
+            <div id="module_763" class="collapse " data-parent="#menu">
+                <div class="">
+                                        <div class="bordure-gauche">
+                        <div class="bg-primary ">
+                            <div class="couleur-fond2 ">
+                                <a class="btn" data-toggle="collapse" data-target="#sequence_1922">
+                                <div class="text-light text-left">Construire une interface statique (HTML, CSS)</div>
+                            </a>
+                        </div>
+                    </div>
+                    <div id="sequence_1922" class="collapse " data-parent="#module_763">
+                            <div class="bg-primary">
+                                <div class="couleur-fond3 bordure-gauche">
+                                                                        <div class="text-light ">
+                                        <a class="btn noselection " href="https://ncode.amorce.org/parcours/178/6808">
+                                            <div class=" text-left ">
+                                                                                                Ecrire du contenu en HTML
+                                            </div>
+                                        </a>
+                                    </div>
+                                                                        <div class="text-light ">
+                                        <a class="btn noselection " href="https://ncode.amorce.org/parcours/178/6809">
+                                            <div class=" text-left ">
+                                                                                                Appliquer des styles avec le CSS
+                                            </div>
+                                        </a>
+                                    </div>
+                                                                    </div>
+                            </div>
+                        </div>
+                    </div>
+                                        <div class="bordure-gauche">
+                        <div class="bg-primary ">
+                            <div class="couleur-fond2 ">
+                                <a class="btn" data-toggle="collapse" data-target="#sequence_1923">
+                                <div class="text-light text-left">Ajouter des contenus dynamiques (JS)</div>
+                            </a>
+                        </div>
+                    </div>
+                    <div id="sequence_1923" class="collapse " data-parent="#module_763">
+                            <div class="bg-primary">
+                                <div class="couleur-fond3 bordure-gauche">
+                                                                        <div class="text-light ">
+                                        <a class="btn noselection " href="https://ncode.amorce.org/parcours/178/6810">
+                                            <div class=" text-left ">
+                                                                                                Initiation à l'algorithmique
+                                            </div>
+                                        </a>
+                                    </div>
+                                                                        <div class="text-light ">
+                                        <a class="btn noselection " href="https://ncode.amorce.org/parcours/178/6811">
+                                            <div class=" text-left ">
+                                                                                                Les bases de Javascript 
+                                            </div>
+                                        </a>
+                                    </div>
+                                                                        <div class="text-light ">
+                                        <a class="btn noselection " href="https://ncode.amorce.org/parcours/178/6812">
+                                            <div class=" text-left ">
+                                                                                                Javascript pour le web
+                                            </div>
+                                        </a>
+                                    </div>
+                                                                        <div class="text-light ">
+                                        <a class="btn noselection " href="https://ncode.amorce.org/parcours/178/6813">
+                                            <div class=" text-left ">
+                                                                                                Evaluation
+                                            </div>
+                                        </a>
+                                    </div>
+                                                                    </div>
+                            </div>
+                        </div>
+                    </div>
+                                    </div>
+            </div>
+        </div>
+                <div class="">
+            <div class="bg-primary">
+                <a class="btn" data-toggle="collapse" data-target="#module_764">
+                    <div class="text-light text-left">Utiliser des frameworks Front-End</div>
+                </a>
+            </div>
+            <div id="module_764" class="collapse " data-parent="#menu">
+                <div class="">
+                                        <div class="bordure-gauche">
+                        <div class="bg-primary ">
+                            <div class="couleur-fond2 ">
+                                <a class="btn" data-toggle="collapse" data-target="#sequence_1924">
+                                <div class="text-light text-left">Bootstrap (framework CSS)</div>
+                            </a>
+                        </div>
+                    </div>
+                    <div id="sequence_1924" class="collapse " data-parent="#module_764">
+                            <div class="bg-primary">
+                                <div class="couleur-fond3 bordure-gauche">
+                                                                        <div class="text-light ">
+                                        <a class="btn noselection " href="https://ncode.amorce.org/parcours/178/6814">
+                                            <div class=" text-left text-success">
+                                                                                                    <i class="fa fa-check" aria-hidden="true"></i>
+                                                                                                Faciliter la mise en page avec Bootstrap
+                                            </div>
+                                        </a>
+                                    </div>
+                                                                    </div>
+                            </div>
+                        </div>
+                    </div>
+                                    </div>
+            </div>
+        </div>
+                <div class="">
+            <div class="bg-primary">
+                <a class="btn" data-toggle="collapse" data-target="#module_765">
+                    <div class="text-light text-left">Lier un site avec une base de données</div>
+                </a>
+            </div>
+            <div id="module_765" class="collapse " data-parent="#menu">
+                <div class="">
+                                        <div class="bordure-gauche">
+                        <div class="bg-primary ">
+                            <div class="couleur-fond2 ">
+                                <a class="btn" data-toggle="collapse" data-target="#sequence_1925">
+                                <div class="text-light text-left">Communiquer avec une base de données (SQL)</div>
+                            </a>
+                        </div>
+                    </div>
+                    <div id="sequence_1925" class="collapse " data-parent="#module_765">
+                            <div class="bg-primary">
+                                <div class="couleur-fond3 bordure-gauche">
+                                                                        <div class="text-light ">
+                                        <a class="btn noselection " href="https://ncode.amorce.org/parcours/178/6815">
+                                            <div class=" text-left text-success">
+                                                                                                    <i class="fa fa-check" aria-hidden="true"></i>
+                                                                                                Découvrir les Bases de données
+                                            </div>
+                                        </a>
+                                    </div>
+                                                                        <div class="text-light ">
+                                        <a class="btn noselection " href="https://ncode.amorce.org/parcours/178/6816">
+                                            <div class=" text-left text-success">
+                                                                                                    <i class="fa fa-check" aria-hidden="true"></i>
+                                                                                                Ecrire des requêtes SQL
+                                            </div>
+                                        </a>
+                                    </div>
+                                                                        <div class="text-light ">
+                                        <a class="btn noselection " href="https://ncode.amorce.org/parcours/178/6817">
+                                            <div class=" text-left text-success">
+                                                                                                    <i class="fa fa-check" aria-hidden="true"></i>
+                                                                                                Evaluation : Interroger une Base de données
+                                            </div>
+                                        </a>
+                                    </div>
+                                                                    </div>
+                            </div>
+                        </div>
+                    </div>
+                                        <div class="bordure-gauche">
+                        <div class="bg-primary ">
+                            <div class="couleur-fond2 ">
+                                <a class="btn" data-toggle="collapse" data-target="#sequence_1926">
+                                <div class="text-light text-left">Réaliser des traitements serveur (PHP)</div>
+                            </a>
+                        </div>
+                    </div>
+                    <div id="sequence_1926" class="collapse " data-parent="#module_765">
+                            <div class="bg-primary">
+                                <div class="couleur-fond3 bordure-gauche">
+                                                                        <div class="text-light ">
+                                        <a class="btn noselection " href="https://ncode.amorce.org/parcours/178/6818">
+                                            <div class=" text-left text-success">
+                                                                                                    <i class="fa fa-check" aria-hidden="true"></i>
+                                                                                                Ecrire des scripts en PHP
+                                            </div>
+                                        </a>
+                                    </div>
+                                                                    </div>
+                            </div>
+                        </div>
+                    </div>
+                                    </div>
+            </div>
+        </div>
+                <div class="">
+            <div class="bg-primary">
+                <a class="btn" data-toggle="collapse" data-target="#module_771">
+                    <div class="text-light text-left">BONUS - Utiliser des frameworks Back-End</div>
+                </a>
+            </div>
+            <div id="module_771" class="collapse show" data-parent="#menu">
+                <div class="">
+                                        <div class="bordure-gauche">
+                        <div class="bg-primary ">
+                            <div class="couleur-fond2 ">
+                                <a class="btn" data-toggle="collapse" data-target="#sequence_1938">
+                                <div class="text-light text-left">MVC (frameworks PHP)</div>
+                            </a>
+                        </div>
+                    </div>
+                    <div id="sequence_1938" class="collapse show" data-parent="#module_771">
+                            <div class="bg-primary">
+                                <div class="couleur-fond3 bordure-gauche">
+                                                                        <div class="text-light selection ">
+                                        <a class="btn selection text-primary  " href="https://ncode.amorce.org/parcours/178/6841">
+                                            <div class=" text-left ">
+                                                                                                Comprendre les fondamentaux de la POO
+                                            </div>
+                                        </a>
+                                    </div>
+                                                                        <div class="text-light ">
+                                        <a class="btn noselection " href="https://ncode.amorce.org/parcours/178/6842">
+                                            <div class=" text-left ">
+                                                                                                Comprendre le fonctionnement d'un MVC
+                                            </div>
+                                        </a>
+                                    </div>
+                                                                        <div class="text-light ">
+                                        <a class="btn noselection " href="https://ncode.amorce.org/parcours/178/6843">
+                                            <div class=" text-left ">
+                                                                                                Convertir un projet en MVC
+                                            </div>
+                                        </a>
+                                    </div>
+                                                                        <div class="text-light ">
+                                        <a class="btn noselection " href="https://ncode.amorce.org/parcours/178/6844">
+                                            <div class=" text-left ">
+                                                                                                S'initier au framework Symfony
+                                            </div>
+                                        </a>
+                                    </div>
+                                                                    </div>
+                            </div>
+                        </div>
+                    </div>
+                                    </div>
+            </div>
+        </div>
+            </div>
+
+    <div class="col-sm-8">
+        
+        <div class="markdown-body"><h1>POO - Programmation Orientée Objet</h1>
+<p><br></p>
+<blockquote>
+<p>Demander <a target="_blank" href="https://ncode.amorce.org/ressources/Pool/MS_FULL_STACK/PHP_POO/reveal_poo/index.html">une présentation</a> à un formateur.</p>
+</blockquote>
+<p><br></p>
+<h2>Préambule : penser en terme d'objet</h2>
+<p>Il existe plusieurs moyens de conceptualiser un programme informatique. L’approche classique consiste à considérer un programme comme une série d'instructions exécutées séquentiellement, ce qu'on a l'habitude d'appeler "programmation procédurale".</p>
+<p>PHP, comme d'autres langages de programmation, est un lagage "orienté objet". C'est là plus qu'un concept à la mode. C'est une véritable philosophie de la programmation. La programmation orientée objet est une façon d'élaborer des programmes informatiques qui tend à refléter la manière dont les objets à gérer sont assemblés et en communication dans le monde réel. Ainsi, une voiture est un ensemble complexe de composants en interactions les uns avec les autres mais elle forme un tout cohérent, capable d’agir (démarrer, freiner…), et doté de caractéristiques propres (sa couleur, son numéro d’immatriculation, sa vitesse…).</p>
+<p>Pour parvenir à ce type de représentation du monde réel, la logique de programmation orientée objet s’appuie sur quelques principes qu’il s’agit ici de découvrir, avant de pouvoir les mettre en œuvre. Bien entendu, comme toute technologie, la programmation orientée objet introduit un nouveau vocabulaire, correspondant aux concepts sousjacents, auquel il faudra bien se familiariser…
+Nous aborderons les sujets suivants :</p>
+<ul>
+<li>l'organisation des programmes en éléments appelés <strong>classes</strong> et l'utilisation de ces classes pour définir des <strong>objets</strong> manipulables par programmation  </li>
+<li>la définition d'une classe sous les deux aspects de sa <em>structure</em> : les <strong>méthodes</strong> (= comportements) dont elle dispose et les <strong>attributs</strong> (= données) qui la caractérisent  </li>
+<li>les <strong>relations</strong> entre les classes, comme <strong>l’héritage</strong>, qui permet à une classe bénéficier des fonctionnalités d'une autre classe</li>
+<li>les différents types <strong>d’association entre objets</strong></li>
+</ul>
+<p><br>
+<br></p>
+<h2>Une classe pour créer des objets à manipuler</h2>
+<p><strong>Un objet est un ensemble cohérent, rassemblant à la fois des données (qui le caractérisent) et des morceaux de programmation (qui le font évoluer</strong>).<br>
+Le concept de base lié à la P.O.O est que, dans un programme, <strong>"tout est objet"</strong> (ou considéré comme tel) : un produit, un client, mais aussi un fichier, une connexion, etc.</p>
+<p><br></p>
+<blockquote>
+<p>"Une <strong>classe</strong> est un ensemble cohérent de code, qui contient généralement à la fois des variables (appelées <strong>attributs</strong>) et des fonctions (appelées <strong>méthodes</strong>), et qui va nous servir de plan pour créer des objets. Le but d’une classe va donc être de créer des objets, que nous allons ensuite pouvoir manipuler dans un ou plusieurs projets. "  </p>
+</blockquote>
+<p><br></p>
+<p>Une classe peut ainsi être considérée comme un <strong>moule à partir duquel on peut créer des objets</strong>, chaque objet représentant un élément du monde réel à gérer par le programme.<br>
+Une classe décrit la <strong>structure interne d'un objet</strong> : les <strong>données</strong> qu'il regroupe et les <strong>actions</strong> qu'il est capable d'assurer sur ses données.<br>
+Ainsi dans un projet de site internet, une classe <code>Utilisateur</code> décrira les données et les actions que peuvent exécuter, entre autres, tous les clients ; d'un autre côté, chaque client à gérer sera une <strong>instance</strong> (= un exemplaire) de cette classe <code>Utilisateur</code>.  </p>
+<p><br></p>
+<p><strong>Attention : un développeur écrit le code des classes, mais à l’exécution, c'est le code qui instanciera et manipulera les objets qui réalisera les opérations concrètes.</strong><br>
+Par exemple, un fichier de classe <code>Utilisateur</code> que nous aurions à créer pour Jarditou pourra être intégré au projet de notre site internet. Mais lorsqu'un client voudra créer un compte, c'est bien le script de validation du formulaire d'inscription qui va instancier la classe <code>Utilisateur</code> en créant un objet $client, dans lequel on ira stocker le nom, le n° SIRET et l'adresse du nouveau client, et réaliser les opérations permettant de hasher son mot de passe avant de l'enregistrer en base de données...   </p>
+<p><br>
+<br></p>
+<h3>Déclaration d'une classe</h3>
+<p>Il y a quelques règles à connaître et à respecter lorsque l'on définit une nouvelle classe.</p>
+<p>Conventions de nommage :  </p>
+<ul>
+<li>Une classe ne peut avoir un nom qui est déjà un mot réservé en PHP (ex: <code>Date</code>, <code>Clone</code>, etc.)  </li>
+<li>Le nom de la classe doit commencer soit par une lettre majuscule, soit par un underscore (<code>_</code>)  </li>
+<li>Le nom de la classe ne peut contenir que des caractères alphanumérique et des underscores  </li>
+</ul>
+<p><br></p>
+<p>Chaque classe doit par ailleurs être définie dans un fichier qui lui est propre, et qui porte par convention le nom de la classe suivi de l'extension (ex: <code>NomClasse.class.php</code>).</p>
+<p><br></p>
+<p>En PHP, on déclare une nouvelle classe avec le mot-clé <code>class</code>.<br>
+Nous allons donc nous en servir pour créer une première classe, que nous appellerons <code>Animal</code> (le fichier se nommera donc <em>Animal.class.php</em>) :</p>
+<pre><code class="hljs xml"><span class="php"><span class="hljs-meta">&lt;?php</span>
+<span class="hljs-class"><span class="hljs-keyword">class</span> <span class="hljs-title">Animal</span> 
+</span>{
+    <span class="hljs-comment">// code du contenu de la classe</span>
+}
+<span class="hljs-meta">?&gt;</span></span></code></pre>
+<p>Voilà ! Nous avons défini la classe <code>Animal</code> (une définition certes basique mais une définition tout de même !).  </p>
+<p><br></p>
+<p>Notre classe <code>Animal</code> est donc le plan de création d'un animal.<br>
+Nous allons pouvoir y définir les <strong>caractéristiques</strong> qu'aura chaque animal (une espèce, une taille, un poids, un régime alimentaire, un nombre de pattes, etc.) ainsi que les <strong>actions</strong> qu'il pourra effectuer (manger, dormir, se reproduire, se déplacer, etc.) :  </p>
+<pre><code class="hljs xml"><span class="php"><span class="hljs-meta">&lt;?php</span>
+<span class="hljs-class"><span class="hljs-keyword">class</span> <span class="hljs-title">Animal</span> 
+</span>{
+    <span class="hljs-keyword">public</span> $espece;
+    <span class="hljs-keyword">private</span> $taille;
+    <span class="hljs-keyword">private</span> $poids;
+    <span class="hljs-keyword">private</span> $nbpattes;
+
+    <span class="hljs-keyword">public</span> <span class="hljs-function"><span class="hljs-keyword">function</span> <span class="hljs-title">manger</span><span class="hljs-params">()</span> </span>{
+        <span class="hljs-comment">// ...</span>
+    }
+
+    <span class="hljs-keyword">public</span> <span class="hljs-function"><span class="hljs-keyword">function</span> <span class="hljs-title">avancer</span><span class="hljs-params">(int $nbpas)</span> </span>{
+        <span class="hljs-comment">// ...</span>
+    }
+}
+<span class="hljs-meta">?&gt;</span></span></code></pre>
+<p><br>
+<br>
+<br></p>
+<h2>Instanciation d'une classe</h2>
+<p><strong>L'instanciation d'une classe</strong> est l'opération consistant à créer un <strong>objet</strong> à partir de la <strong>classe</strong> en question. On parle aussi de <em>créer une instance</em>.  </p>
+<p>Cette opération s'effectue dans les scripts qui souhaitent avoir recours à la classe, et par l'intermédiaire du mot clé <code>new</code> :  </p>
+<pre><code class="hljs php">$UnChien = <span class="hljs-keyword">new</span> Animal();</code></pre>
+<p>Une <strong>instance</strong> correspond à un « exemplaire » d’une classe. Lorsqu'on instancie une classe, on <em>crée un objet</em> ; on peut considérer que l’instanciation est l'opération qui « donne vie » à l'objet.  </p>
+<p>Pour manipuler un objet et l'utiliser, il nous faut stocker l'objet créé dans une variable (c'est cette variable que nous appellerons par la suite notre <strong>objet</strong>).<br>
+Ainsi, nous pourrons avoir autant d'objets que nous le souhaitons depuis une même classe :</p>
+<pre><code class="hljs php">$UnChien = <span class="hljs-keyword">new</span> Animal();
+$UnAutreChien = <span class="hljs-keyword">new</span> Animal();
+$UnChat = <span class="hljs-keyword">new</span> Animal();
+$UnLapin = <span class="hljs-keyword">new</span> Animal();</code></pre>
+<p><br></p>
+<p>Le grand intérêt ici, est qu’on va pouvoir effectuer des opérations différentes sur chaque instance d’une classe (= un exemplaire) sans pour autant affecter les autres instances (= les autres objets).  </p>
+<p>Lorsque nous créons ici des animaux à partir de la classe <code>Animal</code> (ou que <em>nous instancions cette classe</em>), chaque animal instancié est défini par toutes les caractéristiques de sa classe : tous les animaux appartiendront à une espèce, auront un poids et un régime alimentaire, par exemple.<br>
+Mais les <em>valeurs</em> de ces caractéristiques et de ces actions seront, elles, spécifiques à chaque animal. L'espèce sera différente d'un animal à l'autre, tous les animaux ne pèseront pas le même poids, et tous n'auront pas le même régime alimentaire.  </p>
+<p>De même, les actions définies pour la classe seront les mêmes pour tous les animaux, mais ces actions auront un impact différents selon l'animal (l'objet) qui les exécutent. Par exemple, un animal de grande taille parcourera une plus grande distance lorsqu'il se déplacera, qu'un animal plus petit...  </p>
+<p><br>
+<br>
+<br></p>
+<h2>Attributs et méthodes de classe</h2>
+<p>Prenons maintenant l'exemple d'une classe <code>Vehicule</code> :</p>
+<pre><code class="hljs php"><span class="hljs-class"><span class="hljs-keyword">class</span> <span class="hljs-title">Vehicule</span>
+</span>{
+    <span class="hljs-keyword">public</span> $_marque;
+    <span class="hljs-keyword">public</span> $_vitesseMax;
+    <span class="hljs-keyword">protected</span> $_vitesseCourante;
+    <span class="hljs-keyword">private</span> $_nbPassagers;
+
+    <span class="hljs-keyword">public</span> <span class="hljs-function"><span class="hljs-keyword">function</span> <span class="hljs-title">demarrer</span><span class="hljs-params">()</span> </span>{
+        <span class="hljs-comment">// code permettant de démarrer l'objet instancié</span>
+    }
+    <span class="hljs-keyword">public</span> <span class="hljs-function"><span class="hljs-keyword">function</span> <span class="hljs-title">accelerer</span><span class="hljs-params">(int $nbKm)</span> </span>{
+        <span class="hljs-comment">// code permettant d'accélérer</span>
+    }
+    <span class="hljs-keyword">public</span> <span class="hljs-function"><span class="hljs-keyword">function</span> <span class="hljs-title">avancer</span><span class="hljs-params">(int $nbKm)</span> </span>{
+        <span class="hljs-comment">// code permettant d'avancer</span>
+    }
+    <span class="hljs-keyword">public</span> <span class="hljs-function"><span class="hljs-keyword">function</span> <span class="hljs-title">ajouterPassager</span><span class="hljs-params">()</span> </span>{
+        <span class="hljs-comment">// code permettant d'ajouter un passager </span>
+    }
+}</code></pre>
+<p><br>
+<br></p>
+<h3>Attributs d'instance</h3>
+<p><br></p>
+<p>Notre classe est caractérisée par 4 informations :</p>
+<ul>
+<li>sa marque : <code>$_marque</code></li>
+<li>sa vitesse maximale : <code>$_vitesseMax</code> </li>
+<li>sa vitesse courante : <code>$_vitesseCourante</code></li>
+<li>le nombre de passagers à bord : <code>$_nbPassagers</code></li>
+</ul>
+<p>Toutes les données, appelée <strong>attributs</strong> seront <strong>représentatives d'un véhicule spécifique</strong> ; autrement dit, chaque objet véhicule aura sa propre copie des données : on parle alors <strong>d'attribut d'instance</strong>.  </p>
+<h3>--&gt; <strong><a target="_blank" href="https://ncode.amorce.org/ressources/Pool/MS_FULL_STACK/PHP_POO/bases/proprietes.html">Comprendre le fonctionnement des attributs</a></strong></h3>
+<p><br>
+<br></p>
+<h3>Méthodes d'instance</h3>
+<p><br></p>
+<p>Le même raisonnement s'applique directement aux méthodes.<br>
+Notre classe <code>Vehicule</code> possède 4 actions :  </p>
+<ul>
+<li>possibilité de <code>demarrer()</code></li>
+<li>possibilité d'<code>accelerer()</code></li>
+<li>possibilité d'<code>avancer()</code></li>
+<li>possibilité d'<code>ajouterPassager()</code></li>
+</ul>
+<p>Il est clair que la méthode <code>demarrer()</code> s'applique individuellement à chaque véhicule. Tous les objets Vehicule instanciés dans le projet ne vont pas démarrer en même temps, il faudra spécifier quelle instance de la classe nous souhaitons démarrer.<br>
+En outre, la méthode <code>avancer()</code> va clairement utiliser ou modifier les attributs d'instance de l'objet auquel elle va s'appliquer, par exemple la <code>vitesseCourante</code> du véhicule en question. Ce sont des <strong>méthodes d'instance</strong>.</p>
+<h3>--&gt; <strong><a target="_blank" href="https://ncode.amorce.org/ressources/Pool/MS_FULL_STACK/PHP_POO/bases/methodes.html">Comprendre le fonctionnement des méthodes</a></strong></h3>
+<p><br>
+<br></p>
+<h3>Visibilité et sécurité</h3>
+<p><br></p>
+<h3>--&gt; <strong><a target="_blank" href="https://ncode.amorce.org/ressources/Pool/MS_FULL_STACK/PHP_POO/bases/visibilite.html">Choisir la bonne visibilité</a></strong></h3>
+<p><br></p>
+<h3>--&gt; <strong><a target="_blank" href="https://ncode.amorce.org/ressources/Pool/MS_FULL_STACK/PHP_POO/bases/accesseurs_et_mutateurs.html">Déclarer les accesseurs et les mutateurs</a></strong></h3>
+<p><br>
+<br></p>
+<h3>Constructeur de classe ?</h3>
+<p><br></p>
+<p>Côté serveur, la création/instanciation d'un nouvel objet est constituée de deux phases :</p>
+<ul>
+<li>une phase du ressort <em>de la classe</em> (et du système d'exploitation) : allouer de la mémoire pour le nouvel objet et lui fournir un contexte d'exécution</li>
+<li>une phase du ressort <em>de l'objet</em> : initialiser ses attributs d'instance</li>
+</ul>
+<p>En PHP, ces opérations sont réalisées dans une <em>méthode spéciale</em> : le <strong>constructeur</strong> de la classe ; cette méthode est appelée automatiquement lorsqu'on instancie la classe en utilisant l'opérateur <code>new</code>, et le code que contient la fonction de constructeur est de suite exécuté sur l'objet instancié.  </p>
+<p>La déclaration du constructeur est facultative en PHP (attention : elle est obligatoire dans certains langages !).</p>
+<p>Le constructeur peut être déclaré dans la classe avec la méthode suivante : <code>__construct()</code>. Cette méthode peut recevoir des arguments. </p>
+<h3>--&gt; <strong><a target="_blank" href="https://ncode.amorce.org/ressources/Pool/MS_FULL_STACK/PHP_POO/bases/constructeur.html">Utiliser le constructeur</a></strong></h3>
+<p><br>
+Ici, on pourrait ajouter un constructeur à notre classe, permettant d'instancier un véhicule avec une marque à définir obligatoirement, et certaines caractéristiques données par défaut :</p>
+<p><br></p>
+<pre><code class="hljs php"><span class="hljs-class"><span class="hljs-keyword">class</span> <span class="hljs-title">Vehicule</span>
+</span>{
+    <span class="hljs-keyword">public</span> $_marque;
+    <span class="hljs-keyword">public</span> $_vitesseMax;
+    <span class="hljs-keyword">protected</span> $_vitesseCourante;
+    <span class="hljs-keyword">private</span> $_nbPassagers;
+
+    <span class="hljs-keyword">public</span> <span class="hljs-function"><span class="hljs-keyword">function</span> <span class="hljs-title">__construct</span> <span class="hljs-params">($marque, $vMax = <span class="hljs-number">200</span>, $nbPassagers = <span class="hljs-number">0</span>)</span> </span>{
+        $this-&gt;_marque = $marque;
+        $this-&gt;_vitesseMax = $vMax;
+        $this-&gt;_vitesseCourante = <span class="hljs-number">0</span>;
+        $this-&gt;_nbPassagers = $nbPassagers;
+    }
+
+    <span class="hljs-keyword">public</span> <span class="hljs-function"><span class="hljs-keyword">function</span> <span class="hljs-title">demarrer</span><span class="hljs-params">()</span> </span>{
+        <span class="hljs-comment">// code permettant de démarrer l'objet instancié</span>
+    }
+
+    <span class="hljs-comment">// ...</span>
+}</code></pre>
+<p><strong>Exemple d'instanciation :</strong></p>
+<pre><code class="hljs php"><span class="hljs-comment">// Instanciation d'un vehicule</span>
+$maVoitureDeFonction = <span class="hljs-keyword">new</span> Vehicule(<span class="hljs-string">"Lotus"</span>, <span class="hljs-number">220</span>, <span class="hljs-number">1</span>);</code></pre>
+<p><br>
+<br></p>
+<h3>Conventions de nommage</h3>
+<p><br></p>
+<ul>
+<li>Préfixer les noms de méthodes et d'attributs privés avec un underscore afin de les distinguer plus rapidement à la relectue du code.</li>
+<li>Placer les attributs et méthodes en accès privé ou bien en accès protégé si l'on souhaite dériver la classe dans le futur.</li>
+<li>Utiliser autant que possible les conventions de nommage pour les accesseurs et les mutateurs ( <code>getNomAttribut()</code> et <code>setNomAttribut()</code> ).</li>
+</ul>
+<p><em>NB: ces conseils et réflexes sont à mettre en oeuvre en développement orienté objet afin d'uniformiser et de standardiser le code. Ces astuces syntaxiques ne sont pas des techniques personnelles puisque ce sont des conventions éprouvées par des spécialistes des langages orientés objet. Malgré tout, ne le prenez pas comme des paroles d'évangile ! Vous êtes libres d'adopter les conventions et règles syntaxiques de votre choix.</em></p>
+<p><br>
+<br>
+<br></p>
+<h2>Encapsulation</h2>
+<p>Le premier principe de l’orienté objet, <strong>l’encapsulation</strong>, fait référence à l'état d'un objet comme étant un <strong>ensemble indissociable de données et de traitements sur les données</strong>.   </p>
+<p>Un objet rassemble en lui-même (au sein de sa classe) ses données (les attributs, représentant l'état de l'objet), et le code capable d'agir dessus (les méthodes).<br>
+On dit que les attributs et les méthodes sont <strong>encapsulés</strong> dans la classe : les variables ont une visibilité au sein de la classe, et il faut dans tous les cas utiliser la classe pour accéder au contenu de ces variables (elles ne peuvent pas l'être directement).  </p>
+<p><a href="https://www.pierre-giraud.com/php-mysql-apprendre-coder-cours/oriente-objet-encapsulation-public-protected-private/">En savoir plus sur l'encapsulation</a></p>
+<p><br>
+<br>
+<br></p>
+<h2>Héritage et hiérarchie de classes</h2>
+<p>Le deuxième principe de l'orienté objet, <strong>l'héritage</strong>, est l'idée selon laquelle on peut <strong>définir des classes à partir d'autres classes</strong> - ce qui évite de tout réécrire quand des classes ont des caractéristiques ou des actions en commun.</p>
+<p>L'héritage est un concept majeur de la programmation orientée objet ; c'est un mécanisme permettant à une classe d'hériter de (de pouvoir utiliser) toutes les méthodes et attributs d'une autre classe.</p>
+<p><br> </p>
+<p>Prenons un exemple, à partir de notre classe <code>Animal</code> définie en amont.</p>
+<p>Si nous devons considérer des chiens, des chats et des canaris, nous pouvons alors créer trois classes dérivées de la classe <code>Animal</code> : les classes <code>Chien</code>, <code>Chat</code> et <code>Canari</code>.<br>
+Peu importe que cette division ne soit pas pertinente dans l'univers réel ; il suffit qu'elle le soit dans celui du problème à traiter.<br>
+Nous représenterons cette division de l'univers de la façon suivante :</p>
+<p><img src="./nCode_files/heritage_1.jpg" alt="heritage"></p>
+<p><br></p>
+<p>Un chien est bien un animal spécifique ; on dit que la classe <code>Chien</code> <strong>hérite</strong>, <strong>étend</strong> ou <strong>dérive</strong> de la classe <code>Animal</code>.<br>
+D'un autre côté, la classe <code>Animal</code> est une généralisation des classes <code>Chien</code>, <code>Chat</code> et <code>Canari</code>.  </p>
+<p>L'héritage dénotant une relation de généralisation / spécialisation, on peut traduire toute relation d'héritage par la phrase suivante : « La classe dérivée <strong>est une version spécialisée</strong> de sa classe de base ».<br>
+On parle également de <strong>relation <em>est un</em></strong> pour traduire le principe de généralisation / spécialisation. Ici, un chien est bien un animal, une <em>sorte</em> d’animal.</p>
+<p>Nous pouvons ensuite, si nécessaire, créer encore de nouvelles classes dérivées, par exemple :</p>
+<p><img src="./nCode_files/heritage_2.jpg" alt="heritage dans l&#39;heritage"></p>
+<p>Il est d'usage de représenter ainsi la hiérarchie des classes, sous forme d'arbre inversé. La classe la plus générale se trouve à la racine (en haut, puisque l'arbre est inversé).  </p>
+<p><br></p>
+<p>Bien entendu, chacune des classes symbolisées ci-dessus est dotée d'attributs et méthodes.<br>
+Mais en y regardant de plus près, un animal, qu'il soit chien ou chat peut avoir un <code>$_nom</code>, et il est capable de <code>seNourrir()</code> ou <code>seDeplacer()</code>.<br>
+<strong>Ces attributs et méthodes communs seront décrits uniquement dans la classe <code>Animal</code>. Le mécanisme de l'héritage permettra ensuite directement de faire en sorte que chacune des classes dérivées en héritera automatiquement</strong>.  </p>
+<p><br></p>
+<p>Il ne restera ainsi à écrire dans les classes spécialisées que ce qui est réellement spécifique : <code>ronronner()</code> et <code>miauler()</code> pour un <code>chat</code>, <code>aboyer()</code> pour un <code>chien</code>, ou encore <code>siffler()</code> pour un <code>canari</code>.</p>
+<h3>--&gt; <strong><a target="_blank" href="https://ncode.amorce.org/ressources/Pool/MS_FULL_STACK/PHP_POO/bases/heritage.html">Utiliser l'héritage</a></strong></h3>
+<p><br></p>
+<p>Par ailleurs, il est également possible que plusieurs classes dérivées contiennent des méthodes similaires mais nécessitant un fonctionnement spécifique pour la réaliser, et donc un code différent. On parle alors de <strong>polymorphisme</strong>.  </p>
+<p>Par exemple, un chien et un canari pourront <code>avancer()</code>, mais un chien utilisera ses pattes alors que le canari s'envolera, et le chien marchera moins rapidement qu'un canari qui vole.<br>
+Si l'on veut gérer ces deux déplacements dans un jeu en 3D, on appellera dans tous les cas la fonction <code>avancer()</code> ; mais le code programmé dans cette méthode sera différent dans la classe de l'un et de l'autre.  </p>
+<p>De la même manière, on pourrait avoir une méthode <code>avancer()</code> déjà présente dans la classe mère <code>Animal</code> ; auquel cas, toute méthode <code>avancer()</code> déclarée dans une classe fille viendra écraser le traitement hérité.  </p>
+<h3>--&gt; <strong><a target="_blank" href="https://ncode.amorce.org/ressources/Pool/MS_FULL_STACK/PHP_POO/bases/polymorphisme.html">Maîtriser le polymorphisme</a></strong></h3>
+<p><br>
+<br>
+<br></p>
+<!-- ### [Attributs et méthodes `static`](bases/static.html)
+<br>
+<br>
+-->
+<!-- 
+### Réutilisation des objets
+<br>
+Grâce à PHP vous pouvez par exemple créer une classe pour représenter les "Boutons de commande".
+Lors du développement de la classe BoutonDeCommande, on pourra définir pour elle les fonctions suivantes :  
+- le texte identifiant le rôle du bouton,  
+- la taille du bouton,  
+- des aspects spécifiques de son apparence (ombré, 3D …)
+<br>
+<br>
+-->
+<h2>Conclusion</h2>
+<p><br></p>
+<p>Il faut bien noter que nous avons abordé dans cette séquence uniquement les bases.<br>
+La programmation orientée objet présente en effet des notions beaucoup plus avancées (clonage, itérateurs, classes abstraites, interfaces, traits, design patterns, introspection, héritage multiple dans certains langages...).<br>
+Pour aller plus loin, vous pouvez lire ici quelques notions de <a target="_blank" href="https://ncode.amorce.org/ressources/Pool/MS_FULL_STACK/PHP_POO/PHP_POO_avancee.html">P.O.O. avancée</a>.</p>
+<p><br>
+<br>
+<br></p>
+<h2>Exercices</h2>
+<h3>Exercice 1 : création d'un personnage</h3>
+<p><br></p>
+<p>1 - Dans un dossier nommé <code>POO</code>, créez un dossier <code>classes/</code> dans lequel vous créez un fichier <em>Personnage.class.php</em>.</p>
+<p>2 - Créez une classe <code>Personnage</code> qui comprend les attributs suivants:</p>
+<ul>
+<li>nom</li>
+<li>prenom</li>
+<li>age</li>
+<li>sexe</li>
+</ul>
+<p>Votre classe doit encpsuler les attributs à l'aide de propriétés privées et utiliser des accesseurs pour permettre l'accès aux attributs.  </p>
+<p>3 - Créez un deuxième fichier <code>MonPerso.php</code> permettant de vérifier le bon fonctionnement de votre classe, en vous inspirant du code ci-dessous :   </p>
+<pre><code class="language-php hljs">    $p = <span class="hljs-keyword">new</span> Personnage();
+    $p-&gt;setNom(<span class="hljs-string">"Lebowski"</span>);
+    $p-&gt;setPrenom(<span class="hljs-string">"Jeff"</span>);
+
+    <span class="hljs-keyword">echo</span> ($p);</code></pre>
+<!-- 
+4 - Dans le dossier _POO_, créez un nouveau dossier appelé _tests_, téléchargez la ressource [test.zip](PHP_Unit_Test/test.zip), décompressez l'archive et placez le fichier `PersonnageTest.php` dans votre dossier _test_. Lisez ensuite la partie **Executer un test** du cours **Tester le code** et lancer les tests.  
+5 - Créez un nouveau fichier `PersonnageDefault.class.php` et definissez une classe `PersonnageDefault` qui hérite de votre classe `Personnage` et faites en sorte qu'à la création d'un Personnage par défaut, celui-ci ait pour nom "Loper", pour prénom "Dave", que son age soit de 18 ans et qu'il soit de sexe "masculin".  
+6 - Placez le fichier `PersonnageDefaultTest.class.php` dans le dossier test et exécutez-le. -->
+<p><br>
+<br></p>
+<h3>Exercice 2 : gestion des employés</h3>
+<p><br></p>
+<!-- - Réalisez [l'exercice suivant](Exercice_POO_Employe.pdf) -->
+<p>La société Jarditou, d'envergure nationale, souhaite se doter d'un <abbr title="Système d&#39;information de gestion des ressources humaines">S.I.R.H.</abbr> pour gérer ses employés dans les différents magasins à travers la France.</p>
+<p>1 - Ecrire une classe <em>Employe</em> avec les informations (propriétés) suivantes :</p>
+<ul>
+<li>Nom</li>
+<li>Prénom</li>
+<li>Date d'embauche dans l'entreprise</li>
+<li>Fonction (Poste) dans l'entreprise</li>
+<li>Salaire en K euros brut annuel</li>
+<li>Service dans lequel se situe l'employé (Comptabilité, Commercial...)</li>
+</ul>
+<p><br></p>
+<p>2 - Dans la classe <em>Employe</em>, écrire une méthode permettant de savoir depuis combien d'années l'employé est dans l'entreprise.</p>
+<p><br></p>
+<p>3 - Chaque année, l'employé reçoit une prime calculée sur le salaire annuel (5% du brut) et sur l'ancienneté (2% du brut pour chaque année d'ancienneté). Cette prime est versée au 30/11 de chaque année. Dans la classe <em>Employe</em>, écrire le(s) méthode(s) permettant de déduire le montant de cette prime et de donner l'ordre de transfert à la banque le jour du versement. </p>
+<p>L'ordre de transfert à la banque sera juste un message écrit spécifiant que l'ordre de transfert a été envoyé à la banque avec mention du montant. </p>
+<p>Afin de tester les éléments ci-dessus, créer au minimum 5 objets <em>Employe</em> avec des informations sensiblement différentes. Ecrire dans le programme principal l'affichage du montant des primes de chaque employé.</p>
+<p>La date du versement de la prime doit également être vérifiée. Pour tester, fixer cette date à la date du jour, faire les conditions nécessaires dans le code et tester en changeant de date afin de voir si le message voulu s'affiche.</p>
+<p><br></p>
+<!-- 
+Afin de créer un reporting d'informations sur les employés de l'entreprise, établir une liste d'employés en y ajoutant les 5 objets que vous venez de créer. Ensuite, utiliser les méthodes prévues dans les listes pour :
+* Afficher le nombre d'employés de l'entreprise,
+* Afficher toutes les informations des employés par ordre alphabétique sur le nom et le prénom,
+* Afficher toutes les informations des employés par ordre alphabétique de service, nom et prénom
+* Afficher le montant total du coût que représentent tous les salariés (masse salariale) déduit du salaire et des primes. 
+<br>
+-->
+<p>4 - L'entreprise est constituée de magasins implantés sur tout le territoire français.<br>
+Un employé fait partie d'un (et un seul) magasin. Un magasin dispose d'un nom, d'une adresse, d'un code postal, d'une ville. Ecrire une nouvelle classe <em>Magasins</em> qui contient tous ces éléments et modifier la classe <em>Employe</em> afin que celui-ci soit rattaché à un magasin. </p>
+<p><br></p>
+<p>5 - En ce qui concerne les repas, les magasins ne disposent pas toutes d'un restaurant d'entreprise. Les employés se trouvant dans les magasins qui n'ont pas de restaurant d'entreprise bénéficient en contrepartie de tickets restaurants. Chaque magasin dispose donc de son propre mode de restauration.  </p>
+<p>Modifier la classe <em>Magasin</em> pour gérer ce mode de restauration.  </p>
+<p>Afficher chaque mode de restauration de chaque employé selon le magasin dans lequel il est affecté.  </p>
+<p><br></p>
+<p>6 - L'entreprise souhaite intégrer dans ce système informatique les activités du comité d'entreprise. Des chèques-vacances sont distribués aux employés à condition que ceux-ci aient une ancienneté d'au moins un an. </p>
+<p>Modifier la classe <em>Employe</em> afin de savoir si celui-ci peut disposer de chèques-vacances ou non.</p>
+<p><br></p>
+<p>7 - Chaque année, des chèques Noël sont distribués aux enfants des employés. Le montant du chèque Noël dépend de l'âge des enfants :</p>
+<ul>
+<li>20 € pour les enfants de 0 à 10 ans,</li>
+<li>30 € pour les enfants de 11 à 15 ans,</li>
+<li>50 € pour les enfants de 16 à 18 ans.</li>
+</ul>
+<p>Modifier le programme afin de gérer l'attribution des chèques Noël aux enfants des salariés. </p>
+<p>Afficher si l'employé a le droit d'avoir des chèques Noël (Oui/Non). Pour ce faire, établir les conditions nécessaires dans le programme. </p>
+<p>Si la réponse est <em>Oui</em>, afficher combien de chèques de chaque montant sera distribué à l'employé. </p>
+<p>Si aucun chèque n'est distribué pour une tranche d'âge, ne pas afficher.</p>
+<p><br>
+<br>
+<br></p></div>
+    </div>
+    </div>
+
+</div>
+
+
+<script src="./nCode_files/jquery-3.4.1.min.js"></script>
+<script src="./nCode_files/jquery-ui.js"></script>
+<script src="./nCode_files/popper.min.js"></script>
+<script src="./nCode_files/bootstrap.min.js"></script>
+<script src="./nCode_files/bootstrap-autocomplete.min.js"></script>
+<script src="./nCode_files/notify.min.js"></script>
+<script src="./nCode_files/correction.js"></script>
+
+<script src="./nCode_files/highlight.js"></script>
+<!-- <script src="/js/highlightjs-line-numbers.min.js"></script> -->
+<script>hljs.initHighlightingOnLoad();//hljs.initLineNumbersOnLoad();</script>
+
+
+<script>
+    $('.basicAutoComplete').autoComplete({
+        resolverSettings: {
+            url: '/api/search'
+        },
+        minLength: 2,
+        select: function() {
+            console.log("tre");
+        }
+    });
+    $('.basicAutoComplete').on('autocomplete.select', function (evt, item) {
+        console.log(item);
+        document.location = "/utilisateur/" + item.value;
+    });
+</script>
+
+
+</body></html>

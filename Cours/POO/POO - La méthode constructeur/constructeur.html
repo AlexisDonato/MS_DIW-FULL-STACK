@@ -1,0 +1,50 @@
+<!DOCTYPE html>
+<!-- saved from url=(0086)https://ncode.amorce.org/ressources/Pool/MS_FULL_STACK/PHP_POO/bases/constructeur.html -->
+<html><head><meta http-equiv="Content-Type" content="text/html; charset=UTF-8"><title></title>
+        <meta name="viewport" content="width=device-width, initial-scale=1">
+        <link rel="stylesheet" href="./constructeur_files/font-awesome.min.css">
+        <link rel="stylesheet" href="./constructeur_files/bootstrap.min.css">
+        <link rel="stylesheet" href="./constructeur_files/darcula.css">
+        <!-- <link rel="stylesheet" href="/css/highlight/line-number.css"> -->
+        <link rel="stylesheet" href="./constructeur_files/github-markdown.css">
+        <!-- <link rel="stylesheet" href="/css/markdown_foad.css"> -->
+        <link rel="stylesheet" href="./constructeur_files/menu-markdown.css">
+        <!-- <script src="/js/highlightjs-line-numbers.min.js"></script> -->
+        <script src="./constructeur_files/jquery-3.4.1.min.js"></script>
+        <script src="./constructeur_files/popper.min.js"></script>
+        <script src="./constructeur_files/bootstrap.min.js"></script>
+        <script src="./constructeur_files/highlight.js"></script>
+        </head><body><div class="container"><div class="markdown-body"><h1 id="1">La méthode constructeur</h1>
+<h2 id="2">Points particuliers</h2>
+<h3 id="3">Constructeur</h3>
+<p>Le constructeur est une méthode qui permet de lancer des opérations automatiquement lors d'une instanciation</p>
+<p>Le constructeur doit être déclaré avec la méthode suivante : <code>__construct()</code> et peut recevoir des arguments. </p>
+<blockquote>
+<p>Le constructeur est facultatif en PHP (mais obligatoire dans certains langages).  </p>
+</blockquote>
+<p><strong>Exemple</strong></p>
+<p>Dans cet exemple, on initiale le nombre de roues </p>
+<pre><code class="hljs php"><span class="hljs-class"><span class="hljs-keyword">class</span> <span class="hljs-title">Voiture</span> 
+</span>{
+   <span class="hljs-keyword">public</span> $_marque;
+   <span class="hljs-keyword">public</span> $_modele;
+   <span class="hljs-keyword">private</span> $_nbRoues;
+
+   <span class="hljs-comment">// Définition du constructeur de la classe</span>
+   <span class="hljs-function"><span class="hljs-keyword">function</span> <span class="hljs-title">__construct</span><span class="hljs-params">($marque, $modele, $nbRoues, )</span> 
+   </span>{
+        $this-&gt;_marque = $marque;
+        $this-&gt;_modele = $modele;
+        $this-&gt;_roues = $nbRoues;
+   }
+
+   <span class="hljs-comment">// [ AUTRES METHODES ]</span>
+
+} <span class="hljs-comment">// -- fin de la classe</span></code></pre>
+<p>Appel de la classe : on doit alors passer les valeurs des arguments à initialiser :</p>
+<pre><code class="hljs php">$oVoiture = <span class="hljs-keyword">new</span> Voiture(<span class="hljs-string">"Renault"</span>, <span class="hljs-string">"Clio"</span>, <span class="hljs-number">2018</span>);</code></pre>
+<h3 id="12">Destructeur</h3>
+<p>L'inverse du constructeur est le destructeur : <code>__destruct()</code> qui permet de déréférencer des valeurs (attributs de l'objet). </p>
+<p>Cette méthode reste optionnelle en PHP et peu utilisée. Elle revêt une utilité dans certains cas, par exemple pour fermer une ressource, par exemple un fichier ouvert avec la fonction <code>fopen()</code>. </p>
+<p><a href="http://php.net/manual/fr/language.oop5.decon.php">Constructeurs et destructeurs PHP</a>  </p>
+<div style="margin-bottom: 45px;"></div></div><div class="menu-markdown"><img src="./constructeur_files/menu.png"><div data-id="1" class="titre">La méthode constructeur</div><div data-id="2">Points particuliers</div><div data-id="3">&nbsp;&nbsp;&nbsp;&nbsp;Constructeur</div><div data-id="12">&nbsp;&nbsp;&nbsp;&nbsp;Destructeur</div></div></div><script>hljs.initHighlightingOnLoad();//hljs.initLineNumbersOnLoad();</script><script src="./constructeur_files/menu-markdown.js"></script></body></html>

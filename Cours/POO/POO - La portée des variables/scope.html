@@ -1,0 +1,92 @@
+<!DOCTYPE html>
+<!-- saved from url=(0079)https://ncode.amorce.org/ressources/Pool/MS_FULL_STACK/PHP_POO/bases/scope.html -->
+<html><head><meta http-equiv="Content-Type" content="text/html; charset=UTF-8"><title></title>
+        <meta name="viewport" content="width=device-width, initial-scale=1">
+        <link rel="stylesheet" href="./scope_files/font-awesome.min.css">
+        <link rel="stylesheet" href="./scope_files/bootstrap.min.css">
+        <link rel="stylesheet" href="./scope_files/darcula.css">
+        <!-- <link rel="stylesheet" href="/css/highlight/line-number.css"> -->
+        <link rel="stylesheet" href="./scope_files/github-markdown.css">
+        <!-- <link rel="stylesheet" href="/css/markdown_foad.css"> -->
+        <link rel="stylesheet" href="./scope_files/menu-markdown.css">
+        <!-- <script src="/js/highlightjs-line-numbers.min.js"></script> -->
+        <script src="./scope_files/jquery-3.4.1.min.js"></script>
+        <script src="./scope_files/popper.min.js"></script>
+        <script src="./scope_files/bootstrap.min.js"></script>
+        <script src="./scope_files/highlight.js"></script>
+        </head><body><div class="container"><div class="markdown-body"><h2 id="1">Portée des variables</h2>
+<p>Il existe en PHP trois portées possibles et donc trois types de variables :</p>
+<ul>
+<li>les variables <strong>locales</strong></li>
+<li>les variables <strong>globales</strong></li>
+<li>les variables <strong>statiques</strong></li>
+</ul>
+<h3 id="4">Variable globales et variables locales</h3>
+<p>En PHP, une variable déclarée en dehors d'une fonction est une variable <strong>globale</strong></p>
+<pre><code class="hljs xml"><span class="php"><span class="hljs-meta">&lt;?php</span>
+$x = <span class="hljs-number">5</span>;
+
+<span class="hljs-function"><span class="hljs-keyword">function</span> <span class="hljs-title">testPortee</span><span class="hljs-params">()</span> </span>{
+    <span class="hljs-comment">// Utiliser $x dans la fonction génère une erreur</span>
+    <span class="hljs-keyword">echo</span> <span class="hljs-string">"&lt;p&gt;La variable x à l'interieur de ma fonction vaut: "</span>.$x.<span class="hljs-string">"&lt;/p&gt;"</span>;
+}
+
+testPortee();
+
+<span class="hljs-keyword">echo</span> <span class="hljs-string">"&lt;p&gt;La variable x en dehors de ma fonction vaut: "</span>.$x.<span class="hljs-string">"&lt;/p&gt;"</span>;
+
+<span class="hljs-meta">?&gt;</span></span></code></pre>
+<p>Une variable déclarée dans une fonction a une portée locale et n'est accessible qu'à l'interieur de cette fonction.</p>
+<pre><code class="hljs xml"><span class="php"><span class="hljs-meta">&lt;?php</span>
+<span class="hljs-function"><span class="hljs-keyword">function</span> <span class="hljs-title">testPortee</span><span class="hljs-params">()</span> </span>{
+    $x = <span class="hljs-number">5</span>; <span class="hljs-comment">// portée locale de la variable</span>
+    <span class="hljs-keyword">echo</span> <span class="hljs-string">"&lt;p&gt;La variable x à l'interieur de ma fonction vaut: "</span>.$x.<span class="hljs-string">"&lt;/p&gt;"</span>;
+}
+
+testPortee();
+<span class="hljs-comment">//  Utiliser $x en dehors de la fonction génère une erreur.</span>
+<span class="hljs-keyword">echo</span> <span class="hljs-string">"&lt;p&gt;La variable x en dehors de ma fonction vaut: "</span>.$x.<span class="hljs-string">"&lt;/p&gt;"</span>;    
+<span class="hljs-meta">?&gt;</span></span></code></pre>
+<h3 id="9">Le mot-clé global</h3>
+<p>Le mot-clé <code>global</code> est utilisé pour accéder à une variable globale depuis l'interieur d'une fonction. Pour ce faire, faites précéder la variable du mot clé <code>global</code> lors du premier appel au sein de la fonction.</p>
+<pre><code class="hljs xml"><span class="php"><span class="hljs-meta">&lt;?php</span>
+$x = <span class="hljs-number">5</span>;
+$y = <span class="hljs-number">10</span>;
+
+<span class="hljs-function"><span class="hljs-keyword">function</span> <span class="hljs-title">testPortee</span><span class="hljs-params">()</span> </span>{
+    <span class="hljs-keyword">global</span> $x, $y;
+    $y = $x + $y;
+}
+
+myTest();
+<span class="hljs-keyword">echo</span> $y; 
+<span class="hljs-meta">?&gt;</span></span> </code></pre>
+<p>Sachez également que PHP stocke toutes les variables globales dans un tableau associatifs appelé <code>$GLOBALS</code>. Il s'uitlise comme suit: <code>$GLOBALS[index]</code> où index correspond au nom de la variable.</p>
+<p>Ce tableau est également accessible depuis l'interieur des fonctions et peut être utilisé pour mettre à jour les variables globales directement. Ainsi, l'exemple précédent peut être réécrit comme suit:</p>
+<pre><code class="hljs xml"><span class="php"><span class="hljs-meta">&lt;?php</span>
+$x = <span class="hljs-number">5</span>;
+$y = <span class="hljs-number">10</span>;
+
+<span class="hljs-function"><span class="hljs-keyword">function</span> <span class="hljs-title">myTest</span><span class="hljs-params">()</span> </span>{
+    $GLOBALS[<span class="hljs-string">'y'</span>] = $GLOBALS[<span class="hljs-string">'x'</span>] + $GLOBALS[<span class="hljs-string">'y'</span>];
+}
+
+myTest();
+<span class="hljs-keyword">echo</span> $y; 
+<span class="hljs-meta">?&gt;</span></span> </code></pre>
+<h3 id="15">Le mot-clé <code>static</code></h3>
+<p>En principe, lorsqu'une fonction a fini de s'executer, toutes ses variables sont détruites. Cependant, il peut arriver que nous voulions conserver la valeur d'une variable locale d'une execution de la fonction à l'autre et donc ne pas la détruire.</p>
+<p>Pour ce faire, utilisez le mot-clé <code>static</code> :</p>
+<pre><code class="hljs xml"><span class="php"><span class="hljs-meta">&lt;?php</span>
+<span class="hljs-function"><span class="hljs-keyword">function</span> <span class="hljs-title">myTest</span><span class="hljs-params">()</span> </span>{
+    <span class="hljs-keyword">static</span> $x = <span class="hljs-number">0</span>;
+    <span class="hljs-keyword">echo</span> $x;
+    $x++;
+}
+
+myTest();
+myTest();
+myTest();
+<span class="hljs-meta">?&gt;</span></span> </code></pre>
+<p>A chaque appel de la fonction, la variable <code>$x</code> va s'incrémenter d'un et donc garder sa valeur pour la fois suivante. Malgré tout, la variable reste locale à la fonction (c'est-à-dire que l'utiliser en dehors de la fonction génèrera une erreur).</p>
+<div style="margin-bottom: 45px;"></div></div><div class="menu-markdown"><img src="./scope_files/menu.png"><div data-id="1">Portée des variables</div><div data-id="4">&nbsp;&nbsp;&nbsp;&nbsp;Variable globales et variables locales</div><div data-id="9">&nbsp;&nbsp;&nbsp;&nbsp;Le mot-clé global</div><div data-id="15">&nbsp;&nbsp;&nbsp;&nbsp;Le mot-clé <code>static</code></div></div></div><script>hljs.initHighlightingOnLoad();//hljs.initLineNumbersOnLoad();</script><script src="./scope_files/menu-markdown.js"></script></body></html>

@@ -1,0 +1,46 @@
+<!DOCTYPE html>
+<!-- saved from url=(0087)https://ncode.amorce.org/ressources/Pool/MS_FULL_STACK/PHP_POO/bases/polymorphisme.html -->
+<html><head><meta http-equiv="Content-Type" content="text/html; charset=UTF-8"><title></title>
+        <meta name="viewport" content="width=device-width, initial-scale=1">
+        <link rel="stylesheet" href="./polymorphisme_files/font-awesome.min.css">
+        <link rel="stylesheet" href="./polymorphisme_files/bootstrap.min.css">
+        <link rel="stylesheet" href="./polymorphisme_files/darcula.css">
+        <!-- <link rel="stylesheet" href="/css/highlight/line-number.css"> -->
+        <link rel="stylesheet" href="./polymorphisme_files/github-markdown.css">
+        <!-- <link rel="stylesheet" href="/css/markdown_foad.css"> -->
+        <link rel="stylesheet" href="./polymorphisme_files/menu-markdown.css">
+        <!-- <script src="/js/highlightjs-line-numbers.min.js"></script> -->
+        <script src="./polymorphisme_files/jquery-3.4.1.min.js"></script>
+        <script src="./polymorphisme_files/popper.min.js"></script>
+        <script src="./polymorphisme_files/bootstrap.min.js"></script>
+        <script src="./polymorphisme_files/highlight.js"></script>
+        </head><body><div class="container"><div class="markdown-body"><h2 id="1">Polymorphisme</h2>
+<p>Le polymorphisme permet à une méthode d'adopter plusieurs "formes" dans des classes différentes, c'est-à-dire d'être redéfinie dans des classes filles : une méthode d'une classe fille ne contiendra pas le même code que la méthode portant le même nom dans la classe parente.  </p>
+<p><strong>Exemple</strong></p>
+<p>Dans la classe parente <code>Vehicule</code>, la fonction <code>avancer()</code> gèrera des kilomètres pour les classes filles <code>Voiture</code>, <code>Bus</code> ou <code>Camion</code>, tandis qu'elle retournera des milles nautiques (<em>miles</em> en anglais) pour la classe fille <code>Bateau</code> car elle y est codée de la sorte :</p>
+<p>Classe fille <code>Voiture</code>: </p>
+<pre><code class="hljs xml"><span class="php"><span class="hljs-meta">&lt;?php</span>
+<span class="hljs-class"><span class="hljs-keyword">class</span> <span class="hljs-title">Voiture</span> <span class="hljs-keyword">extends</span> <span class="hljs-title">Vehicule</span>
+</span>{   
+   <span class="hljs-keyword">public</span> <span class="hljs-function"><span class="hljs-keyword">function</span> <span class="hljs-title">avancer</span><span class="hljs-params">(int $nbKm2)</span> 
+   </span>{
+      $this-&gt;$_nbKm = $this-&gt;$_nbKm + $nbKm2;
+      <span class="hljs-keyword">return</span> $this-&gt;_nbKm;     
+   }
+}</span></code></pre>
+<p>Classe fille <code>Bateau</code> : </p>
+<pre><code class="hljs xml"><span class="php"><span class="hljs-meta">&lt;?php</span>
+<span class="hljs-class"><span class="hljs-keyword">class</span> <span class="hljs-title">Bateau</span> <span class="hljs-keyword">extends</span> <span class="hljs-title">Vehicule</span>
+</span>{
+   <span class="hljs-keyword">private</span> $_nbMiles = <span class="hljs-number">0</span>;      
+
+   <span class="hljs-keyword">public</span> <span class="hljs-function"><span class="hljs-keyword">function</span> <span class="hljs-title">avancer</span><span class="hljs-params">(int $nbMiles)</span> 
+   </span>{
+      $this-&gt;$_nbMiles = $this-&gt;$_nbMiles + $nbMiles2;
+      <span class="hljs-keyword">return</span> $this-&gt;_nbMiles;      
+   }
+}   </span></code></pre>
+<blockquote>
+<p>Attention, cet exemple est volontairmeent très simpliste; dans la réalité c'est plus complexe : il existe en fait plusieurs types de polymorphisme qu'on rencontre selon le langage implémenté. En PHP, le polymorphisme se limite à la redéfinition (principe de surcharge) d'une méthode dans une classe fille.   </p>
+</blockquote>
+<p><br><br><br><br></p></div><div class="menu-markdown"><img src="./polymorphisme_files/menu.png"><div data-id="1">Polymorphisme</div></div></div><script>hljs.initHighlightingOnLoad();//hljs.initLineNumbersOnLoad();</script><script src="./polymorphisme_files/menu-markdown.js"></script></body></html>
