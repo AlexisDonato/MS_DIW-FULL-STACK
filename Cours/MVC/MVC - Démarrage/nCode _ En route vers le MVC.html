@@ -1,0 +1,128 @@
+<!DOCTYPE html>
+<!-- saved from url=(0059)https://ncode.amorce.org/ressources/Pool/PHP/MVC/MVC-1.html -->
+<html><head><meta http-equiv="Content-Type" content="text/html; charset=UTF-8"><title>nCode | En route vers le MVC</title>
+        <meta name="viewport" content="width=device-width, initial-scale=1">
+        <link rel="stylesheet" href="./nCode _ En route vers le MVC_files/font-awesome.min.css">
+        <link rel="stylesheet" href="./nCode _ En route vers le MVC_files/bootstrap.min.css">
+        <link rel="stylesheet" href="./nCode _ En route vers le MVC_files/darcula.css">
+        <!-- <link rel="stylesheet" href="/css/highlight/line-number.css"> -->
+        <link rel="stylesheet" href="./nCode _ En route vers le MVC_files/github-markdown.css">
+        <!-- <link rel="stylesheet" href="/css/markdown_foad.css"> -->
+        <link rel="stylesheet" href="./nCode _ En route vers le MVC_files/menu-markdown.css">
+        <!-- <script src="/js/highlightjs-line-numbers.min.js"></script> -->
+        <script src="./nCode _ En route vers le MVC_files/jquery-3.4.1.min.js"></script>
+        <script src="./nCode _ En route vers le MVC_files/popper.min.js"></script>
+        <script src="./nCode _ En route vers le MVC_files/bootstrap.min.js"></script>
+        <script src="./nCode _ En route vers le MVC_files/highlight.js"></script>
+        </head><body><div class="container"><div class="markdown-body"><h1 id="1">En route vers le MVC</h1>
+<p>Nous allons réaliser ici un mini blog à titre d'exemple. Il ne sera pas très fonctionnel mais l'objectif est de comprendre l’architecture MVC.</p>
+<h2 id="3">Mise en place du blog en version procédurale</h2>
+<p>Pour la persistance, nous allons utiliser la base de donnée suivante:</p>
+<p><img src="./nCode _ En route vers le MVC_files/boggy.png" alt="base_blog"></p>
+<p>Vous pouvez utiliser ce <a target="_blank" href="https://ncode.amorce.org/ressources/Pool/PHP/MVC/blog.sql">script</a> pour créer et alimenter votre base.</p>
+<p>Affichons simplement la liste des billet dans une page d'accueil:</p>
+<pre><code class="language-php hljs"><span class="hljs-comment">// index.php</span>
+
+&lt;!doctype html&gt;
+&lt;html lang=<span class="hljs-string">"fr"</span>&gt;
+&lt;head&gt;
+    &lt;meta charset=<span class="hljs-string">"UTF-8"</span>&gt;
+    &lt;meta name=<span class="hljs-string">"viewport"</span>
+          content=<span class="hljs-string">"width=device-width, user-scalable=no, initial-scale=1.0, maximum-scale=1.0, minimum-scale=1.0"</span>&gt;
+    &lt;meta http-equiv=<span class="hljs-string">"X-UA-Compatible"</span> content=<span class="hljs-string">"ie=edge"</span>&gt;
+    &lt;link rel=<span class="hljs-string">"stylesheet"</span> href=<span class="hljs-string">"style.css"</span>&gt;
+    &lt;title&gt;Mon blog&lt;/title&gt;
+&lt;/head&gt;
+&lt;body&gt;
+&lt;div id=<span class="hljs-string">"global"</span>&gt;
+    &lt;header&gt;
+        &lt;a href=<span class="hljs-string">"index.php"</span>&gt;&lt;h1 id=<span class="hljs-string">"titreBlog"</span>&gt;Mon Blog&lt;/h1&gt;&lt;/a&gt;
+        &lt;p&gt;Hello et bienvenue !!!!&lt;/p&gt;
+    &lt;/header&gt;
+    &lt;div id=<span class="hljs-string">"contenu"</span>&gt;
+        <span class="hljs-meta">&lt;?php</span>
+        $bdd = <span class="hljs-keyword">new</span> PDO(<span class="hljs-string">"mysql:host=database:3306;dbname=boggy;charset=utf8"</span>,<span class="hljs-string">'VOTRE USER'</span>,<span class="hljs-string">'VOTRE MDP'</span>);
+        $billets  = $bdd-&gt;query(<span class="hljs-string">'SELECT BIL_ID as id, BIL_DATE as date, BIL_TITRE as titre, BIL_CONTENU as contenu FROM T_BILLET order by BIL_ID desc'</span>);
+        <span class="hljs-keyword">foreach</span>($billets <span class="hljs-keyword">as</span> $billet): <span class="hljs-meta">?&gt;</span>
+            &lt;article&gt;
+                &lt;header&gt;
+                    &lt;h1 <span class="hljs-class"><span class="hljs-keyword">class</span>="<span class="hljs-title">titreBillet</span>"&gt;
+                        &lt;?= $<span class="hljs-title">billet</span>['<span class="hljs-title">titre</span>']?&gt;
+                    &lt;/<span class="hljs-title">h1</span>&gt;
+                    &lt;<span class="hljs-title">time</span>&gt;&lt;?= $<span class="hljs-title">billet</span>['<span class="hljs-title">date</span>']?&gt;&lt;/<span class="hljs-title">time</span>&gt;
+                &lt;/<span class="hljs-title">header</span>&gt;
+                &lt;<span class="hljs-title">p</span>&gt;&lt;?= $<span class="hljs-title">billet</span>['<span class="hljs-title">contenu</span>']?&gt;&lt;/<span class="hljs-title">p</span>&gt;
+            &lt;/<span class="hljs-title">article</span>&gt;
+            &lt;<span class="hljs-title">hr</span>&gt;
+
+        &lt;?<span class="hljs-title">php</span> <span class="hljs-title">endforeach</span>; ?&gt;
+    &lt;/<span class="hljs-title">div</span>&gt;
+    &lt;<span class="hljs-title">footer</span> <span class="hljs-title">id</span>="<span class="hljs-title">piedBlog</span>"&gt;
+        <span class="hljs-title">Blog</span> <span class="hljs-title">exercice</span>
+    &lt;/<span class="hljs-title">footer</span>&gt;
+&lt;/<span class="hljs-title">div</span>&gt;
+&lt;/<span class="hljs-title">body</span>&gt;
+&lt;/<span class="hljs-title">html</span>&gt;
+</span></code></pre>
+<p>Et voici la feuille de style qui va avec</p>
+<pre><code class="language-css hljs"><span class="hljs-comment">/* style.css */</span>
+
+<span class="hljs-comment">/*  Pour pouvoir utiliser une hauteur (height) ou une hauteur minimale
+   (min-height) sur un bloc, il faut que son parent direct ait lui-même une
+   hauteur déterminée (donc toute valeur de height sauf "auto": hauteur en
+   pixels, em, autres unités...).
+   Si la hauteur du parent est en pourcentage, elle se réfère alors à la
+   hauteur du «grand-père», et ainsi de suite.
+   Pour pouvoir utiliser un "min-height: 100%" sur div#global, il nous faut:
+   - un parent (body) en "height: 100%";
+   - le parent de body également en "height: 100%". */</span>
+<span class="hljs-selector-tag">html</span>, <span class="hljs-selector-tag">body</span> {
+    <span class="hljs-attribute">height</span>: <span class="hljs-number">100%</span>;
+}
+
+<span class="hljs-selector-tag">body</span> {
+    <span class="hljs-attribute">color</span>: <span class="hljs-number">#bfbfbf</span>;
+    <span class="hljs-attribute">background</span>: black;
+    <span class="hljs-attribute">font-family</span>: <span class="hljs-string">'Futura-Medium'</span>, <span class="hljs-string">'Futura'</span>, <span class="hljs-string">'Trebuchet MS'</span>, sans-serif;
+}
+
+<span class="hljs-selector-tag">h1</span> {
+    <span class="hljs-attribute">color</span>: white;
+}
+
+<span class="hljs-selector-class">.titreBillet</span> {
+    <span class="hljs-attribute">margin-bottom </span>: <span class="hljs-number">0px</span>;
+}
+
+<span class="hljs-selector-tag">a</span><span class="hljs-selector-pseudo">:link</span> {
+    <span class="hljs-attribute">text-decoration</span>: none;
+}
+
+<span class="hljs-selector-id">#global</span> {
+    <span class="hljs-attribute">min-height</span>: <span class="hljs-number">100%</span>;  <span class="hljs-comment">/* Voir commentaire sur html et body plus haut */</span>
+    <span class="hljs-attribute">background</span>: <span class="hljs-number">#333534</span>;
+    <span class="hljs-attribute">width</span>: <span class="hljs-number">70%</span>;
+    <span class="hljs-attribute">margin</span>: auto;    <span class="hljs-comment">/* Permet de centrer la div */</span>
+    <span class="hljs-attribute">text-align</span>: justify;
+    <span class="hljs-attribute">padding</span>: <span class="hljs-number">5px</span> <span class="hljs-number">20px</span>;
+}
+
+<span class="hljs-selector-id">#contenu</span> {
+    <span class="hljs-attribute">margin-bottom </span>: <span class="hljs-number">30px</span>;
+}
+
+<span class="hljs-selector-id">#titreBlog</span>, <span class="hljs-selector-id">#piedBlog</span> {
+    <span class="hljs-attribute">text-align</span>: center;
+}</code></pre>
+<p>Et si tout fonctionne vous avez ça:</p>
+<p><img src="./nCode _ En route vers le MVC_files/blog.png" alt="blog"></p>
+<h3 id="13">Les défauts</h3>
+<p><code>index.php</code> contient du php et du html. De plus son code parait difficilement réutilisable et surtout va devenir difficile à maintenir au fil du temps et des évolution de l'application.</p>
+<p>En fait, en général, une application va devoir gérer plusieurs problématiques:</p>
+<ul>
+<li>la <strong>présentation</strong> : interaction avec l'extérieur.</li>
+<li>le <strong>traitement</strong> : tout ce qui est calculs en lien avec les règles métier.</li>
+<li>les <strong>données</strong> : tout ce qui est accès et manipulations des données.</li>
+</ul>
+<p>Nous allons donc être obligé de ranger tout ça.</p>
+<p><br><br><br><br></p></div><div class="menu-markdown" style="width: 37px; height: 33px;"><img src="./nCode _ En route vers le MVC_files/menu.png" style=""><div data-id="1" class="titre">En route vers le MVC</div><div data-id="3">Mise en place du blog en version procédurale</div><div data-id="13">&nbsp;&nbsp;&nbsp;&nbsp;Les défauts</div></div></div><script>hljs.initHighlightingOnLoad();//hljs.initLineNumbersOnLoad();</script><script src="./nCode _ En route vers le MVC_files/menu-markdown.js"></script><script>document.title = "nCode | " + document.querySelector("h1").textContent;</script></body></html>

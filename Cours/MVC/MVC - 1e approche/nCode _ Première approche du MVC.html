@@ -1,0 +1,324 @@
+<!DOCTYPE html>
+<!-- saved from url=(0059)https://ncode.amorce.org/ressources/Pool/PHP/MVC/MVC-2.html -->
+<html><head><meta http-equiv="Content-Type" content="text/html; charset=UTF-8"><title>nCode | Première approche du MVC</title>
+        <meta name="viewport" content="width=device-width, initial-scale=1">
+        <link rel="stylesheet" href="./nCode _ Première approche du MVC_files/font-awesome.min.css">
+        <link rel="stylesheet" href="./nCode _ Première approche du MVC_files/bootstrap.min.css">
+        <link rel="stylesheet" href="./nCode _ Première approche du MVC_files/darcula.css">
+        <!-- <link rel="stylesheet" href="/css/highlight/line-number.css"> -->
+        <link rel="stylesheet" href="./nCode _ Première approche du MVC_files/github-markdown.css">
+        <!-- <link rel="stylesheet" href="/css/markdown_foad.css"> -->
+        <link rel="stylesheet" href="./nCode _ Première approche du MVC_files/menu-markdown.css">
+        <!-- <script src="/js/highlightjs-line-numbers.min.js"></script> -->
+        <script src="./nCode _ Première approche du MVC_files/jquery-3.4.1.min.js"></script>
+        <script src="./nCode _ Première approche du MVC_files/popper.min.js"></script>
+        <script src="./nCode _ Première approche du MVC_files/bootstrap.min.js"></script>
+        <script src="./nCode _ Première approche du MVC_files/highlight.js"></script>
+        </head><body><div class="container"><div class="markdown-body"><h1 id="1">Première approche du MVC</h1>
+<h2 id="2">Séparation de l'affichage</h2>
+<p>La première chose à faire va être de séparer l'affichage du reste de notre code:</p>
+<pre><code class="language-php hljs"><span class="hljs-meta">&lt;?php</span>
+<span class="hljs-comment">// index.php</span>
+<span class="hljs-comment">// accès aux données</span>
+$bdd = <span class="hljs-keyword">new</span> PDO(<span class="hljs-string">"mysql:host=database:3306;dbname=boggy;charset=utf8"</span>,<span class="hljs-string">'VOTRE USER'</span>,<span class="hljs-string">'VOTRE MDP'</span>);
+$billets  = $bdd-&gt;query(<span class="hljs-string">'SELECT BIL_ID as id, BIL_DATE as date, BIL_TITRE as titre, BIL_CONTENU as contenu FROM T_BILLET order by BIL_ID desc'</span>);
+
+<span class="hljs-comment">// affichage</span>
+<span class="hljs-keyword">require</span> <span class="hljs-string">'vueAccueil.php'</span>;
+</code></pre>
+<p>et</p>
+<pre><code class="language-php hljs">&lt;!--vueAccueil.php--&gt;
+&lt;!doctype html&gt;
+&lt;html lang=<span class="hljs-string">"fr"</span>&gt;
+&lt;head&gt;
+    &lt;meta charset=<span class="hljs-string">"UTF-8"</span>&gt;
+    &lt;meta name=<span class="hljs-string">"viewport"</span>
+          content=<span class="hljs-string">"width=device-width, user-scalable=no, initial-scale=1.0, maximum-scale=1.0, minimum-scale=1.0"</span>&gt;
+    &lt;meta http-equiv=<span class="hljs-string">"X-UA-Compatible"</span> content=<span class="hljs-string">"ie=edge"</span>&gt;
+    &lt;link rel=<span class="hljs-string">"stylesheet"</span> href=<span class="hljs-string">"style.css"</span>&gt;
+    &lt;title&gt;Mon blog&lt;/title&gt;
+&lt;/head&gt;
+&lt;body&gt;
+&lt;div id=<span class="hljs-string">"global"</span>&gt;
+    &lt;header&gt;
+        &lt;a href=<span class="hljs-string">"index.php"</span>&gt;&lt;h1 id=<span class="hljs-string">"titreBlog"</span>&gt;Mon Blog&lt;/h1&gt;&lt;/a&gt;
+        &lt;p&gt;Hello et bienvenue !!!!&lt;/p&gt;
+    &lt;/header&gt;
+    &lt;div id=<span class="hljs-string">"contenu"</span>&gt;
+        <span class="hljs-meta">&lt;?php</span> <span class="hljs-keyword">foreach</span>($billets <span class="hljs-keyword">as</span> $billet): <span class="hljs-meta">?&gt;</span>
+        &lt;article&gt;
+            &lt;header&gt;
+                &lt;h1 <span class="hljs-class"><span class="hljs-keyword">class</span>="<span class="hljs-title">titreBillet</span>"&gt;
+                    &lt;?= $<span class="hljs-title">billet</span>['<span class="hljs-title">titre</span>']?&gt;
+                &lt;/<span class="hljs-title">h1</span>&gt;
+                &lt;<span class="hljs-title">time</span>&gt;&lt;?= $<span class="hljs-title">billet</span>['<span class="hljs-title">date</span>']?&gt;&lt;/<span class="hljs-title">time</span>&gt;
+            &lt;/<span class="hljs-title">header</span>&gt;
+            &lt;<span class="hljs-title">p</span>&gt;&lt;?= $<span class="hljs-title">billet</span>['<span class="hljs-title">contenu</span>']?&gt;&lt;/<span class="hljs-title">p</span>&gt;
+        &lt;/<span class="hljs-title">article</span>&gt;
+        &lt;<span class="hljs-title">hr</span>&gt;
+
+        &lt;?<span class="hljs-title">php</span> <span class="hljs-title">endforeach</span>; ?&gt;
+    &lt;/<span class="hljs-title">div</span>&gt;
+    &lt;<span class="hljs-title">footer</span> <span class="hljs-title">id</span>="<span class="hljs-title">piedBlog</span>"&gt;
+        <span class="hljs-title">Blog</span> <span class="hljs-title">exercice</span>
+    &lt;/<span class="hljs-title">footer</span>&gt;
+&lt;/<span class="hljs-title">div</span>&gt;
+&lt;/<span class="hljs-title">body</span>&gt;
+&lt;/<span class="hljs-title">html</span>&gt;
+</span></code></pre>
+<h2 id="7">Séparation de l'accès aux données</h2>
+<p>Isolons de la même manière l'accès aux données en créant un fichier <code>Model.php</code></p>
+<pre><code class="language-php hljs"><span class="hljs-meta">&lt;?php</span>
+<span class="hljs-function"><span class="hljs-keyword">function</span> <span class="hljs-title">getBillets</span><span class="hljs-params">()</span></span>{
+    $bdd = <span class="hljs-keyword">new</span> PDO(<span class="hljs-string">"mysql:host=database:3306;dbname=boggy;charset=utf8"</span>,<span class="hljs-string">'VOTRE USER'</span>,<span class="hljs-string">'VOTRE MDP'</span>);
+    $billets  = $bdd-&gt;query(<span class="hljs-string">'SELECT BIL_ID as id, BIL_DATE as date, BIL_TITRE as titre, BIL_CONTENU as contenu FROM T_BILLET order by BIL_ID desc'</span>);
+    <span class="hljs-keyword">return</span> $billets;
+}</code></pre>
+<p>De ce fait, <code>index.php</code> devient:</p>
+<pre><code class="language-php hljs"><span class="hljs-meta">&lt;?php</span>
+<span class="hljs-keyword">require</span> <span class="hljs-string">'Model.php'</span>;
+
+<span class="hljs-comment">// accès aux données</span>
+$billets = getBillets();
+
+<span class="hljs-comment">// affichage</span>
+<span class="hljs-keyword">require</span> <span class="hljs-string">'vueAccueil.php'</span>;</code></pre>
+<p>Nous avons maintenant 3 fichier pour notre page:</p>
+<ul>
+<li><code>Model.php</code> pour l'accès aux données.</li>
+<li><code>vueAccueil.php</code> pour l'affichage.</li>
+<li><code>index.php</code> qui fait le lien entre les deux autres.</li>
+</ul>
+<p>Nous pouvons alors commencer à parler de MVC.</p>
+<h3 id="15">Le MVC</h3>
+<p><strong>M</strong> pour model <strong>V</strong> pour vue et <strong>C</strong> pour controleur. Le principe est le suivant:</p>
+<p><img src="./nCode _ Première approche du MVC_files/MVC.png" alt="mvc"></p>
+<p>Le modèle MVC offre une séparation claire des responsabilités au sein d'une application, en conformité avec les principes de conception déjà étudiés : responsabilité unique, couplage faible et cohésion forte. Le prix à payer est une augmentation de la complexité de l'architecture.</p>
+<p>Dans le cas d'une application Web, l'application du modèle MVC permet aux pages HTML (qui constituent la partie Vue) de contenir le moins possible de code serveur, étant donné que le scripting est regroupé dans les deux autres parties de l'application.</p>
+<h2 id="20">Quelques améliorations supplémentaires</h2>
+<p>Un site web se réduit rarement à une seule page. Nous allons donc mettre en place l'utilisation d'un modèle de page (template). Ce modèle contiendra les éléments communs de nos vues.</p>
+<pre><code class="language-php hljs">&lt;!--gabarit.php --&gt;
+&lt;!doctype html&gt;
+&lt;html lang=<span class="hljs-string">"fr"</span>&gt;
+&lt;head&gt;
+    &lt;meta charset=<span class="hljs-string">"UTF-8"</span>&gt;
+    &lt;meta name=<span class="hljs-string">"viewport"</span>
+          content=<span class="hljs-string">"width=device-width, user-scalable=no, initial-scale=1.0, maximum-scale=1.0, minimum-scale=1.0"</span>&gt;
+    &lt;meta http-equiv=<span class="hljs-string">"X-UA-Compatible"</span> content=<span class="hljs-string">"ie=edge"</span>&gt;
+    &lt;link rel=<span class="hljs-string">"stylesheet"</span> href=<span class="hljs-string">"style.css"</span>&gt;
+    &lt;title&gt;Mon blog&lt;/title&gt;
+&lt;/head&gt;
+&lt;body&gt;
+&lt;div id=<span class="hljs-string">"global"</span>&gt;
+    &lt;header&gt;
+        &lt;a href=<span class="hljs-string">"index.php"</span>&gt;
+            &lt;h1 id=<span class="hljs-string">"titreBlog"</span>&gt;Mon BLog&lt;/h1&gt;
+        &lt;/a&gt;
+        &lt;p&gt;Hello et bienvenue !!!!&lt;/p&gt;
+    &lt;/header&gt;
+    &lt;div id=<span class="hljs-string">"contenu"</span>&gt;
+        <span class="hljs-meta">&lt;?</span>= $contenu; <span class="hljs-meta">?&gt;</span>
+    &lt;/div&gt;
+    &lt;footer id=<span class="hljs-string">"piedBlog"</span>&gt;
+        Blog exercice
+    &lt;/footer&gt;
+&lt;/div&gt;
+&lt;/body&gt;
+&lt;/html&gt;
+</code></pre>
+<p>Au moment de l'affichage d'une vue HTML, il suffit de définir les valeurs des éléments spécifiques, puis de déclencher le rendu de notre gabarit. Pour cela, on utilise des fonctions PHP qui manipulent le flux de sortie de la page. Voici notre page <code>vueAccueil.php</code> réécrite :</p>
+<pre><code class="language-php hljs"><span class="hljs-meta">&lt;?php</span> $titre = <span class="hljs-string">'Mon Blog'</span>; <span class="hljs-meta">?&gt;</span>
+
+<span class="hljs-meta">&lt;?php</span> ob_start(); <span class="hljs-meta">?&gt;</span>
+<span class="hljs-meta">&lt;?php</span> <span class="hljs-keyword">foreach</span> ($billets <span class="hljs-keyword">as</span> $billet): <span class="hljs-meta">?&gt;</span>
+    &lt;article&gt;
+        &lt;header&gt;
+            &lt;h1 <span class="hljs-class"><span class="hljs-keyword">class</span>="<span class="hljs-title">titreBillet</span>"&gt;&lt;?= $<span class="hljs-title">billet</span>['<span class="hljs-title">titre</span>'] ?&gt;&lt;/<span class="hljs-title">h1</span>&gt;
+            &lt;<span class="hljs-title">time</span>&gt;&lt;?= $<span class="hljs-title">billet</span>['<span class="hljs-title">date</span>'] ?&gt;&lt;/<span class="hljs-title">time</span>&gt;
+        &lt;/<span class="hljs-title">header</span>&gt;
+        &lt;<span class="hljs-title">p</span>&gt;&lt;?= $<span class="hljs-title">billet</span>['<span class="hljs-title">contenu</span>'] ?&gt;&lt;/<span class="hljs-title">p</span>&gt;
+    &lt;/<span class="hljs-title">article</span>&gt;
+    &lt;<span class="hljs-title">hr</span> /&gt;
+&lt;?<span class="hljs-title">php</span> <span class="hljs-title">endforeach</span>; ?&gt;
+&lt;?<span class="hljs-title">php</span> $<span class="hljs-title">contenu</span> = <span class="hljs-title">ob_get_clean</span>(); ?&gt;
+
+&lt;?<span class="hljs-title">php</span> <span class="hljs-title">require</span> '<span class="hljs-title">gabarit</span>.<span class="hljs-title">php</span>'; ?&gt;</span></code></pre>
+<blockquote>
+<p>La méthode <code>ob_start</code> est une méthode de mise en tampon. Ce tampon est récupéré dans <code>$contenu</code> après la fin de la boucle grâce à <code>ob_get_clean()</code>. LE rendu est alors déclenché avec l'appel du gabarit qui reprend les valeurs de <code>$titre</code> et de <code>$contenu</code></p>
+</blockquote>
+<p>On va aussi factoriser la connection à la base de donnée. Pour le moment, un seul appel est fait à la base. Si nous faisons évoluer l'application, il y aura d'autres appelles, c'est pourquoi il faut factoriser la phase de connection.</p>
+<pre><code class="language-php hljs">&lt;!--Model.php--&gt;
+<span class="hljs-meta">&lt;?php</span>
+
+<span class="hljs-function"><span class="hljs-keyword">function</span> <span class="hljs-title">getBillets</span><span class="hljs-params">()</span>
+</span>{
+    $bdd = getBdd();
+    $billets = $bdd-&gt;query(<span class="hljs-string">'SELECT BIL_ID as id, BIL_DATE as date, BIL_TITRE as titre, BIL_CONTENU as contenu FROM T_BILLET order by BIL_ID desc'</span>);
+    <span class="hljs-keyword">return</span> $billets;
+}
+
+<span class="hljs-function"><span class="hljs-keyword">function</span> <span class="hljs-title">getBdd</span><span class="hljs-params">()</span>
+</span>{
+    $bdd = <span class="hljs-keyword">new</span> PDO(<span class="hljs-string">"mysql:host=database:3306;dbname=boggy;charset=utf8"</span>,<span class="hljs-string">'VOTRE USER'</span>,<span class="hljs-string">'VOTRE MDP'</span>,<span class="hljs-keyword">array</span>(PDO::ATTR_ERRMODE =&gt; PDO::ERRMODE_EXCEPTION));
+
+    <span class="hljs-keyword">return</span> $bdd;
+}
+</code></pre>
+<h2 id="28">Gestion des erreurs</h2>
+<p>C'est le <strong>contrôleur</strong> qui va s'occuper de cette problématique.</p>
+<p>J'avais déjà modifié le <code>PDO</code> pour qu'il renvoie des exceptions avec le paramètre supplémentaire: <code>array(PDO::ATTR_ERRMODE =&gt; PDO::ERRMODE_EXCEPTION)</code>. Nous pouvons donc récupérer cette exception dans <code>index.php</code></p>
+<pre><code class="language-php hljs"><span class="hljs-meta">&lt;?php</span>
+
+<span class="hljs-keyword">require</span> <span class="hljs-string">'Modele.php'</span>;
+
+<span class="hljs-keyword">try</span> {
+  $billets = getBillets();
+  <span class="hljs-keyword">require</span> <span class="hljs-string">'vueAccueil.php'</span>;
+}
+<span class="hljs-keyword">catch</span> (<span class="hljs-keyword">Exception</span> $e) {
+  <span class="hljs-keyword">echo</span> <span class="hljs-string">'&lt;html&gt;&lt;body&gt;Erreur ! '</span> . $e-&gt;getMessage() . <span class="hljs-string">'&lt;/body&gt;&lt;/html&gt;'</span>;
+}</code></pre>
+<p>Le premier require inclut uniquement la définition d'une fonction et est placé en dehors du bloc try. Le reste du code est placé à l'intérieur de ce bloc. Si une exception est levée lors de son exécution, une page HTML minimale contenant le message d'erreur est affichée.</p>
+<p>On peut souhaiter conserver l'affichage du gabarit des vues même en cas d'erreur. Il suffit de définir une vue <code>vueErreur.php</code> dédiée à leur affichage.</p>
+<pre><code class="language-php hljs"><span class="hljs-meta">&lt;?php</span> $titre = <span class="hljs-string">'Mon Blog'</span>; <span class="hljs-meta">?&gt;</span>
+
+<span class="hljs-meta">&lt;?php</span> ob_start() <span class="hljs-meta">?&gt;</span>
+&lt;p&gt;Une erreur est survenue : <span class="hljs-meta">&lt;?</span>= $msgErreur <span class="hljs-meta">?&gt;</span>&lt;/p&gt;
+<span class="hljs-meta">&lt;?php</span> $contenu = ob_get_clean(); <span class="hljs-meta">?&gt;</span>
+
+<span class="hljs-meta">&lt;?php</span> <span class="hljs-keyword">require</span> <span class="hljs-string">'gabarit.php'</span>; <span class="hljs-meta">?&gt;</span></code></pre>
+<p>On modifie ensuite le contrôleur pour déclencher le rendu de cette vue en cas d'erreur.</p>
+<pre><code class="language-php hljs"><span class="hljs-meta">&lt;?php</span>
+
+<span class="hljs-keyword">require</span> <span class="hljs-string">'Modele.php'</span>;
+
+<span class="hljs-keyword">try</span> {
+  $billets = getBillets();
+  <span class="hljs-keyword">require</span> <span class="hljs-string">'vueAccueil.php'</span>;
+}
+<span class="hljs-keyword">catch</span> (<span class="hljs-keyword">Exception</span> $e) {
+  $msgErreur = $e-&gt;getMessage();
+  <span class="hljs-keyword">require</span> <span class="hljs-string">'vueErreur.php'</span>;
+}</code></pre>
+<h2 id="37">Bilan intermédiaire</h2>
+<p>Où en sommes nous?</p>
+<p>Nous avons accompli sur notre page d'exemple un important travail de <strong>refactoring</strong> qui a modifié son architecture en profondeur. Notre page respecte à présent un modèle MVC simple.</p>
+<p>Vous devriez avoir ces fichiers:</p>
+<pre><code class="language-zsh hljs bash">.
+├── Model.php
+├── gabarit.php
+├── index.php
+├── style.css
+├── vueAccueil.php
+└── vueErreur.php
+</code></pre>
+<p>L'ajout de nouvelles fonctionnalités se fait à présent en trois étapes :</p>
+<ul>
+<li>écriture des fonctions d'accès aux données dans le modèle ;</li>
+<li>création d'une nouvelle vue utilisant le gabarit pour afficher les données.</li>
+<li>ajout d'une page contrôleur pour lier le modèle et la vue.</li>
+</ul>
+<h2 id="44">Affichage d'un Billet avec l’architecture mise en place</h2>
+<p>Suivons les règles précédentes:</p>
+<ul>
+<li>Ajoutons une fonction dans <code>Model.php</code> pour accéder aux données dont nous avons besoin.</li>
+</ul>
+<pre><code class="language-php hljs"><span class="hljs-comment">// ...</span>
+
+<span class="hljs-comment">// récupère un billet avec son id</span>
+<span class="hljs-function"><span class="hljs-keyword">function</span> <span class="hljs-title">getBillet</span><span class="hljs-params">($idBillet)</span></span>{
+    $bdd= getBdd();
+    $billet=$bdd-&gt;prepare(<span class="hljs-string">'SELECT BIL_ID as id, BIL_DATE as date, BIL_TITRE as titre, BIL_CONTENU as contenu FROM T_BILLET WHERE BIL_ID =?;'</span>);
+    $billet-&gt;execute(<span class="hljs-keyword">array</span>($idBillet));
+
+    <span class="hljs-keyword">if</span>($billet-&gt;rowCount() == <span class="hljs-number">1</span>){
+        <span class="hljs-keyword">return</span> $billet-&gt;fetch();
+    }
+    <span class="hljs-keyword">else</span>{
+        <span class="hljs-keyword">throw</span> <span class="hljs-keyword">new</span> <span class="hljs-keyword">Exception</span>(<span class="hljs-string">"Aucun billet ne correspond à cet identifiant"</span>);
+    }
+}
+<span class="hljs-comment">// récupère les commentaires associés à un billet</span>
+
+<span class="hljs-comment">//Attention ! : si vous n'êtes pas sous PHP 8.0, ne pas écrire "function getComments($idBillet): bool|PDOStatement"</span>
+<span class="hljs-comment">//mais simplement "function getComments($idBillet)"</span>
+
+<span class="hljs-function"><span class="hljs-keyword">function</span> <span class="hljs-title">getComments</span><span class="hljs-params">($idBillet)</span>: <span class="hljs-title">bool</span>|<span class="hljs-title">PDOStatement</span>
+</span>{
+    $bdd = getBdd();
+    $comments = $bdd-&gt;prepare(<span class="hljs-string">'SELECT COM_ID as id, COM_DATE as date, COM_AUTEUR as auteur, COM_CONTENU as contenu FROM T_COMMENTAIRE WHERE BIL_ID =?'</span>);
+    $comments-&gt;execute(<span class="hljs-keyword">array</span>($idBillet));
+    <span class="hljs-keyword">return</span> $comments;
+}
+</code></pre>
+<ul>
+<li>Créons ensuite la vue <code>vueBillet.php</code> dédiée aux informations du billet</li>
+</ul>
+<pre><code class="language-php hljs"><span class="hljs-meta">&lt;?php</span> $titre = <span class="hljs-string">"Mon Blog - "</span>.$billet[<span class="hljs-string">'titre'</span>]; <span class="hljs-meta">?&gt;</span>
+
+<span class="hljs-meta">&lt;?php</span> ob_start(); <span class="hljs-meta">?&gt;</span>
+&lt;article&gt;
+    &lt;header&gt;
+        &lt;h1 <span class="hljs-class"><span class="hljs-keyword">class</span>="<span class="hljs-title">titreBillet</span>"&gt;&lt;?= $<span class="hljs-title">billet</span>['<span class="hljs-title">titre</span>'] ?&gt; &lt;/<span class="hljs-title">h1</span>&gt;
+        &lt;<span class="hljs-title">time</span>&gt;&lt;?= $<span class="hljs-title">billet</span>['<span class="hljs-title">date</span>'] ?&gt;&lt;/<span class="hljs-title">time</span>&gt;
+    &lt;/<span class="hljs-title">header</span>&gt;
+    &lt;<span class="hljs-title">p</span>&gt;&lt;?= $<span class="hljs-title">billet</span>['<span class="hljs-title">contenu</span>'] ?&gt;&lt;/<span class="hljs-title">p</span>&gt;
+&lt;/<span class="hljs-title">article</span>&gt;
+    &lt;<span class="hljs-title">hr</span> /&gt;
+    &lt;<span class="hljs-title">header</span>&gt;
+        &lt;<span class="hljs-title">h1</span> <span class="hljs-title">id</span>="<span class="hljs-title">titreReponses</span>"&gt;<span class="hljs-title">R</span>é<span class="hljs-title">ponses</span> à &lt;?= $<span class="hljs-title">billet</span>['<span class="hljs-title">titre</span>'] ?&gt;&lt;/<span class="hljs-title">h1</span>&gt;
+    &lt;/<span class="hljs-title">header</span>&gt;
+&lt;?<span class="hljs-title">php</span> <span class="hljs-title">foreach</span> ($<span class="hljs-title">commentaires</span> <span class="hljs-title">as</span> $<span class="hljs-title">commentaire</span>): ?&gt;
+    &lt;<span class="hljs-title">p</span>&gt;&lt;?= $<span class="hljs-title">commentaire</span>['<span class="hljs-title">auteur</span>'] ?&gt; <span class="hljs-title">dit</span> :&lt;/<span class="hljs-title">p</span>&gt;
+    &lt;<span class="hljs-title">p</span>&gt;&lt;?= $<span class="hljs-title">commentaire</span>['<span class="hljs-title">contenu</span>'] ?&gt;&lt;/<span class="hljs-title">p</span>&gt;
+&lt;?<span class="hljs-title">php</span> <span class="hljs-title">endforeach</span>; ?&gt;
+&lt;?<span class="hljs-title">php</span> $<span class="hljs-title">contenu</span> = <span class="hljs-title">ob_get_clean</span>(); ?&gt;
+
+&lt;?<span class="hljs-title">php</span> <span class="hljs-title">require</span> '<span class="hljs-title">gabarit</span>.<span class="hljs-title">php</span>'; ?&gt;</span></code></pre>
+<blockquote>
+<p>cette vue ne définit que ses éléments particuliers, le reste est géré par le gabarit (<em>dernière ligne</em>).</p>
+</blockquote>
+<ul>
+<li>enfin il nous faut un contrôleur <code>billet.php</code> qui fera le lien entre le model et la vue</li>
+</ul>
+<pre><code class="language-php hljs"><span class="hljs-meta">&lt;?php</span>
+
+<span class="hljs-keyword">require</span> <span class="hljs-string">'Modele.php'</span>;
+
+<span class="hljs-keyword">try</span> {
+  <span class="hljs-keyword">if</span> (<span class="hljs-keyword">isset</span>($_GET[<span class="hljs-string">'id'</span>])) {
+    <span class="hljs-comment">// intval renvoie la valeur numérique du paramètre ou 0 en cas d'échec</span>
+    $id = intval($_GET[<span class="hljs-string">'id'</span>]);
+    <span class="hljs-keyword">if</span> ($id != <span class="hljs-number">0</span>) {
+      $billet = getBillet($id);
+      $commentaires = getCommentaires($id);
+      <span class="hljs-keyword">require</span> <span class="hljs-string">'vueBillet.php'</span>;
+    }
+    <span class="hljs-keyword">else</span>
+      <span class="hljs-keyword">throw</span> <span class="hljs-keyword">new</span> <span class="hljs-keyword">Exception</span>(<span class="hljs-string">"Identifiant de billet incorrect"</span>);
+  }
+  <span class="hljs-keyword">else</span>
+    <span class="hljs-keyword">throw</span> <span class="hljs-keyword">new</span> <span class="hljs-keyword">Exception</span>(<span class="hljs-string">"Aucun identifiant de billet"</span>);
+}
+<span class="hljs-keyword">catch</span> (<span class="hljs-keyword">Exception</span> $e) {
+  $msgErreur = $e-&gt;getMessage();
+  <span class="hljs-keyword">require</span> <span class="hljs-string">'vueErreur.php'</span>;
+}</code></pre>
+<p>Afin d'atteindre cette nouvelle fonctionnalité, nous devons modifier <code>vueAccueil.php</code> en ajoutant un lien qui nous mène au contrôleur</p>
+<pre><code class="language-php hljs">&lt;!-- ... --&gt;
+    &lt;header&gt;
+      &lt;a href=<span class="hljs-string">"&lt;?= "</span>billet.php?id=<span class="hljs-string">" . $billet['id'] ?&gt;"</span>&gt;
+        &lt;h1 <span class="hljs-class"><span class="hljs-keyword">class</span>="<span class="hljs-title">titreBillet</span>"&gt;&lt;?= $<span class="hljs-title">billet</span>['<span class="hljs-title">titre</span>'] ?&gt;&lt;/<span class="hljs-title">h1</span>&gt;
+      &lt;/<span class="hljs-title">a</span>&gt;
+      &lt;<span class="hljs-title">time</span>&gt;&lt;?= $<span class="hljs-title">billet</span>['<span class="hljs-title">date</span>'] ?&gt;&lt;/<span class="hljs-title">time</span>&gt;
+    &lt;/<span class="hljs-title">header</span>&gt;
+&lt;!-- ... --&gt;</span></code></pre>
+<blockquote>
+<p>Ajoutez également une classe au css</p>
+</blockquote>
+<pre><code class="language-css hljs"><span class="hljs-selector-id">#titreReponses</span> {
+    <span class="hljs-attribute">font-size </span>: <span class="hljs-number">100%</span>;
+}</code></pre>
+<p>Si tout s'est bien passé, vous devriez avoir ce résultat pour un billet</p>
+<p><img src="./nCode _ Première approche du MVC_files/blog2.png" alt="blog2"></p>
+<p><br><br><br><br></p></div><div class="menu-markdown"><img src="./nCode _ Première approche du MVC_files/menu.png"><div data-id="1" class="titre">Première approche du MVC</div><div data-id="2">Séparation de l'affichage</div><div data-id="7">Séparation de l'accès aux données</div><div data-id="15">&nbsp;&nbsp;&nbsp;&nbsp;Le MVC</div><div data-id="20">Quelques améliorations supplémentaires</div><div data-id="28">Gestion des erreurs</div><div data-id="37">Bilan intermédiaire</div><div data-id="44">Affichage d'un Billet avec l’architecture mise en place</div></div></div><script>hljs.initHighlightingOnLoad();//hljs.initLineNumbersOnLoad();</script><script src="./nCode _ Première approche du MVC_files/menu-markdown.js"></script><script>document.title = "nCode | " + document.querySelector("h1").textContent;</script></body></html>

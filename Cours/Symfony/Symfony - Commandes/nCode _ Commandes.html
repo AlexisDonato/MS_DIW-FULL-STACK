@@ -1,0 +1,47 @@
+<!DOCTYPE html>
+<!-- saved from url=(0075)https://ncode.amorce.org/ressources/Pool/CDA/WEB_Symfony_frc/commandes.html -->
+<html><head><meta http-equiv="Content-Type" content="text/html; charset=UTF-8"><title>nCode | Commandes</title>
+        <meta name="viewport" content="width=device-width, initial-scale=1">
+        <link rel="stylesheet" href="./nCode _ Commandes_files/font-awesome.min.css">
+        <link rel="stylesheet" href="./nCode _ Commandes_files/bootstrap.min.css">
+        <link rel="stylesheet" href="./nCode _ Commandes_files/darcula.css">
+        <!-- <link rel="stylesheet" href="/css/highlight/line-number.css"> -->
+        <link rel="stylesheet" href="./nCode _ Commandes_files/github-markdown.css">
+        <!-- <link rel="stylesheet" href="/css/markdown_foad.css"> -->
+        <link rel="stylesheet" href="./nCode _ Commandes_files/menu-markdown.css">
+        <!-- <script src="/js/highlightjs-line-numbers.min.js"></script> -->
+        <script src="./nCode _ Commandes_files/jquery-3.4.1.min.js"></script>
+        <script src="./nCode _ Commandes_files/popper.min.js"></script>
+        <script src="./nCode _ Commandes_files/bootstrap.min.js"></script>
+        <script src="./nCode _ Commandes_files/highlight.js"></script>
+        </head><body><div class="container"><div class="markdown-body"><h1 id="1">Commandes</h1>
+<h4 id="2">Création d'un projet avec composer</h4>
+<pre><code class="language-sh hljs bash">composer create-project symfony/website-skeleton monprojet1 5.4.*</code></pre>
+<p><br></p>
+<h4 id="5">Démarrer le serveur de développement (<code>Ctrl C</code> pour arrêter)</h4>
+<pre><code class="language-bash hljs">symfony serve</code></pre>
+<p><br></p>
+<h4 id="8">Créer la base de données</h4>
+<pre><code class="language-bash hljs">php bin/console doctrine:database:create</code></pre>
+<p><br></p>
+<h4 id="11">Mettre à jour le schéma de la base de données</h4>
+<pre><code class="language-bash hljs">php bin/console doctrine:schema:update --force</code></pre>
+<p><br></p>
+<h4 id="14">Assistant de génération d'entité</h4>
+<pre><code class="language-bash hljs">php bin/console make:entity client</code></pre>
+<p><br></p>
+<h4 id="17">Générer un contrôleur</h4>
+<pre><code class="language-bash hljs">php bin/console make:controller catalogue</code></pre>
+<h5 id="19">Générer des entités à partir de la base de données (existante)</h5>
+<pre><code class="language-bash hljs">php bin/console doctrine:mapping:import <span class="hljs-string">"App\Entity"</span> annotation --path=src/Entity</code></pre>
+<p><br></p>
+<h3 id="22"></h3>
+<h5 id="23">Générer ou regénérer les accesseurs (get/set)</h5>
+<pre><code class="language-bash hljs">php bin/console make:entity --regenerate --overwrite <span class="hljs-string">"App\Entity"</span></code></pre>
+<p><br></p>
+<h5 id="26">Générer les scripts <code>SQL</code> de création de la base</h5>
+<pre><code class="language-bash hljs">php bin/console make:migration</code></pre>
+<p><br></p>
+<h5 id="29">Exécuter les scripts de création de la base</h5>
+<pre><code class="language-bash hljs">php bin/console doctrine:migrations:migrate</code></pre>
+<p><br></p></div><div class="menu-markdown"><img src="./nCode _ Commandes_files/menu.png"><div data-id="1" class="titre">Commandes</div><div data-id="2">&nbsp;&nbsp;&nbsp;&nbsp;Création d'un projet avec composer</div><div data-id="5">&nbsp;&nbsp;&nbsp;&nbsp;Démarrer le serveur de développement (<code>Ctrl C</code> pour arrêter)</div><div data-id="8">&nbsp;&nbsp;&nbsp;&nbsp;Créer la base de données</div><div data-id="11">&nbsp;&nbsp;&nbsp;&nbsp;Mettre à jour le schéma de la base de données</div><div data-id="14">&nbsp;&nbsp;&nbsp;&nbsp;Assistant de génération d'entité</div><div data-id="17">&nbsp;&nbsp;&nbsp;&nbsp;Générer un contrôleur</div><div data-id="19">&nbsp;&nbsp;&nbsp;&nbsp;Générer des entités à partir de la base de données (existante)</div><div data-id="22">&nbsp;&nbsp;&nbsp;&nbsp;</div><div data-id="23">&nbsp;&nbsp;&nbsp;&nbsp;Générer ou regénérer les accesseurs (get/set)</div><div data-id="26">&nbsp;&nbsp;&nbsp;&nbsp;Générer les scripts <code>SQL</code> de création de la base</div><div data-id="29">&nbsp;&nbsp;&nbsp;&nbsp;Exécuter les scripts de création de la base</div></div></div><script>hljs.initHighlightingOnLoad();//hljs.initLineNumbersOnLoad();</script><script src="./nCode _ Commandes_files/menu-markdown.js"></script><script>document.title = "nCode | " + document.querySelector("h1").textContent;</script></body></html>

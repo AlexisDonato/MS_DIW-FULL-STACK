@@ -1,0 +1,440 @@
+<!DOCTYPE html>
+<!-- saved from url=(0059)https://ncode.amorce.org/ressources/Pool/PHP/MVC/MVC-5.html -->
+<html><head><meta http-equiv="Content-Type" content="text/html; charset=UTF-8"><title>nCode | Passage à la POO</title>
+        <meta name="viewport" content="width=device-width, initial-scale=1">
+        <link rel="stylesheet" href="./nCode _ Passage à la POO_files/font-awesome.min.css">
+        <link rel="stylesheet" href="./nCode _ Passage à la POO_files/bootstrap.min.css">
+        <link rel="stylesheet" href="./nCode _ Passage à la POO_files/darcula.css">
+        <!-- <link rel="stylesheet" href="/css/highlight/line-number.css"> -->
+        <link rel="stylesheet" href="./nCode _ Passage à la POO_files/github-markdown.css">
+        <!-- <link rel="stylesheet" href="/css/markdown_foad.css"> -->
+        <link rel="stylesheet" href="./nCode _ Passage à la POO_files/menu-markdown.css">
+        <!-- <script src="/js/highlightjs-line-numbers.min.js"></script> -->
+        <script src="./nCode _ Passage à la POO_files/jquery-3.4.1.min.js"></script>
+        <script src="./nCode _ Passage à la POO_files/popper.min.js"></script>
+        <script src="./nCode _ Passage à la POO_files/bootstrap.min.js"></script>
+        <script src="./nCode _ Passage à la POO_files/highlight.js"></script>
+        </head><body><div class="container"><div class="markdown-body"><h1 id="1">Passage à la POO</h1>
+<h2 id="2">D'abord le Model</h2>
+<p>Dans le cadre d'un passage à la POO, il serait envisageable de créer des classes métier modélisant les entités du domaine, en l’occurrence Billet et Commentaire.</p>
+<p>Plus modestement, nous allons nous contenter de définir les services d'accès aux données en tant que méthodes dans la classe <code>Model.php</code>.</p>
+<pre><code class="language-php hljs"><span class="hljs-meta">&lt;?php</span>
+<span class="hljs-class"><span class="hljs-keyword">class</span> <span class="hljs-title">Model</span> </span>{
+    <span class="hljs-comment">/**
+     * <span class="hljs-doctag">@throws</span> Exception
+     */</span>
+    <span class="hljs-keyword">public</span> <span class="hljs-function"><span class="hljs-keyword">function</span> <span class="hljs-title">getBillet</span><span class="hljs-params">($idBillet)</span></span>{
+        $bdd= $this-&gt;getBdd();
+        $billet=$bdd-&gt;prepare(<span class="hljs-string">'SELECT BIL_ID as id, BIL_DATE as date, BIL_TITRE as titre, BIL_CONTENU as contenu FROM T_BILLET WHERE BIL_ID =?;'</span>);
+        $billet-&gt;execute(<span class="hljs-keyword">array</span>($idBillet));
+
+        <span class="hljs-keyword">if</span>($billet-&gt;rowCount() == <span class="hljs-number">1</span>){
+            <span class="hljs-keyword">return</span> $billet-&gt;fetch();
+        }
+        <span class="hljs-keyword">else</span>{
+            <span class="hljs-keyword">throw</span> <span class="hljs-keyword">new</span> <span class="hljs-keyword">Exception</span>(<span class="hljs-string">"Aucun billet ne correspond à cet identifiant"</span>);
+        }
+    }
+
+    <span class="hljs-keyword">public</span> <span class="hljs-function"><span class="hljs-keyword">function</span> <span class="hljs-title">getBillets</span><span class="hljs-params">()</span>: <span class="hljs-title">bool</span>|<span class="hljs-title">PDOStatement</span>
+    </span>{
+        $bdd = $this-&gt;getBdd();
+        <span class="hljs-keyword">return</span> $bdd-&gt;query(<span class="hljs-string">'SELECT BIL_ID as id, BIL_DATE as date, BIL_TITRE as titre, BIL_CONTENU as contenu FROM T_BILLET order by BIL_ID desc'</span>);
+    }
+
+    <span class="hljs-keyword">private</span> <span class="hljs-function"><span class="hljs-keyword">function</span> <span class="hljs-title">getBdd</span><span class="hljs-params">()</span>: <span class="hljs-title">PDO</span>
+    </span>{
+        <span class="hljs-keyword">return</span> <span class="hljs-keyword">new</span> PDO(<span class="hljs-string">"mysql:host=database:3306;dbname=boggy;charset=utf8"</span>, <span class="hljs-string">'root'</span>, <span class="hljs-string">'tiger'</span>,<span class="hljs-keyword">array</span>(PDO::ATTR_ERRMODE =&gt; PDO::ERRMODE_EXCEPTION));
+    }
+
+    <span class="hljs-keyword">public</span> <span class="hljs-function"><span class="hljs-keyword">function</span> <span class="hljs-title">getComments</span><span class="hljs-params">($idBillet)</span>: <span class="hljs-title">bool</span>|<span class="hljs-title">PDOStatement</span>
+    </span>{
+        $bdd = $this-&gt;getBdd();
+        $comments = $bdd-&gt;prepare(<span class="hljs-string">'SELECT COM_ID as id, COM_DATE as date, COM_AUTEUR as auteur, COM_CONTENU as contenu FROM T_COMMENTAIRE WHERE BIL_ID =?'</span>);
+        $comments-&gt;execute(<span class="hljs-keyword">array</span>($idBillet));
+        <span class="hljs-keyword">return</span> $comments;
+    }
+}</code></pre>
+<p>Par rapport à notre ancien modèle procédural, la seule réelle avancée offerte par cette classe est l'encapsulation (mot-clé private) de la méthode de connexion à la base. De plus, elle regroupe des services liés à des entités distinctes (billets et commentaires), ce qui est contraire au principe de <strong>cohésion forte</strong>, qui recommande de regrouper des éléments (par exemple des méthodes) en fonction de leur problématique.</p>
+<p>Une meilleure solution consiste à créer un modèle par entité du domaine, tout en regroupant les services communs dans une <strong>superclasse commune</strong>. On peut écrire la classe <code>Billet.php</code>, en charge de l'accès aux données des billets, comme ceci.</p>
+<pre><code class="language-php hljs"><span class="hljs-comment">//model/Billet.php</span>
+<span class="hljs-meta">&lt;?php</span>
+<span class="hljs-keyword">require_once</span> <span class="hljs-string">'model/Model.php'</span>;
+
+<span class="hljs-class"><span class="hljs-keyword">class</span> <span class="hljs-title">Billet</span> <span class="hljs-keyword">extends</span> <span class="hljs-title">Model</span>
+</span>{
+    <span class="hljs-keyword">public</span> <span class="hljs-function"><span class="hljs-keyword">function</span> <span class="hljs-title">getBillets</span><span class="hljs-params">()</span>
+    </span>{
+        $sql = <span class="hljs-string">'SELECT BIL_ID as id, BIL_DATE as date, BIL_TITRE as titre, BIL_CONTENU as contenu FROM T_BILLET order by BIL_ID desc'</span>;
+        $billets = $this-&gt;executerRequete($sql);
+    }
+
+    <span class="hljs-keyword">public</span> <span class="hljs-function"><span class="hljs-keyword">function</span> <span class="hljs-title">getBillet</span><span class="hljs-params">($idBillet)</span>
+    </span>{
+        $sql = <span class="hljs-string">'SELECT BIL_ID as id, BIL_DATE as date, BIL_TITRE as titre, BIL_CONTENU as contenu FROM T_BILLET WHERE BIL_ID =?;'</span>;
+        $billet = $this-&gt;executerRequete($sql, <span class="hljs-keyword">array</span>($idBillet));
+        <span class="hljs-keyword">if</span> ($billet-&gt;rowCount() == <span class="hljs-number">1</span>)
+            <span class="hljs-keyword">return</span> $billet-&gt;fetch();
+        <span class="hljs-keyword">else</span>
+            <span class="hljs-keyword">throw</span> <span class="hljs-keyword">new</span> <span class="hljs-keyword">Exception</span>(<span class="hljs-string">"Aucun billet ne correspond à l'identifiant '$idBillet'"</span>);
+
+    }
+
+}</code></pre>
+<p>La classe Modele est désormais abstraite (mot-clé abstract) et fournit à ses classes dérivées un service d'exécution d'une requête SQL :</p>
+<pre><code class="language-php hljs"><span class="hljs-meta">&lt;?php</span>
+<span class="hljs-keyword">abstract</span> <span class="hljs-class"><span class="hljs-keyword">class</span> <span class="hljs-title">Model</span> </span>{
+    <span class="hljs-keyword">private</span> $bdd;
+
+    <span class="hljs-keyword">private</span> <span class="hljs-function"><span class="hljs-keyword">function</span> <span class="hljs-title">getBdd</span><span class="hljs-params">()</span>: <span class="hljs-title">PDO</span>
+    </span>{
+        <span class="hljs-keyword">if</span> ($this-&gt;bdd == <span class="hljs-keyword">null</span>){
+            $this-&gt;bdd = <span class="hljs-keyword">new</span> PDO(<span class="hljs-string">"mysql:host=database:3306;dbname=boggy;charset=utf8"</span>, <span class="hljs-string">'VOTRE USER'</span>,<span class="hljs-string">'VOTRE MDP'</span>,<span class="hljs-keyword">array</span>(PDO::ATTR_ERRMODE =&gt; PDO::ERRMODE_EXCEPTION));
+        }
+
+        <span class="hljs-keyword">return</span> $this-&gt;bdd;
+    }
+
+    <span class="hljs-keyword">protected</span> <span class="hljs-function"><span class="hljs-keyword">function</span> <span class="hljs-title">executerRequete</span><span class="hljs-params">($sql, $params = null)</span>: <span class="hljs-title">bool</span>|<span class="hljs-title">PDOStatement</span>
+    </span>{
+        <span class="hljs-keyword">if</span> ($params == <span class="hljs-keyword">null</span>) {
+            $resultat = $this-&gt;getBdd()-&gt;query($sql);    <span class="hljs-comment">// exécution directe</span>
+        }
+        <span class="hljs-keyword">else</span> {
+            $resultat = $this-&gt;getBdd()-&gt;prepare($sql);  <span class="hljs-comment">// requête préparée</span>
+            $resultat-&gt;execute($params);
+        }
+        <span class="hljs-keyword">return</span> $resultat;
+    }
+}</code></pre>
+<blockquote>
+<p>Une classe abstraite ne peut pas être instanciée</p>
+</blockquote>
+<p>Sur le même principe, nous pouvons écrire la classe <code>Commentaire.php</code></p>
+<pre><code class="language-php hljs"><span class="hljs-meta">&lt;?php</span>
+<span class="hljs-keyword">require_once</span> <span class="hljs-string">'model/Model.php'</span>;
+<span class="hljs-class"><span class="hljs-keyword">class</span> <span class="hljs-title">Commentaire</span> <span class="hljs-keyword">extends</span> <span class="hljs-title">Model</span>
+</span>{
+    <span class="hljs-keyword">public</span> <span class="hljs-function"><span class="hljs-keyword">function</span> <span class="hljs-title">getCommentaires</span><span class="hljs-params">($idBillet)</span> </span>{
+        $sql = <span class="hljs-string">'SELECT COM_ID as id, COM_DATE as date, COM_AUTEUR as auteur, COM_CONTENU as contenu FROM T_COMMENTAIRE WHERE BIL_ID = ?'</span>;
+        <span class="hljs-keyword">return</span> $this-&gt;executerRequete($sql,<span class="hljs-keyword">array</span>($idBillet));
+    }
+}</code></pre>
+<h2 id="14">Passons aux vues</h2>
+<p>Créons d'abord une classe <code>Vue.php</code> qui va assurer la génération des vues</p>
+<pre><code class="language-php hljs"><span class="hljs-meta">&lt;?php</span>
+<span class="hljs-comment">//Vue/Vue.php</span>
+<span class="hljs-class"><span class="hljs-keyword">class</span> <span class="hljs-title">Vue</span>
+</span>{
+<span class="hljs-keyword">private</span> $fichier;
+
+<span class="hljs-keyword">private</span> $titre;
+
+<span class="hljs-keyword">public</span> <span class="hljs-function"><span class="hljs-keyword">function</span> <span class="hljs-title">__construct</span><span class="hljs-params">($action)</span> </span>{
+    <span class="hljs-comment">// on récupère le nom du fichier à partir de l'action</span>
+    $this-&gt;fichier = <span class="hljs-string">"Vue/vue"</span>.$action.<span class="hljs-string">".php"</span>;
+}
+
+<span class="hljs-comment">// Génération et affichage de la vue</span>
+<span class="hljs-keyword">public</span> <span class="hljs-function"><span class="hljs-keyword">function</span> <span class="hljs-title">generer</span><span class="hljs-params">($donnees)</span></span>{
+    $contenu = $this-&gt;genererFichier($this-&gt;fichier, $donnees);
+
+    $vue = $this-&gt;genererFichier(<span class="hljs-string">'Vue/gabarit.php'</span>,<span class="hljs-keyword">array</span>(<span class="hljs-string">'titre'</span> =&gt; $this-&gt;titre,<span class="hljs-string">'contenu'</span> =&gt; $contenu));
+
+    <span class="hljs-keyword">echo</span> $vue;
+}
+
+    <span class="hljs-keyword">private</span> <span class="hljs-function"><span class="hljs-keyword">function</span> <span class="hljs-title">genererFichier</span><span class="hljs-params">($fichier, $donnees)</span>
+    </span>{
+        <span class="hljs-keyword">if</span> (file_exists($fichier)) {
+            <span class="hljs-comment">// Rend les éléments du tableau $donnees accessibles dans la vue</span>
+            extract($donnees);
+            <span class="hljs-comment">// Démarrage de la temporisation de sortie</span>
+            ob_start();
+            <span class="hljs-comment">// Inclut le fichier vue</span>
+            <span class="hljs-comment">// Son résultat est placé dans le tampon de sortie</span>
+            <span class="hljs-keyword">require</span> $fichier;
+            <span class="hljs-comment">// Arrêt de la temporisation et renvoi du tampon de sortie</span>
+            <span class="hljs-keyword">return</span> ob_get_clean();
+        }
+        <span class="hljs-keyword">else</span> {
+            <span class="hljs-keyword">throw</span> <span class="hljs-keyword">new</span> <span class="hljs-keyword">Exception</span>(<span class="hljs-string">"Fichier '$fichier' introuvable"</span>);
+        }
+    }
+}</code></pre>
+<p>Le constructeur de Vue prend en paramètre une <strong>action</strong>, qui détermine le fichier vue utilisé. Sa méthode <code>generer()</code> génère d'abord la partie spécifique de la vue afin de définir son titre (attribut <code>$titre</code>) et son contenu (variable locale <code>$contenu</code>). Ensuite, le gabarit est généré en y incluant les éléments spécifiques de la vue. Sa méthode interne <code>genererFichier()</code> encapsule l'utilisation de require et permet en outre de vérifier l'existence du fichier vue à afficher. Elle utilise la fonction <code>extract()</code> pour que la vue puisse accéder aux variables PHP requises, rassemblées dans le tableau associatif <code>$donnees</code>.</p>
+<p>Il n'est pas nécessaire de modifier le fichier <code>gabarit.php</code>. Par contre, les fichiers de chaque vue doivent être modifiés pour définir <code>$this-&gt;titre</code> et supprimer les appels aux fonctions PHP de temporisation. Voici par exemple la nouvelle vue d'accueil.</p>
+<pre><code class="language-php hljs"><span class="hljs-comment">// vueAccueil.php</span>
+<span class="hljs-meta">&lt;?php</span> $this-&gt;titre = <span class="hljs-string">'Mon Blog'</span>; <span class="hljs-meta">?&gt;</span>
+
+<span class="hljs-meta">&lt;?php</span> <span class="hljs-keyword">foreach</span> ($billets <span class="hljs-keyword">as</span> $billet): <span class="hljs-meta">?&gt;</span>
+    &lt;article&gt;
+        &lt;header&gt;
+            &lt;a href=<span class="hljs-string">"&lt;?= "</span>index.php?action=billet&amp;id=<span class="hljs-string">". $billet['id'] ?&gt;"</span>&gt;
+                &lt;h1 <span class="hljs-class"><span class="hljs-keyword">class</span>="<span class="hljs-title">titreBillet</span>"&gt;&lt;?= $<span class="hljs-title">billet</span>['<span class="hljs-title">titre</span>'] ?&gt;&lt;/<span class="hljs-title">h1</span>&gt;
+            &lt;/<span class="hljs-title">a</span>&gt;
+            &lt;<span class="hljs-title">time</span>&gt;&lt;?= $<span class="hljs-title">billet</span>['<span class="hljs-title">date</span>'] ?&gt;&lt;/<span class="hljs-title">time</span>&gt;
+        &lt;/<span class="hljs-title">header</span>&gt;
+        &lt;<span class="hljs-title">p</span>&gt;&lt;?= $<span class="hljs-title">billet</span>['<span class="hljs-title">contenu</span>'] ?&gt;&lt;/<span class="hljs-title">p</span>&gt;
+    &lt;/<span class="hljs-title">article</span>&gt;
+    &lt;<span class="hljs-title">hr</span> /&gt;
+&lt;?<span class="hljs-title">php</span> <span class="hljs-title">endforeach</span>; ?&gt;</span></code></pre>
+<p>L'affichage d'une vue se fera désormais en instanciant un objet de la classe Vue, puis en appelant sa méthode <code>generer()</code>.</p>
+<h2 id="21">Et le contrôleur</h2>
+<p>Notre partie Contrôleur actuelle se compose d'une série d'actions écrites sous la forme de fonctions et du contrôleur frontal <code>index.php</code>.</p>
+<p>Toute évolution du site Web va faire augmenter le nombre d'actions possibles, jusqu'à rendre les fichiers Controleur.php et index.php difficiles à lire et à maintenir.</p>
+<p>Une solution plus modulaire consiste à répartir les actions dans plusieurs classes contrôleur, en fonction du contexte associé aux actions. Ici, nous pourrions créer une classe ControleurAccueil pour gérer l'accueil et une classe ControleurBillet pour gérer l'affichage d'un billet.</p>
+<p>Bien entendu, les nouveaux contrôleurs utilisent les services des classes des parties Modèle et Vue définies précédemment.</p>
+<p><code>ControleurAccueil.php</code></p>
+<pre><code class="language-php hljs"><span class="hljs-meta">&lt;?php</span>
+
+<span class="hljs-keyword">require_once</span> <span class="hljs-string">'./model/Billet.php'</span>;
+<span class="hljs-keyword">require_once</span> <span class="hljs-string">'./vue/Vue.php'</span>;
+
+<span class="hljs-class"><span class="hljs-keyword">class</span> <span class="hljs-title">ControleurAccueil</span> </span>{
+
+  <span class="hljs-keyword">private</span> $billet;
+
+  <span class="hljs-keyword">public</span> <span class="hljs-function"><span class="hljs-keyword">function</span> <span class="hljs-title">__construct</span><span class="hljs-params">()</span> </span>{
+    $this-&gt;billet = <span class="hljs-keyword">new</span> Billet();
+  }
+
+  <span class="hljs-comment">// Affiche la liste de tous les billets du blog</span>
+  <span class="hljs-keyword">public</span> <span class="hljs-function"><span class="hljs-keyword">function</span> <span class="hljs-title">accueil</span><span class="hljs-params">()</span> </span>{
+    $billets = $this-&gt;billet-&gt;getBillets();
+    $vue = <span class="hljs-keyword">new</span> Vue(<span class="hljs-string">"Accueil"</span>);
+    $vue-&gt;generer(<span class="hljs-keyword">array</span>(<span class="hljs-string">'billets'</span> =&gt; $billets));
+  }
+}</code></pre>
+<p><code>ControleurBillet.php</code></p>
+<pre><code class="language-php hljs"><span class="hljs-meta">&lt;?php</span>
+
+<span class="hljs-keyword">require_once</span> <span class="hljs-string">'./model/Billet.php'</span>;
+<span class="hljs-keyword">require_once</span> <span class="hljs-string">'./model/Commentaire.php'</span>;
+<span class="hljs-keyword">require_once</span> <span class="hljs-string">'./vue/Vue.php'</span>;
+
+<span class="hljs-class"><span class="hljs-keyword">class</span> <span class="hljs-title">ControleurBillet</span> </span>{
+
+  <span class="hljs-keyword">private</span> $billet;
+  <span class="hljs-keyword">private</span> $commentaire;
+
+  <span class="hljs-keyword">public</span> <span class="hljs-function"><span class="hljs-keyword">function</span> <span class="hljs-title">__construct</span><span class="hljs-params">()</span> </span>{
+    $this-&gt;billet = <span class="hljs-keyword">new</span> Billet();
+    $this-&gt;commentaire = <span class="hljs-keyword">new</span> Commentaire();
+  }
+
+  <span class="hljs-comment">// Affiche les détails sur un billet</span>
+  <span class="hljs-keyword">public</span> <span class="hljs-function"><span class="hljs-keyword">function</span> <span class="hljs-title">billet</span><span class="hljs-params">($idBillet)</span> </span>{
+    $billet = $this-&gt;billet-&gt;getBillet($idBillet);
+    $commentaires = $this-&gt;commentaire-&gt;getCommentaires($idBillet);
+    $vue = <span class="hljs-keyword">new</span> Vue(<span class="hljs-string">"Billet"</span>);
+    $vue-&gt;generer(<span class="hljs-keyword">array</span>(<span class="hljs-string">'billet'</span> =&gt; $billet, <span class="hljs-string">'commentaires'</span> =&gt; $commentaires));
+  }
+}</code></pre>
+<p>Chaque classe contrôleur instancie les classes modèle requises, puis utilise leurs méthodes pour récupérer les données nécessaires aux vues. La méthode <code>generer()</code> de la classe Vue définie plus haut est utilisée en lui passant en paramètre un tableau associatif contenant l'ensemble des données nécessaires à la génération de la vue. Chaque élément de ce tableau est constitué d'une clé (entre apostrophes) et de la valeur associée à cette clé.</p>
+<p>Quant au contrôleur frontal, on peut le modéliser à l'aide d'une classe Routeur dont la méthode principale analyse la requête entrante pour déterminer l'action à entreprendre. On parle souvent de routage de la requête.</p>
+<p><code>Router.php</code></p>
+<pre><code class="language-php hljs"><span class="hljs-meta">&lt;?php</span>
+<span class="hljs-keyword">require_once</span> <span class="hljs-string">'controleur/ControleurAccueil.php'</span>;
+<span class="hljs-keyword">require_once</span> <span class="hljs-string">'controleur/ControleurBillet.php'</span>;
+<span class="hljs-keyword">require_once</span> <span class="hljs-string">'vue/Vue.php'</span>;
+
+<span class="hljs-class"><span class="hljs-keyword">class</span> <span class="hljs-title">Routeur</span> </span>{
+
+  <span class="hljs-keyword">private</span> $ctrlAccueil;
+  <span class="hljs-keyword">private</span> $ctrlBillet;
+
+  <span class="hljs-keyword">public</span> <span class="hljs-function"><span class="hljs-keyword">function</span> <span class="hljs-title">__construct</span><span class="hljs-params">()</span> </span>{
+    $this-&gt;ctrlAccueil = <span class="hljs-keyword">new</span> ControleurAccueil();
+    $this-&gt;ctrlBillet = <span class="hljs-keyword">new</span> ControleurBillet();
+  }
+
+  <span class="hljs-comment">// Traite une requête entrante</span>
+  <span class="hljs-keyword">public</span> <span class="hljs-function"><span class="hljs-keyword">function</span> <span class="hljs-title">routerRequete</span><span class="hljs-params">()</span> </span>{
+    <span class="hljs-keyword">try</span> {
+      <span class="hljs-keyword">if</span> (<span class="hljs-keyword">isset</span>($_GET[<span class="hljs-string">'action'</span>])) {
+        <span class="hljs-keyword">if</span> ($_GET[<span class="hljs-string">'action'</span>] == <span class="hljs-string">'billet'</span>) {
+          <span class="hljs-keyword">if</span> (<span class="hljs-keyword">isset</span>($_GET[<span class="hljs-string">'id'</span>])) {
+            $idBillet = intval($_GET[<span class="hljs-string">'id'</span>]);
+            <span class="hljs-keyword">if</span> ($idBillet != <span class="hljs-number">0</span>) {
+              $this-&gt;ctrlBillet-&gt;billet($idBillet);
+            }
+            <span class="hljs-keyword">else</span>
+              <span class="hljs-keyword">throw</span> <span class="hljs-keyword">new</span> <span class="hljs-keyword">Exception</span>(<span class="hljs-string">"Identifiant de billet non valide"</span>);
+          }
+          <span class="hljs-keyword">else</span>
+            <span class="hljs-keyword">throw</span> <span class="hljs-keyword">new</span> <span class="hljs-keyword">Exception</span>(<span class="hljs-string">"Identifiant de billet non défini"</span>);
+        }
+        <span class="hljs-keyword">else</span>
+          <span class="hljs-keyword">throw</span> <span class="hljs-keyword">new</span> <span class="hljs-keyword">Exception</span>(<span class="hljs-string">"Action non valide"</span>);
+      }
+      <span class="hljs-keyword">else</span> {  <span class="hljs-comment">// aucune action définie : affichage de l'accueil</span>
+        $this-&gt;ctrlAccueil-&gt;accueil();
+      }
+    }
+    <span class="hljs-keyword">catch</span> (<span class="hljs-keyword">Exception</span> $e) {
+      $this-&gt;erreur($e-&gt;getMessage());
+    }
+  }
+
+  <span class="hljs-comment">// Affiche une erreur</span>
+  <span class="hljs-keyword">private</span> <span class="hljs-function"><span class="hljs-keyword">function</span> <span class="hljs-title">erreur</span><span class="hljs-params">($msgErreur)</span> </span>{
+    $vue = <span class="hljs-keyword">new</span> Vue(<span class="hljs-string">"Erreur"</span>);
+    $vue-&gt;generer(<span class="hljs-keyword">array</span>(<span class="hljs-string">'msgErreur'</span> =&gt; $msgErreur));
+  }
+}</code></pre>
+<p>Le fichier principal index.php est maintenant simplifié à l'extrême. Il se contente d'instancier le routeur puis de lui faire router la requête.</p>
+<h2 id="35">Bilan</h2>
+<p>Voilà ce que vous devriez avoir maintenant:</p>
+<pre><code class="language-zsh hljs bash">📦mvcevo
+ ┣ 📂BD
+ ┃ ┗ 📜blog.sql
+ ┣ 📂assets
+ ┃ ┗ 📜style.css
+ ┣ 📂controleur
+ ┃ ┣ 📜ControleurAccueil.php
+ ┃ ┣ 📜ControleurBillet.php
+ ┃ ┗ 📜Routeur.php
+ ┣ 📂model
+ ┃ ┣ 📜Billet.php
+ ┃ ┣ 📜Commentaire.php
+ ┃ ┗ 📜Model.php
+ ┣ 📂vue
+ ┃ ┣ 📜Vue.php
+ ┃ ┣ 📜gabarit.php
+ ┃ ┣ 📜vueAccueil.php
+ ┃ ┣ 📜vueBillet.php
+ ┃ ┗ 📜vueErreur.php
+ ┣ 📜boggy.png
+ ┗ 📜index.php</code></pre>
+<p>Nous avons fortement complexifié la structure du projet. À ce prix, nous possédons maintenant un projet plus robuste et surtout plus facilement maintenable.</p>
+<p>Dorénavant pour ajouter une fonctionnalité il faudra:</p>
+<ol>
+<li>ajouter ou enrichir la classe modèle associée ;</li>
+<li>ajouter ou enrichir une vue utilisant le gabarit pour afficher les données ;</li>
+<li>ajouter ou enrichir une classe contrôleur pour lier le modèle et la vue.</li>
+</ol>
+<h2 id="41">Un dernier exemple</h2>
+<p>Ajoutons une fonctionnalité d'ajout de commentaire:</p>
+<ul>
+<li>Dans l'affichage d'un billet on doit pouvoir ajouter un commentaire</li>
+<li>Les champs auteur et commentaire sont obligatoires</li>
+<li>La validation du commentaire déclenche son enregistrement et l'actualisation de la page</li>
+</ul>
+<ol>
+<li>On commence par ajouter à la classe <code>Commentaire.php</code> une méthode permettant d'insérer un nouveau commentaire dans la BD.</li>
+</ol>
+<pre><code class="language-php hljs"><span class="hljs-comment">// Ajoute un commentaire dans la base</span>
+    <span class="hljs-keyword">public</span> <span class="hljs-function"><span class="hljs-keyword">function</span> <span class="hljs-title">ajouterCommentaire</span><span class="hljs-params">($auteur, $contenu, $idBillet)</span>
+    </span>{
+        $sql = <span class="hljs-string">'insert into T_COMMENTAIRE(COM_DATE, COM_AUTEUR, COM_CONTENU, BIL_ID)'</span>
+            . <span class="hljs-string">' values(?, ?, ?, ?)'</span>;
+        $date = date(<span class="hljs-string">"Y-m-d H:i:s"</span>);  <span class="hljs-comment">// Récupère la date courante</span>
+        $this-&gt;executerRequete($sql, <span class="hljs-keyword">array</span>($date, $auteur, $contenu, $idBillet));
+    }</code></pre>
+<ol start="2">
+<li>On ajoute ensuite à la vue d'un billet le formulaire HTML nécessaire pour saisir un commentaire.</li>
+</ol>
+<p><code>vueBillet.php</code></p>
+<pre><code class="language-php hljs">&lt;form method=<span class="hljs-string">"post"</span> action=<span class="hljs-string">"index.php?action=commenter"</span>&gt;
+    &lt;input id=<span class="hljs-string">"auteur"</span> name=<span class="hljs-string">"auteur"</span> type=<span class="hljs-string">"text"</span> placeholder=<span class="hljs-string">"Votre pseudo"</span> 
+           required /&gt;&lt;br /&gt;
+    &lt;textarea id=<span class="hljs-string">"txtCommentaire"</span> name=<span class="hljs-string">"contenu"</span> rows=<span class="hljs-string">"4"</span> 
+              placeholder=<span class="hljs-string">"Votre commentaire"</span> required&gt;&lt;/textarea&gt;&lt;br /&gt;
+    &lt;input type=<span class="hljs-string">"hidden"</span> name=<span class="hljs-string">"id"</span> value=<span class="hljs-string">"&lt;?= $billet['id'] ?&gt;"</span> /&gt;
+    &lt;input type=<span class="hljs-string">"submit"</span> value=<span class="hljs-string">"Commenter"</span> /&gt;
+&lt;/form&gt;</code></pre>
+<p>et on ajoute un peu de css</p>
+<pre><code class="language-css hljs"><span class="hljs-selector-id">#txtCommentaire</span> {
+    <span class="hljs-attribute">width</span>: <span class="hljs-number">50%</span>;
+}</code></pre>
+<ol start="3">
+<li>Il faut également ajouter au contrôleur une méthode associée à cette action.</li>
+</ol>
+<p><code>ControleurBillet.php</code></p>
+<pre><code class="language-php hljs"> <span class="hljs-comment">// Ajoute un commentaire à un billet</span>
+  <span class="hljs-keyword">public</span> <span class="hljs-function"><span class="hljs-keyword">function</span> <span class="hljs-title">commenter</span><span class="hljs-params">($auteur, $contenu, $idBillet)</span> </span>{
+    <span class="hljs-comment">// Sauvegarde du commentaire</span>
+    $this-&gt;commentaire-&gt;ajouterCommentaire($auteur, $contenu, $idBillet); 
+    <span class="hljs-comment">// Actualisation de l'affichage du billet</span>
+    $this-&gt;billet($idBillet);
+  }</code></pre>
+<p>Cette action consiste à appeler un service du Modèle, puis à exécuter l'action d'affichage du billet afin d'obtenir un résultat actualisé.</p>
+<p>Enfin, on met à jour le routeur afin de router une requête d'ajout de commentaire vers la nouvelle action. Au passage, on en profite pour simplifier la méthode de routage (qui tend à devenir complexe) en faisant appel à une méthode privée de recherche d'un paramètre dans un tableau. Cette méthode permet de rechercher un paramètre dans <code>$_GET</code> ou <code>$_POST</code> en fonction du besoin.</p>
+<p><code>Routeur.php</code></p>
+<pre><code class="language-php hljs">...
+  <span class="hljs-comment">// Recherche un paramètre dans un tableau</span>
+  <span class="hljs-keyword">private</span> <span class="hljs-function"><span class="hljs-keyword">function</span> <span class="hljs-title">getParametre</span><span class="hljs-params">($tableau, $nom)</span> </span>{
+    <span class="hljs-keyword">if</span> (<span class="hljs-keyword">isset</span>($tableau[$nom])) {
+      <span class="hljs-keyword">return</span> $tableau[$nom];
+    }
+    <span class="hljs-keyword">else</span>
+      <span class="hljs-keyword">throw</span> <span class="hljs-keyword">new</span> <span class="hljs-keyword">Exception</span>(<span class="hljs-string">"Paramètre '$nom' absent"</span>);
+  }
+...</code></pre>
+<p>Et on met à jour la méthode de routage d'une requête.</p>
+<p><code>Routeur.php</code></p>
+<pre><code class="language-php hljs"><span class="hljs-meta">&lt;?php</span>
+<span class="hljs-keyword">require_once</span> <span class="hljs-string">'controleur/ControleurAccueil.php'</span>;
+<span class="hljs-keyword">require_once</span> <span class="hljs-string">'controleur/ControleurBillet.php'</span>;
+<span class="hljs-keyword">require_once</span> <span class="hljs-string">'vue/Vue.php'</span>;
+
+<span class="hljs-class"><span class="hljs-keyword">class</span> <span class="hljs-title">Routeur</span> </span>{
+
+  <span class="hljs-keyword">private</span> $ctrlAccueil;
+  <span class="hljs-keyword">private</span> $ctrlBillet;
+
+  <span class="hljs-keyword">public</span> <span class="hljs-function"><span class="hljs-keyword">function</span> <span class="hljs-title">__construct</span><span class="hljs-params">()</span> </span>{
+    $this-&gt;ctrlAccueil = <span class="hljs-keyword">new</span> ControleurAccueil();
+    $this-&gt;ctrlBillet = <span class="hljs-keyword">new</span> ControleurBillet();
+  }
+
+  <span class="hljs-comment">// Traite une requête entrante</span>
+  <span class="hljs-keyword">public</span> <span class="hljs-function"><span class="hljs-keyword">function</span> <span class="hljs-title">routerRequete</span><span class="hljs-params">()</span> </span>{
+    <span class="hljs-keyword">try</span> {
+      <span class="hljs-keyword">if</span> (<span class="hljs-keyword">isset</span>($_GET[<span class="hljs-string">'action'</span>])) {
+        <span class="hljs-keyword">if</span> ($_GET[<span class="hljs-string">'action'</span>] == <span class="hljs-string">'billet'</span>) {
+          <span class="hljs-keyword">if</span> (<span class="hljs-keyword">isset</span>($_GET[<span class="hljs-string">'id'</span>])) {
+            $idBillet = intval($this-&gt;getParametre($_GET, <span class="hljs-string">'id'</span>));
+            <span class="hljs-keyword">if</span> ($idBillet != <span class="hljs-number">0</span>) {
+              $this-&gt;ctrlBillet-&gt;billet($idBillet);
+            }
+            <span class="hljs-keyword">else</span>
+              <span class="hljs-keyword">throw</span> <span class="hljs-keyword">new</span> <span class="hljs-keyword">Exception</span>(<span class="hljs-string">"Identifiant de billet non valide"</span>);
+          }
+          <span class="hljs-keyword">else</span> <span class="hljs-keyword">if</span> ($_GET[<span class="hljs-string">'action'</span>] == <span class="hljs-string">'commenter'</span>){
+            $auteur = $this-&gt;getParametre($_POST, <span class="hljs-string">'auteur'</span>);
+            $contenu = $this-&gt;getParametre($_POST, <span class="hljs-string">'contenu'</span>);
+            $idBillet = $this-&gt;getParametre($_POST, <span class="hljs-string">'id'</span>);
+            $this-&gt;ctrlBillet-&gt;commenter($auteur, $contenu, $idBillet);
+          }
+        }
+        <span class="hljs-keyword">else</span>
+          <span class="hljs-keyword">throw</span> <span class="hljs-keyword">new</span> <span class="hljs-keyword">Exception</span>(<span class="hljs-string">"Action non valide"</span>);
+      }
+      <span class="hljs-keyword">else</span> {  <span class="hljs-comment">// aucune action définie : affichage de l'accueil</span>
+        $this-&gt;ctrlAccueil-&gt;accueil();
+      }
+    }
+    <span class="hljs-keyword">catch</span> (<span class="hljs-keyword">Exception</span> $e) {
+      $this-&gt;erreur($e-&gt;getMessage());
+    }
+  }
+
+  <span class="hljs-comment">// Affiche une erreur</span>
+  <span class="hljs-keyword">private</span> <span class="hljs-function"><span class="hljs-keyword">function</span> <span class="hljs-title">erreur</span><span class="hljs-params">($msgErreur)</span> </span>{
+    $vue = <span class="hljs-keyword">new</span> Vue(<span class="hljs-string">"Erreur"</span>);
+    $vue-&gt;generer(<span class="hljs-keyword">array</span>(<span class="hljs-string">'msgErreur'</span> =&gt; $msgErreur));
+  }
+<span class="hljs-comment">// Recherche un paramètre dans un tableau</span>
+  <span class="hljs-keyword">private</span> <span class="hljs-function"><span class="hljs-keyword">function</span> <span class="hljs-title">getParametre</span><span class="hljs-params">($tableau, $nom)</span> </span>{
+    <span class="hljs-keyword">if</span> (<span class="hljs-keyword">isset</span>($tableau[$nom])) {
+      <span class="hljs-keyword">return</span> $tableau[$nom];
+    }
+    <span class="hljs-keyword">else</span>
+      <span class="hljs-keyword">throw</span> <span class="hljs-keyword">new</span> <span class="hljs-keyword">Exception</span>(<span class="hljs-string">"Paramètre '$nom' absent"</span>);
+  }
+}
+</code></pre>
+<p>Vous pouvez trouver le code final <a href="https://github.com/germainsip/mvcevo/tree/6-mvc-objet">ici</a> .Chaque branche correspond à une étape.</p>
+<p><br><br><br></p></div><div class="menu-markdown"><img src="./nCode _ Passage à la POO_files/menu.png"><div data-id="1" class="titre">Passage à la POO</div><div data-id="2">D'abord le Model</div><div data-id="14">Passons aux vues</div><div data-id="21">Et le contrôleur</div><div data-id="35">Bilan</div><div data-id="41">Un dernier exemple</div></div></div><script>hljs.initHighlightingOnLoad();//hljs.initLineNumbersOnLoad();</script><script src="./nCode _ Passage à la POO_files/menu-markdown.js"></script><script>document.title = "nCode | " + document.querySelector("h1").textContent;</script></body></html>

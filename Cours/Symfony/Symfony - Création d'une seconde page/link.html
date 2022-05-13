@@ -1,0 +1,169 @@
+<!DOCTYPE html>
+<!-- saved from url=(0070)https://ncode.amorce.org/ressources/Pool/CDA/WEB_Symfony_frc/link.html -->
+<html><head><meta http-equiv="Content-Type" content="text/html; charset=UTF-8"><title></title>
+        <meta name="viewport" content="width=device-width, initial-scale=1">
+        <link rel="stylesheet" href="./link_files/font-awesome.min.css">
+        <link rel="stylesheet" href="./link_files/bootstrap.min.css">
+        <link rel="stylesheet" href="./link_files/darcula.css">
+        <!-- <link rel="stylesheet" href="/css/highlight/line-number.css"> -->
+        <link rel="stylesheet" href="./link_files/github-markdown.css">
+        <!-- <link rel="stylesheet" href="/css/markdown_foad.css"> -->
+        <link rel="stylesheet" href="./link_files/menu-markdown.css">
+        <!-- <script src="/js/highlightjs-line-numbers.min.js"></script> -->
+        <script src="./link_files/jquery-3.4.1.min.js"></script>
+        <script src="./link_files/popper.min.js"></script>
+        <script src="./link_files/bootstrap.min.js"></script>
+        <script src="./link_files/highlight.js"></script>
+        </head><body><div class="container"><div class="markdown-body"><h2 id="1">Création d'une seconde page</h2>
+<h3 id="2">Nouvelle vue, nouveau contrôleur</h3>
+<p>De la même manière que pour l'affiche de notre première, nous allons construire une seconde page.</p>
+<p>Imaginons que nous voulons construire une page profil.</p>
+<p>Nous allons donc construire un nouveau contrôleur, avec une méthode permettant l'affichage de cet vue, ainsi
+qu'un nouveau template :</p>
+<ul>
+<li>Contrôler (/Controller/ProfilController.php)</li>
+</ul>
+<pre><code class="language-php hljs"><span class="hljs-meta">&lt;?php</span>
+
+<span class="hljs-keyword">namespace</span> <span class="hljs-title">App</span>\<span class="hljs-title">Controller</span>;
+
+<span class="hljs-keyword">use</span> <span class="hljs-title">Symfony</span>\<span class="hljs-title">Bundle</span>\<span class="hljs-title">FrameworkBundle</span>\<span class="hljs-title">Controller</span>\<span class="hljs-title">AbstractController</span>;
+<span class="hljs-keyword">use</span> <span class="hljs-title">Symfony</span>\<span class="hljs-title">Component</span>\<span class="hljs-title">HttpFoundation</span>\<span class="hljs-title">Response</span>;
+<span class="hljs-keyword">use</span> <span class="hljs-title">Symfony</span>\<span class="hljs-title">Component</span>\<span class="hljs-title">Routing</span>\<span class="hljs-title">Annotation</span>\<span class="hljs-title">Route</span>;
+<span class="hljs-comment">/**
+ * <span class="hljs-doctag">@Route</span>("/profil")
+ * <span class="hljs-doctag">@method</span> render(string $string, array $array)
+ */</span>
+<span class="hljs-class"><span class="hljs-keyword">class</span> <span class="hljs-title">ProfilController</span> <span class="hljs-keyword">extends</span> <span class="hljs-title">AbstractController</span>
+</span>{
+    <span class="hljs-comment">/**
+     * <span class="hljs-doctag">@Route</span>("/detail", name="profil")
+     */</span>
+    <span class="hljs-keyword">public</span> <span class="hljs-function"><span class="hljs-keyword">function</span> <span class="hljs-title">detail</span><span class="hljs-params">()</span> :<span class="hljs-title">Response</span>
+    </span>{
+        <span class="hljs-comment">// affichage de la page d'accueil</span>
+        <span class="hljs-keyword">return</span> $this-&gt;render(<span class="hljs-string">'profil/detail.html.twig'</span>);
+    }
+}</code></pre>
+<ul>
+<li>Template (/Template/profil/detail.html.twig)</li>
+</ul>
+<pre><code class="language-html hljs xml">{% extends 'base.html.twig' %}
+ {% block body %}
+     <span class="hljs-tag">&lt;<span class="hljs-name">div</span> <span class="hljs-attr">class</span>=<span class="hljs-string">"container"</span>&gt;</span>
+         <span class="hljs-tag">&lt;<span class="hljs-name">div</span> <span class="hljs-attr">class</span>=<span class="hljs-string">"row mt-5"</span>&gt;</span>
+             <span class="hljs-tag">&lt;<span class="hljs-name">div</span> <span class="hljs-attr">class</span>=<span class="hljs-string">"col-sm-8 offset-sm-2"</span>&gt;</span>
+                 <span class="hljs-tag">&lt;<span class="hljs-name">h1</span>&gt;</span>Vos informations<span class="hljs-tag">&lt;/<span class="hljs-name">h1</span>&gt;</span>
+
+             <span class="hljs-tag">&lt;/<span class="hljs-name">div</span>&gt;</span>
+         <span class="hljs-tag">&lt;/<span class="hljs-name">div</span>&gt;</span>
+     <span class="hljs-tag">&lt;/<span class="hljs-name">div</span>&gt;</span>
+ {% endblock %}</code></pre>
+<p>La structure du template et du contrôleur est identique à ce qu'on a vu précédemment, les seuls changements
+majeurs sont dans le contrôleur :</p>
+<ul>
+<li>le nom du contrôleur et de la classe sont évidemment différents.</li>
+<li>nous avons ajouté une route au contrôleur pour le différencier du 'HomeController'.</li>
+<li>le nom et le chemin de la méthode sont également différents, afin de les repérer facilement.</li>
+</ul>
+<p>Il nous reste plus qu'à mettre un lien qui nous permettrai de naviguer entre les 2 pages.</p>
+<p>Pour cela nous allons dans un premier temps personnaliser la navbar :</p>
+<ul>
+<li>on ajoute un lien pour aller sur la page d'accueil
+<pre><code class="language-html hljs xml"><span class="hljs-tag">&lt;<span class="hljs-name">a</span> <span class="hljs-attr">class</span>=<span class="hljs-string">"navbar-brand"</span> <span class="hljs-attr">href</span>=<span class="hljs-string">"{{ path('home') }}"</span>&gt;</span>Accueil<span class="hljs-tag">&lt;/<span class="hljs-name">a</span>&gt;</span></code></pre></li>
+<li>on ajoute un lien pour aller sur la page 'profil'
+<pre><code class="language-html hljs xml"><span class="hljs-tag">&lt;<span class="hljs-name">a</span> <span class="hljs-attr">class</span>=<span class="hljs-string">"nav-link"</span> <span class="hljs-attr">href</span>=<span class="hljs-string">"{{ path('profil') }}"</span>&gt;</span>Profil<span class="hljs-tag">&lt;/<span class="hljs-name">a</span>&gt;</span></code></pre></li>
+<li>
+<p>on en profite pour enlever ce dont nous n'avons pas besoin, pour obtenir au final :</p>
+<pre><code class="language-html hljs xml"><span class="hljs-tag">&lt;<span class="hljs-name">nav</span> <span class="hljs-attr">class</span>=<span class="hljs-string">"navbar navbar-expand-lg navbar-light bg-light"</span>&gt;</span>
+<span class="hljs-tag">&lt;<span class="hljs-name">a</span> <span class="hljs-attr">class</span>=<span class="hljs-string">"navbar-brand"</span> <span class="hljs-attr">href</span>=<span class="hljs-string">"{{ path('home') }}"</span>&gt;</span>Accueil<span class="hljs-tag">&lt;/<span class="hljs-name">a</span>&gt;</span>
+<span class="hljs-tag">&lt;<span class="hljs-name">button</span> <span class="hljs-attr">class</span>=<span class="hljs-string">"navbar-toggler"</span> <span class="hljs-attr">type</span>=<span class="hljs-string">"button"</span> <span class="hljs-attr">data-toggle</span>=<span class="hljs-string">"collapse"</span> <span class="hljs-attr">data-target</span>=<span class="hljs-string">"#navbarSupportedContent"</span> <span class="hljs-attr">aria-controls</span>=<span class="hljs-string">"navbarSupportedContent"</span> <span class="hljs-attr">aria-expanded</span>=<span class="hljs-string">"false"</span> <span class="hljs-attr">aria-label</span>=<span class="hljs-string">"Toggle navigation"</span>&gt;</span>
+    <span class="hljs-tag">&lt;<span class="hljs-name">span</span> <span class="hljs-attr">class</span>=<span class="hljs-string">"navbar-toggler-icon"</span>&gt;</span><span class="hljs-tag">&lt;/<span class="hljs-name">span</span>&gt;</span>
+<span class="hljs-tag">&lt;/<span class="hljs-name">button</span>&gt;</span>
+
+<span class="hljs-tag">&lt;<span class="hljs-name">div</span> <span class="hljs-attr">class</span>=<span class="hljs-string">"collapse navbar-collapse"</span> <span class="hljs-attr">id</span>=<span class="hljs-string">"navbarSupportedContent"</span>&gt;</span>
+    <span class="hljs-tag">&lt;<span class="hljs-name">ul</span> <span class="hljs-attr">class</span>=<span class="hljs-string">"navbar-nav mr-auto"</span>&gt;</span>
+        <span class="hljs-tag">&lt;<span class="hljs-name">li</span> <span class="hljs-attr">class</span>=<span class="hljs-string">"nav-item active"</span>&gt;</span>
+            <span class="hljs-tag">&lt;<span class="hljs-name">a</span> <span class="hljs-attr">class</span>=<span class="hljs-string">"nav-link"</span> <span class="hljs-attr">href</span>=<span class="hljs-string">"{{ path('profil') }}"</span>&gt;</span>Profil<span class="hljs-tag">&lt;/<span class="hljs-name">a</span>&gt;</span>
+        <span class="hljs-tag">&lt;/<span class="hljs-name">li</span>&gt;</span>
+        <span class="hljs-tag">&lt;<span class="hljs-name">li</span> <span class="hljs-attr">class</span>=<span class="hljs-string">"nav-item"</span>&gt;</span>
+            <span class="hljs-tag">&lt;<span class="hljs-name">a</span> <span class="hljs-attr">class</span>=<span class="hljs-string">"nav-link"</span> <span class="hljs-attr">href</span>=<span class="hljs-string">"#"</span>&gt;</span>Link<span class="hljs-tag">&lt;/<span class="hljs-name">a</span>&gt;</span>
+        <span class="hljs-tag">&lt;/<span class="hljs-name">li</span>&gt;</span>
+    <span class="hljs-tag">&lt;/<span class="hljs-name">ul</span>&gt;</span>
+<span class="hljs-tag">&lt;/<span class="hljs-name">div</span>&gt;</span>
+<span class="hljs-tag">&lt;/<span class="hljs-name">nav</span>&gt;</span></code></pre>
+<p>'path' indique le nom de la route à cibler (dans les annotations, 'name="profil" ').</p>
+</li>
+</ul>
+<p>Maintenant que nous arrivons à naviguer entre 2 pages, il serait intéressant d'afficher des données
+qui viennent du contrôleur sur la vue.</p>
+<h3 id="16">Faire transiter des données du contrôleur à la vue</h3>
+<h4 id="17">Passer un tableau</h4>
+<p>Dans 'ProfilController', dans la méthode 'detail', créons un tableau qui contiendra les informations
+à faire transiter :</p>
+<pre><code class="language-php hljs">$info = [<span class="hljs-string">'Loper'</span>, <span class="hljs-string">'Dave'</span>, <span class="hljs-string">'daveloper@code.dom'</span>, <span class="hljs-string">'01/01/1970'</span>];</code></pre>
+<p>Pour afficher les informations contenues dans ce tableau, il suffit de le passer en second paramètre de la
+méthode 'render()', via un tableau d'options :</p>
+<pre><code class="language-php hljs"><span class="hljs-keyword">return</span> $this-&gt;render(<span class="hljs-string">'profil/detail.html.twig'</span>, [
+         <span class="hljs-string">'informations'</span> =&gt; $info
+      ]);</code></pre>
+<p>Notre contrôleur aura donc cette structure :</p>
+<pre><code class="language-php hljs"><span class="hljs-comment">// Controller/ProfilController.php</span>
+
+  <span class="hljs-comment">/**
+     * <span class="hljs-doctag">@Route</span>("/detail", name="profil")
+     */</span>
+    <span class="hljs-keyword">public</span> <span class="hljs-function"><span class="hljs-keyword">function</span> <span class="hljs-title">detail</span><span class="hljs-params">()</span> :<span class="hljs-title">Response</span>
+    </span>{
+$info = [<span class="hljs-string">'Loper'</span>, <span class="hljs-string">'Dave'</span>, <span class="hljs-string">'daveloper@code.dom'</span>, <span class="hljs-string">'01/01/1970'</span>];
+
+        <span class="hljs-comment">// affichage de la page d'accueil</span>
+        <span class="hljs-keyword">return</span> $this-&gt;render(<span class="hljs-string">'profil/detail.html.twig'</span>, [
+            <span class="hljs-string">'informations'</span> =&gt; $info
+        ]);
+    }</code></pre>
+<p>Affichons ces informations dans un tableau à l'aide d'une boucle for :</p>
+<pre><code class="language-html hljs xml"><span class="hljs-comment">&lt;!-- profil/detail.html.twig --&gt;</span>
+
+ <span class="hljs-tag">&lt;<span class="hljs-name">ul</span>&gt;</span>
+    {% for info in informations %}
+        <span class="hljs-tag">&lt;<span class="hljs-name">li</span>&gt;</span>{{ info }}<span class="hljs-tag">&lt;/<span class="hljs-name">li</span>&gt;</span>
+    {% endfor %}
+<span class="hljs-tag">&lt;/<span class="hljs-name">ul</span>&gt;</span></code></pre>
+<h4 id="26">Passer un tableau associatif</h4>
+<p>Pour passer un tableau associatif du contrôleur vers la vue, le procédé reste le même, seul la méthode d'affichage
+va changer :</p>
+<pre><code class="language-php hljs"><span class="hljs-comment">// Controller/ProfilController.php</span>
+
+    <span class="hljs-comment">/**
+     * <span class="hljs-doctag">@Route</span>("/detail", name="profil")
+     */</span>
+    <span class="hljs-keyword">public</span> <span class="hljs-function"><span class="hljs-keyword">function</span> <span class="hljs-title">detail</span><span class="hljs-params">()</span> :<span class="hljs-title">Response</span>
+    </span>{
+$info = [<span class="hljs-string">'lastname'</span> =&gt; <span class="hljs-string">'Loper'</span>, <span class="hljs-string">'firstname'</span> =&gt; <span class="hljs-string">'Dave'</span>, <span class="hljs-string">'email'</span> =&gt; <span class="hljs-string">'daveloper@code.dom'</span>, <span class="hljs-string">'birthdate'</span> =&gt; <span class="hljs-string">'01/01/1970'</span>];
+
+        <span class="hljs-comment">// affichage de la page d'accueil</span>
+        <span class="hljs-keyword">return</span> $this-&gt;render(<span class="hljs-string">'profil/detail.html.twig'</span>, [
+            <span class="hljs-string">'informations'</span> =&gt; $info
+        ]);
+    }</code></pre>
+<pre><code class="language-html hljs xml"><span class="hljs-comment">&lt;!-- profil/detail.html.twig --&gt;</span>
+ <span class="hljs-tag">&lt;<span class="hljs-name">table</span> <span class="hljs-attr">class</span>=<span class="hljs-string">"table table-light table-hover"</span>&gt;</span>
+     <span class="hljs-tag">&lt;<span class="hljs-name">thead</span>&gt;</span>
+     <span class="hljs-tag">&lt;<span class="hljs-name">tr</span>&gt;</span>
+         <span class="hljs-tag">&lt;<span class="hljs-name">th</span>&gt;</span>Nom<span class="hljs-tag">&lt;/<span class="hljs-name">th</span>&gt;</span>
+         <span class="hljs-tag">&lt;<span class="hljs-name">th</span>&gt;</span>Prénom<span class="hljs-tag">&lt;/<span class="hljs-name">th</span>&gt;</span>
+         <span class="hljs-tag">&lt;<span class="hljs-name">th</span>&gt;</span>Date de naissance<span class="hljs-tag">&lt;/<span class="hljs-name">th</span>&gt;</span>
+         <span class="hljs-tag">&lt;<span class="hljs-name">th</span>&gt;</span>Email<span class="hljs-tag">&lt;/<span class="hljs-name">th</span>&gt;</span>
+     <span class="hljs-tag">&lt;/<span class="hljs-name">tr</span>&gt;</span>
+     <span class="hljs-tag">&lt;/<span class="hljs-name">thead</span>&gt;</span>
+     <span class="hljs-tag">&lt;<span class="hljs-name">tbody</span>&gt;</span>
+     <span class="hljs-tag">&lt;<span class="hljs-name">tr</span>&gt;</span>
+         <span class="hljs-tag">&lt;<span class="hljs-name">td</span>&gt;</span>{{ informations.lastname }}<span class="hljs-tag">&lt;/<span class="hljs-name">td</span>&gt;</span>
+         <span class="hljs-tag">&lt;<span class="hljs-name">td</span>&gt;</span>{{ informations.firstname }}<span class="hljs-tag">&lt;/<span class="hljs-name">td</span>&gt;</span>
+         <span class="hljs-tag">&lt;<span class="hljs-name">td</span>&gt;</span>{{ informations.birthdate }}<span class="hljs-tag">&lt;/<span class="hljs-name">td</span>&gt;</span>
+         <span class="hljs-tag">&lt;<span class="hljs-name">td</span>&gt;</span>{{ informations.email }}<span class="hljs-tag">&lt;/<span class="hljs-name">td</span>&gt;</span>
+     <span class="hljs-tag">&lt;/<span class="hljs-name">tr</span>&gt;</span>
+     <span class="hljs-tag">&lt;/<span class="hljs-name">tbody</span>&gt;</span>
+ <span class="hljs-tag">&lt;/<span class="hljs-name">table</span>&gt;</span></code></pre>
+<p>On se sert ici du nom du tableau, avec la clé associative associée à la valeur que l'on veut afficher.</p></div><div class="menu-markdown"><img src="./link_files/menu.png"><div data-id="1">Création d'une seconde page</div><div data-id="2">&nbsp;&nbsp;&nbsp;&nbsp;Nouvelle vue, nouveau contrôleur</div><div data-id="16">&nbsp;&nbsp;&nbsp;&nbsp;Faire transiter des données du contrôleur à la vue</div><div data-id="17">&nbsp;&nbsp;&nbsp;&nbsp;Passer un tableau</div><div data-id="26">&nbsp;&nbsp;&nbsp;&nbsp;Passer un tableau associatif</div></div></div><script>hljs.initHighlightingOnLoad();//hljs.initLineNumbersOnLoad();</script><script src="./link_files/menu-markdown.js"></script></body></html>

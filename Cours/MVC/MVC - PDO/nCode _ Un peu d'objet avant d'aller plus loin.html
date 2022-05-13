@@ -1,0 +1,345 @@
+<!DOCTYPE html>
+<!-- saved from url=(0059)https://ncode.amorce.org/ressources/Pool/PHP/MVC/MVC-4.html -->
+<html><head><meta http-equiv="Content-Type" content="text/html; charset=UTF-8"><title>nCode | Un peu d'objet avant d'aller plus loin</title>
+        <meta name="viewport" content="width=device-width, initial-scale=1">
+        <link rel="stylesheet" href="./nCode _ Un peu d&#39;objet avant d&#39;aller plus loin_files/font-awesome.min.css">
+        <link rel="stylesheet" href="./nCode _ Un peu d&#39;objet avant d&#39;aller plus loin_files/bootstrap.min.css">
+        <link rel="stylesheet" href="./nCode _ Un peu d&#39;objet avant d&#39;aller plus loin_files/darcula.css">
+        <!-- <link rel="stylesheet" href="/css/highlight/line-number.css"> -->
+        <link rel="stylesheet" href="./nCode _ Un peu d&#39;objet avant d&#39;aller plus loin_files/github-markdown.css">
+        <!-- <link rel="stylesheet" href="/css/markdown_foad.css"> -->
+        <link rel="stylesheet" href="./nCode _ Un peu d&#39;objet avant d&#39;aller plus loin_files/menu-markdown.css">
+        <!-- <script src="/js/highlightjs-line-numbers.min.js"></script> -->
+        <script src="./nCode _ Un peu d&#39;objet avant d&#39;aller plus loin_files/jquery-3.4.1.min.js"></script>
+        <script src="./nCode _ Un peu d&#39;objet avant d&#39;aller plus loin_files/popper.min.js"></script>
+        <script src="./nCode _ Un peu d&#39;objet avant d&#39;aller plus loin_files/bootstrap.min.js"></script>
+        <script src="./nCode _ Un peu d&#39;objet avant d&#39;aller plus loin_files/highlight.js"></script>
+        </head><body><div class="container"><div class="markdown-body"><h1 id="1">Un peu d'objet avant d'aller plus loin</h1>
+<p>La Programmation Orientée Objet (POO) est essentiel aujourd’hui en développement et se retrouve dans la majorité des langages. Php ne fait pas exception et nous allons voir comment en profiter.</p>
+<h2 id="3">Les objets</h2>
+<p>Un objet peut être comparé à une boite où nous pourrons stocker des variables (<em>propriétés</em>) et des fonctions (<em>méthodes</em>).</p>
+<p>Vous avez surement déjà utilisé des objets sans vous en rendre compte. Le <code>DateTime</code> est un type objet. Vous pouvez stocker une date et utiliser les fonctions associées à cette date.</p>
+<pre><code class="language-php hljs"><span class="hljs-meta">&lt;?php</span>
+$ce_jour = <span class="hljs-keyword">new</span> DateTime();
+<span class="hljs-keyword">echo</span> <span class="hljs-string">'Nous sommes le '</span>;
+<span class="hljs-keyword">echo</span> $ce_jour-&gt;format(<span class="hljs-string">'d-m-Y'</span>);</code></pre>
+<p>Mais nous pouvons également créer nos propre types. Pour créer un type d'objet il faut créer une <strong>classe</strong>. Cette classe est comme un moule d'où on va extraire les objets que l'on appelle instance de la classe.</p>
+<p>Définissons par exemple un type <code>Produit</code> qui aura un <strong>nom</strong>, une <strong>quantité</strong>, un <strong>prix</strong> et un booléen <strong>rupture</strong> pour savoir s'il est en stock ou non. Ces valeurs sont appelées <strong>propriétés</strong> ou <strong>membres</strong>.</p>
+<pre><code class="language-php hljs"><span class="hljs-meta">&lt;?php</span>
+<span class="hljs-class"><span class="hljs-keyword">class</span> <span class="hljs-title">Produit</span>
+</span>{
+<span class="hljs-keyword">public</span> $nom;
+<span class="hljs-keyword">public</span> $quantite ;
+<span class="hljs-keyword">public</span> $prix;
+<span class="hljs-keyword">public</span> $rupture ;
+
+<span class="hljs-function"><span class="hljs-keyword">function</span> <span class="hljs-title">afficheProduit</span><span class="hljs-params">()</span></span>{
+    <span class="hljs-keyword">return</span> <span class="hljs-string">"Affichage du produit"</span>;
+}
+
+<span class="hljs-function"><span class="hljs-keyword">function</span> <span class="hljs-title">ajouterProduit</span><span class="hljs-params">()</span></span>{
+    <span class="hljs-keyword">return</span> <span class="hljs-string">"Ajouter du produit"</span>;
+}
+
+<span class="hljs-function"><span class="hljs-keyword">function</span> <span class="hljs-title">supprimerProduit</span><span class="hljs-params">()</span></span>{
+    <span class="hljs-keyword">return</span> <span class="hljs-string">"Supprimer du produit"</span>;
+}
+}
+&gt;</code></pre>
+<p>Utilisons cette classe dans un fichier php:</p>
+<pre><code class="language-php hljs"><span class="hljs-meta">&lt;?php</span>
+<span class="hljs-comment">// ICI déclarez la classe</span>
+
+$mobile = <span class="hljs-keyword">new</span> Produit; <span class="hljs-comment">//Instanciation</span>
+
+$mobile-&gt;nom = <span class="hljs-string">"iphone"</span>;
+$mobile-&gt;quantite = <span class="hljs-string">"10"</span>;
+$mobile-&gt;prix = <span class="hljs-number">900</span>;
+$mobile-&gt;rupture = <span class="hljs-keyword">false</span>;
+
+<span class="hljs-keyword">echo</span> $mobile-&gt;afficheProduit();
+&gt;</code></pre>
+<h2 id="12">Le <code>$this</code></h2>
+<p>Il est souvent util d'accéder aux propriétés d'une instance de la classe. Malheureusement, nous ne pouvons pas connaitre d'avance le nom de cette instance, c'est pourquoi nous avons <code>$this</code> à notre disposition:</p>
+<pre><code class="language-php hljs"><span class="hljs-meta">&lt;?php</span>
+
+<span class="hljs-class"><span class="hljs-keyword">class</span> <span class="hljs-title">Produit</span>
+</span>{
+<span class="hljs-keyword">private</span> $nom;
+<span class="hljs-keyword">public</span> $quantite ;
+<span class="hljs-keyword">public</span> $prix;
+<span class="hljs-keyword">public</span> $rupture ;
+
+<span class="hljs-function"><span class="hljs-keyword">function</span> <span class="hljs-title">afficheProduit</span><span class="hljs-params">()</span></span>{
+    <span class="hljs-keyword">return</span> 
+    <span class="hljs-string">"Nom: "</span>.$this-&gt;nom.<span class="hljs-string">"&lt;br/&gt;"</span>.
+    <span class="hljs-string">"Quantité: "</span>.$this-&gt;quantite.<span class="hljs-string">"&lt;br/&gt;"</span>.
+    <span class="hljs-string">"Prix: "</span>.$this-&gt;prix.<span class="hljs-string">"&lt;br/&gt;"</span>.
+    (($this-&gt;rupture)?<span class="hljs-string">"Rupture de stock"</span>:<span class="hljs-string">"En stock"</span>);
+}
+
+<span class="hljs-function"><span class="hljs-keyword">function</span> <span class="hljs-title">ajouterProduit</span><span class="hljs-params">()</span></span>{
+    $this-&gt;quantite++;
+    <span class="hljs-keyword">if</span> ($this-&gt;quantite &gt; <span class="hljs-number">0</span>) $this-&gt;rupture = <span class="hljs-keyword">false</span>;
+}
+
+<span class="hljs-function"><span class="hljs-keyword">function</span> <span class="hljs-title">supprimerProduit</span><span class="hljs-params">()</span></span>{
+    $this-&gt;quantite--;
+    <span class="hljs-keyword">if</span> ($this-&gt;quantite &lt;= <span class="hljs-number">0</span>) {
+        $this-&gt;rupture = <span class="hljs-keyword">true</span>;
+        $this-&gt;quantite = <span class="hljs-number">0</span>;
+    }
+}</code></pre>
+<h2 id="15">L'encapsulation</h2>
+<p>En programmation objet on ne doit pas laisser accéder directement au propriétés. Elle ne doivent être accessibles que de l'intérieur de l'instance de l'objet.</p>
+<p>Nous pouvons déclarer les propriétés comme privés pour en interdire l'accès.</p>
+<p>Notre classe devient</p>
+<pre><code class="language-php hljs"><span class="hljs-meta">&lt;?php</span>
+
+<span class="hljs-class"><span class="hljs-keyword">class</span> <span class="hljs-title">Produit</span>
+</span>{
+<span class="hljs-keyword">private</span> $nom;
+<span class="hljs-keyword">private</span> $quantite ;
+<span class="hljs-keyword">private</span> $prix;
+<span class="hljs-keyword">private</span> $rupture ;
+
+<span class="hljs-keyword">public</span> <span class="hljs-function"><span class="hljs-keyword">function</span> <span class="hljs-title">ajouterProduit</span><span class="hljs-params">()</span></span>{
+    $this-&gt;quantite++;
+    <span class="hljs-keyword">if</span> ($this-&gt;quantite &gt; <span class="hljs-number">0</span>) $this-&gt;rupture = <span class="hljs-keyword">false</span>;
+}
+
+<span class="hljs-keyword">public</span> <span class="hljs-function"><span class="hljs-keyword">function</span> <span class="hljs-title">__toString</span><span class="hljs-params">()</span>
+</span>{
+    <span class="hljs-keyword">return</span>
+    <span class="hljs-string">"Nom: "</span>.$this-&gt;nom.<span class="hljs-string">"&lt;br/&gt;"</span>.
+    <span class="hljs-string">"Quantité: "</span>.$this-&gt;quantite.<span class="hljs-string">"&lt;br/&gt;"</span>.
+    <span class="hljs-string">"Prix: "</span>.$this-&gt;prix.<span class="hljs-string">"&lt;br/&gt;"</span>.
+    (($this-&gt;rupture)?<span class="hljs-string">"Rupture de stock"</span>:<span class="hljs-string">"En stock"</span>);
+}
+
+<span class="hljs-keyword">public</span> <span class="hljs-function"><span class="hljs-keyword">function</span> <span class="hljs-title">supprimerProduit</span><span class="hljs-params">(int $nb = <span class="hljs-number">1</span>)</span></span>{
+    $this-&gt;quantite -= $nb;
+    <span class="hljs-keyword">if</span> ($this-&gt;quantite &lt;= <span class="hljs-number">0</span>) {
+        $this-&gt;rupture = <span class="hljs-keyword">true</span>;
+        $this-&gt;quantite = <span class="hljs-number">0</span>;
+    }
+}
+
+}</code></pre>
+<p>Cependant, si nous devons modifier une propriété il va falloir ouvrir un accès. Ceci se fait à l'aide des assesseurs (getter et setter).</p>
+<p>Par exemple pour la propriété nom, les assesseurs seront:</p>
+<pre><code class="language-php hljs"><span class="hljs-comment">/**
+ * Get the value of nom
+ */</span> 
+<span class="hljs-keyword">public</span> <span class="hljs-function"><span class="hljs-keyword">function</span> <span class="hljs-title">getNom</span><span class="hljs-params">()</span>
+</span>{
+<span class="hljs-keyword">return</span> $this-&gt;nom;
+}
+
+<span class="hljs-comment">/**
+ * Set the value of nom
+ *
+ * <span class="hljs-doctag">@return</span>  self
+ */</span> 
+<span class="hljs-keyword">public</span> <span class="hljs-function"><span class="hljs-keyword">function</span> <span class="hljs-title">setNom</span><span class="hljs-params">($nom)</span>
+</span>{
+$this-&gt;nom = $nom;
+
+<span class="hljs-keyword">return</span> $this;
+}</code></pre>
+<blockquote>
+<p>Nous ne sommes pas obligés de créer tous les assesseurs, seulement ceux dont nous avons besoin.</p>
+</blockquote>
+<p>Ajoutez les assesseurs manquant à notre classe et pensez bien à corriger dans <code>index.php</code> les accès aux propriétés.</p>
+<pre><code class="language-php hljs">$mobile = <span class="hljs-keyword">new</span> Produit; <span class="hljs-comment">//Instanciation</span>
+
+$mobile-&gt;setNom(<span class="hljs-string">"iphone"</span>);
+$mobile-&gt;setQuantite(<span class="hljs-number">10</span>);
+$mobile-&gt;setPrix(<span class="hljs-number">900</span>);
+$mobile-&gt;setRupture(<span class="hljs-keyword">false</span>);
+
+<span class="hljs-keyword">echo</span> $mobile-&gt;afficheProduit();</code></pre>
+<h2 id="26">Les méthodes magiques</h2>
+<p>Il existe des fonctions ou méthodes en php que l'on appelle "magiques" car elle peuvent s’executer lors de certains évènements. (cf <a href="https://www.php.net/manual/fr/language.oop5.magic.php">manuel PHP</a>)</p>
+<h3 id="28">La méthode <code>__toString()</code></h3>
+<p>La méthode <code>__toString()</code> transforme notre objet en chaine de caractère directement. Modifions notre classe pour en profiter.</p>
+<pre><code class="language-php hljs"><span class="hljs-class"><span class="hljs-keyword">class</span> <span class="hljs-title">Produit</span>
+</span>{
+<span class="hljs-keyword">private</span> $nom;
+<span class="hljs-keyword">private</span> $quantite ;
+<span class="hljs-keyword">private</span> $prix;
+<span class="hljs-keyword">private</span> $rupture ;
+
+<span class="hljs-keyword">public</span> <span class="hljs-function"><span class="hljs-keyword">function</span> <span class="hljs-title">__toString</span><span class="hljs-params">()</span>
+</span>{
+    <span class="hljs-keyword">return</span>
+    <span class="hljs-string">"Nom: "</span>.$this-&gt;nom.<span class="hljs-string">"&lt;br/&gt;"</span>.
+    <span class="hljs-string">"Quantité: "</span>.$this-&gt;quantite.<span class="hljs-string">"&lt;br/&gt;"</span>.
+    <span class="hljs-string">"Prix: "</span>.$this-&gt;prix.<span class="hljs-string">"&lt;br/&gt;"</span>.
+    (($this-&gt;rupture)?<span class="hljs-string">"Rupture de stock"</span>:<span class="hljs-string">"En stock"</span>);
+}
+
+<span class="hljs-keyword">public</span> <span class="hljs-function"><span class="hljs-keyword">function</span> <span class="hljs-title">ajouterProduit</span><span class="hljs-params">()</span></span>{
+    $this-&gt;quantite++;
+    <span class="hljs-keyword">if</span> ($this-&gt;quantite &gt; <span class="hljs-number">0</span>) $this-&gt;rupture = <span class="hljs-keyword">false</span>;
+}
+
+<span class="hljs-keyword">public</span> <span class="hljs-function"><span class="hljs-keyword">function</span> <span class="hljs-title">supprimerProduit</span><span class="hljs-params">(int $nb = <span class="hljs-number">1</span>)</span></span>{
+    $this-&gt;quantite -= $nb;
+    <span class="hljs-keyword">if</span> ($this-&gt;quantite &lt;= <span class="hljs-number">0</span>) {
+        $this-&gt;rupture = <span class="hljs-keyword">true</span>;
+        $this-&gt;quantite = <span class="hljs-number">0</span>;
+    }
+}
+
+<span class="hljs-comment">// les Assesseurs ...</span>
+}</code></pre>
+<p>Cette fois si on l'utilise dans un fichier cela donne:</p>
+<pre><code class="language-php hljs">$mobile = <span class="hljs-keyword">new</span> Produit; <span class="hljs-comment">//Instanciation</span>
+
+$mobile-&gt;setNom(<span class="hljs-string">"iphone"</span>);
+$mobile-&gt;setQuantite(<span class="hljs-number">10</span>);
+$mobile-&gt;setPrix(<span class="hljs-number">900</span>);
+$mobile-&gt;setRupture(<span class="hljs-keyword">false</span>);
+
+<span class="hljs-keyword">echo</span> $mobile;
+
+$mobile-&gt;supprimerProduit(<span class="hljs-number">10</span>);
+
+<span class="hljs-keyword">echo</span> <span class="hljs-string">"&lt;br/&gt;&lt;hr&gt;"</span>;
+
+<span class="hljs-keyword">echo</span> $mobile;</code></pre>
+<h3 id="33">La méthodes <code>__construct</code></h3>
+<p>Quand nous créons l'instance de l'objet il serait plus sympa de pouvoir alimenter directement les propriétés. Le constructeur est là pour ça. Il s'agit de la méthode <code>__construct</code>.</p>
+<pre><code class="language-php hljs"> <span class="hljs-keyword">public</span> <span class="hljs-function"><span class="hljs-keyword">function</span> <span class="hljs-title">__construct</span><span class="hljs-params">($nom, $prix, $quantite=<span class="hljs-number">0</span>)</span>
+    </span>{
+        $this-&gt;nom = $nom;
+        $this-&gt;quantite = $quantite;
+        $this-&gt;prix = $prix;
+        $this-&gt;rupture = $quantite&gt;=<span class="hljs-number">0</span>;
+    }</code></pre>
+<p>et le même exemple que tout à l'heure devient</p>
+<pre><code class="language-php hljs">$mobile = <span class="hljs-keyword">new</span> Produit(<span class="hljs-string">"iphone"</span>,<span class="hljs-number">900</span>,<span class="hljs-number">10</span>); <span class="hljs-comment">//Instanciation</span>
+
+$imprimante = <span class="hljs-keyword">new</span> Produit(<span class="hljs-string">"hp"</span>,<span class="hljs-number">300</span>);
+
+<span class="hljs-keyword">echo</span> $mobile;
+<span class="hljs-keyword">echo</span> <span class="hljs-string">"&lt;br/&gt;&lt;hr&gt;"</span>;
+<span class="hljs-keyword">echo</span> $imprimante;
+
+$mobile-&gt;supprimerProduit(<span class="hljs-number">10</span>);
+
+<span class="hljs-keyword">echo</span> <span class="hljs-string">"&lt;br/&gt;&lt;hr&gt;"</span>;
+
+<span class="hljs-keyword">echo</span> $mobile;</code></pre>
+<p>Vous pouvez remarquer que j'ai donné la possibilité d’instancier également sans remplir la quantité grâce aux paramètres optionnels.</p>
+<h2 id="39">L'héritage</h2>
+<p>Nous pouvons également trouver des similarités d'une classe à une autre. L'idée de l'héritage est de réutiliser le code ou les fonctionnalités communes en regroupant les classe par familles.</p>
+<p>Prenons l'exemple du compte bancaire et du compte épargne.</p>
+<pre><code class="language-php hljs"><span class="hljs-comment">// ConpteBancaire.php</span>
+<span class="hljs-meta">&lt;?php</span>
+
+<span class="hljs-class"><span class="hljs-keyword">class</span> <span class="hljs-title">CompteBancaire</span>
+</span>{
+    <span class="hljs-keyword">private</span> $devise;
+    <span class="hljs-keyword">private</span> $solde;
+    <span class="hljs-keyword">private</span> $titulaire;
+
+    <span class="hljs-keyword">public</span> <span class="hljs-function"><span class="hljs-keyword">function</span> <span class="hljs-title">__construct</span><span class="hljs-params">($devise, $solde, $titulaire)</span>
+    </span>{
+        $this-&gt;devise = $devise;
+        $this-&gt;solde = $solde;
+        $this-&gt;titulaire = $titulaire;
+    }
+
+    <span class="hljs-keyword">public</span> <span class="hljs-function"><span class="hljs-keyword">function</span> <span class="hljs-title">getDevise</span><span class="hljs-params">()</span>
+    </span>{
+        <span class="hljs-keyword">return</span> $this-&gt;devise;
+    }
+
+    <span class="hljs-keyword">public</span> <span class="hljs-function"><span class="hljs-keyword">function</span> <span class="hljs-title">getSolde</span><span class="hljs-params">()</span>
+    </span>{
+        <span class="hljs-keyword">return</span> $this-&gt;solde;
+    }
+
+    <span class="hljs-keyword">protected</span> <span class="hljs-function"><span class="hljs-keyword">function</span> <span class="hljs-title">setSolde</span><span class="hljs-params">($solde)</span>
+    </span>{
+        $this-&gt;solde = $solde;
+    }
+
+    <span class="hljs-keyword">public</span> <span class="hljs-function"><span class="hljs-keyword">function</span> <span class="hljs-title">getTitulaire</span><span class="hljs-params">()</span>
+    </span>{
+        <span class="hljs-keyword">return</span> $this-&gt;titulaire;
+    }
+
+    <span class="hljs-keyword">public</span> <span class="hljs-function"><span class="hljs-keyword">function</span> <span class="hljs-title">crediter</span><span class="hljs-params">($montant)</span> </span>{
+        $this-&gt;solde += $montant;
+    }
+
+    <span class="hljs-keyword">public</span> <span class="hljs-function"><span class="hljs-keyword">function</span> <span class="hljs-title">__toString</span><span class="hljs-params">()</span>
+    </span>{
+        <span class="hljs-keyword">return</span> <span class="hljs-string">"Le solde du compte de $this-&gt;titulaire est de "</span> .
+            $this-&gt;solde . <span class="hljs-string">" "</span> . $this-&gt;devise;
+    }
+}</code></pre>
+<pre><code class="language-php hljs"><span class="hljs-comment">// CompteEpargne.php</span>
+<span class="hljs-meta">&lt;?php</span>
+
+<span class="hljs-keyword">require_once</span> <span class="hljs-string">'CompteBancaire.php'</span>;
+
+<span class="hljs-class"><span class="hljs-keyword">class</span> <span class="hljs-title">CompteEpargne</span> <span class="hljs-keyword">extends</span> <span class="hljs-title">CompteBancaire</span>
+</span>{
+    <span class="hljs-keyword">private</span> $tauxInteret;
+
+    <span class="hljs-keyword">public</span> <span class="hljs-function"><span class="hljs-keyword">function</span> <span class="hljs-title">__construct</span><span class="hljs-params">($devise, $solde, $titulaire, $tauxInteret)</span>
+    </span>{
+        <span class="hljs-keyword">parent</span>::__construct($devise, $solde, $titulaire);
+        $this-&gt;tauxInteret = $tauxInteret;
+    }
+
+    <span class="hljs-keyword">public</span> <span class="hljs-function"><span class="hljs-keyword">function</span> <span class="hljs-title">getTauxInteret</span><span class="hljs-params">()</span>
+    </span>{
+        <span class="hljs-keyword">return</span> $this-&gt;tauxInteret;
+    }
+
+    <span class="hljs-keyword">public</span> <span class="hljs-function"><span class="hljs-keyword">function</span> <span class="hljs-title">calculerInterets</span><span class="hljs-params">($ajouterAuSolde = false)</span>
+    </span>{
+        $interets = $this-&gt;getSolde() * $this-&gt;tauxInteret;
+        <span class="hljs-keyword">if</span> ($ajouterAuSolde == <span class="hljs-keyword">true</span>)
+            $this-&gt;setSolde($this-&gt;getSolde() + $interets);
+        <span class="hljs-keyword">return</span> $interets;
+    }
+
+    <span class="hljs-keyword">public</span> <span class="hljs-function"><span class="hljs-keyword">function</span> <span class="hljs-title">__toString</span><span class="hljs-params">()</span>
+    </span>{
+        <span class="hljs-keyword">return</span> <span class="hljs-keyword">parent</span>::__toString() . 
+            <span class="hljs-string">'. Son taux d\'interet est de '</span> . $this-&gt;tauxInteret * <span class="hljs-number">100</span> . <span class="hljs-string">'%.'</span>;
+    }
+}</code></pre>
+<p>L'uml correspondant:</p>
+<p><img src="./nCode _ Un peu d&#39;objet avant d&#39;aller plus loin_files/heritage.png" alt="heritage"></p>
+<p>Et un exemple d'utilisation de ces deux classes:</p>
+<pre><code class="language-php hljs"><span class="hljs-comment">// poo.php</span>
+<span class="hljs-meta">&lt;?php</span>
+
+<span class="hljs-keyword">require</span> <span class="hljs-string">'CompteBancaire.php'</span>;
+<span class="hljs-keyword">require</span> <span class="hljs-string">'CompteEpargne.php'</span>;
+
+$compteJean = <span class="hljs-keyword">new</span> CompteBancaire(<span class="hljs-string">"euros"</span>, <span class="hljs-number">150</span>, <span class="hljs-string">"Jean"</span>);
+<span class="hljs-keyword">echo</span> $compteJean . <span class="hljs-string">'&lt;br /&gt;'</span>;
+$compteJean-&gt;crediter(<span class="hljs-number">100</span>);
+<span class="hljs-keyword">echo</span> $compteJean . <span class="hljs-string">'&lt;br /&gt;'</span>;
+
+$comptePaul = <span class="hljs-keyword">new</span> CompteEpargne(<span class="hljs-string">"dollars"</span>, <span class="hljs-number">200</span>, <span class="hljs-string">"Paul"</span>, <span class="hljs-number">0.05</span>);
+<span class="hljs-keyword">echo</span> $comptePaul . <span class="hljs-string">'&lt;br /&gt;'</span>;
+<span class="hljs-keyword">echo</span> <span class="hljs-string">'Interets pour ce compte : '</span> . $comptePaul-&gt;calculerInterets() . 
+    <span class="hljs-string">' '</span> . $comptePaul-&gt;getDevise() . <span class="hljs-string">'&lt;br /&gt;'</span>;
+$comptePaul-&gt;calculerInterets(<span class="hljs-keyword">true</span>);
+<span class="hljs-keyword">echo</span> $comptePaul . <span class="hljs-string">'&lt;br /&gt;'</span>;</code></pre>
+<p>En executant ces fichiers vous obtenez:</p>
+<pre><code class="hljs nginx"><span class="hljs-attribute">Le</span> solde du compte de Jean est de <span class="hljs-number">150</span> euros
+Le solde du compte de Jean est de <span class="hljs-number">250</span> euros
+Le solde du compte de Paul est de <span class="hljs-number">200</span> dollars. S<span class="hljs-literal">on</span> taux d<span class="hljs-string">'interet est de 5%.
+Interets pour ce compte : 10 dollars
+Le solde du compte de Paul est de 210 dollars. Son taux d'</span>interet est de <span class="hljs-number">5</span>%.</code></pre>
+<p><br><br><br><br></p></div><div class="menu-markdown"><img src="./nCode _ Un peu d&#39;objet avant d&#39;aller plus loin_files/menu.png"><div data-id="1" class="titre">Un peu d'objet avant d'aller plus loin</div><div data-id="3">Les objets</div><div data-id="12">Le <code>$this</code></div><div data-id="15">L'encapsulation</div><div data-id="26">Les méthodes magiques</div><div data-id="28">&nbsp;&nbsp;&nbsp;&nbsp;La méthode <code>__toString()</code></div><div data-id="33">&nbsp;&nbsp;&nbsp;&nbsp;La méthodes <code>__construct</code></div><div data-id="39">L'héritage</div></div></div><script>hljs.initHighlightingOnLoad();//hljs.initLineNumbersOnLoad();</script><script src="./nCode _ Un peu d&#39;objet avant d&#39;aller plus loin_files/menu-markdown.js"></script><script>document.title = "nCode | " + document.querySelector("h1").textContent;</script></body></html>

@@ -1,0 +1,103 @@
+<!DOCTYPE html>
+<!-- saved from url=(0074)https://ncode.amorce.org/ressources/Pool/CDA/WEB_Symfony_frc/doctrine.html -->
+<html><head><meta http-equiv="Content-Type" content="text/html; charset=UTF-8"><title>nCode | ORM</title>
+        <meta name="viewport" content="width=device-width, initial-scale=1">
+        <link rel="stylesheet" href="./nCode _ ORM_files/font-awesome.min.css">
+        <link rel="stylesheet" href="./nCode _ ORM_files/bootstrap.min.css">
+        <link rel="stylesheet" href="./nCode _ ORM_files/darcula.css">
+        <!-- <link rel="stylesheet" href="/css/highlight/line-number.css"> -->
+        <link rel="stylesheet" href="./nCode _ ORM_files/github-markdown.css">
+        <!-- <link rel="stylesheet" href="/css/markdown_foad.css"> -->
+        <link rel="stylesheet" href="./nCode _ ORM_files/menu-markdown.css">
+        <!-- <script src="/js/highlightjs-line-numbers.min.js"></script> -->
+        <script src="./nCode _ ORM_files/jquery-3.4.1.min.js"></script>
+        <script src="./nCode _ ORM_files/popper.min.js"></script>
+        <script src="./nCode _ ORM_files/bootstrap.min.js"></script>
+        <script src="./nCode _ ORM_files/highlight.js"></script>
+        </head><body><div class="container"><div class="markdown-body"><h1 id="1">ORM</h1>
+<h3 id="2">Un peu de méthodologie</h3>
+<p>Dans les phase de conception traditionnelles, vous commencez par concevoir votre base de données avec un outils tel que <code>Merise</code>.</p>
+<p>Puis, vous générez et éxecuter le script de votre base de données et enfin vou alimenter vos tables avec un jeu de test.</p>
+<p>Dans cette démarche, le script de création de votre base et le script d'alimentation sont deux fichiers <code>sql</code>. </p>
+<p>Le modèle de référence votre MCD </p>
+<p><img src="./nCode _ ORM_files/doctrine1_mcd.png" alt="mcd"></p>
+<p>soit le modèle physique de la base.
+<img src="./nCode _ ORM_files/doctrine1_mld.png" alt="mld"></p>
+<p>Deux remarques:</p>
+<ul>
+<li>Le MCD vous impose des noms différents pour chaque champ.</li>
+<li>Le modèle relationnel vous propose de manipuler les relations de votre base avec des clés étrangères... </li>
+</ul>
+<p>Lorsque vous manipulez vos données via un ORM, l'approche et un peu différente...</p>
+<p>Puisque vous allez manipuler des objets, un nouveau modèle de référence s'impose, le diagramme de classes UML.</p>
+<p>Dans ce modèle plus besoins d'avoir des noms de champs uniques. Mais surtout, il n'y a plus de clés étrangères.</p>
+<p><img src="./nCode _ ORM_files/doctrine2_uml.png" alt="uml"></p>
+<p>Les relations sont représentées par deux nouvelles propriétés:</p>
+<ul>
+<li><code>artist</code> dans la classe <code>Disc</code> (contient l'objet <code>Artist</code>  associé au disque)</li>
+<li><code>discs</code> dans la classe <code>Artist</code> (contient une liste de <code>Disc</code> représentant les disques de l'artiste)</li>
+</ul>
+<h3 id="17">Mise en oeuvre</h3>
+<p>Même si vous pouvez reprendre la structure d'une base existante, il est conseillé de reconstruire vos entités. C'est la démarche que nous vous proposons.</p>
+<h4 id="19">Configuration de la base de données</h4>
+<p>Dans un premier temps vous devez indiquer à <code>Doctrine</code> quelle base de données vous voulez utiliser et où elle se trouve.</p>
+<p>Dans le fichier <code>.env.local</code>, modifiez la variable <code>DATABASE_URL</code> comme ci-dessous et placez-y les informations de connexion à votre base.</p>
+<pre><code class="language-bash hljs">DATABASE_URL=<span class="hljs-string">"mysql://db_user:db_password@127.0.0.1:3306/db_name?serverVersion=mariadb-10.3.34&amp;charset=utf8mb4"</span></code></pre>
+<p>Ensuite deux commandes sont disponibles pour supprimer et créer la base de données.</p>
+<pre><code class="language-bash hljs">php bin/console doctrine:database:drop --force</code></pre>
+<pre><code class="language-bash hljs">php bin/console doctrine:database:create</code></pre>
+<p>Pour l'instant, il ne s'agit que de la base, les tables arrivent bientôt...</p>
+<h4 id="27">Création des entités</h4>
+<p>Le principe:</p>
+<ul>
+<li>Vous créez vos entités (des classes PHP) avec le maker ou à la main</li>
+<li>Vous demandez à doctrine de construire les tables nécessaires</li>
+<li>Vous vérifiez votre travail en visualisant la structure de votre base.</li>
+</ul>
+<p>Même si vous pouvez construire vos classes <code>Entities</code> à la main, il est fortement recommandé d'utiliser le maker.</p>
+<p>Commençons par créer une première entité <code>Disc</code>.</p>
+<pre><code class="language-bash hljs">php bin/console make:entity disc</code></pre>
+<p>Lorsque vous tapez cette commande, le maker commence par créer l'entité <code>Disc</code> dans le fichier <code>src/Entity/Disc.php</code>. Si le fichier existe déjà, il sera simplement modifier.</p>
+<p>Notez que <code>Doctrine</code> ajoute automatiquement une propriété <code>id</code> qui deviendra la clé primaire de votre table.</p>
+<p>Ensuite le maker vous demande le nom de la propriété, puis d'autres informations (son type, sa longueur...).
+<img src="./nCode _ ORM_files/doctrine3.png" alt=""></p>
+<p>Quand vous avez modifié votre entité, la commande ci-dessous vous permet de générer les tables nécessaires. Doctrine examine chaque entité et génère le code <code>sql</code> pour créer ou modifier la structure de votre base de données.</p>
+<pre><code class="language-bash hljs">php bin/console d:s:u --force</code></pre>
+<p>Vous pouvez répéter cette opération autant de fois que nécessaire pour construire vos entités et votre base.</p>
+<p>Vérifiez que votre base est correctement configurée en visualisant le diagramme de votre base de données.</p>
+<p>Continuez le travail pour construire les entités <code>Disc</code> et <code>Artist</code>. Ne vous souciez pas des relations, elles arrivent juste après...</p>
+<h4 id="41">Les relations</h4>
+<p>Il existe plusieurs types de relations:</p>
+<ul>
+<li><code>OneToOne</code></li>
+<li><code>OneToMany</code></li>
+<li><code>ManyToOne</code></li>
+<li><code>ManyToMany</code></li>
+</ul>
+<p>Dans notre cas, nous avons bien une relation entre <code>Disc</code> et <code>Artist</code>.</p>
+<p>C'est une relation <code>OneToMany</code> quand on regarde depuis <code>Artist</code>.</p>
+<p>Mais elle devient <code>ManyToOne</code> si l'on se place coté <code>Disc</code>.</p>
+<p>Pour mettre en place cette relation, modifions une des deux entités.</p>
+<pre><code class="language-bash hljs">php bin/console make:entity disc</code></pre>
+<p>Ajoutez la propriété <code>artist</code> (elle contiendra l'<code>Artist</code> associé au <code>Disc</code>).</p>
+<p>Choisissez <code>relation</code> comme type de la propriété</p>
+<p>Ensuite <code>Doctrine</code> vous demande le type de la propriété (le nom de la classe), donc <code>Artist</code></p>
+<p>Puis saisissez le type de relation <code>ManyToOne</code></p>
+<p>Validez les réponses suivantes en choisissant les réponses par défaut.</p>
+<p><img src="./nCode _ ORM_files/doctrine4.png" alt=""></p>
+<p>Pour terminer, mettez à jour votre base</p>
+<pre><code class="language-bash hljs">php bin/console d:s:u --force</code></pre>
+<p>Puis vérifiez la structure de votre base de données. Une clé étrangère est apparue dans votre base.</p>
+<h3 id="58">Synthése</h3>
+<p>Les clés étrangères existent bien dans la base de données, mais elles ne sont pas visibles dans vos classes <code>PHP</code>.</p>
+<p>Pour manipuler vos relations, vous devez utiliser les deux attributs ajoutés par <code>Doctrine</code>. </p>
+<ul>
+<li><code>artist</code> dans <code>Disc</code></li>
+<li><code>discs</code> dans <code>Artist</code></li>
+</ul>
+<p>Notez bien que <code>Doctrine</code> pluralise automatiquement les noms des propriétés.
+<code>discs</code> contient un tableau de <code>Disc</code> donc il est au pluriel.</p>
+<p><br>
+<br>
+<br>
+<br></p></div><div class="menu-markdown"><img src="./nCode _ ORM_files/menu.png"><div data-id="1" class="titre">ORM</div><div data-id="2">&nbsp;&nbsp;&nbsp;&nbsp;Un peu de méthodologie</div><div data-id="17">&nbsp;&nbsp;&nbsp;&nbsp;Mise en oeuvre</div><div data-id="19">&nbsp;&nbsp;&nbsp;&nbsp;Configuration de la base de données</div><div data-id="27">&nbsp;&nbsp;&nbsp;&nbsp;Création des entités</div><div data-id="41">&nbsp;&nbsp;&nbsp;&nbsp;Les relations</div><div data-id="58">&nbsp;&nbsp;&nbsp;&nbsp;Synthése</div></div></div><script>hljs.initHighlightingOnLoad();//hljs.initLineNumbersOnLoad();</script><script src="./nCode _ ORM_files/menu-markdown.js"></script><script>document.title = "nCode | " + document.querySelector("h1").textContent;</script></body></html>

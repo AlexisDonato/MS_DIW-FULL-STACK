@@ -1,0 +1,65 @@
+<!DOCTYPE html>
+<!-- saved from url=(0076)https://ncode.amorce.org/ressources/Pool/CDA/WEB_Symfony_frc/controller.html -->
+<html><head><meta http-equiv="Content-Type" content="text/html; charset=UTF-8"><title></title>
+        <meta name="viewport" content="width=device-width, initial-scale=1">
+        <link rel="stylesheet" href="./controller_files/font-awesome.min.css">
+        <link rel="stylesheet" href="./controller_files/bootstrap.min.css">
+        <link rel="stylesheet" href="./controller_files/darcula.css">
+        <!-- <link rel="stylesheet" href="/css/highlight/line-number.css"> -->
+        <link rel="stylesheet" href="./controller_files/github-markdown.css">
+        <!-- <link rel="stylesheet" href="/css/markdown_foad.css"> -->
+        <link rel="stylesheet" href="./controller_files/menu-markdown.css">
+        <!-- <script src="/js/highlightjs-line-numbers.min.js"></script> -->
+        <script src="./controller_files/jquery-3.4.1.min.js"></script>
+        <script src="./controller_files/popper.min.js"></script>
+        <script src="./controller_files/bootstrap.min.js"></script>
+        <script src="./controller_files/highlight.js"></script>
+        </head><body><div class="container"><div class="markdown-body"><h2 id="1">Création du contrôleur</h2>
+<p>La façon la plus efficace de créer un contrôleur est d'utiliser le <code>maker</code></p>
+<pre><code class="language-bash hljs">php bin/console make:controller <span class="hljs-built_in">test</span></code></pre>
+<p>Cette commande vous permet de créer un contrôleur <code>Test</code>. En fait deux fichiers viennent d'être créés.</p>
+<p>La classe <code>Test</code> contenant la méthode <code>index</code></p>
+<pre><code class="language-php hljs"><span class="hljs-meta">&lt;?php</span>
+
+<span class="hljs-keyword">namespace</span> <span class="hljs-title">App</span>\<span class="hljs-title">Controller</span>;
+
+<span class="hljs-keyword">use</span> <span class="hljs-title">Symfony</span>\<span class="hljs-title">Bundle</span>\<span class="hljs-title">FrameworkBundle</span>\<span class="hljs-title">Controller</span>\<span class="hljs-title">AbstractController</span>;
+<span class="hljs-keyword">use</span> <span class="hljs-title">Symfony</span>\<span class="hljs-title">Component</span>\<span class="hljs-title">HttpFoundation</span>\<span class="hljs-title">Response</span>;
+<span class="hljs-keyword">use</span> <span class="hljs-title">Symfony</span>\<span class="hljs-title">Component</span>\<span class="hljs-title">Routing</span>\<span class="hljs-title">Annotation</span>\<span class="hljs-title">Route</span>;
+
+<span class="hljs-class"><span class="hljs-keyword">class</span> <span class="hljs-title">TestController</span> <span class="hljs-keyword">extends</span> <span class="hljs-title">AbstractController</span>
+</span>{
+    <span class="hljs-comment">#[Route('/test', name: 'app_test')]</span>
+    <span class="hljs-keyword">public</span> <span class="hljs-function"><span class="hljs-keyword">function</span> <span class="hljs-title">index</span><span class="hljs-params">()</span>: <span class="hljs-title">Response</span>
+    </span>{
+        <span class="hljs-keyword">return</span> $this-&gt;render(<span class="hljs-string">'test/index.html.twig'</span>, [
+            <span class="hljs-string">'controller_name'</span> =&gt; <span class="hljs-string">'TestController'</span>,
+        ]);
+    }
+}</code></pre>
+<blockquote>
+<p>Remarquez que l'annotation spécifiant la route est au format <code>php8</code></p>
+</blockquote>
+<p>Et une vue </p>
+<pre><code class="language-html hljs xml">{% extends 'base.html.twig' %}
+
+{% block title %}Hello TestController!{% endblock %}
+
+{% block body %}
+<span class="hljs-tag">&lt;<span class="hljs-name">style</span>&gt;</span><span class="css">
+    <span class="hljs-selector-class">.example-wrapper</span> { <span class="hljs-attribute">margin</span>: <span class="hljs-number">1em</span> auto; <span class="hljs-attribute">max-width</span>: <span class="hljs-number">800px</span>; <span class="hljs-attribute">width</span>: <span class="hljs-number">95%</span>; <span class="hljs-attribute">font</span>: <span class="hljs-number">18px</span>/<span class="hljs-number">1.5</span> sans-serif; }
+    <span class="hljs-selector-class">.example-wrapper</span> <span class="hljs-selector-tag">code</span> { <span class="hljs-attribute">background</span>: <span class="hljs-number">#F5F5F5</span>; <span class="hljs-attribute">padding</span>: <span class="hljs-number">2px</span> <span class="hljs-number">6px</span>; }
+</span><span class="hljs-tag">&lt;/<span class="hljs-name">style</span>&gt;</span>
+
+<span class="hljs-tag">&lt;<span class="hljs-name">div</span> <span class="hljs-attr">class</span>=<span class="hljs-string">"example-wrapper"</span>&gt;</span>
+    <span class="hljs-tag">&lt;<span class="hljs-name">h1</span>&gt;</span>Hello {{ controller_name }}! ✅<span class="hljs-tag">&lt;/<span class="hljs-name">h1</span>&gt;</span>
+
+    This friendly message is coming from:
+    <span class="hljs-tag">&lt;<span class="hljs-name">ul</span>&gt;</span>
+        <span class="hljs-tag">&lt;<span class="hljs-name">li</span>&gt;</span>Your controller at <span class="hljs-tag">&lt;<span class="hljs-name">code</span>&gt;</span><span class="hljs-tag">&lt;<span class="hljs-name">a</span> <span class="hljs-attr">href</span>=<span class="hljs-string">"{{ '/home/frc/velvet_record/src/Controller/TestController.php'|file_link(0) }}"</span>&gt;</span>src/Controller/TestController.php<span class="hljs-tag">&lt;/<span class="hljs-name">a</span>&gt;</span><span class="hljs-tag">&lt;/<span class="hljs-name">code</span>&gt;</span><span class="hljs-tag">&lt;/<span class="hljs-name">li</span>&gt;</span>
+        <span class="hljs-tag">&lt;<span class="hljs-name">li</span>&gt;</span>Your template at <span class="hljs-tag">&lt;<span class="hljs-name">code</span>&gt;</span><span class="hljs-tag">&lt;<span class="hljs-name">a</span> <span class="hljs-attr">href</span>=<span class="hljs-string">"{{ '/home/frc/velvet_record/templates/test/index.html.twig'|file_link(0) }}"</span>&gt;</span>templates/test/index.html.twig<span class="hljs-tag">&lt;/<span class="hljs-name">a</span>&gt;</span><span class="hljs-tag">&lt;/<span class="hljs-name">code</span>&gt;</span><span class="hljs-tag">&lt;/<span class="hljs-name">li</span>&gt;</span>
+    <span class="hljs-tag">&lt;/<span class="hljs-name">ul</span>&gt;</span>
+<span class="hljs-tag">&lt;/<span class="hljs-name">div</span>&gt;</span>
+{% endblock %}
+</code></pre>
+<p>Vous pouvez vérfier le bon fonctionnement de cet exemple en tapant <a href="https://localhost:8000/">https://localhost:8000</a> dans votre navigateur.</p></div><div class="menu-markdown"><img src="./controller_files/menu.png"><div data-id="1">Création du contrôleur</div></div></div><script>hljs.initHighlightingOnLoad();//hljs.initLineNumbersOnLoad();</script><script src="./controller_files/menu-markdown.js"></script><script>document.title = "nCode | " + document.querySelector("h1").textContent;</script></body></html>

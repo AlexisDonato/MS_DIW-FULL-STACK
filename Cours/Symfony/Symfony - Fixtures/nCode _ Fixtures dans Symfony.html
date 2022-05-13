@@ -1,0 +1,96 @@
+<!DOCTYPE html>
+<!-- saved from url=(0073)https://ncode.amorce.org/ressources/Pool/CDA/WEB_Symfony_frc/fixture.html -->
+<html><head><meta http-equiv="Content-Type" content="text/html; charset=UTF-8"><title>nCode | Fixtures dans Symfony</title>
+        <meta name="viewport" content="width=device-width, initial-scale=1">
+        <link rel="stylesheet" href="./nCode _ Fixtures dans Symfony_files/font-awesome.min.css">
+        <link rel="stylesheet" href="./nCode _ Fixtures dans Symfony_files/bootstrap.min.css">
+        <link rel="stylesheet" href="./nCode _ Fixtures dans Symfony_files/darcula.css">
+        <!-- <link rel="stylesheet" href="/css/highlight/line-number.css"> -->
+        <link rel="stylesheet" href="./nCode _ Fixtures dans Symfony_files/github-markdown.css">
+        <!-- <link rel="stylesheet" href="/css/markdown_foad.css"> -->
+        <link rel="stylesheet" href="./nCode _ Fixtures dans Symfony_files/menu-markdown.css">
+        <!-- <script src="/js/highlightjs-line-numbers.min.js"></script> -->
+        <script src="./nCode _ Fixtures dans Symfony_files/jquery-3.4.1.min.js"></script>
+        <script src="./nCode _ Fixtures dans Symfony_files/popper.min.js"></script>
+        <script src="./nCode _ Fixtures dans Symfony_files/bootstrap.min.js"></script>
+        <script src="./nCode _ Fixtures dans Symfony_files/highlight.js"></script>
+        </head><body><div class="container"><div class="markdown-body"><h1 id="1">Fixtures dans Symfony</h1>
+<p>Les fixtures dans Symfony sont un moyen simple d'insérer des données dans vos entités.</p>
+<p>Un maker est disponible pour créer un squelette de fixture</p>
+<pre><code class="language-bash hljs">php bin/console make:fixture jeu1</code></pre>
+<p>Cette commande crée un fichier <code>src/DataFixtures/Jeu1.php</code> qui ressemble à ceci.</p>
+<pre><code class="language-php hljs"><span class="hljs-meta">&lt;?php</span>
+
+<span class="hljs-keyword">namespace</span> <span class="hljs-title">App</span>\<span class="hljs-title">DataFixtures</span>;
+
+<span class="hljs-keyword">use</span> <span class="hljs-title">Doctrine</span>\<span class="hljs-title">Bundle</span>\<span class="hljs-title">FixturesBundle</span>\<span class="hljs-title">Fixture</span>;
+<span class="hljs-keyword">use</span> <span class="hljs-title">Doctrine</span>\<span class="hljs-title">Persistence</span>\<span class="hljs-title">ObjectManager</span>;
+
+<span class="hljs-class"><span class="hljs-keyword">class</span> <span class="hljs-title">Jeu1</span> <span class="hljs-keyword">extends</span> <span class="hljs-title">Fixture</span>
+</span>{
+    <span class="hljs-keyword">public</span> <span class="hljs-function"><span class="hljs-keyword">function</span> <span class="hljs-title">load</span><span class="hljs-params">(ObjectManager $manager)</span>: <span class="hljs-title">void</span>
+    </span>{
+        <span class="hljs-comment">// $product = new Product();</span>
+        <span class="hljs-comment">// $manager-&gt;persist($product);</span>
+
+        $manager-&gt;flush();
+    }
+}
+</code></pre>
+<p>Quand vous exécuterez vos fixtures, la méthode <code>load</code> sera déclenchée. Remarquez que le paramètre <code>$manager</code> est une instance de la classe <code>ObjectManager</code>, il va vous permettre d'enregistrer (persister) vos entités dans la base de données.</p>
+<p>Deux méthodes utiles du <code>$manager</code>:</p>
+<p><code>persist</code> qui permet de spécifier à doctrine qu'une nouvelle entité doit être persisté.</p>
+<p><code>flush</code> qui indique à doctrine de générer le code <code>sql</code> pour mettre à jour votre base.</p>
+<p>Il ne vous reste plus qu'à compléter ce code pour insérer votre jeu de test.</p>
+<p>Pour créer votre premier <code>Artist</code>, ajoutez le code ci-dessous:</p>
+<pre><code class="language-php hljs">
+$artist1 = <span class="hljs-keyword">new</span> Artist();
+
+$artist1-&gt;setName(<span class="hljs-string">"Queens Of The Stone Age"</span>);
+$artist1-&gt;setUrl(<span class="hljs-string">"https://qotsa.com/"</span>);
+
+$manager-&gt;persist($artist1);
+$manager-&gt;flush();
+</code></pre>
+<p>Pour exécuter votre fixture</p>
+<pre><code class="language-bash hljs">php bin/console doctrine:fixtures:load
+// ou 
+php bin/console d:f:l</code></pre>
+<p><code>Symfony</code> vous demande une confirmation avant de purger votre base.</p>
+<p>Une fois votre fixture insérée, vérifiez dans votre base que les données sont bien présentes.</p>
+<p>Pour l'instant vous avez ajouté un <code>Artist</code>, pour compléter notre jeu de test, nous allons ajouter un <code>Disc</code> et le relier à notre <code>Artist</code>.</p>
+<pre><code class="language-php hljs">
+$artist1 = <span class="hljs-keyword">new</span> Artist();
+
+$artist1-&gt;setName(<span class="hljs-string">"Queens Of The Stone Age"</span>);
+$artist1-&gt;setUrl(<span class="hljs-string">"https://qotsa.com/"</span>);
+
+$manager-&gt;persist($artist1);
+
+$disc1 = <span class="hljs-keyword">new</span> Disc();
+$disc1-&gt;setTitle(<span class="hljs-string">"Songs for the Deaf"</span>);
+$disc1-&gt;setPicture(<span class="hljs-string">"https://en.wikipedia.org/wiki/Songs_for_the_Deaf#/media/File:Queens_of_the_Stone_Age_-_Songs_for_the_Deaf.png"</span>);
+$disc1-&gt;setLabel(<span class="hljs-string">"Interscope Records"</span>);
+
+$manager-&gt;persist($disc1);
+
+<span class="hljs-comment">// Pour associer vos entités</span>
+$disc1-&gt;setArtist($artist1);
+<span class="hljs-comment">// ou </span>
+$artist1-&gt;addDisc($disc1);
+
+$manager-&gt;flush();
+</code></pre>
+<blockquote>
+<p>Remaquez les dernières lignes qui permettent de relier les entités.</p>
+</blockquote>
+<p>Pour indiquez l'<code>Artist</code> d'un <code>Disc</code></p>
+<pre><code class="language-php hljs">$disc1-&gt;setArtist($artist1);</code></pre>
+<p>Pour ajouter un <code>Disc</code> à l'<code>Artist</code></p>
+<pre><code class="language-php hljs">$artist1-&gt;addDisc($disc1);</code></pre>
+<p>Ces deux manipulations sont équivalentes, elles donnent le même résultat. Comme il s'agit d'une relation <code>OneToMany</code> vous avez le choix de la manipuler côté <code>One</code> ou côté <code>Many</code>.</p>
+<p>Executez de nouveau votre <code>fixture</code> et vérifiez dans la base que la relation s'est bien faite.</p>
+<blockquote>
+<p>Vous pouvez aussi récupérer toutes les données que nous avions dans les exercices php en suivant ce <a target="_blank" href="https://ncode.amorce.org/ressources/Pool/CDA/WEB_Symfony_frc/fixture2.html">didacticiel</a>.</p>
+</blockquote>
+<p><br><br><br><br></p></div><div class="menu-markdown"><img src="./nCode _ Fixtures dans Symfony_files/menu.png"><div data-id="1" class="titre">Fixtures dans Symfony</div></div></div><script>hljs.initHighlightingOnLoad();//hljs.initLineNumbersOnLoad();</script><script src="./nCode _ Fixtures dans Symfony_files/menu-markdown.js"></script><script>document.title = "nCode | " + document.querySelector("h1").textContent;</script></body></html>

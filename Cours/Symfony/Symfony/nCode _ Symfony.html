@@ -1,0 +1,38 @@
+<!DOCTYPE html>
+<!-- saved from url=(0083)https://ncode.amorce.org/ressources/Pool/CDA/WEB_Symfony_frc/tuto_installation.html -->
+<html><head><meta http-equiv="Content-Type" content="text/html; charset=UTF-8"><title>nCode | Symfony</title>
+        <meta name="viewport" content="width=device-width, initial-scale=1">
+        <link rel="stylesheet" href="./nCode _ Symfony_files/font-awesome.min.css">
+        <link rel="stylesheet" href="./nCode _ Symfony_files/bootstrap.min.css">
+        <link rel="stylesheet" href="./nCode _ Symfony_files/darcula.css">
+        <!-- <link rel="stylesheet" href="/css/highlight/line-number.css"> -->
+        <link rel="stylesheet" href="./nCode _ Symfony_files/github-markdown.css">
+        <!-- <link rel="stylesheet" href="/css/markdown_foad.css"> -->
+        <link rel="stylesheet" href="./nCode _ Symfony_files/menu-markdown.css">
+        <!-- <script src="/js/highlightjs-line-numbers.min.js"></script> -->
+        <script src="./nCode _ Symfony_files/jquery-3.4.1.min.js"></script>
+        <script src="./nCode _ Symfony_files/popper.min.js"></script>
+        <script src="./nCode _ Symfony_files/bootstrap.min.js"></script>
+        <script src="./nCode _ Symfony_files/highlight.js"></script>
+        </head><body><div class="container"><div class="markdown-body"><h1 id="1">Symfony</h1>
+<p><a href="https://symfony.com/">L’aide en ligne sur ce framework</a>, excellente, est la référence incontournable et à jour.</p>
+<h2 id="3">Installation et configuration de Symfony</h2>
+<p>Pour créer une nouvelle application Symfony, s’assurer que les étapes précédentes ont été </p>
+<pre><code class="language-bash hljs">composer create-project symfony/website-skeleton monProjet v5.4.*</code></pre>
+<p>Cette commande va créer un nouveau répertoire monProjet, y télécharger des dépendances et même
+générer les répertoires et fichiers de base nécessaires pour commencer.</p>
+<p>Si on ne précise pas la version (ici v5.4.*), Composer prendra automatiquement la dernière version de Symfony.</p>
+<p><strong>Remarque</strong>
+Nous avons créé un projet de type website-skeleton, il est optimisé pour les applications web traditionnelles.
+En revanche, pour construire des microservices, des applications console ou des API, il est préférable d'utiliser un projet de type skeleton. Il faudra alors importer manuellement toutes les dépendances dont on pourrait avoir besoin.</p>
+<h2 id="9">Exécution d’une application Symfony</h2>
+<p>En environnement de production, il est courant d’utiliser un serveur Web comme Apache ou Nginx
+(voir <a href="https://symfony.com/doc/current/setup/web_server_configuration.html">la configuration d'un serveur Web pour exécuter symfony</a>).</p>
+<p>Mais pour le développement, il est recommandé d'utiliser le serveur web Symfony. </p>
+<h3 id="12">Utilisation du serveur web Symfony</h3>
+<p>Pour cela, ouvrir un terminal et utilisez les commandes suivantes :</p>
+<p>Lancement du serveur local :</p>
+<pre><code class="language-bash hljs">symfony serve</code></pre>
+<p>Ouvrir un navigateur et accéder à <a href="http://localhost:8000/">http://localhost:8000/</a>. </p>
+<p>Si tout fonctionne, une page d'accueil s’affiche et confirme que l’environnement de développement est opérationnel.</p>
+<p>Pour arrêter le processus du serveur, appuyer sur <code>Ctrl C</code> à partir du terminal.</p></div><div class="menu-markdown"><img src="./nCode _ Symfony_files/menu.png"><div data-id="1" class="titre">Symfony</div><div data-id="3">Installation et configuration de Symfony</div><div data-id="9">Exécution d’une application Symfony</div><div data-id="12">&nbsp;&nbsp;&nbsp;&nbsp;Utilisation du serveur web Symfony</div></div></div><script>hljs.initHighlightingOnLoad();//hljs.initLineNumbersOnLoad();</script><script src="./nCode _ Symfony_files/menu-markdown.js"></script><script>document.title = "nCode | " + document.querySelector("h1").textContent;</script></body></html>

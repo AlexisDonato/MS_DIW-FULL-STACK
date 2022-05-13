@@ -1,0 +1,126 @@
+<!DOCTYPE html>
+<!-- saved from url=(0059)https://ncode.amorce.org/ressources/Pool/PHP/MVC/MVC-3.html -->
+<html><head><meta http-equiv="Content-Type" content="text/html; charset=UTF-8"><title>nCode | Amélioration avec un contrôleur frontal</title>
+        <meta name="viewport" content="width=device-width, initial-scale=1">
+        <link rel="stylesheet" href="./nCode _ Amélioration avec un contrôleur frontal_files/font-awesome.min.css">
+        <link rel="stylesheet" href="./nCode _ Amélioration avec un contrôleur frontal_files/bootstrap.min.css">
+        <link rel="stylesheet" href="./nCode _ Amélioration avec un contrôleur frontal_files/darcula.css">
+        <!-- <link rel="stylesheet" href="/css/highlight/line-number.css"> -->
+        <link rel="stylesheet" href="./nCode _ Amélioration avec un contrôleur frontal_files/github-markdown.css">
+        <!-- <link rel="stylesheet" href="/css/markdown_foad.css"> -->
+        <link rel="stylesheet" href="./nCode _ Amélioration avec un contrôleur frontal_files/menu-markdown.css">
+        <!-- <script src="/js/highlightjs-line-numbers.min.js"></script> -->
+        <script src="./nCode _ Amélioration avec un contrôleur frontal_files/jquery-3.4.1.min.js"></script>
+        <script src="./nCode _ Amélioration avec un contrôleur frontal_files/popper.min.js"></script>
+        <script src="./nCode _ Amélioration avec un contrôleur frontal_files/bootstrap.min.js"></script>
+        <script src="./nCode _ Amélioration avec un contrôleur frontal_files/highlight.js"></script>
+        </head><body><div class="container"><div class="markdown-body"><h1 id="1">Amélioration avec un contrôleur frontal</h1>
+<h2 id="2">Point d'étape</h2>
+<p>Pour le moment nous avons la structure suivante:</p>
+<pre><code class="language-zsh hljs bash">📦mvcevo
+ ┣ 📜Model.php
+ ┣ 📜billet.php
+ ┣ 📜gabarit.php
+ ┣ 📜index.php
+ ┣ 📜style.css
+ ┣ 📜vueAccueil.php
+ ┣ 📜vueBillet.php
+ ┗ 📜vueErreur.php</code></pre>
+<ul>
+<li><code>Model.php</code> pour l'accès aux données.</li>
+<li><code>vueAccueil.php</code>, <code>vueBillet.php</code>, et <code>vueErreur.php</code> s'occupent de la vue.</li>
+<li><code>index.php</code> et <code>billet.php</code> correspondent à la partie Contrôleur.</li>
+</ul>
+<h2 id="6">Un contrôleur frontal</h2>
+<p>Nous avons une architecture à n contrôleurs, ce n'est pas idéal.</p>
+<ul>
+<li>cela expose le nom des fichiers php.</li>
+<li>la maintenabilité du site va vite devenir difficile.</li>
+</ul>
+<p>Pour résoudre ce problème, nous allons mettre en place un <strong>contrôleur frontal</strong>. L'objectif de ce contrôleur est de centraliser les requetes entrantes puis d'utiliser d'autres contrôleurs pour réaliser l'action et de renvoyer le résultat sous la forme d'une vue.</p>
+<p>En principe on utilise <code>index.php</code> comme contrôleur frontal. C'est cet <code>index.php</code> qui va recevoir les différentes actions à effectuer. contrairement à ce que nous avons pour le moment. (<code>index.php</code> pour afficher les billets et <code>billet.php?id=&lt;id du billet&gt;</code> pour afficher un billet en particulier).</p>
+<p>Commençons à mettre en place deux actions:</p>
+<ul>
+<li>si action vaut "billet", le contrôleur affichera un billet.</li>
+<li>si action n'est pas valorisé, le contrôleur affichera tous les billets.</li>
+</ul>
+<pre><code class="language-php hljs"><span class="hljs-comment">// Controleur.php</span>
+<span class="hljs-meta">&lt;?php</span>
+
+<span class="hljs-keyword">require</span> <span class="hljs-string">'Model.php'</span>;
+
+<span class="hljs-comment">// Affiche la liste de tous les billets du blog</span>
+<span class="hljs-function"><span class="hljs-keyword">function</span> <span class="hljs-title">accueil</span><span class="hljs-params">()</span> </span>{
+    $billets = getBillets();
+    <span class="hljs-keyword">require</span> <span class="hljs-string">'vueAccueil.php'</span>;
+}
+
+<span class="hljs-comment">// Affiche les détails sur un billet</span>
+<span class="hljs-function"><span class="hljs-keyword">function</span> <span class="hljs-title">billet</span><span class="hljs-params">($idBillet)</span> </span>{
+    $billet = getBillet($idBillet);
+    $commentaires = getComments($idBillet);
+    <span class="hljs-keyword">require</span> <span class="hljs-string">'vueBillet.php'</span>;
+}
+
+<span class="hljs-comment">// Affiche une erreur</span>
+<span class="hljs-function"><span class="hljs-keyword">function</span> <span class="hljs-title">erreur</span><span class="hljs-params">($msgErreur)</span> </span>{
+    <span class="hljs-keyword">require</span> <span class="hljs-string">'vueErreur.php'</span>;
+}</code></pre>
+<p>Il faut aussi modifier <code>index.php</code></p>
+<pre><code class="language-php hljs"><span class="hljs-meta">&lt;?php</span>
+
+<span class="hljs-keyword">require</span> <span class="hljs-string">'Controleur.php'</span>;
+
+<span class="hljs-keyword">try</span> {
+    <span class="hljs-keyword">if</span>(<span class="hljs-keyword">isset</span>($_GET[<span class="hljs-string">'action'</span>])) {
+        <span class="hljs-keyword">if</span>($_GET[<span class="hljs-string">'action'</span>] == <span class="hljs-string">'billet'</span>){
+            <span class="hljs-keyword">if</span>(<span class="hljs-keyword">isset</span>($_GET[<span class="hljs-string">'id'</span>])){
+                $idBillet = intval($_GET[<span class="hljs-string">'id'</span>]);
+                <span class="hljs-keyword">if</span> ($idBillet != <span class="hljs-number">0</span>)
+                    billet($idBillet);
+                <span class="hljs-keyword">else</span>
+                    <span class="hljs-keyword">throw</span> <span class="hljs-keyword">new</span> <span class="hljs-keyword">Exception</span>(<span class="hljs-string">"id billet non valide"</span>);
+            }<span class="hljs-keyword">else</span>
+                <span class="hljs-keyword">throw</span> <span class="hljs-keyword">new</span> <span class="hljs-keyword">Exception</span>(<span class="hljs-string">"id billet non défini"</span>);
+        }<span class="hljs-keyword">else</span>
+            <span class="hljs-keyword">throw</span> <span class="hljs-keyword">new</span> <span class="hljs-keyword">Exception</span>(<span class="hljs-string">"action non valide"</span>);
+    }<span class="hljs-keyword">else</span> {
+        accueil();
+    }
+
+}<span class="hljs-keyword">catch</span>(<span class="hljs-keyword">Exception</span> $e) {
+    erreur($e-&gt;getMessage());
+}</code></pre>
+<blockquote>
+<p>vous pouvez supprimer <code>billet.php</code> il est devenu inutile</p>
+</blockquote>
+<p>Il faut aussi modifier les liens dans la vue Accueil (<code>vueAccueil.php</code>)</p>
+<pre><code class="language-php hljs">...
+&lt;a href=<span class="hljs-string">"&lt;?= "</span>index.php?action=billet&amp;id=<span class="hljs-string">". $billet['id'] ?&gt;"</span>&gt;
+    &lt;h1 <span class="hljs-class"><span class="hljs-keyword">class</span>="<span class="hljs-title">titreBillet</span>"&gt;&lt;?= $<span class="hljs-title">billet</span>['<span class="hljs-title">titre</span>'] ?&gt;&lt;/<span class="hljs-title">h1</span>&gt;
+&lt;/<span class="hljs-title">a</span>&gt;
+...</span></code></pre>
+<p>En résumé, notre contrôleur suit la logique suivante</p>
+<p><img src="./nCode _ Amélioration avec un contrôleur frontal_files/front-controller2.png" alt="front"></p>
+<h2 id="21">Finissons par un peu de rangement</h2>
+<p>Il faut toujours penser à structurer vos sources. D'une part pour vous, mais aussi pour d'autres developpeurs qui pourraient travailler sur le projet.</p>
+<p>Je vous propose la structure suivante:</p>
+<pre><code class="language-zsh hljs bash">📦mvcevo
+ ┣ 📂BD
+ ┃ ┗ 📜blog.sql
+ ┣ 📂assets
+ ┃ ┗ 📜style.css
+ ┣ 📂controller
+ ┃ ┗ 📜Controleur.php
+ ┣ 📂model
+ ┃ ┗ 📜Model.php
+ ┣ 📂vue
+ ┃ ┣ 📜gabarit.php
+ ┃ ┣ 📜vueAccueil.php
+ ┃ ┣ 📜vueBillet.php
+ ┃ ┗ 📜vueErreur.php
+ ┗ 📜index.php</code></pre>
+<blockquote>
+<p>Après ce ménage, faites bien attention à verifier et corriger les chemins.</p>
+</blockquote>
+<p><br><br><br><br></p></div><div class="menu-markdown"><img src="./nCode _ Amélioration avec un contrôleur frontal_files/menu.png"><div data-id="1" class="titre">Amélioration avec un contrôleur frontal</div><div data-id="2">Point d'étape</div><div data-id="6">Un contrôleur frontal</div><div data-id="21">Finissons par un peu de rangement</div></div></div><script>hljs.initHighlightingOnLoad();//hljs.initLineNumbersOnLoad();</script><script src="./nCode _ Amélioration avec un contrôleur frontal_files/menu-markdown.js"></script><script>document.title = "nCode | " + document.querySelector("h1").textContent;</script></body></html>

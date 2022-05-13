@@ -1,0 +1,65 @@
+<!DOCTYPE html>
+<!-- saved from url=(0078)https://ncode.amorce.org/ressources/Pool/CDA/WEB_Symfony_frc/installation.html -->
+<html><head><meta http-equiv="Content-Type" content="text/html; charset=UTF-8"><title>nCode | Installation de php</title>
+        <meta name="viewport" content="width=device-width, initial-scale=1">
+        <link rel="stylesheet" href="./nCode _ Installation de php_files/font-awesome.min.css">
+        <link rel="stylesheet" href="./nCode _ Installation de php_files/bootstrap.min.css">
+        <link rel="stylesheet" href="./nCode _ Installation de php_files/darcula.css">
+        <!-- <link rel="stylesheet" href="/css/highlight/line-number.css"> -->
+        <link rel="stylesheet" href="./nCode _ Installation de php_files/github-markdown.css">
+        <!-- <link rel="stylesheet" href="/css/markdown_foad.css"> -->
+        <link rel="stylesheet" href="./nCode _ Installation de php_files/menu-markdown.css">
+        <!-- <script src="/js/highlightjs-line-numbers.min.js"></script> -->
+        <script src="./nCode _ Installation de php_files/jquery-3.4.1.min.js"></script>
+        <script src="./nCode _ Installation de php_files/popper.min.js"></script>
+        <script src="./nCode _ Installation de php_files/bootstrap.min.js"></script>
+        <script src="./nCode _ Installation de php_files/highlight.js"></script>
+        </head><body><div class="container"><div class="markdown-body"><p>Si vous êtes sous Windows, suivez <a target="_blank" href="https://ncode.amorce.org/ressources/Pool/CDA/WEB_Symfony_frc/composer.html">ce guide</a> pour installer les outils nécessaires</p>
+<p>Sinon, vous devez disposer d'un système d'exploitation décent :-) et dans ce cas suivez les instructions ci-dessous.</p>
+<h1 id="3">Installation de php</h1>
+<pre><code class="language-sh hljs bash">sudo apt install php7.4 php7.4-xml php7.4-zip php7.4-intl php7.4-mbstring php7.4-curl php7.4-mysql</code></pre>
+<p>Pour la version <code>8.1</code> de <code>php</code></p>
+<p>Il faut d'abord ajouter le dépôt <code>ondrej/php</code></p>
+<pre><code class="language-bash hljs">sudo apt install software-properties-common 
+sudo add-apt-repository ppa:ondrej/php 
+sudo apt update</code></pre>
+<p>Puis installer la version de php souhaitée</p>
+<pre><code class="language-bash hljs">sudo apt install php8.1 php8.1-xml php8.1-zip php8.1-intl php8.1-mbstring php8.1-curl php8.1-mysql</code></pre>
+<p>Pour selectionner la version de php utilisée par défaut:</p>
+<pre><code class="language-bash hljs">sudo update-alternatives --config php</code></pre>
+<h1 id="12">Installation de Composer</h1>
+<pre><code class="language-sh hljs bash">php -r <span class="hljs-string">"copy('https://getcomposer.org/installer', 'composer-setup.php');"</span>
+php composer-setup.php
+sudo mv composer.phar /usr/<span class="hljs-built_in">local</span>/bin/composer
+rm <span class="hljs-_">-f</span> composer-setup.php</code></pre>
+<h1 id="14">Installation de symfony-cli</h1>
+<pre><code class="language-sh hljs bash"><span class="hljs-built_in">echo</span> <span class="hljs-string">'deb [trusted=yes] https://repo.symfony.com/apt/ /'</span> | sudo tee /etc/apt/sources.list.d/symfony-cli.list
+sudo apt update
+sudo apt install symfony-cli -y</code></pre>
+<h1 id="16">Vérification</h1>
+<p>Vous pouvez tester que tous les outils sont installés</p>
+<pre><code class="language-sh hljs bash">symfony check:requirements</code></pre>
+<h1 id="19">Utilisation du debugger</h1>
+<h3 id="20">Options de développement</h3>
+<p>Dans un premier temps, vous pouvez réactiver les options de <code>developpement</code> de PHP.</p>
+<p>Editez le fichier <code>php.ini</code></p>
+<pre><code class="language-bash hljs">sudo gedit /etc/php/7.4/cli/php.ini</code></pre>
+<p>Puis modifiez les informations suivantes</p>
+<pre><code class="language-ini hljs"><span class="hljs-attr">error_reporting</span> = E_ALL         
+<span class="hljs-attr">display_errors</span> = <span class="hljs-literal">On</span>             
+<span class="hljs-attr">display_startup_errors</span> = <span class="hljs-literal">On</span>     
+<span class="hljs-attr">log_errors</span> = <span class="hljs-literal">On</span>     
+<span class="hljs-attr">html_errors</span> = <span class="hljs-literal">On</span>            </code></pre>
+<h3 id="26">Xdebug</h3>
+<p>Xdebug permet de débuger vos scripts php, vous devez disposer d'un IDE capable de gérer le debuggage.</p>
+<h4 id="28">Installation de Xdebug</h4>
+<pre><code class="language-bash hljs">sudo apt install php-xdebug</code></pre>
+<p>Modifiez le fichier <code>php.ini</code> pour activer Xdebug</p>
+<pre><code class="language-ini hljs">xdebug.mode = debug
+xdebug.start_with_request = yes</code></pre>
+<p>Installez l'extension <code>PHP Debug</code> de vscode</p>
+<p>Dans l'onglet debug de vscode, cliquez sur 'create a launch.json file'</p>
+<p><img src="./nCode _ Installation de php_files/xdebug1.png" alt=""></p>
+<p>Ensuite, positionnez vous dans votre script php et placez un point d'arrêt sur la ligne où vous voulez stopper votre script.</p>
+<p>Appuyer sur <code>F5</code> pour démarrer une session de débuggage.</p>
+<p>Consultez votre page PHP depuis votre navigateur.</p></div><div class="menu-markdown"><img src="./nCode _ Installation de php_files/menu.png"><div data-id="3" class="titre">Installation de php</div><div data-id="12" class="titre">Installation de Composer</div><div data-id="14" class="titre">Installation de symfony-cli</div><div data-id="16" class="titre">Vérification</div><div data-id="19" class="titre">Utilisation du debugger</div><div data-id="20">&nbsp;&nbsp;&nbsp;&nbsp;Options de développement</div><div data-id="26">&nbsp;&nbsp;&nbsp;&nbsp;Xdebug</div><div data-id="28">&nbsp;&nbsp;&nbsp;&nbsp;Installation de Xdebug</div></div></div><script>hljs.initHighlightingOnLoad();//hljs.initLineNumbersOnLoad();</script><script src="./nCode _ Installation de php_files/menu-markdown.js"></script><script>document.title = "nCode | " + document.querySelector("h1").textContent;</script></body></html>
