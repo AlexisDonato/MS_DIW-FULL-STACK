@@ -1,0 +1,129 @@
+<!DOCTYPE html>
+<!-- saved from url=(0067)https://ncode.amorce.org/ressources/Pool/CDA/WEB_Symfony/voter.html -->
+<html><head><meta http-equiv="Content-Type" content="text/html; charset=UTF-8"><title></title>
+        <meta name="viewport" content="width=device-width, initial-scale=1">
+        <link rel="stylesheet" href="./voter_files/font-awesome.min.css">
+        <link rel="stylesheet" href="./voter_files/bootstrap.min.css">
+        <link rel="stylesheet" href="./voter_files/darcula.css">
+        <!-- <link rel="stylesheet" href="/css/highlight/line-number.css"> -->
+        <link rel="stylesheet" href="./voter_files/github-markdown.css">
+        <!-- <link rel="stylesheet" href="/css/markdown_foad.css"> -->
+        <link rel="stylesheet" href="./voter_files/menu-markdown.css">
+        <!-- <script src="/js/highlightjs-line-numbers.min.js"></script> -->
+        <script src="./voter_files/jquery-3.4.1.min.js"></script>
+        <script src="./voter_files/popper.min.js"></script>
+        <script src="./voter_files/bootstrap.min.js"></script>
+        <script src="./voter_files/highlight.js"></script>
+        </head><body><div class="container"><div class="markdown-body"><h1 id="1">Les voters</h1>
+<p>Pour l'exemple, nous allons mettre en place un voter empêchant l'accès à la modification des
+informations utilisateur d'un autre profil, potentiellement accessible par l'url.</p>
+<h2 id="3">Création et configuration du voter</h2>
+<p>Nous allons créer un fichier <code>UserVoter.php</code> dans le dossier <code>src\Security</code>.</p>
+<p>Nous allons créer dans ce fichier une classe <code>UserVoter</code> que nous allons étendre à
+la classe <code>Voter</code> (n'oubliez pas de faire l'import s'il ne se fait pas automatiquement).</p>
+<p>Cette classe contiendra obligatoirement 2 méthodes :</p>
+<ul>
+<li>la méthode <code>support()</code> qui va déterminer selon quelles actions le voter sera appelé.</li>
+<li>la méthode <code>voteOnAttribute()</code> va définir quel utilisateur pourra effectuer cette action.</li>
+</ul>
+<pre><code class="language-php hljs"><span class="hljs-meta">&lt;?php</span>
+<span class="hljs-keyword">namespace</span> <span class="hljs-title">App</span>\<span class="hljs-title">Security</span>;
+
+<span class="hljs-keyword">use</span> <span class="hljs-title">App</span>\<span class="hljs-title">Entity</span>\<span class="hljs-title">User</span>;
+<span class="hljs-keyword">use</span> <span class="hljs-title">Symfony</span>\<span class="hljs-title">Component</span>\<span class="hljs-title">Security</span>\<span class="hljs-title">Core</span>\<span class="hljs-title">Authentication</span>\<span class="hljs-title">Token</span>\<span class="hljs-title">TokenInterface</span>;
+<span class="hljs-keyword">use</span> <span class="hljs-title">Symfony</span>\<span class="hljs-title">Component</span>\<span class="hljs-title">Security</span>\<span class="hljs-title">Core</span>\<span class="hljs-title">Authorization</span>\<span class="hljs-title">Voter</span>\<span class="hljs-title">Voter</span>;
+
+<span class="hljs-class"><span class="hljs-keyword">class</span> <span class="hljs-title">UserVoter</span> <span class="hljs-keyword">extends</span> <span class="hljs-title">Voter</span> </span>{
+
+    <span class="hljs-keyword">protected</span> <span class="hljs-function"><span class="hljs-keyword">function</span> <span class="hljs-title">supports</span><span class="hljs-params">($attribute, $subject)</span>
+    </span>{
+        <span class="hljs-comment">// <span class="hljs-doctag">TODO:</span> Implement supports() method.</span>
+    }
+
+    <span class="hljs-keyword">protected</span> <span class="hljs-function"><span class="hljs-keyword">function</span> <span class="hljs-title">voteOnAttribute</span><span class="hljs-params">($attribute, $subject, TokenInterface $token)</span>
+    </span>{
+        <span class="hljs-comment">// <span class="hljs-doctag">TODO:</span> Implement voteOnAttribute() method.</span>
+    }
+}</code></pre>
+<h3 id="9">support()</h3>
+<p>Cette méthode va prendre 2 paramètres : </p>
+<ul>
+<li><code>$attribut</code> qui est l'action définie</li>
+<li><code>$user</code>, peut-être variable, on l'utilise ici car le contrôle se fait
+sur la modification d'un utilisateur. Nous aurions utilisé un autre paramètre si la modification
+se serait faite ailleurs ($products pour une modification sur la table products par exemple)</li>
+</ul>
+<pre><code class="language-php hljs"><span class="hljs-comment">// définition d'un constante contenant la/les action(s) à surveiller</span>
+ <span class="hljs-keyword">const</span> EDIT = <span class="hljs-string">'edit'</span>;
+
+<span class="hljs-keyword">protected</span> <span class="hljs-function"><span class="hljs-keyword">function</span> <span class="hljs-title">supports</span><span class="hljs-params">($attribute, $subject)</span>
+    </span>{
+        <span class="hljs-comment">// l'attribut n'est pas dans la liste</span>
+        <span class="hljs-keyword">if</span> (!in_array($attribute, [<span class="hljs-keyword">self</span>::EDIT])) {
+            <span class="hljs-keyword">return</span> <span class="hljs-keyword">false</span>;
+        }
+        <span class="hljs-comment">// si $user n'est pas une instance de User =&gt; pas dans la liste des utilisateur</span>
+        <span class="hljs-keyword">if</span> (!$subject <span class="hljs-keyword">instanceof</span> User) {
+            <span class="hljs-keyword">return</span> <span class="hljs-keyword">false</span>;
+        }
+        <span class="hljs-comment">// si retourne true, appel de voteOnAttribute()</span>
+        <span class="hljs-keyword">return</span> <span class="hljs-keyword">true</span>;
+    }</code></pre>
+<p>Si la fonction <code>supports()</code> retourne <code>true</code>, on a donc bien un utilisateur connecté, qui cherche à
+avoir accès à l'édition du profil. La fonction <code>voteOnAttribute()</code> est ensuite exécutée.</p>
+<h3 id="14">voteOnAttribute()</h3>
+<p>Dans cette fonction, nous allons d'abord récupérer l'utilisateur courant : </p>
+<pre><code class="language-php hljs">$user = $token-&gt;getUser();</code></pre>
+<p>Nous vérifions si l'utilisateur passé en paramètre de la fonction est bien une instance de la classe
+<code>User</code> : </p>
+<pre><code class="language-php hljs"><span class="hljs-keyword">if</span> (!$user <span class="hljs-keyword">instanceof</span> User) {
+            <span class="hljs-comment">// l'utilisateur doit être connecté, sinon accès refusé</span>
+            <span class="hljs-keyword">return</span> <span class="hljs-keyword">false</span>;
+        }</code></pre>
+<p>Grâce à la méthode <code>supports()</code> nous savons que <code>$subject</code> est un objet de la classe <code>User</code>, nous le stockons
+dans une variable :</p>
+<pre><code class="language-php hljs">$utilisateur = $subject;</code></pre>
+<p>enfin nous étudions les différents cas définis (edit pour l'exemple, il peut y en avoir plus selon
+la gestion des autorisations), et pour chaque cas, on va vérifier que l'utilisateur connecté est bien
+celui qui est attendu : </p>
+<pre><code class="language-php hljs"><span class="hljs-keyword">switch</span> ($attribute) {
+            <span class="hljs-keyword">case</span> <span class="hljs-keyword">self</span>::EDIT:
+                <span class="hljs-keyword">return</span> $user-&gt;getId() == $utilisateur-&gt;getId();
+        }
+
+        <span class="hljs-keyword">throw</span> <span class="hljs-keyword">new</span> \LogicException(<span class="hljs-string">'This code should not be reached!'</span>);</code></pre>
+<h2 id="23">Appel du voter dans le contrôleur</h2>
+<p>Reprenons notre contrôleur, la fonction <code>edit()</code> : </p>
+<pre><code class="language-php hljs"> <span class="hljs-keyword">public</span> <span class="hljs-function"><span class="hljs-keyword">function</span> <span class="hljs-title">edit</span><span class="hljs-params">(Request $request, User $user)</span>: <span class="hljs-title">Response</span>
+    </span>{
+
+        $form = $this-&gt;createForm(UserType::class, $user);
+        $form-&gt;handleRequest($request);
+
+        <span class="hljs-keyword">if</span> ($form-&gt;isSubmitted() &amp;&amp; $form-&gt;isValid()) {
+            $this-&gt;getDoctrine()-&gt;getManager()-&gt;flush();
+
+            <span class="hljs-keyword">return</span> $this-&gt;redirectToRoute(<span class="hljs-string">'user_index'</span>);
+        }
+
+        <span class="hljs-keyword">return</span> $this-&gt;render(<span class="hljs-string">'user/edit.html.twig'</span>, [
+            <span class="hljs-string">'user'</span> =&gt; $user,
+            <span class="hljs-string">'form'</span> =&gt; $form-&gt;createView(),
+        ]);
+    }</code></pre>
+<p>Nous allons y ajouter la commande suivante : </p>
+<pre><code class="language-php hljs">   $this-&gt;denyAccessUnlessGranted(<span class="hljs-string">'edit'</span>, $user, <span class="hljs-string">'non non non ...'</span>);</code></pre>
+<p>Cette commande va permettre de faire appel au voter précédemment établi.</p>
+<p>On y passe en paramètre un 'attribut' (ici <code>edit</code>, l'action qui est limitée), l'utilisateur qui
+veut avoir accès à cette action (<code>$user</code> dans notre cas), et enfin le message qui va être affiché
+en cas de refus d'accès à l'action demander.</p>
+<p>Ce Message sera affiché sous forme d'exception en dev :</p>
+<div class="row">
+    <div class="col-sm-12 text-center">
+        <img src="./voter_files/voter1.png" alt="screenshot" title="capture d&#39;écran" class="rounded">
+    </div>
+</div>
+<p>Mettez en application l'exemple ci-dessus pour éviter qu'un utilisateur ne puisse pas avoir accès
+à la modification d'un profil autre que le sien.</p>
+<p>Profitez-en personnaliser la paged d'erreur en utilisant la <a href="https://symfony.com/doc/current/controller/error_pages.html">documentation</a>.</p>
+<p>Pour repérer le code d'erreur, pensez à regarder la console de debug.</p></div><div class="menu-markdown"><img src="./voter_files/menu.png"><div data-id="1" class="titre">Les voters</div><div data-id="3">Création et configuration du voter</div><div data-id="9">&nbsp;&nbsp;&nbsp;&nbsp;support()</div><div data-id="14">&nbsp;&nbsp;&nbsp;&nbsp;voteOnAttribute()</div><div data-id="23">Appel du voter dans le contrôleur</div></div></div><script>hljs.initHighlightingOnLoad();//hljs.initLineNumbersOnLoad();</script><script src="./voter_files/menu-markdown.js"></script></body></html>

@@ -1,0 +1,251 @@
+<!DOCTYPE html>
+<!-- saved from url=(0070)https://ncode.amorce.org/ressources/Pool/CDA/WEB_Symfony_frc/test.html -->
+<html><head><meta http-equiv="Content-Type" content="text/html; charset=UTF-8"><title>nCode | Les tests Unitaires avec PHPUnit et Symfony</title>
+        <meta name="viewport" content="width=device-width, initial-scale=1">
+        <link rel="stylesheet" href="./nCode _ Les tests Unitaires avec PHPUnit et Symfony_files/font-awesome.min.css">
+        <link rel="stylesheet" href="./nCode _ Les tests Unitaires avec PHPUnit et Symfony_files/bootstrap.min.css">
+        <link rel="stylesheet" href="./nCode _ Les tests Unitaires avec PHPUnit et Symfony_files/darcula.css">
+        <!-- <link rel="stylesheet" href="/css/highlight/line-number.css"> -->
+        <link rel="stylesheet" href="./nCode _ Les tests Unitaires avec PHPUnit et Symfony_files/github-markdown.css">
+        <!-- <link rel="stylesheet" href="/css/markdown_foad.css"> -->
+        <link rel="stylesheet" href="./nCode _ Les tests Unitaires avec PHPUnit et Symfony_files/menu-markdown.css">
+        <!-- <script src="/js/highlightjs-line-numbers.min.js"></script> -->
+        <script src="./nCode _ Les tests Unitaires avec PHPUnit et Symfony_files/jquery-3.4.1.min.js"></script>
+        <script src="./nCode _ Les tests Unitaires avec PHPUnit et Symfony_files/popper.min.js"></script>
+        <script src="./nCode _ Les tests Unitaires avec PHPUnit et Symfony_files/bootstrap.min.js"></script>
+        <script src="./nCode _ Les tests Unitaires avec PHPUnit et Symfony_files/highlight.js"></script>
+        </head><body><div class="container"><div class="markdown-body"><h1 id="1">Les tests Unitaires avec PHPUnit et Symfony</h1>
+<h2 id="2">Introduction</h2>
+<p>Les tests unitaires sont importants lorsque l'on code. Il permettent de tester tout ou un fragment de votre code très rapidement, sans passez par l'interface graphique de votre site / application.</p>
+<p>Pour les mettre en place sur Symfony, il nous faudra installer <a href="https://phpunit.readthedocs.io/fr/latest/index.html">PHPUnit</a>, et écrire un petit morceau de code.</p>
+<h2 id="5">installer PHPUnit</h2>
+<p>Pour installer PHPUnit sur votre projet, ouvrez une console (git bash par exemple) à la racine de votre projet et tapez la commande suivante :</p>
+<ul>
+<li><code>php bin/phpunit</code></li>
+</ul>
+<p>Cette commande sert de base au lancement de PHPUnit, mais s'il n'est pas encore installer sur votre projet, elle lancera automatiquement l'installation.</p>
+<p>Si Vous relancez cette commande, un message apparaitra signalant qu'aucun test n'a été effectué. C'est normal, nous devons maintenant coder ces tests !</p>
+<p>Pour l'exemple, nous testerons le système de validation de notre entité <code>Products</code>. Afin de rendre l'exemple opérationnel et pour bien comprendre le système des tests untaires, veillez à bien supprimer toutes formes de contraintes de validations sur cette entité (dans l'entité elle-même, ou bien dans <code>ProductsType.php</code> ).</p>
+<p>Pour l'écriture de ces tests, nous nous placerons dans le dossier <code>test</code>, à la racine de notre projet :</p>
+<div class="row">
+      <div class="col-sm-12 text-center">
+          <img src="./nCode _ Les tests Unitaires avec PHPUnit et Symfony_files/test5.png" alt="screenshot" title="capture d&#39;écran" class="rounded">
+      </div>
+  </div>
+<p>Une bonne pratique de mise en places des tests unitaires et de garder la même structure que celle de notre projet (dans le dossier <code>src</code>).</p>
+<p>le chemin de notre entité <code>Products</code> est <code>src\Entity\Products.php</code>, le chemin vers son test unitaire sera donc <code>test\Entity\ProdictsTest.php</code>.</p>
+<p>Créons donc maintenant notre classe <code>ProductsTest.php</code> comme ceci (attention aux imports, bien entendu):</p>
+<pre><code class="language-php hljs"><span class="hljs-meta">&lt;?php</span>
+
+<span class="hljs-keyword">namespace</span> <span class="hljs-title">App</span>\<span class="hljs-title">Tests</span>\<span class="hljs-title">Entity</span>;
+
+<span class="hljs-keyword">use</span> <span class="hljs-title">App</span>\<span class="hljs-title">Entity</span>\<span class="hljs-title">Products</span>;
+<span class="hljs-keyword">use</span> <span class="hljs-title">Symfony</span>\<span class="hljs-title">Bundle</span>\<span class="hljs-title">FrameworkBundle</span>\<span class="hljs-title">Test</span>\<span class="hljs-title">KernelTestCase</span>;
+
+<span class="hljs-class"><span class="hljs-keyword">class</span> <span class="hljs-title">ProductsTest</span> <span class="hljs-keyword">extends</span> <span class="hljs-title">KernelTestCase</span>
+</span>{
+
+}</code></pre>
+<p>En ce qui concerne les classes de test, vous pouvez les étendre à plusieurs autres classes :</p>
+<ul>
+<li>TestCase : pour effectuer des tests de base.</li>
+<li>KernelTestCase : permet d'écrire des tests dans le context du kernel, utilisé pour des test fonctionnel, context application, etc.</li>
+<li>WebTestCase : permet de tester des controllers, appli dans leur globalité</li>
+</ul>
+<blockquote>
+<p>lorsque les tests sont effectués, il y a un changement d'environnement. C'est à dire : par défaut, lorsque PHPUnit sera lancé, Symfony va désactiver certaines fonctionnalités (désactivation mail, etc...).
+Il est possible de définir des réglages pour cet environnement de test, notamment d'indiquer une base de donnée de test. Pour cela il suffit de se rendre dans le fichier <code>.env.test</code> et de définir la base de données de test de la même manière que l'on a définit la base de données de notre projet.
+Au final, les même réglages que le fichier <code>.env</code> peuvent y être définis.</p>
+</blockquote>
+<h2 id="20">Test de l'entité <code>Products</code></h2>
+<p>Ecrivons notre premier test permettant de tester les contraintes de validations de l'entité <code>Products</code>.</p>
+<pre><code class="language-php hljs"><span class="hljs-meta">&lt;?php</span>
+
+<span class="hljs-keyword">namespace</span> <span class="hljs-title">App</span>\<span class="hljs-title">Tests</span>\<span class="hljs-title">Entity</span>;
+
+<span class="hljs-keyword">use</span> <span class="hljs-title">App</span>\<span class="hljs-title">Entity</span>\<span class="hljs-title">Products</span>;
+<span class="hljs-keyword">use</span> <span class="hljs-title">Symfony</span>\<span class="hljs-title">Bundle</span>\<span class="hljs-title">FrameworkBundle</span>\<span class="hljs-title">Test</span>\<span class="hljs-title">KernelTestCase</span>;
+
+<span class="hljs-class"><span class="hljs-keyword">class</span> <span class="hljs-title">ProductsTest</span> <span class="hljs-keyword">extends</span> <span class="hljs-title">KernelTestCase</span>
+</span>{
+    <span class="hljs-keyword">public</span> <span class="hljs-function"><span class="hljs-keyword">function</span> <span class="hljs-title">testValid</span><span class="hljs-params">()</span>
+    </span>{
+        <span class="hljs-comment">// définissions du produit à insérer en bdd</span>
+        $product = (<span class="hljs-keyword">new</span> Products())-&gt;setProductName(<span class="hljs-string">'Produit'</span>)
+            -&gt;setCategoryId(<span class="hljs-number">1</span>)
+            -&gt;setUnitPrice(<span class="hljs-number">183</span>)
+            -&gt;setQuantityPerUnit(<span class="hljs-number">8</span>)
+            -&gt;setUnitsInStock(<span class="hljs-number">56</span>)
+            -&gt;setUnitsOnOrder(<span class="hljs-number">32</span>)
+            -&gt;setRedorderLevel(<span class="hljs-number">5</span>)
+            -&gt;setDiscontinued(<span class="hljs-number">0</span>)
+            -&gt;setDescription(<span class="hljs-string">'test php unit'</span>);
+        <span class="hljs-comment">// validation</span>
+        <span class="hljs-keyword">self</span>::bootKernel();
+        <span class="hljs-comment">// récupération depuis le container, le validator</span>
+        $error = <span class="hljs-keyword">self</span>::$container-&gt;get(<span class="hljs-string">'validator'</span>)-&gt;validate($product);
+        <span class="hljs-comment">// on s'attend à ne pas avoir d'erreur</span>
+        $this-&gt;assertCount(<span class="hljs-number">0</span>, $error);
+    }
+}</code></pre>
+<p>Nous Commençons par créer un fonction que l'on appellera <code>testValid()</code>.
+A l'intérieur, nous allons d'abord définir les propriétés de l'entité que nous voulons tester. Puis nous lançons la validation (<code>self::bootKernel();</code>), et nous récupérons le validator depuis le container (<code>$error = self::$container-&gt;get('validator')-&gt;validate($product);</code>). Enfin nous indiquons que nous attendons aucune erreur (l'insertion doit se faire sans erreur, vu que nous testons des données cohérentes avec notre base de données) et nous récupérons les erreurs.</p>
+<p>Maintenant que notre première fonction de test est faite, nous pouvons nous rendre dans la console et lancer PHPUnit avec : <code>php bin/phpunit</code></p>
+<blockquote>
+<p>On peut filtrer les tests sur plusieurs classe de test existent. Plutôt que de lancer tous les test, on peut lancer une seule de test de la manière suivante: <code>php bin/phpunit --filter &lt;nom de la class de test&gt;</code></p>
+</blockquote>
+<p>Si le test est valide, vous devriez avoir un résultat similaire à l'image ci-dessous :</p>
+<div class="row">
+      <div class="col-sm-12 text-center">
+          <img src="./nCode _ Les tests Unitaires avec PHPUnit et Symfony_files/test1.png" alt="screenshot" title="capture d&#39;écran" class="rounded">
+      </div>
+  </div>
+<blockquote>
+<p>ne tenez pas compte du message de dépréciation</p>
+</blockquote>
+<p>De la même manière, nous allons créer une méthode qui test les contraintes de validaitons lorsque qu'une donnée n'est pas attendu en base de données :</p>
+<pre><code class="language-php hljs"> <span class="hljs-keyword">public</span> <span class="hljs-function"><span class="hljs-keyword">function</span> <span class="hljs-title">testInvalid</span><span class="hljs-params">()</span> </span>{
+        $product = (<span class="hljs-keyword">new</span> Products())-&gt;setProductName(<span class="hljs-string">'Pro213duit'</span>)
+            -&gt;setCategoryId(<span class="hljs-number">1</span>)
+            -&gt;setUnitPrice(<span class="hljs-number">183</span>)
+            -&gt;setQuantityPerUnit(<span class="hljs-number">8</span>)
+            -&gt;setUnitsInStock(<span class="hljs-number">56</span>)
+            -&gt;setUnitsOnOrder(<span class="hljs-number">32</span>)
+            -&gt;setRedorderLevel(<span class="hljs-number">5</span>)
+            -&gt;setDiscontinued(<span class="hljs-number">0</span>)
+            -&gt;setDescription(<span class="hljs-string">'test php unit'</span>);
+        <span class="hljs-comment">// validation</span>
+        <span class="hljs-keyword">self</span>::bootKernel();
+        <span class="hljs-comment">// récupération depuis le container, le validator</span>
+        $error = <span class="hljs-keyword">self</span>::$container-&gt;get(<span class="hljs-string">'validator'</span>)-&gt;validate($product);
+<span class="hljs-comment">// on s'attend à avoir 1 erreur</span>
+        $this-&gt;assertCount(<span class="hljs-number">1</span>, $error);
+    }</code></pre>
+<p>Seul changement ici, on indique que l'on s'attend à avoir une erreur (erreur de validation) : <code>$this-&gt;assertCount(1, $error);</code>.</p>
+<p>S'il n'y a pas de contrainte de validation sur votre entité, vous devriez obtenir le résultat suivant :</p>
+<div class="row">
+      <div class="col-sm-12 text-center">
+          <img src="./nCode _ Les tests Unitaires avec PHPUnit et Symfony_files/test2.png" alt="screenshot" title="capture d&#39;écran" class="rounded">
+      </div>
+  </div>
+<p>Une erreur est signalé, ainsi que la méthode sur laquelle elle a été faite.</p>
+<blockquote>
+<p>ATTENTION : ne pas confondre l'erreur que l'on attend (ici la contrainte de validation doit retourner une erreur), et l'erreur indiquer par PHPUnit. Cette dernière indique justment que le test n'est pas valide.</p>
+</blockquote>
+<p>Le test a echoué car il n'y a pas encore de contrainte de validation définie sur la propriété <code>$ProductsName</code> de notre entité.
+Ajoutons-y donc une contrainte de validations. On acceptera uniquement les lettres majuscule et minuscule, ainsi que les espaces :</p>
+<pre><code class="language-php hljs"> <span class="hljs-comment">/**
+     * <span class="hljs-doctag">@ORM</span>\Column(type="float")
+     * <span class="hljs-doctag">@Assert</span>\Regex("/^[a-zA-Z\s]+$/")
+     */</span>
+    <span class="hljs-keyword">private</span> $ProductName;</code></pre>
+<p>Renouvellons le test :</p>
+<div class="row">
+      <div class="col-sm-12 text-center">
+          <img src="./nCode _ Les tests Unitaires avec PHPUnit et Symfony_files/test3.png" alt="screenshot" title="capture d&#39;écran" class="rounded">
+      </div>
+  </div>
+<p>Le test est validé. La contrainte de validation est prise en compte et ne laisse pas passer les chiffres. Il y a bien eu une erreur d'insertion.</p>
+<h3 id="41">Factorisation du code</h3>
+<p>Même au sein des test unitaires, il important de garder une bonne structure sur le code, et éviter les répétitions. Dans notre cas, nous avons 2 méthodes qui ont presque le même code, à quelques détails prêts. Nous pouvons factoriser les choses de la manière suivante :</p>
+<ul>
+<li>
+<p>Création d'une méthode pour récupérer l'entité</p>
+<pre><code class="language-php hljs"><span class="hljs-keyword">public</span> <span class="hljs-function"><span class="hljs-keyword">function</span> <span class="hljs-title">getEntity</span><span class="hljs-params">()</span>: <span class="hljs-title">Products</span> </span>{
+    <span class="hljs-keyword">return</span> (<span class="hljs-keyword">new</span> Products())-&gt;setProductName(<span class="hljs-string">'test Produit'</span>)
+        -&gt;setCategoryId(<span class="hljs-number">1</span>)
+        -&gt;setUnitPrice(<span class="hljs-number">183</span>)
+        -&gt;setQuantityPerUnit(<span class="hljs-number">8</span>)
+        -&gt;setUnitsInStock(<span class="hljs-number">56</span>)
+        -&gt;setUnitsOnOrder(<span class="hljs-number">32</span>)
+        -&gt;setRedorderLevel(<span class="hljs-number">5</span>)
+        -&gt;setDiscontinued(<span class="hljs-number">0</span>)
+        -&gt;setDescription(<span class="hljs-string">'test php unit'</span>);
+}</code></pre>
+</li>
+<li>
+<p>Création d'une méthode pour la validation et récupération des erreurs :</p>
+<pre><code class="language-php hljs"><span class="hljs-keyword">public</span> <span class="hljs-function"><span class="hljs-keyword">function</span> <span class="hljs-title">assertHasError</span><span class="hljs-params">(Products $products, $number = <span class="hljs-number">0</span>)</span>
+</span>{
+    <span class="hljs-comment">// validation</span>
+    <span class="hljs-keyword">self</span>::bootKernel();
+    <span class="hljs-comment">// récupération depuis le container, le validator</span>
+    $error = <span class="hljs-keyword">self</span>::$container-&gt;get(<span class="hljs-string">'validator'</span>)-&gt;validate($products);
+    <span class="hljs-comment">// on s'attend à ne pas avoir d'erreur</span>
+    $this-&gt;assertCount($number, $error);
+}</code></pre>
+</li>
+<li>
+<p>Appelle des méthodes dans les fonctions <code>testValid</code> et <code>testInvalid</code> :</p>
+<pre><code class="language-php hljs"><span class="hljs-keyword">public</span> <span class="hljs-function"><span class="hljs-keyword">function</span> <span class="hljs-title">testValid</span><span class="hljs-params">()</span>
+</span>{
+    $this-&gt;assertHasError($this-&gt;getEntity(), <span class="hljs-number">0</span>);
+}
+
+<span class="hljs-keyword">public</span> <span class="hljs-function"><span class="hljs-keyword">function</span> <span class="hljs-title">testInvalid</span><span class="hljs-params">()</span>
+</span>{
+    $this-&gt;assertHasError($this-&gt;getEntity()-&gt;setProductName(<span class="hljs-string">'t23est Produit'</span>), <span class="hljs-number">1</span>);
+
+}</code></pre>
+</li>
+</ul>
+<p>Pour continuer notre exemple, faisons une méthode permettant le test sur une chaine de caractère vide :</p>
+<pre><code class="language-php hljs">  <span class="hljs-keyword">public</span> <span class="hljs-function"><span class="hljs-keyword">function</span> <span class="hljs-title">testInvalid</span><span class="hljs-params">()</span>
+    </span>{
+        <span class="hljs-comment">// test pour chaine de caractères érroné</span>
+        $this-&gt;assertHasError($this-&gt;getEntity()-&gt;setProductName(<span class="hljs-string">'t23est Produit'</span>), <span class="hljs-number">1</span>);
+        <span class="hljs-comment">// test pour une chaine de caractères vide</span>
+        $this-&gt;assertHasError($this-&gt;getEntity()-&gt;setProductName(<span class="hljs-string">''</span>), <span class="hljs-number">1</span>);
+
+    }</code></pre>
+<p>Nous avons une erreur qui s'affiche car il n'y pas encore de contrainte de validation indiquant que les chaines de caractères vides ne sont pas acceptées.</p>
+<p>Ajouter donc une nouvelle contrainte de validation et relancez le test.</p>
+<p>Mettre tous les test dans une seule et même méthode n'est pas forcément pratique pour cibler un problème lorsque l'on en rencontre un. Il est préférable de faire une méthode pour chaque test :</p>
+<pre><code class="language-php hljs">  <span class="hljs-keyword">public</span> <span class="hljs-function"><span class="hljs-keyword">function</span> <span class="hljs-title">testValid</span><span class="hljs-params">()</span>
+    </span>{
+        $this-&gt;assertHasError($this-&gt;getEntity(), <span class="hljs-number">0</span>);
+    }
+
+    <span class="hljs-keyword">public</span> <span class="hljs-function"><span class="hljs-keyword">function</span> <span class="hljs-title">testDigitInvalid</span><span class="hljs-params">()</span>
+    </span>{
+        $this-&gt;assertHasError($this-&gt;getEntity()-&gt;setProductName(<span class="hljs-string">'t23est Produit'</span>), <span class="hljs-number">1</span>);
+    }
+
+    <span class="hljs-keyword">public</span> <span class="hljs-function"><span class="hljs-keyword">function</span> <span class="hljs-title">testBlankInvalid</span><span class="hljs-params">()</span>
+    </span>{
+        $this-&gt;assertHasError($this-&gt;getEntity()-&gt;setProductName(<span class="hljs-string">''</span>), <span class="hljs-number">1</span>);
+    }</code></pre>
+<p>En enlevant la contrainte pour chaine de caractère vide :</p>
+<div class="row">
+      <div class="col-sm-12 text-center">
+          <img src="./nCode _ Les tests Unitaires avec PHPUnit et Symfony_files/test4.png" alt="screenshot" title="capture d&#39;écran" class="rounded">
+      </div>
+  </div>
+<p>On observe que PHPUnit nous signale une erreur :
+on attendait une erreur, hors aucune n'a été trouvé, et il nous indique sur quelle méthode se trouvent le problème</p>
+<h2 id="53">Récupération des erreurs</h2>
+<p>Il pourrait être intéressant de récupérer les erreurs de PHPUnit pour avoir un peu plus d'informations en cas de problème.</p>
+<p>Vous pouvez procéder de la manière suivante :</p>
+<ul>
+<li>
+<p>dans la méthode <code>assertHasError()</code> :</p>
+<pre><code class="language-php hljs"><span class="hljs-keyword">public</span> <span class="hljs-function"><span class="hljs-keyword">function</span> <span class="hljs-title">assertHasError</span><span class="hljs-params">(Products $products, $number = <span class="hljs-number">0</span>)</span>
+</span>{
+    <span class="hljs-comment">// validation</span>
+    <span class="hljs-keyword">self</span>::bootKernel();
+    <span class="hljs-comment">// récupération depuis le container, le validator</span>
+    $errors = <span class="hljs-keyword">self</span>::$container-&gt;get(<span class="hljs-string">'validator'</span>)-&gt;validate($products);
+    $messages = [];
+    <span class="hljs-comment">/**
+     * <span class="hljs-doctag">@var</span> ConstraintViolation $error
+     */</span>
+    <span class="hljs-keyword">foreach</span> ($errors <span class="hljs-keyword">as</span> $error) {
+        $messages[] = $error-&gt;getPropertyPath() . <span class="hljs-string">' =&gt; '</span> . $error-&gt;getMessage();
+    }
+    <span class="hljs-comment">// on s'attend à ne pas avoir d'erreur</span>
+    $this-&gt;assertCount($number, $errors, implode(<span class="hljs-string">','</span>, $messages));
+}</code></pre>
+</li>
+</ul>
+<h2 id="57">Conclusion</h2>
+<p>Lest tests unitaires ne concernent pas que la vérification des contraintes de validation, ils permettent aussi de tester des contrôleurs, une logique, un morceau de code, etc.</p></div><div class="menu-markdown"><img src="./nCode _ Les tests Unitaires avec PHPUnit et Symfony_files/menu.png"><div data-id="1" class="titre">Les tests Unitaires avec PHPUnit et Symfony</div><div data-id="2">Introduction</div><div data-id="5">installer PHPUnit</div><div data-id="20">Test de l'entité <code>Products</code></div><div data-id="41">&nbsp;&nbsp;&nbsp;&nbsp;Factorisation du code</div><div data-id="53">Récupération des erreurs</div><div data-id="57">Conclusion</div></div></div><script>hljs.initHighlightingOnLoad();//hljs.initLineNumbersOnLoad();</script><script src="./nCode _ Les tests Unitaires avec PHPUnit et Symfony_files/menu-markdown.js"></script><script>document.title = "nCode | " + document.querySelector("h1").textContent;</script></body></html>

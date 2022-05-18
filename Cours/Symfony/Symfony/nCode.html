@@ -1,0 +1,693 @@
+<!DOCTYPE html>
+<!-- saved from url=(0042)https://ncode.amorce.org/parcours/178/6844 -->
+<html lang="fr"><head><meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
+
+    
+    <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
+    <title>nCode</title>
+    <link rel="stylesheet" href="./nCode_files/font-awesome.min.css">
+    <link rel="stylesheet" href="./nCode_files/bootstrap.min.css">
+    <link rel="stylesheet" href="./nCode_files/jquery-ui.css">
+    <link rel="stylesheet" href="./nCode_files/atom-one-dark.min.css">
+    <script src="./nCode_files/highlight.min.js"></script>
+
+    <style>
+    .bordure-gauche {
+        border-left: 8px rgb(131, 131, 131) solid;
+    }
+
+    .couleur-fond1 {
+        background-color: rgb(138, 138, 138);
+    }
+
+    .couleur-fond2 {
+        background-color: rgba(255, 255, 255, 0.1);
+    }
+
+    .couleur-fond3 {
+        background-color: rgba(255, 255, 255, 0.2);
+    }
+
+    .selection {
+        color: black;
+        background-color: rgb(236, 236, 236);
+        font-weight: bold;
+    }
+
+    .noselection {
+        color: white;
+    }
+</style>
+<link rel="stylesheet" href="./nCode_files/darcula.css">
+<link rel="stylesheet" href="./nCode_files/line-number.css"> 
+<link rel="stylesheet" href="./nCode_files/github-markdown.css">
+<!-- <link rel="stylesheet" href="/css/markdown_foad.css"> -->
+    <link rel="stylesheet" href="./nCode_files/style.css">
+<style type="text/css" id="notify-bootstrap">.notifyjs-bootstrap-base {
+	font-weight: bold;
+	padding: 8px 15px 8px 14px;
+	text-shadow: 0 1px 0 rgba(255, 255, 255, 0.5);
+	background-color: #fcf8e3;
+	border: 1px solid #fbeed5;
+	-webkit-border-radius: 4px;
+	-moz-border-radius: 4px;
+	border-radius: 4px;
+	white-space: nowrap;
+	padding-left: 25px;
+	background-repeat: no-repeat;
+	background-position: 3px 7px;
+}
+.notifyjs-bootstrap-error {
+	color: #B94A48;
+	background-color: #F2DEDE;
+	border-color: #EED3D7;
+	background-image: url(data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAABQAAAAUCAYAAACNiR0NAAAAGXRFWHRTb2Z0d2FyZQBBZG9iZSBJbWFnZVJlYWR5ccllPAAAAtRJREFUeNqkVc1u00AQHq+dOD+0poIQfkIjalW0SEGqRMuRnHos3DjwAH0ArlyQeANOOSMeAA5VjyBxKBQhgSpVUKKQNGloFdw4cWw2jtfMOna6JOUArDTazXi/b3dm55socPqQhFka++aHBsI8GsopRJERNFlY88FCEk9Yiwf8RhgRyaHFQpPHCDmZG5oX2ui2yilkcTT1AcDsbYC1NMAyOi7zTX2Agx7A9luAl88BauiiQ/cJaZQfIpAlngDcvZZMrl8vFPK5+XktrWlx3/ehZ5r9+t6e+WVnp1pxnNIjgBe4/6dAysQc8dsmHwPcW9C0h3fW1hans1ltwJhy0GxK7XZbUlMp5Ww2eyan6+ft/f2FAqXGK4CvQk5HueFz7D6GOZtIrK+srupdx1GRBBqNBtzc2AiMr7nPplRdKhb1q6q6zjFhrklEFOUutoQ50xcX86ZlqaZpQrfbBdu2R6/G19zX6XSgh6RX5ubyHCM8nqSID6ICrGiZjGYYxojEsiw4PDwMSL5VKsC8Yf4VRYFzMzMaxwjlJSlCyAQ9l0CW44PBADzXhe7xMdi9HtTrdYjFYkDQL0cn4Xdq2/EAE+InCnvADTf2eah4Sx9vExQjkqXT6aAERICMewd/UAp/IeYANM2joxt+q5VI+ieq2i0Wg3l6DNzHwTERPgo1ko7XBXj3vdlsT2F+UuhIhYkp7u7CarkcrFOCtR3H5JiwbAIeImjT/YQKKBtGjRFCU5IUgFRe7fF4cCNVIPMYo3VKqxwjyNAXNepuopyqnld602qVsfRpEkkz+GFL1wPj6ySXBpJtWVa5xlhpcyhBNwpZHmtX8AGgfIExo0ZpzkWVTBGiXCSEaHh62/PoR0p/vHaczxXGnj4bSo+G78lELU80h1uogBwWLf5YlsPmgDEd4M236xjm+8nm4IuE/9u+/PH2JXZfbwz4zw1WbO+SQPpXfwG/BBgAhCNZiSb/pOQAAAAASUVORK5CYII=);
+}
+.notifyjs-bootstrap-success {
+	color: #468847;
+	background-color: #DFF0D8;
+	border-color: #D6E9C6;
+	background-image: url(data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAABQAAAAUCAYAAACNiR0NAAAAGXRFWHRTb2Z0d2FyZQBBZG9iZSBJbWFnZVJlYWR5ccllPAAAAutJREFUeNq0lctPE0Ecx38zu/RFS1EryqtgJFA08YCiMZIAQQ4eRG8eDGdPJiYeTIwHTfwPiAcvXIwXLwoXPaDxkWgQ6islKlJLSQWLUraPLTv7Gme32zoF9KSTfLO7v53vZ3d/M7/fIth+IO6INt2jjoA7bjHCJoAlzCRw59YwHYjBnfMPqAKWQYKjGkfCJqAF0xwZjipQtA3MxeSG87VhOOYegVrUCy7UZM9S6TLIdAamySTclZdYhFhRHloGYg7mgZv1Zzztvgud7V1tbQ2twYA34LJmF4p5dXF1KTufnE+SxeJtuCZNsLDCQU0+RyKTF27Unw101l8e6hns3u0PBalORVVVkcaEKBJDgV3+cGM4tKKmI+ohlIGnygKX00rSBfszz/n2uXv81wd6+rt1orsZCHRdr1Imk2F2Kob3hutSxW8thsd8AXNaln9D7CTfA6O+0UgkMuwVvEFFUbbAcrkcTA8+AtOk8E6KiQiDmMFSDqZItAzEVQviRkdDdaFgPp8HSZKAEAL5Qh7Sq2lIJBJwv2scUqkUnKoZgNhcDKhKg5aH+1IkcouCAdFGAQsuWZYhOjwFHQ96oagWgRoUov1T9kRBEODAwxM2QtEUl+Wp+Ln9VRo6BcMw4ErHRYjH4/B26AlQoQQTRdHWwcd9AH57+UAXddvDD37DmrBBV34WfqiXPl61g+vr6xA9zsGeM9gOdsNXkgpEtTwVvwOklXLKm6+/p5ezwk4B+j6droBs2CsGa/gNs6RIxazl4Tc25mpTgw/apPR1LYlNRFAzgsOxkyXYLIM1V8NMwyAkJSctD1eGVKiq5wWjSPdjmeTkiKvVW4f2YPHWl3GAVq6ymcyCTgovM3FzyRiDe2TaKcEKsLpJvNHjZgPNqEtyi6mZIm4SRFyLMUsONSSdkPeFtY1n0mczoY3BHTLhwPRy9/lzcziCw9ACI+yql0VLzcGAZbYSM5CCSZg1/9oc/nn7+i8N9p/8An4JMADxhH+xHfuiKwAAAABJRU5ErkJggg==);
+}
+.notifyjs-bootstrap-info {
+	color: #3A87AD;
+	background-color: #D9EDF7;
+	border-color: #BCE8F1;
+	background-image: url(data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAABQAAAAUCAYAAACNiR0NAAAABmJLR0QA/wD/AP+gvaeTAAAACXBIWXMAAAsTAAALEwEAmpwYAAAAB3RJTUUH3QYFAhkSsdes/QAAA8dJREFUOMvVlGtMW2UYx//POaWHXg6lLaW0ypAtw1UCgbniNOLcVOLmAjHZolOYlxmTGXVZdAnRfXQm+7SoU4mXaOaiZsEpC9FkiQs6Z6bdCnNYruM6KNBw6YWewzl9z+sHImEWv+vz7XmT95f/+3/+7wP814v+efDOV3/SoX3lHAA+6ODeUFfMfjOWMADgdk+eEKz0pF7aQdMAcOKLLjrcVMVX3xdWN29/GhYP7SvnP0cWfS8caSkfHZsPE9Fgnt02JNutQ0QYHB2dDz9/pKX8QjjuO9xUxd/66HdxTeCHZ3rojQObGQBcuNjfplkD3b19Y/6MrimSaKgSMmpGU5WevmE/swa6Oy73tQHA0Rdr2Mmv/6A1n9w9suQ7097Z9lM4FlTgTDrzZTu4StXVfpiI48rVcUDM5cmEksrFnHxfpTtU/3BFQzCQF/2bYVoNbH7zmItbSoMj40JSzmMyX5qDvriA7QdrIIpA+3cdsMpu0nXI8cV0MtKXCPZev+gCEM1S2NHPvWfP/hL+7FSr3+0p5RBEyhEN5JCKYr8XnASMT0xBNyzQGQeI8fjsGD39RMPk7se2bd5ZtTyoFYXftF6y37gx7NeUtJJOTFlAHDZLDuILU3j3+H5oOrD3yWbIztugaAzgnBKJuBLpGfQrS8wO4FZgV+c1IxaLgWVU0tMLEETCos4xMzEIv9cJXQcyagIwigDGwJgOAtHAwAhisQUjy0ORGERiELgG4iakkzo4MYAxcM5hAMi1WWG1yYCJIcMUaBkVRLdGeSU2995TLWzcUAzONJ7J6FBVBYIggMzmFbvdBV44Corg8vjhzC+EJEl8U1kJtgYrhCzgc/vvTwXKSib1paRFVRVORDAJAsw5FuTaJEhWM2SHB3mOAlhkNxwuLzeJsGwqWzf5TFNdKgtY5qHp6ZFf67Y/sAVadCaVY5YACDDb3Oi4NIjLnWMw2QthCBIsVhsUTU9tvXsjeq9+X1d75/KEs4LNOfcdf/+HthMnvwxOD0wmHaXr7ZItn2wuH2SnBzbZAbPJwpPx+VQuzcm7dgRCB57a1uBzUDRL4bfnI0RE0eaXd9W89mpjqHZnUI5Hh2l2dkZZUhOqpi2qSmpOmZ64Tuu9qlz/SEXo6MEHa3wOip46F1n7633eekV8ds8Wxjn37Wl63VVa+ej5oeEZ/82ZBETJjpJ1Rbij2D3Z/1trXUvLsblCK0XfOx0SX2kMsn9dX+d+7Kf6h8o4AIykuffjT8L20LU+w4AZd5VvEPY+XpWqLV327HR7DzXuDnD8r+ovkBehJ8i+y8YAAAAASUVORK5CYII=);
+}
+.notifyjs-bootstrap-warn {
+	color: #C09853;
+	background-color: #FCF8E3;
+	border-color: #FBEED5;
+	background-image: url(data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAABQAAAAUCAMAAAC6V+0/AAABJlBMVEXr6eb/2oD/wi7/xjr/0mP/ykf/tQD/vBj/3o7/uQ//vyL/twebhgD/4pzX1K3z8e349vK6tHCilCWbiQymn0jGworr6dXQza3HxcKkn1vWvV/5uRfk4dXZ1bD18+/52YebiAmyr5S9mhCzrWq5t6ufjRH54aLs0oS+qD751XqPhAybhwXsujG3sm+Zk0PTwG6Shg+PhhObhwOPgQL4zV2nlyrf27uLfgCPhRHu7OmLgAafkyiWkD3l49ibiAfTs0C+lgCniwD4sgDJxqOilzDWowWFfAH08uebig6qpFHBvH/aw26FfQTQzsvy8OyEfz20r3jAvaKbhgG9q0nc2LbZxXanoUu/u5WSggCtp1anpJKdmFz/zlX/1nGJiYmuq5Dx7+sAAADoPUZSAAAAAXRSTlMAQObYZgAAAAFiS0dEAIgFHUgAAAAJcEhZcwAACxMAAAsTAQCanBgAAAAHdElNRQfdBgUBGhh4aah5AAAAlklEQVQY02NgoBIIE8EUcwn1FkIXM1Tj5dDUQhPU502Mi7XXQxGz5uVIjGOJUUUW81HnYEyMi2HVcUOICQZzMMYmxrEyMylJwgUt5BljWRLjmJm4pI1hYp5SQLGYxDgmLnZOVxuooClIDKgXKMbN5ggV1ACLJcaBxNgcoiGCBiZwdWxOETBDrTyEFey0jYJ4eHjMGWgEAIpRFRCUt08qAAAAAElFTkSuQmCC);
+}
+</style><style type="text/css" id="core-notify">.notifyjs-corner {
+	position: fixed;
+	margin: 5px;
+	z-index: 1050;
+}
+
+.notifyjs-corner .notifyjs-wrapper,
+.notifyjs-corner .notifyjs-container {
+	position: relative;
+	display: block;
+	height: inherit;
+	width: inherit;
+	margin: 3px;
+}
+
+.notifyjs-wrapper {
+	z-index: 1;
+	position: absolute;
+	display: inline-block;
+	height: 0;
+	width: 0;
+}
+
+.notifyjs-container {
+	display: none;
+	z-index: 1;
+	position: absolute;
+}
+
+.notifyjs-hidable {
+	cursor: pointer;
+}
+
+[data-notify-text],[data-notify-html] {
+	position: relative;
+}
+
+.notifyjs-arrow {
+	position: absolute;
+	z-index: 2;
+	width: 0;
+	height: 0;
+}</style></head>
+
+<body>
+<div class="container-fluid">
+    <div class="row bg-primary">
+        <div class="col-12">
+            <nav class="navbar fixed-top navbar-expand-md navbar-dark bg-primary" style="padding: 0.5rem;">
+                <a class="navbar-brand" href="https://ncode.amorce.org/"><code>{Alexis}</code></a>
+            <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarSupportedContent" aria-controls="navbarSupportedContent" aria-expanded="false" aria-label="Toggle navigation">
+                <span class="navbar-toggler-icon"></span>
+            </button>
+
+            <div class="collapse navbar-collapse" id="navbarSupportedContent">
+                <ul class="navbar-nav mr-auto">
+                    
+                                                                <li class="nav-item ">
+                            <a class="nav-link" href="https://ncode.amorce.org/parcours/156"><b>TB Dev</b> <sup>21196</sup></a>
+                        </li>
+                                            <li class="nav-item active">
+                            <a class="nav-link" href="https://ncode.amorce.org/parcours/178"><b>MS DIW</b> <sup>22091</sup></a>
+                        </li>
+                                        
+                </ul>
+                <ul class="navbar-nav ml-auto navbar-right">
+                                            <li class="nav-item dropdown mr-2">
+                            <a href="https://ncode.amorce.org/stagiaire/526" class="nav-link btn-lg" title="Mon profil">
+                                   <i class="fa fa-user-o" aria-hidden="true"></i>
+                            </a>
+                        </li>
+                        <li class="nav-item dropdown mr-2">
+                        
+                                <a href="https://ncode.amorce.org/stagiaire/edit/526" class="nav-link btn-lg" title="Mes paramètres" btn-lg="">
+                                   <i class="fa fa-cog" aria-hidden="true"></i>
+                                </a>
+                        </li>
+                        <li class="nav-item dropdown mr-2">
+                        
+                                <a class="nav-link" href="https://ncode.amorce.org/logout" tabindex="-1">Déconnexion</a>
+                        </li>
+                                    </ul>
+                            </div>
+        </nav>
+    </div>
+
+    </div>
+    <div class="row">
+        <div class="col-12">
+                    </div>
+    </div>
+    <div class="row mt-6">
+            <div class="col-sm-4">
+        <h2>
+            MS DIW - 22091
+                        <a href="https://ncode.amorce.org/parcours/monlivret/178" class="btn btn-outline-primary btn-sm float-right mt-3 ">
+                Voir mon livret de suivi
+            </a>
+                    </h2>
+    </div>
+    <div class="col-sm-8 ">
+
+                    
+                        <h4 class="text-success mt-3">
+                                        <span class=" ">
+                            séance prévue du <b>17/06/2022</b> au <b>17/06/2022</b>
+                        </span>
+                                                        <a href="https://ncode.amorce.org/parcours/valide_seance/178/6844" class="btn btn-success btn-sm float-right ">
+                            Je déclare avoir terminé cette séance
+                        </a>
+                            </h4>
+                                </div>
+
+
+
+    <div class="accordion col-sm-4" id="menu">
+                <div class="">
+            <div class="bg-primary">
+                <a class="btn" data-toggle="collapse" data-target="#module_762">
+                    <div class="text-light text-left">Accueil</div>
+                </a>
+            </div>
+            <div id="module_762" class="collapse " data-parent="#menu">
+                <div class="">
+                                        <div class="bordure-gauche">
+                        <div class="bg-primary ">
+                            <div class="couleur-fond2 ">
+                                <a class="btn" data-toggle="collapse" data-target="#sequence_1920">
+                                <div class="text-light text-left">Présentation</div>
+                            </a>
+                        </div>
+                    </div>
+                    <div id="sequence_1920" class="collapse " data-parent="#module_762">
+                            <div class="bg-primary">
+                                <div class="couleur-fond3 bordure-gauche">
+                                                                        <div class="text-light ">
+                                        <a class="btn noselection " href="https://ncode.amorce.org/parcours/178/6802">
+                                            <div class=" text-left ">
+                                                                                                Informations sur la formation
+                                            </div>
+                                        </a>
+                                    </div>
+                                                                        <div class="text-light ">
+                                        <a class="btn noselection " href="https://ncode.amorce.org/parcours/178/6803">
+                                            <div class=" text-left ">
+                                                                                                Découverte du métier
+                                            </div>
+                                        </a>
+                                    </div>
+                                                                        <div class="text-light ">
+                                        <a class="btn noselection " href="https://ncode.amorce.org/parcours/178/6804">
+                                            <div class=" text-left ">
+                                                                                                Devenir Eco-citoyen
+                                            </div>
+                                        </a>
+                                    </div>
+                                                                        <div class="text-light ">
+                                        <a class="btn noselection " href="https://ncode.amorce.org/parcours/178/6805">
+                                            <div class=" text-left ">
+                                                                                                Style d'apprentissage
+                                            </div>
+                                        </a>
+                                    </div>
+                                                                    </div>
+                            </div>
+                        </div>
+                    </div>
+                                        <div class="bordure-gauche">
+                        <div class="bg-primary ">
+                            <div class="couleur-fond2 ">
+                                <a class="btn" data-toggle="collapse" data-target="#sequence_1921">
+                                <div class="text-light text-left">Adopter de bonnes méthodes de travail</div>
+                            </a>
+                        </div>
+                    </div>
+                    <div id="sequence_1921" class="collapse " data-parent="#module_762">
+                            <div class="bg-primary">
+                                <div class="couleur-fond3 bordure-gauche">
+                                                                        <div class="text-light ">
+                                        <a class="btn noselection " href="https://ncode.amorce.org/parcours/178/6806">
+                                            <div class=" text-left ">
+                                                                                                Prendre en main VSCode
+                                            </div>
+                                        </a>
+                                    </div>
+                                                                        <div class="text-light ">
+                                        <a class="btn noselection " href="https://ncode.amorce.org/parcours/178/6807">
+                                            <div class=" text-left ">
+                                                                                                Gérer ses versions avec Git
+                                            </div>
+                                        </a>
+                                    </div>
+                                                                    </div>
+                            </div>
+                        </div>
+                    </div>
+                                    </div>
+            </div>
+        </div>
+                <div class="">
+            <div class="bg-primary">
+                <a class="btn" data-toggle="collapse" data-target="#module_763">
+                    <div class="text-light text-left">Fabriquer une interface utilisateur</div>
+                </a>
+            </div>
+            <div id="module_763" class="collapse " data-parent="#menu">
+                <div class="">
+                                        <div class="bordure-gauche">
+                        <div class="bg-primary ">
+                            <div class="couleur-fond2 ">
+                                <a class="btn" data-toggle="collapse" data-target="#sequence_1922">
+                                <div class="text-light text-left">Construire une interface statique (HTML, CSS)</div>
+                            </a>
+                        </div>
+                    </div>
+                    <div id="sequence_1922" class="collapse " data-parent="#module_763">
+                            <div class="bg-primary">
+                                <div class="couleur-fond3 bordure-gauche">
+                                                                        <div class="text-light ">
+                                        <a class="btn noselection " href="https://ncode.amorce.org/parcours/178/6808">
+                                            <div class=" text-left ">
+                                                                                                Ecrire du contenu en HTML
+                                            </div>
+                                        </a>
+                                    </div>
+                                                                        <div class="text-light ">
+                                        <a class="btn noselection " href="https://ncode.amorce.org/parcours/178/6809">
+                                            <div class=" text-left ">
+                                                                                                Appliquer des styles avec le CSS
+                                            </div>
+                                        </a>
+                                    </div>
+                                                                    </div>
+                            </div>
+                        </div>
+                    </div>
+                                        <div class="bordure-gauche">
+                        <div class="bg-primary ">
+                            <div class="couleur-fond2 ">
+                                <a class="btn" data-toggle="collapse" data-target="#sequence_1923">
+                                <div class="text-light text-left">Ajouter des contenus dynamiques (JS)</div>
+                            </a>
+                        </div>
+                    </div>
+                    <div id="sequence_1923" class="collapse " data-parent="#module_763">
+                            <div class="bg-primary">
+                                <div class="couleur-fond3 bordure-gauche">
+                                                                        <div class="text-light ">
+                                        <a class="btn noselection " href="https://ncode.amorce.org/parcours/178/6810">
+                                            <div class=" text-left ">
+                                                                                                Initiation à l'algorithmique
+                                            </div>
+                                        </a>
+                                    </div>
+                                                                        <div class="text-light ">
+                                        <a class="btn noselection " href="https://ncode.amorce.org/parcours/178/6811">
+                                            <div class=" text-left ">
+                                                                                                Les bases de Javascript 
+                                            </div>
+                                        </a>
+                                    </div>
+                                                                        <div class="text-light ">
+                                        <a class="btn noselection " href="https://ncode.amorce.org/parcours/178/6812">
+                                            <div class=" text-left ">
+                                                                                                Javascript pour le web
+                                            </div>
+                                        </a>
+                                    </div>
+                                                                        <div class="text-light ">
+                                        <a class="btn noselection " href="https://ncode.amorce.org/parcours/178/6813">
+                                            <div class=" text-left ">
+                                                                                                Evaluation
+                                            </div>
+                                        </a>
+                                    </div>
+                                                                    </div>
+                            </div>
+                        </div>
+                    </div>
+                                    </div>
+            </div>
+        </div>
+                <div class="">
+            <div class="bg-primary">
+                <a class="btn" data-toggle="collapse" data-target="#module_764">
+                    <div class="text-light text-left">Utiliser des frameworks Front-End</div>
+                </a>
+            </div>
+            <div id="module_764" class="collapse " data-parent="#menu">
+                <div class="">
+                                        <div class="bordure-gauche">
+                        <div class="bg-primary ">
+                            <div class="couleur-fond2 ">
+                                <a class="btn" data-toggle="collapse" data-target="#sequence_1924">
+                                <div class="text-light text-left">Bootstrap (framework CSS)</div>
+                            </a>
+                        </div>
+                    </div>
+                    <div id="sequence_1924" class="collapse " data-parent="#module_764">
+                            <div class="bg-primary">
+                                <div class="couleur-fond3 bordure-gauche">
+                                                                        <div class="text-light ">
+                                        <a class="btn noselection " href="https://ncode.amorce.org/parcours/178/6814">
+                                            <div class=" text-left text-success">
+                                                                                                    <i class="fa fa-check" aria-hidden="true"></i>
+                                                                                                Faciliter la mise en page avec Bootstrap
+                                            </div>
+                                        </a>
+                                    </div>
+                                                                    </div>
+                            </div>
+                        </div>
+                    </div>
+                                    </div>
+            </div>
+        </div>
+                <div class="">
+            <div class="bg-primary">
+                <a class="btn" data-toggle="collapse" data-target="#module_765">
+                    <div class="text-light text-left">Lier un site avec une base de données</div>
+                </a>
+            </div>
+            <div id="module_765" class="collapse " data-parent="#menu">
+                <div class="">
+                                        <div class="bordure-gauche">
+                        <div class="bg-primary ">
+                            <div class="couleur-fond2 ">
+                                <a class="btn" data-toggle="collapse" data-target="#sequence_1925">
+                                <div class="text-light text-left">Communiquer avec une base de données (SQL)</div>
+                            </a>
+                        </div>
+                    </div>
+                    <div id="sequence_1925" class="collapse " data-parent="#module_765">
+                            <div class="bg-primary">
+                                <div class="couleur-fond3 bordure-gauche">
+                                                                        <div class="text-light ">
+                                        <a class="btn noselection " href="https://ncode.amorce.org/parcours/178/6815">
+                                            <div class=" text-left text-success">
+                                                                                                    <i class="fa fa-check" aria-hidden="true"></i>
+                                                                                                Découvrir les Bases de données
+                                            </div>
+                                        </a>
+                                    </div>
+                                                                        <div class="text-light ">
+                                        <a class="btn noselection " href="https://ncode.amorce.org/parcours/178/6816">
+                                            <div class=" text-left text-success">
+                                                                                                    <i class="fa fa-check" aria-hidden="true"></i>
+                                                                                                Ecrire des requêtes SQL
+                                            </div>
+                                        </a>
+                                    </div>
+                                                                        <div class="text-light ">
+                                        <a class="btn noselection " href="https://ncode.amorce.org/parcours/178/6817">
+                                            <div class=" text-left text-success">
+                                                                                                    <i class="fa fa-check" aria-hidden="true"></i>
+                                                                                                Evaluation : Interroger une Base de données
+                                            </div>
+                                        </a>
+                                    </div>
+                                                                    </div>
+                            </div>
+                        </div>
+                    </div>
+                                        <div class="bordure-gauche">
+                        <div class="bg-primary ">
+                            <div class="couleur-fond2 ">
+                                <a class="btn" data-toggle="collapse" data-target="#sequence_1926">
+                                <div class="text-light text-left">Réaliser des traitements serveur (PHP)</div>
+                            </a>
+                        </div>
+                    </div>
+                    <div id="sequence_1926" class="collapse " data-parent="#module_765">
+                            <div class="bg-primary">
+                                <div class="couleur-fond3 bordure-gauche">
+                                                                        <div class="text-light ">
+                                        <a class="btn noselection " href="https://ncode.amorce.org/parcours/178/6818">
+                                            <div class=" text-left text-success">
+                                                                                                    <i class="fa fa-check" aria-hidden="true"></i>
+                                                                                                Ecrire des scripts en PHP
+                                            </div>
+                                        </a>
+                                    </div>
+                                                                    </div>
+                            </div>
+                        </div>
+                    </div>
+                                    </div>
+            </div>
+        </div>
+                <div class="">
+            <div class="bg-primary">
+                <a class="btn" data-toggle="collapse" data-target="#module_771">
+                    <div class="text-light text-left">BONUS - Utiliser des frameworks Back-End</div>
+                </a>
+            </div>
+            <div id="module_771" class="collapse show" data-parent="#menu">
+                <div class="">
+                                        <div class="bordure-gauche">
+                        <div class="bg-primary ">
+                            <div class="couleur-fond2 ">
+                                <a class="btn" data-toggle="collapse" data-target="#sequence_1938">
+                                <div class="text-light text-left">MVC (frameworks PHP)</div>
+                            </a>
+                        </div>
+                    </div>
+                    <div id="sequence_1938" class="collapse show" data-parent="#module_771">
+                            <div class="bg-primary">
+                                <div class="couleur-fond3 bordure-gauche">
+                                                                        <div class="text-light ">
+                                        <a class="btn noselection " href="https://ncode.amorce.org/parcours/178/6841">
+                                            <div class=" text-left text-success">
+                                                                                                    <i class="fa fa-check" aria-hidden="true"></i>
+                                                                                                Comprendre les fondamentaux de la POO
+                                            </div>
+                                        </a>
+                                    </div>
+                                                                        <div class="text-light ">
+                                        <a class="btn noselection " href="https://ncode.amorce.org/parcours/178/6842">
+                                            <div class=" text-left text-success">
+                                                                                                    <i class="fa fa-check" aria-hidden="true"></i>
+                                                                                                Comprendre le fonctionnement d'un MVC
+                                            </div>
+                                        </a>
+                                    </div>
+                                                                        <div class="text-light ">
+                                        <a class="btn noselection " href="https://ncode.amorce.org/parcours/178/6843">
+                                            <div class=" text-left text-success">
+                                                                                                    <i class="fa fa-check" aria-hidden="true"></i>
+                                                                                                Convertir un projet en MVC
+                                            </div>
+                                        </a>
+                                    </div>
+                                                                        <div class="text-light selection ">
+                                        <a class="btn selection text-primary  " href="https://ncode.amorce.org/parcours/178/6844">
+                                            <div class=" text-left ">
+                                                                                                S'initier au framework Symfony
+                                            </div>
+                                        </a>
+                                    </div>
+                                                                    </div>
+                            </div>
+                        </div>
+                    </div>
+                                    </div>
+            </div>
+        </div>
+            </div>
+
+    <div class="col-sm-8">
+        
+        <div class="markdown-body"><p><a target="_blank" href="https://ncode.amorce.org/ressources/Pool/CDA/WEB_Symfony_frc/commandes.html" style="float: right">Les commandes indispensables</a></p>
+<h1>PHP - Symfony</h1>
+<h2>Qu'est-ce que c'est ?</h2>
+<p>Symfony est un framework PHP libre, regroupant un ensemble de composant (bundles) suivant une architecture MVC. Il fournit des fonctionnalités modulables et adaptables qui permettent de faciliter et d'accélérer le développement d'un site web.</p>
+<h2>La p'tite histoire</h2>
+<p>L'agence web française SensioLabs est à l'origine du framework Sensio Framework. À force de toujours créer les mêmes fonctionnalités de gestion d'utilisateur, gestion d'ORM, etc., elle a développé ce framework pour ces propres besoins. </p>
+<p>Comme ces problématiques étaient souvent les mêmes pour d'autres développeurs, le code a été partagé avec la communauté des développeurs PHP, le projet est alors devenu Symfony ...</p>
+<p>Actuellement, la version LTS (Long Term Support) est la version 5.4.4 , et la dernière version stable est la
+6.0.4, mais ça change tout le temps (voir les infos sur la page <a href="https://symfony.com/releases">Symfony releases</a>)</p>
+<h2>Pour démarrer</h2>
+<p>Pour pouvoir utiliser symfony sereinement, vous devez disposer des outils suivants:</p>
+<h4>une version récente de php (et les dépendances requises)</h4>
+<p><img src="./nCode_files/php-version.png" alt="php-version"><br>
+Vous devriez obtenir un message vous indiquant la version de php. </p>
+<h4>composer</h4>
+<p>Même chose pour la version de composer<br>
+<img src="./nCode_files/composer-version.png" alt="composer-version"></p>
+<h4>symfony-cli</h4>
+<p>et pour symfony-cli<br>
+<img src="./nCode_files/symfony-version.png" alt="symfony-version"></p>
+<p>Si l'un des composants n'est pas installé, suivez <a target="_blank" href="https://ncode.amorce.org/ressources/Pool/CDA/WEB_Symfony_frc/installation.html">ce guide d'installation</a></p>
+<h2>Création du projet</h2>
+<p>Une fois les outils installés, nous pouvons enfin initialiser notre projet Symfony.</p>
+<p>Suivez les différentes étapes de ce <a target="_blank" href="https://ncode.amorce.org/ressources/Pool/CDA/WEB_Symfony_frc/tuto_installation.html">tuto</a> pour initialiser votre premier projet Symfony</p>
+<p>Une fois votre projet Symfony installé, nous allons enfin pouvoir créer une première vue !!</p>
+<h3>Afficher une page avec Symfony</h3>
+<p>Le contrôleur est une classe PHP qui a en charge de construire la page.</p>
+<p>Un contrôleur possède plusieurs méthodes, chaque méthode est associée à une route. Une méthode exploite les informations de la <code>Request</code> entrante et les utilise pour créer un objet Symfony de type <code>Response</code> pouvant contenir du HTML, une chaîne JSON ou même un fichier binaire, tel qu'une image ou un PDF.</p>
+<p>Une route associe l’URL (par exemple <code>/apropos</code>) à une méthode d'un controleur.</p>
+<p>Si la page doit afficher du code <code>html</code>, la méthode utilise un template. Ce template est la vue que le contrôleur affichera à l'utilisateur.</p>
+<h4>Le contrôleur</h4>
+<p><a href="https://symfony.com/doc/current/controller.html">Symfony Documentation</a></p>
+<p>Les Contrôleurs ont pour rôle de gérer chaque requête adressée à l’application Symfony, et dans la plupart des cas,
+de rendre un template (vue) qui va élaborer le contenu de la réponse au client.</p>
+<p>Un contrôleur est une méthode PHP que vous créez, qui lit les informations de l'objet Request (requêtes du client envoyées vers
+le site), crée et retourne un objet Response. La réponse peut être une page HTML, JSON, XML, un téléchargement de fichier, une redirection, une erreur 404 , ... Le contrôleur exécute le traitement métier dont l’application a besoin pour restituer le contenu d'une page.</p>
+<h4>Le routage</h4>
+ <!-- [https://symfony.com/doc/current/routing.html](https://symfony.com/doc/current/routing.html) -->
+<p>Une route est une correspondance entre une URL et une méthode. Cette route peut être configurée de plusieurs manières :</p>
+<ul>
+<li>avec un fichier XML</li>
+<li>avec une classe PHP</li>
+<li>avec un fichier de configuration .yaml</li>
+<li>avec des annotations</li>
+</ul>
+<p>Tout dépend comment vous comptez gérer votre projet, mais de manière générale, les annotations restent plus
+pratiques: la route est affichée directement au-dessus de la méthode, ce qui permet une meilleure visibilité des informations dont vous pourriez avoir besoin. </p>
+<p>Commençons par créer notre contrôleur en suivant cette <a target="_blank" href="https://ncode.amorce.org/ressources/Pool/CDA/WEB_Symfony_frc/controller.html">ressource</a></p>
+<h4>Le template</h4>
+<p>Pour afficher des informations à l'utilisateur, Symfony utilise un moteur de template appelé Twig. Il a la particularité
+de récupérer facilement les données transmises par le contrôleur, et intègre la notion d'héritage sur les templates.</p>
+<p>Sa structure est très semblable au HTML, les fichiers templates auront une extension .html.twig.</p>
+<p>Pour créer notre première vue avec Symfony, suivez ce <a target="_blank" href="https://ncode.amorce.org/ressources/Pool/CDA/WEB_Symfony_frc/template.html">tuto</a>.</p>
+<p>En suivant cette <a target="_blank" href="https://ncode.amorce.org/ressources/Pool/CDA/WEB_Symfony_frc/link.html">ressource</a>, vous verrez comment faire des liens entre les différentes vues
+et contrôleurs de votre application Symfony, ainsi que le passage de données du contrôleur vers une vue.</p>
+<p>Maintenant que nous savons afficher du contenu sur une vue, et naviguer d'une page vers une autre, voyons
+la connexion à une basse de données.</p>
+<h2>Base de données et Doctrine</h2>
+<p>Pour accéder et manipuler une base de données avec Symfony, Nous allons utiliser un ORM (Object-relational mapping),
+Doctrine.</p>
+<p>Un ORM est un type de programme qui se place en interface entre une application (notre site par exemple)
+et une base de données relationnelle.</p>
+<p>Ce programme définit les correspondances entre les schémas de la base de données et les classes de votre application. L'association objets-tables est appelée <code>mapping</code>. Les classes sont associées à une table
+et chaque propriété de la classe est associé à un champ de la table. Avec <code>Doctrine</code>, cette opération
+est réalisée grâce à des annotations.</p>
+<p>Avant de vous lancer dans <code>doctrine</code>, lisez <a target="_blank" href="https://ncode.amorce.org/ressources/Pool/CDA/WEB_Symfony_frc/doctrine.html">ce support</a> qui vous permettra de découvrir le fonctionnement et les bonnes pratiques de doctrine.</p>
+<blockquote>
+<p>Cette partie est très importante et délicate, n'hésitez pas à vous faire aider par votre formateur en lui demandant une présentation.</p>
+</blockquote>
+<p>Maintenant nous allons voir comment ajouter un jeu de test (<code>fixture</code> dans symfony) dans votre nouvelle base. Suivez les instructions de <a target="_blank" href="https://ncode.amorce.org/ressources/Pool/CDA/WEB_Symfony_frc/fixture.html">ce support</a> pour créer vos premières <code>fixtures</code>.</p>
+<p>Maintenant que vous avez mis en place doctrine dans votre projet, nous allons voir comment manipuler les entités depuis nos contrôleurs.</p>
+<h2>Les formulaires et leurs contrôles sous Symfony</h2>
+<p>Lors de la génération du CRUD dans la partie suivante, nous avons vu qu'un fichier a été créé dans le dossier <code>Form</code>.
+Par convention, tous les formulaires se trouveront dans ce dossier. Ils ont également leur nom se terminant par <code>Type</code></p>
+<p>Suivez <a target="_blank" href="https://ncode.amorce.org/ressources/Pool/CDA/WEB_Symfony_frc/form.html">cette ressource</a> pour apprendre plus sur les formulaires avec Symfony.</p>
+<p>Pour les formulaires et base de données, c'est par <a target="_blank" href="https://ncode.amorce.org/ressources/Pool/CDA/WEB_Symfony_frc/form2.html">ici</a>.</p>
+<h2>L'authentification</h2>
+<p>La mise en place d'une authentification avec Symfony demande un de paramétrage, mais se fait assez facilement,
+et encore une fois pas mal de choses sont automatisées.</p>
+<p>Pour mettre en place une interface de connexion sur votre projet, suivez cette <a target="_blank" href="https://ncode.amorce.org/ressources/Pool/CDA/WEB_Symfony_frc/auth.html">ressource</a>.</p>
+<!-- 
+## Sécurité avec Symfony : les voters
+Si on veut faire en sorte que certains utilisateurs n'aient pas accès à certaines fonctionnalités d'un site / appli, 
+il faudrait développer un code assez lourd et redondant pour faire les différentes vérifications nécessaire, et ce sur
+toutes les méthodes où il faudrait restreindre l'accès.
+Encore une fois, Symfony nous facilite le travail en utilisant le système de voters.
+Le voter est un composant de Symfony, dans lequel nous allons définir les différentes autorisations selon
+les actions faîtes et les roles des utilisateurs. 
+Suivez cette [ressource](voter.html) pour mettre en place un `voter` sur votre site. -->
+<h2>Les API avec API-Platform</h2>
+<p>Une API est une application qui permet de faire communiquer plusieurs systèmes
+avec une même base de données.
+On peut également utiliser une API pour faciliter la communication entre plusieurs
+technos (ici pour l'exemple Symfony avec Vue.js), et ainsi gagner en fluidité et
+performance sur les actions à effectuer.</p>
+<p>Encore une fois, pour la gestion des API, Symfony va nous faciliter le travail.</p>
+<p>Suivez cette <a target="_blank" href="https://ncode.amorce.org/ressources/Pool/CDA/WEB_Symfony_frc/api.html">ressource</a> pour établir une API avec Symfony.</p>
+<h2>Les test unitaires</h2>
+<p>Pour mettre en place des tests unitaires sur vos applications / sites, cliquez <a target="_blank" href="https://ncode.amorce.org/ressources/Pool/CDA/WEB_Symfony_frc/test.html">ici</a></p>
+<h3>En complément</h3>
+<ul>
+<li><a href="https://symfony.com/">Documentation de Symfony</a></li>
+<li>Tutos de <a href="https://www.grafikart.fr/formations/symfony-4-pratique">Grafikart</a> (Symfony 4)</li>
+<li>Chaine Youtube de <a href="https://www.youtube.com/watch?v=UTusmVpwJXo&amp;list=PLpUhHhXoxrjdQLodxlHFY09_9XzqdPBW8">Lior Chamla</a></li>
+<li><a href="https://symfonycasts.com/">SymfonyCasts</a>
+<!-- TODO :</li>
+</ul>
+<p>Commencez par visionner l'excellente vidéo de <strong>Lior Chamla</strong> <a href="https://www.youtube.com/watch?v=_cgZheTv-FQ">Symfony 1/4 : 1H pour comprendre le framework !</a>
+--&gt;</p>
+<!-- http://slides.com/lior-chamla/symfony-php?source=post_page-----8537fb2f2dfb----------------------#/ -->
+<!--
+Ensuite vous pouvez utiliser [ce support](tuto.html), il vous permettra de découvrir les différentes étapes de mise en place du framework.
+Pour découvrir l'ORM Doctrine suivez [ce document (sur la base Northwind)](northwind.html)
+[Commandes Symfony](commandes.html)
+Poursuivez votre apprentissage en regardant les vidéos de **Lior Chamla**
+- [Symfony 2/4 - 1H pour comprendre les formulaires !](https://www.youtube.com/watch?v=_cgZheTv-FQ)
+- [Symfony 3/4 - 1H pour comprendre les entités et leurs relations !](https://www.youtube.com/watch?v=e5udJTjbYzw)
+- [Symfony 4/4 : 1H pour comprendre l'authentification !](https://www.youtube.com/watch?v=_GjHWa9hQic)
+## Ressources complémentaires
+Un <a href="https://medium.com/@asked_io/php-mvc-framework-showdown-7-1-performance-2da52ac9fcba">article intéressant</a> sur les performances des Frameworks MVC.
+-->
+<!--FIXME: Ressources intéressantes car incluant la v5
+ https://nouvelle-techno.fr/actualites/serie/creer-un-blog-pas-a-pas-avec-symfony --></li></ul></div>
+    </div>
+    </div>
+
+</div>
+
+
+<script src="./nCode_files/jquery-3.4.1.min.js"></script>
+<script src="./nCode_files/jquery-ui.js"></script>
+<script src="./nCode_files/popper.min.js"></script>
+<script src="./nCode_files/bootstrap.min.js"></script>
+<script src="./nCode_files/bootstrap-autocomplete.min.js"></script>
+<script src="./nCode_files/notify.min.js"></script>
+<script src="./nCode_files/correction.js"></script>
+
+<script src="./nCode_files/highlight.js"></script>
+<!-- <script src="/js/highlightjs-line-numbers.min.js"></script> -->
+<script>hljs.initHighlightingOnLoad();//hljs.initLineNumbersOnLoad();</script>
+
+
+<script>
+    $('.basicAutoComplete').autoComplete({
+        resolverSettings: {
+            url: '/api/search'
+        },
+        minLength: 2,
+        select: function() {
+            console.log("tre");
+        }
+    });
+    $('.basicAutoComplete').on('autocomplete.select', function (evt, item) {
+        console.log(item);
+        document.location = "/utilisateur/" + item.value;
+    });
+</script>
+
+
+</body></html>

@@ -1,0 +1,305 @@
+<!DOCTYPE html>
+<!-- saved from url=(0070)https://ncode.amorce.org/ressources/Pool/CDA/WEB_Symfony_frc/form.html -->
+<html><head><meta http-equiv="Content-Type" content="text/html; charset=UTF-8"><title>nCode | Les formulaires</title>
+        <meta name="viewport" content="width=device-width, initial-scale=1">
+        <link rel="stylesheet" href="./nCode _ Les formulaires_files/font-awesome.min.css">
+        <link rel="stylesheet" href="./nCode _ Les formulaires_files/bootstrap.min.css">
+        <link rel="stylesheet" href="./nCode _ Les formulaires_files/darcula.css">
+        <!-- <link rel="stylesheet" href="/css/highlight/line-number.css"> -->
+        <link rel="stylesheet" href="./nCode _ Les formulaires_files/github-markdown.css">
+        <!-- <link rel="stylesheet" href="/css/markdown_foad.css"> -->
+        <link rel="stylesheet" href="./nCode _ Les formulaires_files/menu-markdown.css">
+        <!-- <script src="/js/highlightjs-line-numbers.min.js"></script> -->
+        <script src="./nCode _ Les formulaires_files/jquery-3.4.1.min.js"></script>
+        <script src="./nCode _ Les formulaires_files/popper.min.js"></script>
+        <script src="./nCode _ Les formulaires_files/bootstrap.min.js"></script>
+        <script src="./nCode _ Les formulaires_files/highlight.js"></script>
+        </head><body><div class="container"><div class="markdown-body"><h1 id="1">Les formulaires</h1>
+<h2 id="2">Construction du formulaire</h2>
+<h3 id="3">Côté back-end</h3>
+<p>Pour générer les formulaires, Symfony utilise des classes permettant de les 'construire'. </p>
+<p>Ouvrons le fichier créé (<code>ProductsType.php</code>) et observons son contenu. Vous devriez avoir quelque chose comme ceci :</p>
+<pre><code class="language-php hljs"><span class="hljs-meta">&lt;?php</span>
+
+<span class="hljs-keyword">namespace</span> <span class="hljs-title">App</span>\<span class="hljs-title">Form</span>;
+
+<span class="hljs-keyword">use</span> <span class="hljs-title">App</span>\<span class="hljs-title">Entity</span>\<span class="hljs-title">Products</span>;
+<span class="hljs-keyword">use</span> <span class="hljs-title">Symfony</span>\<span class="hljs-title">Component</span>\<span class="hljs-title">Form</span>\<span class="hljs-title">AbstractType</span>;
+<span class="hljs-keyword">use</span> <span class="hljs-title">Symfony</span>\<span class="hljs-title">Component</span>\<span class="hljs-title">Form</span>\<span class="hljs-title">FormBuilderInterface</span>;
+<span class="hljs-keyword">use</span> <span class="hljs-title">Symfony</span>\<span class="hljs-title">Component</span>\<span class="hljs-title">OptionsResolver</span>\<span class="hljs-title">OptionsResolver</span>;
+
+<span class="hljs-class"><span class="hljs-keyword">class</span> <span class="hljs-title">ProductsType</span> <span class="hljs-keyword">extends</span> <span class="hljs-title">AbstractType</span>
+</span>{
+    <span class="hljs-keyword">public</span> <span class="hljs-function"><span class="hljs-keyword">function</span> <span class="hljs-title">buildForm</span><span class="hljs-params">(FormBuilderInterface $builder, array $options)</span>
+    </span>{
+        $builder
+            -&gt;add(<span class="hljs-string">'ProductName'</span>)
+            -&gt;add(<span class="hljs-string">'SupplierId'</span>)
+            -&gt;add(<span class="hljs-string">'CategoryId'</span>)
+            -&gt;add(<span class="hljs-string">'QuantityPerUnit'</span>)
+            -&gt;add(<span class="hljs-string">'UnitPrice'</span>)
+            -&gt;add(<span class="hljs-string">'UnitsInStock'</span>)
+            -&gt;add(<span class="hljs-string">'UnitsOnOrder'</span>)
+            -&gt;add(<span class="hljs-string">'RedorderLevel'</span>)
+            -&gt;add(<span class="hljs-string">'Discontinued'</span>)
+            -&gt;add(<span class="hljs-string">'SupplierID'</span>)
+        ;
+    }
+
+    <span class="hljs-keyword">public</span> <span class="hljs-function"><span class="hljs-keyword">function</span> <span class="hljs-title">configureOptions</span><span class="hljs-params">(OptionsResolver $resolver)</span>
+    </span>{
+        $resolver-&gt;setDefaults([
+            <span class="hljs-string">'data_class'</span> =&gt; Products::class,
+        ]);
+    }
+}
+</code></pre>
+<p>Sa structure est la même que toutes les autres classe sous Symfony. On retrouve 2 méthodes à l'intérieur : </p>
+<ul>
+<li><code>buildForm()</code> : on y trouvera les différents qui composeront notre formulaire</li>
+<li><code>configureOptions()</code> : c'est ici que nous pourrons établir une liste d'option sur le rendu ou le contrôle du formulaire.</li>
+</ul>
+<p>Dans notre cas, nous avons un champ par propriété se trouvant dans la table <code>products</code>. Il est possible d'avoir
+des champs qui ne soient en liaison avec une table (notamment dans le cas d'upload d'images).</p>
+<p>Par défaut, Symfony prend le type de champ qui se trouve dans l'entité. C'est-à-dire, si le champ dans l'entité est de
+type integer, Symfony va générer un <code>input</code> de type <code>number</code>.</p>
+<p>Allons dans notre contrôleur pour générer une vue. Nous allons y créer une vue permettant d'afficher notre formulaire.
+Commençons par créer une méthode :</p>
+<pre><code class="language-php hljs"> <span class="hljs-keyword">public</span> <span class="hljs-function"><span class="hljs-keyword">function</span> <span class="hljs-title">new</span><span class="hljs-params">(Request $request)</span>: <span class="hljs-title">Response</span>
+
+    </span>{
+
+    }</code></pre>
+<p>On va demander à Symfony de "créer" notre formulaire, et que des données vont y être lues (<a href="https://symfony.com/doc/current/components/form.html#request-handling">doc</a>) :</p>
+<pre><code class="language-php hljs"> <span class="hljs-keyword">public</span> <span class="hljs-function"><span class="hljs-keyword">function</span> <span class="hljs-title">new</span><span class="hljs-params">(Request $request)</span>: <span class="hljs-title">Response</span>
+
+    </span>{
+<span class="hljs-comment">// création du formulaire</span>
+  $form = $this-&gt;createForm(ProductsType::class, $product);
+<span class="hljs-comment">// lecture du formulaire</span>
+ $form-&gt;handleRequest($request);
+    }</code></pre>
+<p>Enfin, il ne reste plus qu'à faire un rendu de notre vue, en incluant notre template :</p>
+<pre><code class="language-php hljs"> <span class="hljs-keyword">public</span> <span class="hljs-function"><span class="hljs-keyword">function</span> <span class="hljs-title">new</span><span class="hljs-params">(Request $request)</span>: <span class="hljs-title">Response</span>
+
+    </span>{
+<span class="hljs-comment">// création du formulaire</span>
+  $form = $this-&gt;createForm(ProductsType::class, $product);
+<span class="hljs-comment">// lecture du formulaire</span>
+ $form-&gt;handleRequest($request);
+  <span class="hljs-keyword">return</span> $this-&gt;render(<span class="hljs-string">'products/new.html.twig'</span>, [
+            <span class="hljs-string">'product'</span> =&gt; $product,
+            <span class="hljs-string">'form'</span> =&gt; $form-&gt;createView(),
+    }</code></pre>
+<p>Définissons une route pour cette méthode et prfitons-e pour mettre un peu de doc sur cette méthode :</p>
+<pre><code class="language-php hljs">    <span class="hljs-comment">/**
+     * <span class="hljs-doctag">@Route</span>("/new", name="products_new", methods={"POST"})
+     * <span class="hljs-doctag">@param</span> Request $request
+     * <span class="hljs-doctag">@return</span> Response
+     */</span></code></pre>
+<p>En appelant notre route dans l'url, nous obtenons :</p>
+<div class="row">
+    <div class="col-sm-12 text-center">
+        <img src="./nCode _ Les formulaires_files/northwind15.png" alt="screenshot" title="capture d&#39;écran" class="rounded">
+    </div>
+</div>
+<p>Nous allons rendre ce formulaire un peu plus propre et plus proche du rendu que nous devrions avoir...</p>
+<p>Avant d'aller plus loin, vérifiez que les tables <code>suppliers</code> et <code>products</code> soient alimentées.</p>
+<p>Pour avoir un rendu propre grâce à Bootstrap, nous allons nous rendre dans le fichier <code>config/packages/twig.yaml</code>, et
+ajouter la ligne suivante : </p>
+<pre><code class="hljs css"><span class="hljs-selector-tag">form_themes</span>: <span class="hljs-selector-attr">['bootstrap_4_layout.html.twig']</span></code></pre>
+<p>Attention : gardez l'indentation afin d'éviter d'éventuelles erreurs !!!</p>
+<p>Vous pourriez vous retrouver face à cette erreur : </p>
+<div class="row">
+    <div class="col-sm-12 text-center">
+        <img src="./nCode _ Les formulaires_files/northwind16.png" alt="screenshot" title="capture d&#39;écran" class="rounded">
+    </div>
+</div>
+<p>C'est normal : Les tables <code>products</code> et <code>suppliers</code> étant liées, Symfony récupère automatiquement les données de
+la table <code>suppliers</code> pour les afficher dans une liste déroulante (voir plus haut, Symfony génère le formulaire en fonction
+de la configuraiton de l'entité). Sans actions de notre part, Symfony récupère un
+objet, au lieu de récupérer une chaine de caractères.</p>
+<p>Pour cela, nous devons nous rendre dans l'entité <code>suppliers</code>, et nous allons y ajouter les lignes suivantes :</p>
+<pre><code class="language-php hljs">
+    <span class="hljs-keyword">public</span> <span class="hljs-function"><span class="hljs-keyword">function</span> <span class="hljs-title">__toString</span><span class="hljs-params">()</span>
+    </span>{
+     <span class="hljs-keyword">return</span> $this-&gt;CompanyName;
+    }
+</code></pre>
+<p>Ceci nous permettra de récupérer directement les noms des fournisseurs et de les afficher dans une liste déroulante.</p>
+<div class="row">
+    <div class="col-sm-12 text-center">
+        <img src="./nCode _ Les formulaires_files/northwind17.png" alt="screenshot" title="capture d&#39;écran" class="rounded">
+    </div>
+</div>
+<p>Plutôt que d'être obligé de faire une requête supplémentaire pour afficher les fournisseurs comme nous le faisions jusque-là,
+en configurant correctement les entités, Symfony fait tout, tout seul.</p>
+<p>Passons maintenant à la personnalisation des <code>input</code>.</p>
+<blockquote>
+<p>A noter qu'ils existent plusieurs façon de configurer les <code>input</code> et les <code>label</code>. Nous pouvons le faire sur
+le template, mais pour garder un template propre et clair, nous le ferons sur le formType.</p>
+</blockquote>
+<p>Dans le fichier <code>ProductsType.php</code> chaque <code>-&gt;add('nom_input')</code> représente un input de notre formulaire. Pour le personnaliser, nous
+allons passer en paramètre de cette méthode un tableau d'option qui nous permettra de changer l'intitulé du label,
+ajouter un placeholder, ajouter des contraintes de validations, et bien d'autres choses encores.</p>
+<p>Prenons en exemple l'input <code>ProductName</code> :</p>
+<pre><code class="language-php hljs"> -&gt;add(<span class="hljs-string">'ProductName'</span>)</code></pre>
+<p>Ajoutons-lui un label plus propre et plus clair, et un placeholder : </p>
+<pre><code class="language-php hljs">  -&gt;add(<span class="hljs-string">'ProductName'</span>, TextType::class, [
+                 <span class="hljs-string">'label'</span> =&gt; <span class="hljs-string">'Nom du produit'</span>,
+                 <span class="hljs-string">'attr'</span> =&gt; [
+                     <span class="hljs-string">'placeholder'</span> =&gt; <span class="hljs-string">'Produit'</span>,
+                 ],
+             ])</code></pre>
+<p>Occupons-nous maintenant des contraintes de validations :</p>
+<pre><code class="language-php hljs">  -&gt;add(<span class="hljs-string">'ProductName'</span>, TextType::class, [
+                <span class="hljs-string">'label'</span> =&gt; <span class="hljs-string">'Nom du produit'</span>,
+                <span class="hljs-string">'attr'</span> =&gt; [
+                    <span class="hljs-string">'placeholder'</span> =&gt; <span class="hljs-string">'Produit'</span>,
+                ],
+                <span class="hljs-string">'constraints'</span> =&gt; [
+                    <span class="hljs-keyword">new</span> Regex([
+                        <span class="hljs-string">'pattern'</span> =&gt; <span class="hljs-string">'/^[A-Za-zéèàçâêûîôäëüïö\_\-\s]+$/'</span>,
+                        <span class="hljs-string">'message'</span> =&gt; <span class="hljs-string">'Caratère(s) non valide(s)'</span>
+                    ]),
+                <span class="hljs-string">'help'</span> =&gt; <span class="hljs-string">'Vous devez rentrer le nom du produit ici'</span>,
+                ]
+            ])</code></pre>
+<p>Vous remarquerez que pour que les contraintes de validation fonctionnent, vous devez effectuer un import
+de classe sur le <code>ProductsType</code> :</p>
+<pre><code class="language-php hljs"><span class="hljs-keyword">use</span> <span class="hljs-title">Symfony</span>\<span class="hljs-title">Component</span>\<span class="hljs-title">Validator</span>\<span class="hljs-title">Constraints</span>\<span class="hljs-title">Regex</span>;</code></pre>
+<p>Il existe d'autres options pour configurer vos champs de saisie,et d'autres contraintes de validation !!!
+Par exemple, on pourrait afficher un message d'aide à l'utilisateur
+pour lui donner des indications sur les données qui doivent être saisies : </p>
+<pre><code class="language-php hljs">-&gt;add(<span class="hljs-string">'ProductName'</span>, TextType::class, [
+                <span class="hljs-string">'label'</span> =&gt; <span class="hljs-string">'Nom du produit'</span>,
+                <span class="hljs-string">'help'</span> =&gt; <span class="hljs-string">'Indiquez ici le nom complet du produit'</span>,
+                <span class="hljs-string">'attr'</span> =&gt; [
+                    <span class="hljs-string">'placeholder'</span> =&gt; <span class="hljs-string">'Produit'</span>,
+                ],
+                <span class="hljs-string">'constraints'</span> =&gt; [
+                    <span class="hljs-keyword">new</span> Regex([
+                        <span class="hljs-string">'pattern'</span> =&gt; <span class="hljs-string">'/^[A-Za-zéèàçâêûîôäëüïö\_\-\s]+$/'</span>,
+                        <span class="hljs-string">'message'</span> =&gt; <span class="hljs-string">'Caratère(s) non valide(s)'</span>
+                    ]),
+                ]
+            ])</code></pre>
+<p>Pour en savoir plus, rendez-vous sur la <a href="https://symfony.com/doc/current/reference/forms/types/form.html">documentation officielle</a>.</p>
+<p>Procédez de la même manière pour les autres champs du formulaire d'ajout de produits.</p>
+<p>Notre formulaire est maintenant lisible, et sécurisé. Mais certains champs pourraient être trop grand pour les
+données qui seraient saisies à l'intérieur. Rendons tout ça un peu joli ...</p>
+<h3 id="50">Côté Front-end</h3>
+<h4 id="51">Personnalisation du rendu</h4>
+<p>À ce stade, vous devriez avoir un formulaire ayant plus ou moins ce visuel :</p>
+<div class="row">
+    <div class="col-sm-12 text-center">
+        <img src="./nCode _ Les formulaires_files/form1.png" alt="screenshot" title="capture d&#39;écran" class="rounded">
+    </div>
+</div>
+<p>Passons à sa mise en forme et à la découverte de la structure de son template. En ouvrant le fichier
+<code>templates/products/new.html.twig</code>, on observe ... pas grand choses : </p>
+<pre><code class="language-html hljs xml">{% extends 'base.html.twig' %}
+
+{% block title %}New Products{% endblock %}
+
+{% block body %}
+    <span class="hljs-tag">&lt;<span class="hljs-name">div</span> <span class="hljs-attr">class</span>=<span class="hljs-string">"container"</span>&gt;</span>
+        <span class="hljs-tag">&lt;<span class="hljs-name">h1</span>&gt;</span>Create new Products<span class="hljs-tag">&lt;/<span class="hljs-name">h1</span>&gt;</span>
+
+        {{ include('products/_form.html.twig') }}
+
+        <span class="hljs-tag">&lt;<span class="hljs-name">a</span> <span class="hljs-attr">href</span>=<span class="hljs-string">"{{ path('products_index') }}"</span>&gt;</span>back to list<span class="hljs-tag">&lt;/<span class="hljs-name">a</span>&gt;</span>
+    <span class="hljs-tag">&lt;/<span class="hljs-name">div</span>&gt;</span>
+
+{% endblock %}</code></pre>
+<p>Pas de formulaire, mais un <code>include</code> d'un fichier <code>_form.html.twig</code>. Il s'agit en fait du fichier qui
+contient notre formulaire. Mais pourquoi le mettre dans un fichier séparé ? Tout simplement parce que ce formulaire ne sert
+pas que pour l'ajout, il sert aussi pour la modification. Plutôt que de faire plusieurs formulaires identiques
+pour des actions différentes lors de la génération du CRUD, Symfony faire créer un seul formulaire qui sera réutilisable
+selon les besoins. </p>
+<p>Ouvrons donc le fichier <code>_form.html.twig</code> : </p>
+<pre><code class="language-html hljs xml">{{ form_start(form) }}
+    {{ form_widget(form) }}
+    <span class="hljs-tag">&lt;<span class="hljs-name">button</span> <span class="hljs-attr">class</span>=<span class="hljs-string">"btn"</span>&gt;</span>{{ button_label|default('Save') }}<span class="hljs-tag">&lt;/<span class="hljs-name">button</span>&gt;</span>
+{{ form_end(form) }}</code></pre>
+<p>Voici donc la structure d'un formulaire par Symfony :</p>
+<ul>
+<li><code>{{ form_start(form) }}</code> correspond à la balise ouvrante <code>&lt;form&gt;</code></li>
+<li><code>{{ form_widget(form) }}</code> contient tous les champs de notre formulaire</li>
+<li><code>&lt;button class="btn"&gt;{{ button_label|default('Save') }}&lt;/button&gt;</code>  correspond au bouton de validation</li>
+<li><code>{{ form_end(form) }}</code> correspond à la balise fermante <code>&lt;/form&gt;</code></li>
+</ul>
+<p>Pour personnaliser le rendu du formulaire, il faut prendre connaissance de la structure d'un champ par Symfony.</p>
+<p>Voici un schéma qui reprend tous les composants d'un champ :</p>
+<div class="row">
+    <div class="col-sm-12 text-center">
+        <img src="./nCode _ Les formulaires_files/form2.png" alt="screenshot" title="capture d&#39;écran" class="rounded">
+    </div>
+</div>
+<ul>
+<li><code>form_row()</code> reprend tous les éléments d'un champs</li>
+<li><code>form_label()</code> indique le label de l'input</li>
+<li><code>form_widget()</code> reprend l'input</li>
+<li><code>form_errors()</code> servira à l'affichage des messages d'erreurs</li>
+<li><code>form_help()</code> affiche les messages d'indications</li>
+</ul>
+<p>Ainsi pour afficher un champ en particulier il faudrait procéder de la manière suivante :</p>
+<pre><code class="language-php hljs">{{ form_start(form) }}
+   {{ form_row(form.ProductName) }}
+&lt;button <span class="hljs-class"><span class="hljs-keyword">class</span>="<span class="hljs-title">btn</span>"&gt;</span>{{ button_label|<span class="hljs-keyword">default</span>(<span class="hljs-string">'Save'</span>) }}&lt;/button&gt;
+{{ form_end(form) }}</code></pre>
+<p>Utilisez la grille de Bootstrap pour mettre en forme le formulaire en suivant ce modèle :</p>
+<div class="row">
+    <div class="col-sm-12 text-center">
+        <img src="./nCode _ Les formulaires_files/form3.png" alt="screenshot" title="capture d&#39;écran" class="rounded">
+    </div>
+</div>
+<h4 id="69">Messages d'erreur de Symfony</h4>
+<p>Si on souhaite tester la validation du formulaire en ne soumettant que des valeurs vide, on se rend compte que la validation
+du navigateur, dûe aux types des champs, prend le dessus sur Symfony.</p>
+<p>Pour y remédier, nous devons ajouter un attribut <code>novalidate</code> sur le <code>{{ form_start(form) }}</code> :</p>
+<pre><code class="language-html hljs xml"> {{ form_start(form, {'attr': {'novalidate': 'novalidate'}}) }}</code></pre>
+<p>Validez le formulaire en faisant des erreurs et observez le résultat : les erreurs générées par Symfony sont maintenant
+visibles. Les messages d'erreurs sont personnalisables lors de la définition des contraintes de validations.</p>
+<h3 id="74">Validation : méthode alternative</h3>
+<p>Comme pour beaucoup d'autres composants, Symfony propose différentes façon de faire une validation de
+formulaire. La méthode que l'on vient de voir est intéressant si on doit faire plusieurs formulaire relié à une même
+entité, avec différents champs à chaque fois (tous les champs de l'entité ne sont pas sur un formulaire). On a
+une organisation propre à chaque formulaire. </p>
+<p>Toutefois, si nous n'avons qu'un seul formulaire ou, si dans le cas où nous avons plusieurs formulaires, ils sont
+identiques et ont le même fonctionnement, il est inutile de faire plusieurs formType. De ce fait, pour alléger
+le formType, nous pouvons mettre les contraintes de validations dans l'entité.</p>
+<p>Pour l'exemple, et pour éviter d'effacer ce que nous venons de faire, nous ferons un CRUD sur la table <code>suppliers</code>
+(<code>php bin/console make:crud Suppliers</code>).</p>
+<p>Rendez-vous dans le fichier <code>Entity/Suppliers.php</code>.
+Pour faire notre validation ici, nous allons utiliser les <strong>annotations</strong>.</p>
+<p>Les contraintes de validations seront donc ici déclarées sur les propriétés de notre entité : </p>
+<pre><code class="language-php hljs"><span class="hljs-comment">/**
+ * <span class="hljs-doctag">@ORM</span>\Column(type="string", length=40)
+ */</span>
+ <span class="hljs-keyword">private</span> $CompanyName;</code></pre>
+<p>Rendons d'abord ce champ obligatoire, avec un message d'erreur :</p>
+<pre><code class="language-php hljs"><span class="hljs-comment">/**
+     * <span class="hljs-doctag">@ORM</span>\Column(type="string", length=40)
+     * <span class="hljs-doctag">@Assert</span>\NotBlank(
+     *     message="Veuillez renseigner le nom du fournisseur"
+     * )
+     */</span>
+    <span class="hljs-keyword">private</span> $CompanyName;</code></pre>
+<p>Ajoutons-y une regex :</p>
+<pre><code class="language-php hljs">   <span class="hljs-comment">/**
+     * <span class="hljs-doctag">@ORM</span>\Column(type="string", length=40)
+     * <span class="hljs-doctag">@Assert</span>\NotBlank(
+     *     message="Veuillez renseigner le nom du fournisseur"
+     * )
+     * <span class="hljs-doctag">@Assert</span>\Regex(
+     *     pattern="/^[\s\w\#\_\-éèàçâêîôûùäaëïüö]+$/",
+     *     message="Caratère(s) non valide(s)"
+     * )
+     */</span>
+    <span class="hljs-keyword">private</span> $CompanyName;</code></pre>
+<blockquote>
+<p>N'oubliez pas de faire les imports lorsque vous utiliser de nouveaux composants</p>
+</blockquote>
+<p>Faites de même pour les autres champs du formulaire, et profites-en pour le rendre ergonomique. Testez ensuite
+le bon fonctionnement des contraintes de validations.</p></div><div class="menu-markdown"><img src="./nCode _ Les formulaires_files/menu.png"><div data-id="1" class="titre">Les formulaires</div><div data-id="2">Construction du formulaire</div><div data-id="3">&nbsp;&nbsp;&nbsp;&nbsp;Côté back-end</div><div data-id="50">&nbsp;&nbsp;&nbsp;&nbsp;Côté Front-end</div><div data-id="51">&nbsp;&nbsp;&nbsp;&nbsp;Personnalisation du rendu</div><div data-id="69">&nbsp;&nbsp;&nbsp;&nbsp;Messages d'erreur de Symfony</div><div data-id="74">&nbsp;&nbsp;&nbsp;&nbsp;Validation : méthode alternative</div></div></div><script>hljs.initHighlightingOnLoad();//hljs.initLineNumbersOnLoad();</script><script src="./nCode _ Les formulaires_files/menu-markdown.js"></script><script>document.title = "nCode | " + document.querySelector("h1").textContent;</script></body></html>

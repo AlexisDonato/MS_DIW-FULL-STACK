@@ -1,0 +1,283 @@
+<!DOCTYPE html>
+<!-- saved from url=(0070)https://ncode.amorce.org/ressources/Pool/CDA/WEB_Symfony_frc/auth.html -->
+<html><head><meta http-equiv="Content-Type" content="text/html; charset=UTF-8"><title>nCode | L'authentification</title>
+        <meta name="viewport" content="width=device-width, initial-scale=1">
+        <link rel="stylesheet" href="./nCode _ L&#39;authentification_files/font-awesome.min.css">
+        <link rel="stylesheet" href="./nCode _ L&#39;authentification_files/bootstrap.min.css">
+        <link rel="stylesheet" href="./nCode _ L&#39;authentification_files/darcula.css">
+        <!-- <link rel="stylesheet" href="/css/highlight/line-number.css"> -->
+        <link rel="stylesheet" href="./nCode _ L&#39;authentification_files/github-markdown.css">
+        <!-- <link rel="stylesheet" href="/css/markdown_foad.css"> -->
+        <link rel="stylesheet" href="./nCode _ L&#39;authentification_files/menu-markdown.css">
+        <!-- <script src="/js/highlightjs-line-numbers.min.js"></script> -->
+        <script src="./nCode _ L&#39;authentification_files/jquery-3.4.1.min.js"></script>
+        <script src="./nCode _ L&#39;authentification_files/popper.min.js"></script>
+        <script src="./nCode _ L&#39;authentification_files/bootstrap.min.js"></script>
+        <script src="./nCode _ L&#39;authentification_files/highlight.js"></script>
+        </head><body><div class="container"><div class="markdown-body"><h1 id="1">L'authentification</h1>
+<p>Parmi tous les outils que Symfony met à notre disposition, il existe un bundle permettant de simplifier
+l'authentification.</p>
+<p>Nous allons voir comment utiliser le composant Security de Symfony pour faire notre authentification.</p>
+<p>Le <code>maker</code> Symfony propose deux outils </p>
+<h2 id="5">Installation du Bundle Security</h2>
+<p>Rien de bien compliquer ici, entrons la commande suivante en console :</p>
+<pre><code class="hljs nginx"><span class="hljs-attribute">composer</span> require symfony/security-bundle</code></pre>
+<p>Si vous avez initialisé votre projet 'skeleton-website', cette étape ne devrait pas être nécessaire. Vérifiez
+en regardant si vous avez un fichier <code>security.yaml</code> dans le dossier <code>config</code>. </p>
+<h2 id="9">Configuration du composant Security</h2>
+<p>Pour configurer la manière dont l'authentification doit se faire, nous allons nous rendre dans le fichier
+<code>config/packages/security.yaml</code>.</p>
+<p>Voici le contenu du fichier : </p>
+<pre><code class="hljs sql">security:
+    # https://symfony.com/doc/current/security.html#where-<span class="hljs-keyword">do</span>-<span class="hljs-keyword">users</span>-come-<span class="hljs-keyword">from</span>-<span class="hljs-keyword">user</span>-providers
+    providers:
+        users_in_memory: { <span class="hljs-keyword">memory</span>: <span class="hljs-literal">null</span> }
+    firewalls:
+        dev:
+            pattern: ^/(_(profiler|wdt)|css|images|js)/
+            <span class="hljs-keyword">security</span>: <span class="hljs-literal">false</span>
+        <span class="hljs-keyword">main</span>:
+            anonymous: lazy
+            provider: users_in_memory
+
+            # <span class="hljs-keyword">activate</span> different ways <span class="hljs-keyword">to</span> authenticate
+            # https://symfony.com/doc/<span class="hljs-keyword">current</span>/<span class="hljs-keyword">security</span>.html#firewalls-<span class="hljs-keyword">authentication</span>
+
+            # https://symfony.com/doc/<span class="hljs-keyword">current</span>/<span class="hljs-keyword">security</span>/impersonating_user.html
+            # switch_user: <span class="hljs-literal">true</span>
+
+    # Easy way <span class="hljs-keyword">to</span> control <span class="hljs-keyword">access</span> <span class="hljs-keyword">for</span> <span class="hljs-keyword">large</span> sections <span class="hljs-keyword">of</span> your site
+    # Note: <span class="hljs-keyword">Only</span> the *<span class="hljs-keyword">first</span>* <span class="hljs-keyword">access</span> control that matches will be used
+    access_control:
+        # - { <span class="hljs-keyword">path</span>: ^/<span class="hljs-keyword">admin</span>, <span class="hljs-keyword">roles</span>: ROLE_ADMIN }
+        # - { <span class="hljs-keyword">path</span>: ^/profile, <span class="hljs-keyword">roles</span>: ROLE_USER }</code></pre>
+<p>Nous avons une première partie (<code>providers</code>) où on va définir comment les utilisateurs vont être récupérés (mémoire, base de données, ...) :</p>
+<pre><code class="hljs css"><span class="hljs-selector-tag">providers</span>:
+        <span class="hljs-selector-tag">users_in_memory</span>: { <span class="hljs-attribute">memory</span>: null }</code></pre>
+<p>La seconde (<code>firewalls</code>) permet de définir les composants qui vont permettre d'authentifier les utilisateurs :</p>
+<pre><code class="hljs dts"><span class="hljs-symbol">firewalls:</span>
+<span class="hljs-symbol">        dev:</span>
+<span class="hljs-symbol">            pattern:</span> ^/(_(profiler|wdt)|css|images|js)/
+<span class="hljs-symbol">            security:</span> false
+<span class="hljs-symbol">        main:</span>
+<span class="hljs-symbol">            anonymous:</span> lazy
+<span class="hljs-symbol">            provider:</span> users_in_memory
+
+            <span class="hljs-meta"># activate different ways to authenticate</span>
+            <span class="hljs-meta"># https:<span class="hljs-comment">//symfony.com/doc/current/security.html#firewalls-authentication</span></span>
+
+            <span class="hljs-meta"># https:<span class="hljs-comment">//symfony.com/doc/current/security/impersonating_user.html</span></span>
+            <span class="hljs-meta"># switch_user: true</span></code></pre>
+<p>Quant à la dernière (<code>access-control</code>) permet de définir les niveaux d'accès à l'application : </p>
+<pre><code class="hljs css">   <span class="hljs-selector-tag">access_control</span>:
+        # <span class="hljs-selector-tag">-</span> { <span class="hljs-attribute">path</span>: ^/admin, roles: ROLE_ADMIN }
+        # <span class="hljs-selector-tag">-</span> { <span class="hljs-attribute">path</span>: ^/profile, roles: ROLE_USER }</code></pre>
+<p>Il nous faut maintenant créer notre table <code>user</code> dans notre base de données.</p>
+<h2 id="20">Création de la table <code>user</code></h2>
+<p>Pour que l'authentification corresponde à nos besoins, il va nous falloir stocker les différents utilisateurs en base de données.
+On pourra stocker leurs informations (leur rôle notamment).</p>
+<p>Créez une table <code>user</code> contenant les informations suivantes :</p>
+<ul>
+<li>un email (varchar 255, non null)</li>
+<li>un mot de passe (varchar 255, non null)</li>
+<li>un role (varchar 255, non null)</li>
+</ul>
+<p>Rendons-nous ensuite dans l'entité <code>User</code> pour y implémenter la <code>UserInterface</code></p>
+<pre><code class="language-php hljs"><span class="hljs-class"><span class="hljs-keyword">class</span> <span class="hljs-title">User</span> <span class="hljs-keyword">implements</span> <span class="hljs-title">UserInterface</span>
+</span>{
+
+}</code></pre>
+<p>Selon l'IDE sur lequel vous travailler, vous observerez que 4 méthodes sont automatiquement créées :</p>
+<ul>
+<li><code>public function getRoles()</code> : méthode qui retourne un tableau des roles des différents utilisateurs</li>
+<li><code>public function getSalt()</code> : méthode utiliser pour certaines méthodes de chiffrement</li>
+<li><code>public function getUsername()</code> : méthode qui retourne l'identifiant utiliser pour l'authentification</li>
+<li><code>public function eraseCredentials()</code> : méthode qui permet d'effacer des informations sensibles
+(mot de passe par exemple) qui aurait pu être stocké dans l'entité.</li>
+</ul>
+<h2 id="28">Création d'un utilisateur</h2>
+<p>Créez un crud sur la table <code>user</code>.</p>
+<p>Mettez en forme le formulaire d'ajout et sécurisez-le, faîtes en sorte que le champ <code>role</code> ne soit présent
+à l'affichage, le role par défaut lors de l'ajout d'un utilisateur sera 'client', par exemple.</p>
+<p>Définissez donc le role par défaut d'un utilisateur sur 'client'.</p>
+<p>Ajouter une méthode de cryptage pour le mot de passe (pour rappel, aucun mot de passe ne doit-être stocké
+en clair dans la base de données).</p>
+<p>Vérifiez ensuite le bon fonctionnement de votre code en insérant un utilisateur dans la base de données.</p>
+<h2 id="34">Connexion</h2>
+<p>Commençons par créer un contrôleur que l'on nommera <code>SecurityController.php</code>, ainsi qu'une vue pour le formulaire de
+connexion (<code>security/login.html.twig</code>).</p>
+<p>Concernant la vue, nous aurons le code suivant : </p>
+<pre><code class="language-html hljs xml">{% extends 'base.html.twig' %}
+
+{% block title %}Connexion{% endblock %}
+
+{% block body %}
+    <span class="hljs-tag">&lt;<span class="hljs-name">div</span> <span class="hljs-attr">class</span>=<span class="hljs-string">"container"</span>&gt;</span>
+        <span class="hljs-tag">&lt;<span class="hljs-name">div</span> <span class="hljs-attr">class</span>=<span class="hljs-string">"row"</span>&gt;</span>
+            <span class="hljs-tag">&lt;<span class="hljs-name">div</span> <span class="hljs-attr">class</span>=<span class="hljs-string">"col-sm-6 offset-sm-3"</span>&gt;</span>
+                <span class="hljs-tag">&lt;<span class="hljs-name">form</span> <span class="hljs-attr">action</span>=<span class="hljs-string">"{{ path('login') }}"</span> <span class="hljs-attr">method</span>=<span class="hljs-string">"post"</span>&gt;</span>
+                    <span class="hljs-tag">&lt;<span class="hljs-name">label</span> <span class="hljs-attr">for</span>=<span class="hljs-string">"email"</span>&gt;</span>Adresse Mail<span class="hljs-tag">&lt;/<span class="hljs-name">label</span>&gt;</span>
+                    <span class="hljs-tag">&lt;<span class="hljs-name">input</span> <span class="hljs-attr">type</span>=<span class="hljs-string">"text"</span> <span class="hljs-attr">id</span>=<span class="hljs-string">"email"</span> <span class="hljs-attr">name</span>=<span class="hljs-string">"_username"</span> <span class="hljs-attr">class</span>=<span class="hljs-string">"form-control"</span> <span class="hljs-attr">value</span>=<span class="hljs-string">"{{ last_username }}"</span>&gt;</span>
+                    <span class="hljs-tag">&lt;<span class="hljs-name">label</span> <span class="hljs-attr">for</span>=<span class="hljs-string">"mdp"</span>&gt;</span>Mot de passe<span class="hljs-tag">&lt;/<span class="hljs-name">label</span>&gt;</span>
+                    <span class="hljs-tag">&lt;<span class="hljs-name">input</span> <span class="hljs-attr">type</span>=<span class="hljs-string">"password"</span> <span class="hljs-attr">id</span>=<span class="hljs-string">"mdp"</span> <span class="hljs-attr">name</span>=<span class="hljs-string">"_password"</span> <span class="hljs-attr">class</span>=<span class="hljs-string">"form-control"</span>&gt;</span>
+                    <span class="hljs-tag">&lt;<span class="hljs-name">input</span> <span class="hljs-attr">type</span>=<span class="hljs-string">"submit"</span> <span class="hljs-attr">class</span>=<span class="hljs-string">"btn btn-primary mt-3"</span> <span class="hljs-attr">value</span>=<span class="hljs-string">"Se connecter"</span>&gt;</span>
+                <span class="hljs-tag">&lt;/<span class="hljs-name">form</span>&gt;</span>
+            <span class="hljs-tag">&lt;/<span class="hljs-name">div</span>&gt;</span>
+        <span class="hljs-tag">&lt;/<span class="hljs-name">div</span>&gt;</span>
+    <span class="hljs-tag">&lt;/<span class="hljs-name">div</span>&gt;</span>
+{% endblock %}</code></pre>
+<p>Vous remarquerez que sur les <code>input</code> 'email' et 'password', les <code>name</code> ne correspondent pas aux champs de notre table.
+Par défaut, Symfony reconnait pour l'authentification les propriétés <code>username</code> et <code>password</code>. Pour correspondre, les <code>name</code>
+du formulaire doivent contenir ces 2 propriétés. Le <code>_</code> devant fait partie de la nomenclature de Symfony.</p>
+<p>Pour le contrôleur :</p>
+<ul>
+<li>Commençons par créer notre méthode, avec sa route :</li>
+</ul>
+<pre><code class="language-php hljs"> <span class="hljs-comment">/**
+     * <span class="hljs-doctag">@Route</span>("/login", name="login")
+     * <span class="hljs-doctag">@return</span> Response
+     */</span>
+    <span class="hljs-keyword">public</span> <span class="hljs-function"><span class="hljs-keyword">function</span> <span class="hljs-title">login</span><span class="hljs-params">()</span>: <span class="hljs-title">Response</span>
+    </span>{
+
+    }</code></pre>
+<ul>
+<li>Générons la vue qui affichera notre formulaire :</li>
+</ul>
+<pre><code class="language-php hljs"><span class="hljs-keyword">return</span> $this-&gt;render(<span class="hljs-string">'security/login.html.twig'</span>);</code></pre>
+<ul>
+<li>Il pourrait être intéressant de récupérer les erreurs de connexion. Pour cela nous utiliserons
+le composant <code>AuthenticationUtils</code> :</li>
+</ul>
+<pre><code class="language-php hljs"><span class="hljs-comment">/**
+     * <span class="hljs-doctag">@Route</span>("/login", name="login")
+     * <span class="hljs-doctag">@param</span> AuthenticationUtils $authenticationUtils
+     * <span class="hljs-doctag">@return</span> Response
+     */</span>
+    <span class="hljs-keyword">public</span> <span class="hljs-function"><span class="hljs-keyword">function</span> <span class="hljs-title">login</span><span class="hljs-params">(AuthenticationUtils $authenticationUtils)</span>: <span class="hljs-title">Response</span>
+    </span>{
+        <span class="hljs-comment">// récupération des erreurs de connexion</span>
+        $error = $authenticationUtils-&gt;getLastAuthenticationError([
+            <span class="hljs-string">'translation_domain'</span> =&gt; <span class="hljs-string">'security'</span>
+        ]);
+
+        <span class="hljs-keyword">return</span> $this-&gt;render(<span class="hljs-string">'security/login.html.twig'</span>, [
+            <span class="hljs-string">'error'</span> =&gt; $error,
+        ]);
+    }</code></pre>
+<ul>
+<li>Enfin, on peut également récupérer le <code>username</code> du dernier utilisateur qui s'est connecté :</li>
+</ul>
+<pre><code class="language-php hljs"><span class="hljs-comment">/**
+     * <span class="hljs-doctag">@Route</span>("/login", name="login")
+     * <span class="hljs-doctag">@param</span> AuthenticationUtils $authenticationUtils
+     * <span class="hljs-doctag">@return</span> Response
+     */</span>
+    <span class="hljs-keyword">public</span> <span class="hljs-function"><span class="hljs-keyword">function</span> <span class="hljs-title">login</span><span class="hljs-params">(AuthenticationUtils $authenticationUtils)</span>: <span class="hljs-title">Response</span>
+    </span>{
+        <span class="hljs-comment">// récupération des erreurs de connexion</span>
+        $error = $authenticationUtils-&gt;getLastAuthenticationError([
+            <span class="hljs-string">'translation_domain'</span> =&gt; <span class="hljs-string">'security'</span>
+        ]);
+        <span class="hljs-comment">// récupération du username du dernier utilisateur connecté</span>
+        $lastUsername = $authenticationUtils-&gt;getLastUsername();
+
+        <span class="hljs-keyword">return</span> $this-&gt;render(<span class="hljs-string">'security/login.html.twig'</span>, [
+            <span class="hljs-string">'last_username'</span> =&gt; $lastUsername,
+            <span class="hljs-string">'error'</span> =&gt; $error,
+        ]);
+    }</code></pre>
+<h2 id="48">Configuration de <code>UserInterface</code></h2>
+<p>Pour configurer les getters ajouté par la <code>UserInterface</code>, rendons-nous dans l'entité <code>User.php</code>.</p>
+<h3 id="50">getRoles()</h3>
+<p>Par défaut, le composant Security de Symfony propose 2 roles : <code>[ROLE_ADMIN]</code> et <code>[ROLE_USER]</code>.</p>
+<p>Le role de l'utilisateur permettra de définir les actions possibles qui lui seront attribuées.</p>
+<p>Pour faire simple, nous utiliserons également 2 roles, client et administrateur, directement renseigner dans la table <code>user</code>.</p>
+<p>Il nous faut donc indiquer que si dans la table <code>user</code> nous avons 'client' alors l'utilisateur se voit attribuer <code>[ROLE_USER]</code>.</p>
+<p>Si dans la table <code>user</code> nous avons 'administrateur' alors l'utilisateur se voit attribuer <code>[ROLE_ADMIN]</code>.</p>
+<pre><code class="language-php hljs">    <span class="hljs-keyword">public</span> <span class="hljs-function"><span class="hljs-keyword">function</span> <span class="hljs-title">getRoles</span><span class="hljs-params">()</span>
+    </span>{
+        <span class="hljs-keyword">if</span> ($this-&gt;role == <span class="hljs-string">"administrateur"</span>)
+            <span class="hljs-keyword">return</span> [<span class="hljs-string">"ROLE_ADMIN"</span>];
+        <span class="hljs-keyword">if</span> ($this-&gt;role == <span class="hljs-string">"client"</span>)
+            <span class="hljs-keyword">return</span> [<span class="hljs-string">"ROLE_USER"</span>];
+        <span class="hljs-keyword">return</span> [];
+    }</code></pre>
+<h3 id="57">getSalt()</h3>
+<p>Ici, nous ne définissons pas méthode spécifique de chiffrement, donc la méthode retournera une chaine de caractère vide :</p>
+<pre><code class="language-php hljs">    <span class="hljs-keyword">public</span> <span class="hljs-function"><span class="hljs-keyword">function</span> <span class="hljs-title">getSalt</span><span class="hljs-params">()</span>
+    </span>{
+        <span class="hljs-keyword">return</span> <span class="hljs-string">""</span>;
+    }
+</code></pre>
+<h3 id="60">getUsername()</h3>
+<p>Puisque nous utilisons une propriété différente de <code>username</code> pour notre identification, nous devons indiquer à quel propriété
+correspond <code>username</code>. Dans notre cas, l'addresse mail servira d'identifiant à notre utilisateur. Nous aurons donc : </p>
+<pre><code class="language-php hljs">  <span class="hljs-keyword">public</span> <span class="hljs-function"><span class="hljs-keyword">function</span> <span class="hljs-title">getUsername</span><span class="hljs-params">()</span>
+    </span>{
+        <span class="hljs-keyword">return</span> $this-&gt;getEmail();
+    }</code></pre>
+<h3 id="63">eraseCredentials()</h3>
+<p>Dans notre cas, nous ne toucherons pas à cette méthode.</p>
+<h2 id="65">Configuration du fichier <code>security.yaml</code></h2>
+<p>Nous allons dans premier temps indiquer que l'utlisateur se trouve dans la base de données. Nous devons aussi indiquer que
+l'utilisateur devra se connecter avec son addresse mail. Donc dans la clé <code>providers</code>,
+nous allons entrer le code suivant (attention à l'indentation) : </p>
+<pre><code class="hljs dts"><span class="hljs-symbol">from_database:</span>
+<span class="hljs-symbol">    entity:</span>
+        class : App\Entity\USer
+<span class="hljs-symbol">        property:</span> email</code></pre>
+<p>Ensuite nous devons rappeler ce <code>provider</code> dans la clé <code>firewalls</code> :</p>
+<pre><code class="hljs dts">firewalls
+<span class="hljs-symbol">    main:</span>   
+<span class="hljs-symbol">        provider:</span> from_database</code></pre>
+<p>Il nous faut également indiquer par quelle méthode l'utilisateur pourra se connecter. Dans notre cas, il se connectera avec un
+formulaire que nous avons créé :</p>
+<pre><code class="hljs dts"><span class="hljs-symbol">firewalls:</span>
+<span class="hljs-symbol">    main:</span>
+<span class="hljs-symbol">        anonymous:</span> true
+<span class="hljs-symbol">        form_login:</span>
+<span class="hljs-symbol">            check_path:</span> /login
+<span class="hljs-symbol">        provider:</span> from_database</code></pre>
+<p>Nous allons définir le chemin permettant la déconnexion, ainsi que la redirection suite à cette déconnexion de la même manière :</p>
+<pre><code class="hljs dts"><span class="hljs-symbol">firewalls:</span>
+<span class="hljs-symbol">    main:</span>
+<span class="hljs-symbol">        anonymous:</span> true
+<span class="hljs-symbol">        logout:</span>
+<span class="hljs-symbol">            path:</span> /logout
+<span class="hljs-symbol">            target:</span> /
+<span class="hljs-symbol">        form_login:</span>
+<span class="hljs-symbol">            check_path:</span> /login
+<span class="hljs-symbol">        provider:</span> from_database</code></pre>
+<p>Si vous voulez restreindre l'accès à certaines routes selon le role, vous pouvez décommentter (ajouter / modifier) les lignes
+suivantes dans la clé <code>acces_control</code> : </p>
+<pre><code class="hljs css"><span class="hljs-selector-tag">-</span> { <span class="hljs-attribute">path</span>: ^/admin, roles: ROLE_ADMIN }
+<span class="hljs-selector-tag">-</span> { <span class="hljs-attribute">path</span>: ^/profile, roles: ROLE_USER }</code></pre>
+<p>Enfin il nous faut renseigner l'encoder utilisé pour le hash du mot de passe : </p>
+<pre><code class="hljs dts"><span class="hljs-symbol">    encoders:</span>
+        App\Entity\USer:
+<span class="hljs-symbol">            algorithm:</span> bcrypt
+<span class="hljs-symbol">            cost:</span> <span class="hljs-number">12</span></code></pre>
+<p>Nous renseignons où se trouve le hash, ainsi que la méthode de hashage.</p>
+<p>Il nous faut définir une route pour la déconnexion. Pour cela, nous allons dans le fichier <code>config/route.yaml</code>, et ajoutons
+les lignes suivantes : </p>
+<pre><code class="hljs bash"><span class="hljs-built_in">logout</span>:
+  path: /<span class="hljs-built_in">logout</span></code></pre>
+<p>Testez la connexion. Si la connexion se fait, vous verrez l'identifiant de connexion dans la barre de
+débogage de Symfony.</p>
+<div class="row">
+    <div class="col-sm-12 text-center">
+        <img src="./nCode _ L&#39;authentification_files/auth1.png" alt="screenshot" title="capture d&#39;écran" class="rounded">
+    </div>
+</div>
+<h2 id="83">Personnalisation de la vue</h2>
+<p>Une fois que la connexion est effective : </p>
+<ul>
+<li>Ajoutez sur la vue un bouton de connexion et de déconnexion, qui s'affichent selon s'il y a connexion
+ou non de l'utilisateur.</li>
+<li>Faire un affichage différent de la liste des produits selon si c'est un client qui se connecte, ou
+si c'est un administrateur.</li>
+<li>Codez une interface permettant à l'utilisateur de modifier ses informations personnelles.</li>
+</ul>
+<p>Pour vous aider, consulter la documentation Symfony <a href="https://symfony.com/doc/current/security.html#b-authenticating-your-users">ici</a>
+et <a href="https://symfony.com/doc/current/templates.html">là</a>.</p></div><div class="menu-markdown"><img src="./nCode _ L&#39;authentification_files/menu.png"><div data-id="1" class="titre">L'authentification</div><div data-id="5">Installation du Bundle Security</div><div data-id="9">Configuration du composant Security</div><div data-id="20">Création de la table <code>user</code></div><div data-id="28">Création d'un utilisateur</div><div data-id="34">Connexion</div><div data-id="48">Configuration de <code>UserInterface</code></div><div data-id="50">&nbsp;&nbsp;&nbsp;&nbsp;getRoles()</div><div data-id="57">&nbsp;&nbsp;&nbsp;&nbsp;getSalt()</div><div data-id="60">&nbsp;&nbsp;&nbsp;&nbsp;getUsername()</div><div data-id="63">&nbsp;&nbsp;&nbsp;&nbsp;eraseCredentials()</div><div data-id="65">Configuration du fichier <code>security.yaml</code></div><div data-id="83">Personnalisation de la vue</div></div></div><script>hljs.initHighlightingOnLoad();//hljs.initLineNumbersOnLoad();</script><script src="./nCode _ L&#39;authentification_files/menu-markdown.js"></script><script>document.title = "nCode | " + document.querySelector("h1").textContent;</script></body></html>

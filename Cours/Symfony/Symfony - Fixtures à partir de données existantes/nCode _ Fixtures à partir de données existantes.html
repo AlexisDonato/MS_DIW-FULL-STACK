@@ -1,0 +1,103 @@
+<!DOCTYPE html>
+<!-- saved from url=(0074)https://ncode.amorce.org/ressources/Pool/CDA/WEB_Symfony_frc/fixture2.html -->
+<html><head><meta http-equiv="Content-Type" content="text/html; charset=UTF-8"><title>nCode | Fixtures à partir de données existantes</title>
+        <meta name="viewport" content="width=device-width, initial-scale=1">
+        <link rel="stylesheet" href="./nCode _ Fixtures à partir de données existantes_files/font-awesome.min.css">
+        <link rel="stylesheet" href="./nCode _ Fixtures à partir de données existantes_files/bootstrap.min.css">
+        <link rel="stylesheet" href="./nCode _ Fixtures à partir de données existantes_files/darcula.css">
+        <!-- <link rel="stylesheet" href="/css/highlight/line-number.css"> -->
+        <link rel="stylesheet" href="./nCode _ Fixtures à partir de données existantes_files/github-markdown.css">
+        <!-- <link rel="stylesheet" href="/css/markdown_foad.css"> -->
+        <link rel="stylesheet" href="./nCode _ Fixtures à partir de données existantes_files/menu-markdown.css">
+        <!-- <script src="/js/highlightjs-line-numbers.min.js"></script> -->
+        <script src="./nCode _ Fixtures à partir de données existantes_files/jquery-3.4.1.min.js"></script>
+        <script src="./nCode _ Fixtures à partir de données existantes_files/popper.min.js"></script>
+        <script src="./nCode _ Fixtures à partir de données existantes_files/bootstrap.min.js"></script>
+        <script src="./nCode _ Fixtures à partir de données existantes_files/highlight.js"></script>
+        </head><body><div class="container"><div class="markdown-body"><h1 id="1">Fixtures à partir de données existantes</h1>
+<p>Vous pouvez également récupérer les données de la base record et les charger via "fixtures".</p>
+<h2 id="3">Récupération des données avec phpMyAdmin</h2>
+<p>Dans <strong>phpMyAdmin</strong>, il existe un menu exporter.
+Sélectionnez la table que vous voulez</p>
+<p><img src="./nCode _ Fixtures à partir de données existantes_files/export.png" alt="export"></p>
+<p>Dans le menu export choisissez ensuite <code>php</code> et vous obtiendrez des tableaux <code>php</code>.</p>
+<h2 id="7">Utiliser les données dans les fixtures</h2>
+<p>Avec la commande <code>symfony console make:fixture</code> vous allez créer une fixture nommée <code>DiscsFixtures</code>. Le nom importe peu.
+Copiez-collez le fichier récupéré de phpMyAdmin dans le dossier <code>src/DataFixtures</code>.</p>
+<p>Ensuite, retrouvez le fichier créé dans le dossier <code>src/DataFixtures</code>. Vous devriez trouver un code exemple de ce genre:</p>
+<pre><code class="language-php hljs"><span class="hljs-class"><span class="hljs-keyword">class</span> <span class="hljs-title">DiscsFixtures</span> <span class="hljs-keyword">extends</span> <span class="hljs-title">Fixture</span>
+</span>{
+    <span class="hljs-keyword">public</span> <span class="hljs-function"><span class="hljs-keyword">function</span> <span class="hljs-title">load</span><span class="hljs-params">(ObjectManager $manager)</span>: <span class="hljs-title">void</span>
+    </span>{
+        <span class="hljs-comment">// $product = new Product();</span>
+        <span class="hljs-comment">// $manager-&gt;persist($product);</span>
+
+        $manager-&gt;flush();
+    }
+}</code></pre>
+<p>Nous allons modifier ce code de la façon suivante:</p>
+<pre><code class="language-php hljs"><span class="hljs-meta">&lt;?php</span>
+
+<span class="hljs-keyword">namespace</span> <span class="hljs-title">App</span>\<span class="hljs-title">DataFixtures</span>;
+
+<span class="hljs-keyword">use</span> <span class="hljs-title">App</span>\<span class="hljs-title">Entity</span>\<span class="hljs-title">Artist</span>;
+<span class="hljs-keyword">use</span> <span class="hljs-title">App</span>\<span class="hljs-title">Entity</span>\<span class="hljs-title">Disc</span>;
+<span class="hljs-keyword">use</span> <span class="hljs-title">Doctrine</span>\<span class="hljs-title">Bundle</span>\<span class="hljs-title">FixturesBundle</span>\<span class="hljs-title">Fixture</span>;
+<span class="hljs-keyword">use</span> <span class="hljs-title">Doctrine</span>\<span class="hljs-title">Persistence</span>\<span class="hljs-title">ObjectManager</span>;
+
+<span class="hljs-class"><span class="hljs-keyword">class</span> <span class="hljs-title">DiscsFixtures</span> <span class="hljs-keyword">extends</span> <span class="hljs-title">Fixture</span>
+</span>{
+
+    <span class="hljs-keyword">public</span> <span class="hljs-function"><span class="hljs-keyword">function</span> <span class="hljs-title">load</span><span class="hljs-params">(ObjectManager $manager)</span>: <span class="hljs-title">void</span>
+    </span>{
+
+        <span class="hljs-keyword">include</span> <span class="hljs-string">'record.php'</span>;
+        $artistRepo = $manager-&gt;getRepository(Artist::class);
+
+        <span class="hljs-keyword">foreach</span> ($artist <span class="hljs-keyword">as</span> $art){
+            $artistDB = <span class="hljs-keyword">new</span> Artist();
+            $artistDB
+            -&gt;setId($art[<span class="hljs-string">'artist_id'</span>])
+            -&gt;setName($art[<span class="hljs-string">'artist_name'</span>])
+            -&gt;setUrl($art[<span class="hljs-string">'artist_url'</span>]);
+
+            $manager-&gt;persist($artistDB);
+
+             <span class="hljs-comment">// empêcher l'auto incrément</span>
+            $metadata = $manager-&gt;getClassMetaData(Artist::class);
+            $metadata-&gt;setIdGeneratorType(\Doctrine\ORM\Mapping\ClassMetadata::GENERATOR_TYPE_NONE);
+        }
+        $manager-&gt;flush();
+
+        <span class="hljs-keyword">foreach</span> ($disc <span class="hljs-keyword">as</span> $d) {
+            $discDB = <span class="hljs-keyword">new</span> Disc();
+            $discDB
+            -&gt;setTitle($d[<span class="hljs-string">'disc_title'</span>])
+            -&gt;setLabel($d[<span class="hljs-string">'disc_label'</span>])
+            -&gt;setPicture($d[<span class="hljs-string">'disc_picture'</span>]);
+            $artist = $artistRepo-&gt;find($d[<span class="hljs-string">'artist_id'</span>]);
+            $discDB-&gt;setArtist($artist);
+            $manager-&gt;persist($discDB);
+        }
+
+        $manager-&gt;flush();
+    }
+}
+</code></pre>
+<p>Expliquons ce code:</p>
+<ol>
+<li>D'abord nous incluons le fichier <code>record.php</code> qui détient les données.</li>
+<li>Nous balayons le tableau <code>$artist</code> en créant des objets <code>Artist</code> que nous persistons ensuite.</li>
+<li>Les lignes</li>
+</ol>
+<pre><code class="language-php hljs"> <span class="hljs-comment">// empêcher aua incrément</span>
+$metadata = $manager-&gt;getClassMetaData(Artist::class);
+$metadata-&gt;setIdGeneratorType(\Doctrine\ORM\Mapping\ClassMetadata::GENERATOR_TYPE_NONE);</code></pre>
+<p>Vont obliger doctrine à créer les artistes avec une id spécifique</p>
+<blockquote>
+<p>N'oubliez pas d'ajouter le setId dans l'entité Artiste</p>
+</blockquote>
+<ol start="4">
+<li>Dans la deuxième boucle, <code>$artist = $artistRepo-&gt;find($d['artist_id']);</code> va récupérer l'objet Artist correspondant à l'<code>artist_id</code> pour que nous puissions l'ajouter au disque avec <code>$discDB-&gt;setArtist($artist);</code></li>
+</ol>
+<p>Après un <code>symfony console doctrine:fixtures:load</code> votre base sera la même que celle avec laquelle vous travailliez avant.</p></div><div class="menu-markdown"><img src="./nCode _ Fixtures à partir de données existantes_files/menu.png"><div data-id="1" class="titre">Fixtures à partir de données existantes</div><div data-id="3">Récupération des données avec phpMyAdmin</div><div data-id="7">Utiliser les données dans les fixtures</div></div></div><script>hljs.initHighlightingOnLoad();//hljs.initLineNumbersOnLoad();</script><script src="./nCode _ Fixtures à partir de données existantes_files/menu-markdown.js"></script><script>document.title = "nCode | " + document.querySelector("h1").textContent;</script></body></html>

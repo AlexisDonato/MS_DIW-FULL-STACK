@@ -18,7 +18,10 @@ class Artist
     #[ORM\Column(type: 'string', length: 255)]
     private $name;
 
-    #[ORM\OneToMany(mappedBy: 'Artist', targetEntity: Disc::class)]
+    #[ORM\Column(type: 'string', length: 255)]
+    private $url;
+
+    #[ORM\OneToMany(mappedBy: 'artist', targetEntity: Disc::class, orphanRemoval: true)]
     private $discs;
 
     public function __construct()
@@ -31,6 +34,13 @@ class Artist
         return $this->id;
     }
 
+    public function setId(int $id): self
+    {
+        $this->id = $id;
+
+        return $this;
+    }
+
     public function getName(): ?string
     {
         return $this->name;
@@ -39,6 +49,18 @@ class Artist
     public function setName(string $name): self
     {
         $this->name = $name;
+
+        return $this;
+    }
+
+    public function getUrl(): ?string
+    {
+        return $this->url;
+    }
+
+    public function setUrl(string $url): self
+    {
+        $this->url = $url;
 
         return $this;
     }

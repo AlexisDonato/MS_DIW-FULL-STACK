@@ -1,0 +1,418 @@
+<!DOCTYPE html>
+<!-- saved from url=(0069)https://ncode.amorce.org/ressources/Pool/CDA/WEB_Symfony_frc/api.html -->
+<html><head><meta http-equiv="Content-Type" content="text/html; charset=UTF-8"><title>nCode | Les API avec API-platform</title>
+        <meta name="viewport" content="width=device-width, initial-scale=1">
+        <link rel="stylesheet" href="./nCode _ Les API avec API-platform_files/font-awesome.min.css">
+        <link rel="stylesheet" href="./nCode _ Les API avec API-platform_files/bootstrap.min.css">
+        <link rel="stylesheet" href="./nCode _ Les API avec API-platform_files/darcula.css">
+        <!-- <link rel="stylesheet" href="/css/highlight/line-number.css"> -->
+        <link rel="stylesheet" href="./nCode _ Les API avec API-platform_files/github-markdown.css">
+        <!-- <link rel="stylesheet" href="/css/markdown_foad.css"> -->
+        <link rel="stylesheet" href="./nCode _ Les API avec API-platform_files/menu-markdown.css">
+        <!-- <script src="/js/highlightjs-line-numbers.min.js"></script> -->
+        <script src="./nCode _ Les API avec API-platform_files/jquery-3.4.1.min.js"></script>
+        <script src="./nCode _ Les API avec API-platform_files/popper.min.js"></script>
+        <script src="./nCode _ Les API avec API-platform_files/bootstrap.min.js"></script>
+        <script src="./nCode _ Les API avec API-platform_files/highlight.js"></script>
+        </head><body><div class="container"><div class="markdown-body"><h1 id="1">Les API avec API-platform</h1>
+<h2 id="2">Préambule</h2>
+<p>Pour mettre en place notre API et comprendre son fonctionnement, nous allons créer un système de commentaires sur les produits de notre base.</p>
+<p>Pour cela, créez une nouvelle table dans la base Northwind, que l'on nommera <code>comments</code>.</p>
+<p>Cette table comprendra les propriétés suivantes : </p>
+<ul>
+<li>content (text)</li>
+<li>date (datetime)</li>
+<li>updateDate (datetime)</li>
+</ul>
+<p>Ajouter ensuite une relation entre les 2 tables, en partant du principe qu'un produit peut avoir plusieurs commentaires, mais qu'un commentaire est associé à un seul et unique
+produit.</p>
+<p>De la même façon, une relation doit être établie entre la table <code>user</code> et la table
+<code>comment</code> : un utilisateur peut poster plusieurs commentaires, mais un commentaire
+est posté par un seul et unique utilisateur.</p>
+<p>Organisez votre crud que l'on puisse ajouter un commentaire sur la page de détail
+du produit.</p>
+<h2 id="10">Installation d'API-Platform</h2>
+<p>Pour installer API-Platform, ouvrez la console à la racine du projet et tapez la
+commande suivante :</p>
+<pre><code class="hljs nginx"><span class="hljs-attribute">composer</span> req api</code></pre>
+<p>Pour vérifier la bonne installation du composant, rendez-vous sur la route <code>/api</code>.
+Vous devriez avoir l'affichage suivant :</p>
+<div class="row">
+    <div class="col-sm-12 text-center">
+        <img src="./nCode _ Les API avec API-platform_files/api1.png" alt="screenshot" title="capture d&#39;écran" class="rounded">
+    </div>
+</div>
+<p>C'est ici que vous aurez accès à la documentation de votre api.</p>
+<p>Il nous faut maintenant définir un point d'entré sur l'entité <code>Comments</code> pour
+pouvoir récupérer les commentaires. Nous allons pour cela utiliser les annotations.</p>
+<p>Dans les annotations de la classe <code>Comments</code>, nous allons ajouter l'annotation <code>@ApiRessource()</code>.</p>
+<pre><code class="language-php hljs"><span class="hljs-meta">&lt;?php</span>
+
+<span class="hljs-keyword">namespace</span> <span class="hljs-title">App</span>\<span class="hljs-title">Entity</span>;
+
+<span class="hljs-keyword">use</span> <span class="hljs-title">ApiPlatform</span>\<span class="hljs-title">Core</span>\<span class="hljs-title">Annotation</span>\<span class="hljs-title">ApiResource</span>;
+<span class="hljs-keyword">use</span> <span class="hljs-title">App</span>\<span class="hljs-title">Repository</span>\<span class="hljs-title">CommentsRepository</span>;
+<span class="hljs-keyword">use</span> <span class="hljs-title">Doctrine</span>\<span class="hljs-title">ORM</span>\<span class="hljs-title">Mapping</span> <span class="hljs-title">as</span> <span class="hljs-title">ORM</span>;
+
+<span class="hljs-comment">/**
+ * <span class="hljs-doctag">@ORM</span>\Entity(repositoryClass=CommentsRepository::class)
+ * <span class="hljs-doctag">@ApiResource</span>()
+ */</span>
+<span class="hljs-class"><span class="hljs-keyword">class</span> <span class="hljs-title">Comments</span>
+</span>{
+    ...
+}</code></pre>
+<p>Actualisons la documentation de notre API.</p>
+<p>Vous y trouverez les différentes méthodes d'accès à nos commentaires :</p>
+<ul>
+<li>
+<div class="row">
+  <div class="col-sm-12 text-center">
+      <img src="./nCode _ Les API avec API-platform_files/api2.png" alt="screenshot" title="capture d&#39;écran" class="rounded">
+  </div>
+</div>
+<p>Va permettre de récupérer tous les commentaires.</p>
+</li>
+<li>
+<div class="row">
+  <div class="col-sm-12 text-center">
+      <img src="./nCode _ Les API avec API-platform_files/api3.png" alt="screenshot" title="capture d&#39;écran" class="rounded">
+  </div>
+</div>
+<p>Permet de créer un commentaire.</p>
+</li>
+<li>
+<div class="row">
+ <div class="col-sm-12 text-center">
+     <img src="./nCode _ Les API avec API-platform_files/api4.png" alt="screenshot" title="capture d&#39;écran" class="rounded">
+ </div>
+</div>
+<p>Permet de récupérer un commentaire en particulier.</p>
+</li>
+<li>
+<div class="row">
+  <div class="col-sm-12 text-center">
+      <img src="./nCode _ Les API avec API-platform_files/api5.png" alt="screenshot" title="capture d&#39;écran" class="rounded">
+  </div>
+</div>
+<p>Permet de supprimer un commentaire.</p>
+</li>
+<li>
+<div class="row">
+  <div class="col-sm-12 text-center">
+      <img src="./nCode _ Les API avec API-platform_files/api6.png" alt="screenshot" title="capture d&#39;écran" class="rounded">
+  </div>
+</div>
+<p>Permet de modifier un commentaire.</p>
+</li>
+<li>
+<div class="row">
+  <div class="col-sm-12 text-center">
+      <img src="./nCode _ Les API avec API-platform_files/api7.png" alt="screenshot" title="capture d&#39;écran" class="rounded">
+  </div>
+</div>
+</li>
+</ul>
+<p>Permet enfin de modifier un champ en particulier.</p>
+<p>Vous avez la possibilité de filtrer les points d'entrés en passant des paramètres
+dans l'annotation :</p>
+<ul>
+<li>
+<p><code>collectionOperations={""}</code> permet de filtrer les méthodes sur tous les
+commentaires.</p>
+</li>
+<li>
+<p><code>itemOperations={""}</code> permet de filtrer les méthodes sur un commentaire en particulier.</p>
+</li>
+</ul>
+<p>Par exemple, nous voulons uniquement garder les méthodes pour récupérer
+tous les commentaires, ainsi qu'un unique commentaire. Nous noterons les paramètres
+comme ceci :</p>
+<pre><code class="language-php hljs"><span class="hljs-comment">/**
+ * <span class="hljs-doctag">@ORM</span>\Entity(repositoryClass=CommentsRepository::class)
+ * <span class="hljs-doctag">@ApiResource</span>(
+ *     collectionOperations={"get"},
+ *     itemOperations={"get"}
+ * )
+ */</span></code></pre>
+<p>De la même manière, nous pouvons uniquement garder les suppressions, ajout, etc.</p>
+<h2 id="28">Test et configuration de l'API</h2>
+<p>Sur la doc de notre API, si nous cliquons sur la première ligne, nous allons retrouver un exemple de réponse, entièrement documentée à partir de l'entité.</p>
+<p>En cliquant sur <code>Try it out</code>, on remarque que l'API récupère tous les champs. Pour éviter que toutes les données soient exposées, nous avons la possibilité de créer des groupes permettant de selectionner les données que nous voulons récupérer.</p>
+<p>Pour cela, il suffit de préciser dans les annotations de l'entité de cette façon les données que nous souhaitons récupérer :</p>
+<pre><code class="language-php hljs"><span class="hljs-comment">/**
+* <span class="hljs-doctag">@ORM</span>\Column(type="text"})
+* <span class="hljs-doctag">@Groups</span>({"read:comment"})
+*/</span></code></pre>
+<p>L'annotation <code>@Groups({"read:comment"})</code> permet de définir un groupe pour une propriéte, et ici nous avons nommé ce groupe <code>read:comment</code>.</p>
+<p>Pour afficher les groupes définis, il suffit de le préciser dans l'annotation de la classe :</p>
+<pre><code class="language-php hljs"><span class="hljs-comment">/**
+ * <span class="hljs-doctag">@ORM</span>\Entity(repositoryClass=CommentsRepository::class)
+ * <span class="hljs-doctag">@ApiResource</span>(
+ *     normalizationContext={"groups"={"read:comment"}},
+ *     collectionOperations={"get"},
+ *     itemOperations={"get"}
+ * )
+ */</span></code></pre>
+<h3 id="36">Application</h3>
+<p>Définissez un groupe pour les différents champs que vous voulez récupérer sur votre entité et observez le résultat sur l'API.</p>
+<p>A l'aide de la <a href="https://api-platform.com/docs/">documentation</a>, afficher les résultats par date d'ajout décroissante.</p>
+<h2 id="39">Alternative</h2>
+<p>Pour tester votre API, vous avez la possibilité d'utilliser un logiciel tiers (<a href="https://www.postman.com/">Postman</a>, <a href="https://insomnia.rest/">Insomnia</a>). L'utilisation d'un autre logiciel permet plus de manipulation et de personalisation.</p>
+<p>Pour la suite, nous utiliserons Insomnia.</p>
+<p>A l'aide de ce logiciel et de sa <a href="https://support.insomnia.rest/article/11-getting-started">documentation</a>, afficher le résultat précédent.</p>
+<div class="row">
+      <div class="col-sm-12 text-center">
+          <img src="./nCode _ Les API avec API-platform_files/api8.png" alt="screenshot" title="capture d&#39;écran" class="rounded">
+      </div>
+  </div>
+<h2 id="44">Mettre en place un filtre de recherche</h2>
+<p>Si on veut filtrer l'affichage des commentaires selon un article, nous allons changer l'url de cette manière :</p>
+<pre><code class="hljs dts"><span class="hljs-symbol">localhost:</span><span class="hljs-number">8000</span><span class="hljs-meta-keyword">/api/</span>comments?products=<span class="hljs-number">2</span></code></pre>
+<p>si on exécute cette requète, on obtient un résultat erroné. Il nous faut au préalable définir un filtre.</p>
+<p>Pour cela, nous allons ajouter un filtre de recherche dans les annotations de la classe (entité) <code>Comments</code> :</p>
+<pre><code class="language-php hljs">@ApiFilter(SearchFilter::class, properties={<span class="hljs-string">"product"</span>: <span class="hljs-string">"exact"</span>})</code></pre>
+<p>Si vous avez une erreur, n'oubliez l'import de <code>SearchFilter</code>. </p>
+<p>Dans insomnia testez avec la requète suivante :</p>
+<pre><code class="hljs dts"><span class="hljs-symbol">localhost:</span><span class="hljs-number">8000</span><span class="hljs-meta-keyword">/api/</span>comments?product=<span class="hljs-number">2</span></code></pre>
+<p>(Si vous utiliser le serveur Symfony, adaptez si vous utiliser un autre type de serveur, de même pour <code>id_product</code>, choisissez-en où il y a plusieus commentaires).</p>
+<p>Vous avez aussi la possibilité de créer <a href="https://api-platform.com/docs/core/filters/#filters">vos propres filtres</a>.</p>
+<h2 id="55">Pagination</h2>
+<p>Pour éviter un tros gros affichage d'informations, API-platform nous propose un système de pagination.</p>
+<p>Pour le mettre en place, il suffit d'ajouter dans l'annotation <code>@ApiRessource</code> :</p>
+<pre><code class="language-php hljs"><span class="hljs-comment">/**
+* <span class="hljs-doctag">@ApiRessource</span>(
+*     paginationItemsPerPage=2
+* )
+*/</span></code></pre>
+<p>Testez encore une fois pour observer le résultat. Nous avons bien 2 commentaire qui sont récupérés par page. En ramplaçant <code>application/json</code> par <code>application/ld+json</code>. Nous obtenons des informations supplémentaires, comme le nombre de page, la page suivante et la page précédente.</p>
+<p>Pour accéder à la page suivante, utiliser l'url suivante (toujours dans Insomnia) : <code>localhost:8000/api/comments?id_product=2&amp;page=2</code>.</p>
+<h2 id="61">Relation</h2>
+<p>Il serait intéressant de pouvoir récupérer le nom de l'utilisateur qui a poster le commentaire.</p>
+<p>Pour cela, rendons-nous dans l'entité <code>User.php</code>.</p>
+<p>Dans les annotations de la propriété <code>email</code>, nous allons ajouter le même groupe que pour les propriétés de l'entité <code>Comments</code>.</p>
+<p>Testez pour obtenir le résultat suivant :</p>
+<pre><code class="language-json hljs">[
+  {
+    <span class="hljs-attr">"id"</span>: <span class="hljs-number">2</span>,
+    <span class="hljs-attr">"content"</span>: <span class="hljs-string">"string"</span>,
+    <span class="hljs-attr">"date"</span>: <span class="hljs-string">"2020-06-23T14:30:51+00:00"</span>,
+    <span class="hljs-attr">"user"</span>: {
+      <span class="hljs-attr">"id"</span>: <span class="hljs-number">2</span>,
+      <span class="hljs-attr">"email"</span>: <span class="hljs-string">"azerty@aze.rty"</span>
+    }
+  },
+  {
+    <span class="hljs-attr">"id"</span>: <span class="hljs-number">9</span>,
+    <span class="hljs-attr">"content"</span>: <span class="hljs-string">"test2"</span>,
+    <span class="hljs-attr">"date"</span>: <span class="hljs-string">"2020-06-19T08:30:04+00:00"</span>,
+    <span class="hljs-attr">"user"</span>: {
+      <span class="hljs-attr">"id"</span>: <span class="hljs-number">2</span>,
+      <span class="hljs-attr">"email"</span>: <span class="hljs-string">"azerty@aze.rty"</span>
+    }
+  }
+]</code></pre>
+<h3 id="67">Récupération d'un commentaire selon son id</h3>
+<p>Toujours dans Insomnia, nous allons dupliquer la requête précédente et nous la
+renommons <code>comments/{id}</code>. Toujours en gradant la méthode <code>GET</code>, nous modifions
+l'url de cette façon : <code>localhost:8000/api/comments/2</code> (2 étant l'id du commentaire demandé).</p>
+<p>Ici, on pourrait vouloir retrouver le nom du produit sur lequel le commentaire a été mis.</p>
+<p>Pour cela, nous allons recréer un autre groupe dans l'annotation de la propriété <code>product</code> et sur la propriété <code>product_name</code> de l'entité <code>Products.php</code>, par exemple : <code>@Groups({"read:comment:full"})</code>.</p>
+<p>Il suffit ensuite de changer le contexte de normalisation dans <code>@ApiRessource</code> de la manière suivante :</p>
+<pre><code class="language-php hljs"><span class="hljs-comment">/**
+ * <span class="hljs-doctag">@ORM</span>\Entity(repositoryClass=CommentsRepository::class)
+ * <span class="hljs-doctag">@ApiResource</span>(
+ *     itemOperations={
+ *      "get"={
+ *          "normalization_context"={"groups"={"read:comment", "read:comment:full"}}
+ *          }
+ *     }
+ * )
+ */</span></code></pre>
+<p>Cette méthode permet de définir et d'appeler différents groupes selon les besoins.</p>
+<p>Il était possible, sans changer le context de normalization, de simplement ajouter le groupe
+<code>@Groups({"read:comment"})</code> sur la propriété <code>product_name</code> de l'entité <code>Products.php</code>.
+Tout dépend de vos besoins...</p>
+<h3 id="75">Remarque</h3>
+<p>Si vous utiliser le même groupe sur plusieurs entités (par exemple <code>User</code> et <code>Comments</code>) vous
+risquez de rencontrer cette erreur :</p>
+<div class="row">
+      <div class="col-sm-12 text-center">
+          <img src="./nCode _ Les API avec API-platform_files/api9.png" alt="screenshot" title="capture d&#39;écran" class="rounded">
+      </div>
+  </div>
+<p>Ce qu'il se passe :</p>
+<ul>
+<li>Vous appelez un commentaire, qui comprend ses informations plus celle de
+l'utilisateur.</li>
+<li>Dans les informations de l'utilisateur nous retrouvons les différents commentaires qu'il a posté.</li>
+<li>Cans ces commentaires on retrouve les informations de l'utilisateur.</li>
+<li>Etc ...</li>
+</ul>
+<p>Pour palier à ce problème, il faut indiquer le nombre maximal de répétition
+acceptée.</p>
+<p>On doit ajouter, à <code>@ApiResource</code>, <code>"enable_max_depth"=true</code>, et ajouter
+<code>@MaxDepth(1)</code> en annotation de la propriété concernée de l'entité <code>User</code>.</p>
+<p>Vous devriez voir apparaître cette notation : <code>"\/api\/comments\/2"</code>.</p>
+<p>On appelle ceci une IRI. C'est l'adresse qui permet d'identifier une ressource.</p>
+<h3 id="84">Ajout d'un commentaire</h3>
+<p>Commençons par dupliquer une des méthodes déjà existantes pour avoir le résultat suivant :</p>
+<div class="row">
+      <div class="col-sm-12 text-center">
+          <img src="./nCode _ Les API avec API-platform_files/api10.png" alt="screenshot" title="capture d&#39;écran" class="rounded">
+      </div>
+  </div>
+<blockquote>
+<p>Pour rappel, <code>POST</code> permet de faire un ajout.</p>
+</blockquote>
+<p>Pour tester un ajout de commentaire, placez-vous dans la partie Json et entrez
+le code suivant :</p>
+<pre><code class="language-json hljs">{
+ <span class="hljs-attr">"content"</span> : <span class="hljs-string">"Un nouveau commentaire"</span>,
+ <span class="hljs-attr">"date"</span> : <span class="hljs-string">"2020-06-24"</span>,
+ <span class="hljs-attr">"user"</span> : <span class="hljs-string">"/api/users/1"</span>
+}</code></pre>
+<p>Pour <code>User</code>, nous utilisons l'IRI de notre objet. Symfony s'attend à ce que nous
+lui fournissions un objet pour l'utilisateur.</p>
+<blockquote>
+<p>Attention : si vous utilisez des groupes différents pour vos propriétés, n'oubliez pas d'insérer la ligne suivant dans <code>@ApipResource</code> :</p>
+<pre><code class="language-php hljs">collectionOperations={
+       <span class="hljs-string">"post"</span>={
+          <span class="hljs-string">"normalization_context"</span>={<span class="hljs-string">"groups"</span>={<span class="hljs-string">"read:comment"</span>, <span class="hljs-string">"read:comment:full"</span>}}
+     }
+   }</code></pre>
+<p>De plus, pour que vos différentes entités soirent reconnues, il faut ajouter dans chacune d'elle <code>@ApiResource()</code>.</p>
+</blockquote>
+<p>Vous devriez obtenir, dans la fenêtre de droite, un résultat semblable à celui-ci :</p>
+<pre><code class="language-json hljs">{
+  <span class="hljs-attr">"id"</span>: <span class="hljs-number">24</span>,
+  <span class="hljs-attr">"content"</span>: <span class="hljs-string">"Un nouveau commentaire"</span>,
+  <span class="hljs-attr">"date"</span>: <span class="hljs-string">"2020-06-24T00:00:00+00:00"</span>,
+  <span class="hljs-attr">"product"</span>: {
+    <span class="hljs-attr">"ProductName"</span>: <span class="hljs-string">"jhkghjkghj"</span>
+  },
+  <span class="hljs-attr">"user"</span>: {
+    <span class="hljs-attr">"id"</span>: <span class="hljs-number">1</span>,
+    <span class="hljs-attr">"email"</span>: <span class="hljs-string">"toto@toto.com"</span>
+  }
+}</code></pre>
+<p>Il est également possible de récupérer l'utilisateur directement par notre application Symfony (puisque que notre API est direct générée et liée à cette dernière) par l'intermédiaire d'un contrôleur.</p>
+<p>Pour cela, créons un nouveau contrôler : <code>/Controller/Api/CommentCreateController.php</code>.</p>
+<p>Dans ce contrôleur, nous allons commencer par récupérer le composant <code>security</code> (qui permet de récupérer l'utilisateur) :</p>
+<pre><code class="language-php hljs"> <span class="hljs-keyword">private</span> $security;
+    <span class="hljs-comment">// récupération de l'utilisateur</span>
+    <span class="hljs-keyword">public</span> <span class="hljs-function"><span class="hljs-keyword">function</span> <span class="hljs-title">__construct</span><span class="hljs-params">(Security $security)</span>
+    </span>{
+        <span class="hljs-comment">// récupération de la connection</span>
+        $this-&gt;security = $security;
+    }</code></pre>
+<p>Puis nous allons pouvoir ensuite définir que l'utilisateur connecté est celui qui a émis le <code>POST</code> :</p>
+<pre><code class="language-php hljs"> <span class="hljs-keyword">public</span> <span class="hljs-function"><span class="hljs-keyword">function</span> <span class="hljs-title">__invoke</span><span class="hljs-params">(Comments $data)</span> // $<span class="hljs-title">data</span> =&gt; <span class="hljs-title">donn</span>é<span class="hljs-title">e</span> <span class="hljs-title">envoy</span>é à <span class="hljs-title">l</span>'<span class="hljs-title">API</span>
+    </span>{
+        <span class="hljs-comment">// Définissions de l'utilisateur qui a émis le commentaire comme étant celui qui est connecté</span>
+       $data-&gt;setUser($this-&gt;security-&gt;getUser());
+       <span class="hljs-keyword">return</span> $data;
+    }</code></pre>
+<blockquote>
+<p>ATTENTION
+<code>$data</code> ne peut être changé. Ce paramêtre regroupe les données qui transit. En outre, il est possible de le typer. Ici, on précise qu'on attend un commentaire.</p>
+</blockquote>
+<p>Maintenant il faut préciser à notre entité que lorsqu'un <code>POST</code> est fait, il faut utiliser ce contrôleur.</p>
+<p>Dans <code>CollectionOperations</code>, <code>"post"={}</code>, nous allons ajouter la ligne suivante :</p>
+<pre><code class="language-php hljs">*  <span class="hljs-string">"controller"</span>=App/Controller/Api/CommentCreateController::class</code></pre>
+<p>Testez le résultat avec l'exemple précédent, sans spécifier la propriété <code>user</code>.</p>
+<h3 id="105">Modification d'un commentaire</h3>
+<p>Commençons par définir le contexte de normalisation permettant la modification. Pour cela, rendons-nous sur notre entité, et définissez un groupe pour chacune des propriétés que vous aves à modifier. Si un groupe est est déjà défini sur cette propriété, vous pouvez noter les choses de cette façon :</p>
+<pre><code class="language-php hljs"><span class="hljs-comment">/**
+     * <span class="hljs-doctag">@ORM</span>\Column(type="text", nullable=true)
+     * <span class="hljs-doctag">@Groups</span>({"read:comment", "update:comment"})
+     */</span>
+    <span class="hljs-keyword">private</span> $content;</code></pre>
+<p>Ensuite définissons le contexte de normalisation dans <code>@APIRessource</code> :</p>
+<pre><code class="language-php hljs"><span class="hljs-comment">/**
+ * <span class="hljs-doctag">@ORM</span>\Entity(repositoryClass=CommentsRepository::class)
+ * <span class="hljs-doctag">@ApiResource</span>(
+ *     itemOperations={
+ *        "put"={
+ *         "denormalization_context"={"groups"="update:comment"}
+ *        },
+ *     },
+ */</span></code></pre>
+<p><code>denormalization_context</code> permet de permet de préciser ce qui est autorisé.</p>
+<p>Nous pouvons maintenant dupliquer une des méthodes précedemment créées sur Insomnia.</p>
+<div class="row">
+      <div class="col-sm-12 text-center">
+          <img src="./nCode _ Les API avec API-platform_files/api11.png" alt="screenshot" title="capture d&#39;écran" class="rounded">
+      </div>
+  </div>
+<p>Changeons la méthode d'accès par <code>PUT</code>. <code>PUT</code> permet la modification d'une entrée de la base.</p>
+<p>Pour tester cette méthode, cliquez sur l'onglet <code>JSON</code> et testez le code suivant :</p>
+<pre><code class="language-json hljs">{
+ <span class="hljs-attr">"content"</span> : <span class="hljs-string">"modification du commentaire"</span>,
+ <span class="hljs-attr">"edit"</span>: <span class="hljs-string">"2020-07-07"</span>
+}</code></pre>
+<h2 id="116">Exercice</h2>
+<p>En suivant les indications pour ajout, lecture, modification,
+et avec l'aide de la <a href="https://api-platform.com/">documentation</a>, paramêtrez l'entité pour la suppression d'une entrée dans la base de données.</p>
+<h2 id="118">Sécurité</h2>
+<p>Maintenant que les bases de l'API sont en place, il serait intéressant de sécuriser le tout, evitant ainsi qu'une personne non connecté puisse ajouter un commentaire, ou qu'une personne connecté puisse modifier le commentaire de quelqu'un d'autre.</p>
+<p>La première méthode consiste à ajouter une clé à <code>"post"={}</code> et à lui préciser quelle(s) autorisation(s) doit(vent) être prise(s) en compte pour pouvoir faire un <code>POST</code>.</p>
+<p>Dans le cas d'un ajout de commentaire (pour notre exemple), nous voulons simplement que l'uitilisateur soit connecté. Pour cela, nous allons donc inscrire :</p>
+<pre><code class="language-php hljs">*     collectionOperations={
+*       <span class="hljs-string">"post"</span>={
+*          <span class="hljs-string">"security"</span>=<span class="hljs-string">"is_granted('IS_AUTHENTICATED_FULLY', object)"</span>
+*     }
+*     }</code></pre>
+<p>La seconde méthode est d'utiliser un <a href="https://ncode.amorce.org/ressources/Pool/CDA/WEB_Symfony/voter.html">Voter</a>. Cela va nous permettre de définir certaines autorisations pour des actions précises.</p>
+<p>Prenons le cas d'une modification. Il ne faut pas qu'un utilisateur puisse modifier le commentaire d'un autre utilisateur.</p>
+<h3 id="125">Application</h3>
+<p>En suivant la <a href="https://ncode.amorce.org/ressources/Pool/CDA/WEB_Symfony/voter.html">ressource sur les voters</a>, établissez un voter pour filtrer la modification. Vous devrez y vérifier que l'utilisateur est bien une instance de <code>users</code>, et que <code>$subject</code> est une instance de <code>Comments</code>.</p>
+<p>Une fois le voter établi, il ne reste plus qu'à ajouter une clé <code>security</code> de la même façon que pour la méthode <code>POST</code> :</p>
+<pre><code class="language-php hljs"> * <span class="hljs-string">"security"</span>=<span class="hljs-string">"is_granted('EDIT_COMMENT', object)"</span></code></pre>
+<p>(Si vous utiliser le serveur Symfony, adaptez si vous utiliser un autre type de serveur, de même pour <code>id_product</code>, choisissez-en où il y a plusieus commentaires).</p>
+<p>Vous avez aussi la possibilité de créer <a href="https://api-platform.com/docs/core/filters/#filters">vos propres filtres</a>.</p>
+<h2 id="131">Pagination</h2>
+<p>Pour éviter un tros gros affichage d'informations, API-platform nous propose un système de pagination.</p>
+<p>Pour le mettre en place, il suffit d'ajouter dans l'annotation <code>@ApiRessource</code> :</p>
+<pre><code class="language-php hljs"><span class="hljs-comment">/**
+* <span class="hljs-doctag">@ApiRessource</span>(
+*     paginationItemsPerPage=2
+* )
+*/</span></code></pre>
+<p>Testez encore une fois pour observer le résultat. Nous avons bien 2 commentaire qui sont récupérés par page. En ramplaçant <code>application/json</code> par <code>application/ld+json</code>. Nous obtenons des informations supplémentaires, comme le nombre de page, la page suivante et la page précédente.</p>
+<p>Pour accéder à la page suivante, utiliser l'url suivante (toujours dans Insomnia) : <code>localhost:8000/api/comments?id_product=2&amp;page=2</code>.</p>
+<h2 id="137">Relation</h2>
+<p>Il serait intéressant de pouvoir récupérer le nom de l'utilisateur qui a poster le commentaire.</p>
+<p>Pour cela, rendons-nous dans l'entité <code>User.php</code>.</p>
+<p>Dans les annotations de la propriété <code>email</code>, nous allons ajouter le même groupe que pour les propriétés de l'entité <code>Comments</code>.</p>
+<p>Testez pour obtenir le resultat suivant :</p>
+<pre><code class="language-json hljs">[
+  {
+    <span class="hljs-attr">"id"</span>: <span class="hljs-number">2</span>,
+    <span class="hljs-attr">"content"</span>: <span class="hljs-string">"string"</span>,
+    <span class="hljs-attr">"date"</span>: <span class="hljs-string">"2020-06-23T14:30:51+00:00"</span>,
+    <span class="hljs-attr">"product"</span>: {
+      <span class="hljs-attr">"id"</span>: <span class="hljs-number">7</span>,
+      <span class="hljs-attr">"ProductName"</span>: <span class="hljs-string">"jhkghjkghj"</span>,
+      <span class="hljs-attr">"picture"</span>: <span class="hljs-string">"7.jpeg"</span>
+    },
+    <span class="hljs-attr">"user"</span>: {
+      <span class="hljs-attr">"id"</span>: <span class="hljs-number">2</span>,
+      <span class="hljs-attr">"email"</span>: <span class="hljs-string">"azerty@aze.rty"</span>
+    }
+  },
+  {
+    <span class="hljs-attr">"id"</span>: <span class="hljs-number">9</span>,
+    <span class="hljs-attr">"content"</span>: <span class="hljs-string">"test2"</span>,
+    <span class="hljs-attr">"date"</span>: <span class="hljs-string">"2020-06-19T08:30:04+00:00"</span>,
+    <span class="hljs-attr">"product"</span>: {
+      <span class="hljs-attr">"id"</span>: <span class="hljs-number">2</span>,
+      <span class="hljs-attr">"ProductName"</span>: <span class="hljs-string">"fghfdgh"</span>,
+      <span class="hljs-attr">"picture"</span>: <span class="hljs-string">"2.jpeg"</span>
+    },
+    <span class="hljs-attr">"user"</span>: {
+      <span class="hljs-attr">"id"</span>: <span class="hljs-number">2</span>,
+      <span class="hljs-attr">"email"</span>: <span class="hljs-string">"azerty@aze.rty"</span>
+    }
+  }
+]</code></pre></div><div class="menu-markdown"><img src="./nCode _ Les API avec API-platform_files/menu.png"><div data-id="1" class="titre">Les API avec API-platform</div><div data-id="2">Préambule</div><div data-id="10">Installation d'API-Platform</div><div data-id="28">Test et configuration de l'API</div><div data-id="36">&nbsp;&nbsp;&nbsp;&nbsp;Application</div><div data-id="39">Alternative</div><div data-id="44">Mettre en place un filtre de recherche</div><div data-id="55">Pagination</div><div data-id="61">Relation</div><div data-id="67">&nbsp;&nbsp;&nbsp;&nbsp;Récupération d'un commentaire selon son id</div><div data-id="75">&nbsp;&nbsp;&nbsp;&nbsp;Remarque</div><div data-id="84">&nbsp;&nbsp;&nbsp;&nbsp;Ajout d'un commentaire</div><div data-id="105">&nbsp;&nbsp;&nbsp;&nbsp;Modification d'un commentaire</div><div data-id="116">Exercice</div><div data-id="118">Sécurité</div><div data-id="125">&nbsp;&nbsp;&nbsp;&nbsp;Application</div><div data-id="131">Pagination</div><div data-id="137">Relation</div></div></div><script>hljs.initHighlightingOnLoad();//hljs.initLineNumbersOnLoad();</script><script src="./nCode _ Les API avec API-platform_files/menu-markdown.js"></script><script>document.title = "nCode | " + document.querySelector("h1").textContent;</script></body></html>

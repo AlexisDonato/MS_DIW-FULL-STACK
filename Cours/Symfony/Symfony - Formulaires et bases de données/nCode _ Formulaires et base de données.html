@@ -1,0 +1,273 @@
+<!DOCTYPE html>
+<!-- saved from url=(0071)https://ncode.amorce.org/ressources/Pool/CDA/WEB_Symfony_frc/form2.html -->
+<html><head><meta http-equiv="Content-Type" content="text/html; charset=UTF-8"><title>nCode | Formulaires et base de données</title>
+        <meta name="viewport" content="width=device-width, initial-scale=1">
+        <link rel="stylesheet" href="./nCode _ Formulaires et base de données_files/font-awesome.min.css">
+        <link rel="stylesheet" href="./nCode _ Formulaires et base de données_files/bootstrap.min.css">
+        <link rel="stylesheet" href="./nCode _ Formulaires et base de données_files/darcula.css">
+        <!-- <link rel="stylesheet" href="/css/highlight/line-number.css"> -->
+        <link rel="stylesheet" href="./nCode _ Formulaires et base de données_files/github-markdown.css">
+        <!-- <link rel="stylesheet" href="/css/markdown_foad.css"> -->
+        <link rel="stylesheet" href="./nCode _ Formulaires et base de données_files/menu-markdown.css">
+        <!-- <script src="/js/highlightjs-line-numbers.min.js"></script> -->
+        <script src="./nCode _ Formulaires et base de données_files/jquery-3.4.1.min.js"></script>
+        <script src="./nCode _ Formulaires et base de données_files/popper.min.js"></script>
+        <script src="./nCode _ Formulaires et base de données_files/bootstrap.min.js"></script>
+        <script src="./nCode _ Formulaires et base de données_files/highlight.js"></script>
+        </head><body><div class="container"><div class="markdown-body"><h1 id="1">Formulaires et base de données</h1>
+<h2 id="2">Envoie de données dans la base</h2>
+<blockquote>
+<p>Vérifier que toutes les relations entre vos tables soient bien déclarées. Nous prenons ici comme exemple
+la table <code>products</code> mais peut-être qu'il sera nécessaire de faire ces opérations sur les autres tables de
+votre base au préalable.</p>
+</blockquote>
+<p>Faisons un insert dans la table <code>products</code>.</p>
+<p>Concernant cette entité, nous avons déjà un contrôleur permettant l'affichage de la liste des produits</p>
+<p>Pour cela, nous allons utiliser la méthode que nous avons créer pour afficher le formulaire d'ajout.</p>
+<p>Pour rappel :</p>
+<pre><code class="language-php hljs"><span class="hljs-comment">/**
+     * <span class="hljs-doctag">@Route</span>("/new", name="products_new", methods={"POST")
+     * <span class="hljs-doctag">@param</span> Request $request
+     * <span class="hljs-doctag">@return</span> Response
+     */</span>
+    <span class="hljs-keyword">public</span> <span class="hljs-function"><span class="hljs-keyword">function</span> <span class="hljs-title">new</span><span class="hljs-params">(Request $request)</span>: <span class="hljs-title">Response</span>
+
+    </span>{
+        $product = <span class="hljs-keyword">new</span> Products();
+        $form = $this-&gt;createForm(ProductsType::class, $product);
+        $form-&gt;handleRequest($request);
+
+          <span class="hljs-keyword">return</span> $this-&gt;render(<span class="hljs-string">'products/new.html.twig'</span>, [
+                    <span class="hljs-string">'product'</span> =&gt; $product,
+                    <span class="hljs-string">'form'</span> =&gt; $form-&gt;createView(),
+                ]);
+    }</code></pre>
+<p>Pour valider l'ajout d'une donnée dans la base, il faut vérifier que le formulaire est soumis et valide :</p>
+<pre><code class="language-php hljs"> <span class="hljs-keyword">if</span> ($form-&gt;isSubmitted() &amp;&amp; $form-&gt;isValid()) {
+
+}</code></pre>
+<p>Si le formulaire est soumis et valide, alors nous allons utiliser l'objet EntityManager de Doctrine. Il nous permet
+d'envoyer et d'aller chercher des objets dans la base de données :</p>
+<pre><code class="language-php hljs">$entityManager = $this-&gt;getDoctrine()-&gt;getManager();</code></pre>
+<p>Ensuite nous allons persister notre entité, c'est-à-dire que nous allons la préparer à la sauvegarde des données
+saisies : </p>
+<pre><code class="language-php hljs"> $entityManager-&gt;persist($product);</code></pre>
+<p>Enfin, pour envoyer les données dans la base, nous utilisons la méthode <code>flush()</code> :</p>
+<pre><code class="language-php hljs"> $entityManager-&gt;flush();</code></pre>
+<p>Et nous redirigeons vers la liste des produits :</p>
+<pre><code class="language-php hljs"> <span class="hljs-keyword">return</span> $this-&gt;redirectToRoute(<span class="hljs-string">'products_index'</span>);</code></pre>
+<p>Résumé de la méthode d'ajout :</p>
+<pre><code class="language-php hljs"><span class="hljs-comment">/**
+     * <span class="hljs-doctag">@Route</span>("/new", name="products_new", methods={"POST")
+     * <span class="hljs-doctag">@param</span> Request $request
+     * <span class="hljs-doctag">@return</span> Response
+     */</span>
+    <span class="hljs-keyword">public</span> <span class="hljs-function"><span class="hljs-keyword">function</span> <span class="hljs-title">new</span><span class="hljs-params">(Request $request)</span>: <span class="hljs-title">Response</span>
+
+    </span>{
+        $product = <span class="hljs-keyword">new</span> Products();
+        $form = $this-&gt;createForm(ProductsType::class, $product);
+        $form-&gt;handleRequest($request);
+
+        <span class="hljs-keyword">if</span> ($form-&gt;isSubmitted() &amp;&amp; $form-&gt;isValid()) {
+            $entityManager = $this-&gt;getDoctrine()-&gt;getManager();
+            $entityManager-&gt;persist($product);
+            $entityManager-&gt;flush();
+
+            <span class="hljs-keyword">return</span> $this-&gt;redirectToRoute(<span class="hljs-string">'products_index'</span>);
+        }
+
+        <span class="hljs-keyword">return</span> $this-&gt;render(<span class="hljs-string">'products/new.html.twig'</span>, [
+            <span class="hljs-string">'product'</span> =&gt; $product,
+            <span class="hljs-string">'form'</span> =&gt; $form-&gt;createView(),
+        ]);
+    }</code></pre>
+<p>Il serait intéressant d'afficher un message de confirmation lors de la validation. Nous allons utiliser pour
+cela la méthode <code>addflash($type, $message)</code>. Cette méthode utilise 2 paramètres :</p>
+<ul>
+<li>Le type de message à afficher (<code>success</code>, <code>warning</code>, ...)</li>
+<li>
+<p>Le message à afficher</p>
+<p>Pour un affichage efficace, nous devons l'utiliser avant la redirection:</p>
+</li>
+</ul>
+<pre><code class="language-php hljs"> $this-&gt;addFlash(
+                    <span class="hljs-string">'success'</span>,
+                    <span class="hljs-string">'Produit ajouté avec succès !!'</span>
+                );</code></pre>
+<p>Il nous reste plus qu'à gérer son affichage. Pour cela, rendons-nous dans le fichier <code>base.html.twig</code>.</p>
+<p>Nous allons en profiter pour styliser ce message en utilisant les alertes de Bootstrap. Insérez ce code
+avant les balises <code>{# block body #}</code> :</p>
+<pre><code class="language-php hljs"> {% <span class="hljs-keyword">for</span> message in app.flashes(<span class="hljs-string">'success'</span>) %}
+     &lt;div <span class="hljs-class"><span class="hljs-keyword">class</span>="<span class="hljs-title">alert</span> <span class="hljs-title">alert</span>-<span class="hljs-title">success</span>"&gt;
+         </span>{{ message }}
+     &lt;/div&gt;
+ {% <span class="hljs-keyword">endfor</span> %}</code></pre>
+<h2 id="27">Modification</h2>
+<p>Pour la modification d'un produit, nous partirons du principe que nous pouvons modifier toutes les informations
+saisies lors de l'ajout. Cela évitera de créer un nouveau formulaire. Si toutefois on devait n'autoriser que
+certains champs pour la modification, il faudrait créer un autre formulaire comme vu précédemment.
+Pour effectuer une modification dans la base de données (<code>UPDATE</code>), les choses seront assez similaires.
+Dans un premier nous devons passer l'id du produit dans le lien permettant d'accéder au formulaire de modification :</p>
+<pre><code class="language-html hljs xml"><span class="hljs-tag">&lt;<span class="hljs-name">a</span> <span class="hljs-attr">href</span>=<span class="hljs-string">"{{ path('products_edit', {'id': product.id}) }}"</span>&gt;</span>edit<span class="hljs-tag">&lt;/<span class="hljs-name">a</span>&gt;</span></code></pre>
+<ul>
+<li><code>path()</code> permet d'indiquer le nom de la route vers laquelle nous voulons nous diriger</li>
+<li><code>products_edit</code> est le nom de la route</li>
+<li><code>'id'</code> : nom du paramètre</li>
+<li><code>product.id</code> : valeur du paramètre</li>
+</ul>
+<p><code>product.id</code> ici est généré lors de l'affichage du détail d'un produit et / ou lors de l'affichage de la
+liste de produit.</p>
+<p>Créons ensuite une méthode permettant la modification, avec sa route, la création du formulaire et son rendu :</p>
+<pre><code class="language-php hljs"><span class="hljs-comment">/**
+     * <span class="hljs-doctag">@Route</span>("/{id}/edit", name="products_edit", methods={"GET","POST"})
+     * <span class="hljs-doctag">@param</span> Request $request
+     * <span class="hljs-doctag">@param</span> Products $product
+     * <span class="hljs-doctag">@return</span> Response
+     */</span>
+    <span class="hljs-keyword">public</span> <span class="hljs-function"><span class="hljs-keyword">function</span> <span class="hljs-title">edit</span><span class="hljs-params">(Request $request, Products $product)</span>: <span class="hljs-title">Response</span>
+    </span>{
+        $form = $this-&gt;createForm(ProductsType::class, $product);
+        $form-&gt;handleRequest($request);
+
+        <span class="hljs-keyword">return</span> $this-&gt;render(<span class="hljs-string">'products/edit.html.twig'</span>, [
+            <span class="hljs-string">'product'</span> =&gt; $product,
+            <span class="hljs-string">'form'</span> =&gt; $form-&gt;createView(),
+        ]);
+    }</code></pre>
+<p>Ici, nous passons en paramètre de notre méthode l'objet <code>Products</code>. On dit que nous injectons l'objet
+<code>Products</code> à la méthode <code>edit</code>. </p>
+<p>Ce fonctionnement a pour avantage de récupérer directement le produit dont nous avons besoin. il n'est donc pas
+nécessaire de récupérer notre produit dans la méthode, Symfony le fais pour nous.</p>
+<p>Tout le reste est similaire à ce que nous avons vu jusque-là.</p>
+<p>Il nous faut ensuite soumettre le formulaire et vérifier les données saisies. Si vous utilisez le même
+formulaire que pour l'ajout, tout est déjà en place pour les règles de validations. Si vous utiliser un autre
+formulaire, il faut bien sûr définir ses règles de validations dans le formType.</p>
+<pre><code class="language-php hljs"> <span class="hljs-keyword">if</span> ($form-&gt;isSubmitted() &amp;&amp; $form-&gt;isValid()) {
+            $this-&gt;getDoctrine()-&gt;getManager()-&gt;flush();
+
+            <span class="hljs-keyword">return</span> $this-&gt;redirectToRoute(<span class="hljs-string">'products_index'</span>);
+        }</code></pre>
+<p>Ici pas besoin de persister notre entité, il suffit juste de faire appel à l'entityManager de Doctrine
+et de faire un <code>flush()</code>. S'en-suit une redirection vers la page de votre choix, ici la liste des produits.</p>
+<p>Vous pouvez aussi ajouter un message de confirmation pour indiquer à l'utilisateur que la modification a
+bien été effectué en utilisant <code>addFlash()</code>.</p>
+<h2 id="41">Suppression</h2>
+<p>Pour la suppression la structure reste la même, mais nous utiliserons la méthode <code>remove()</code> suivie de
+la méthode <code>flush()</code>.</p>
+<pre><code class="language-php hljs">$entityManager-&gt;remove($product);
+$entityManager-&gt;flush();</code></pre>
+<p>En suivant ce qui a été vu pour l'ajout et la modification, construisez une méthode permettant la suppression
+d'un produit. </p>
+<h2 id="45">Upload</h2>
+<p>Ajoutons une photo sur les produits présent dans la base.</p>
+<p>Commençons par ajouter un nouveau champ dans la base de données pour y stocker le nom de notre fichier,
+soit manuellement, soit en utilisant la commande <code>php bin/console make:entity Products</code>. Nous stockerons
+dans ce champ une chaine de caractères de 255 caractères. Appelons ce champ <code>picture</code>. Nous ne voulons pas
+qu'il soit obligatoire dans la base de données, donc nous indiquerons qu'il sera null par défaut.</p>
+<p>Il faut ajouter ensuite ce champ dans le constructeur de notre formulaire :</p>
+<pre><code class="language-php hljs">-&gt;add(<span class="hljs-string">'picture2'</span>, FileType::class, [
+                <span class="hljs-string">'label'</span> =&gt; <span class="hljs-string">'Photo de profil'</span>,
+                <span class="hljs-comment">//unmapped =&gt; fichier non associé à aucune propriété d'entité, validation impossible avec les annotations</span>
+                <span class="hljs-string">'mapped'</span> =&gt; <span class="hljs-keyword">false</span>,
+                <span class="hljs-comment">// pour éviter de recharger la photo lors de l'édition du profil</span>
+                <span class="hljs-string">'required'</span> =&gt; <span class="hljs-keyword">false</span>,
+                <span class="hljs-string">'constraints'</span> =&gt; [
+                    <span class="hljs-keyword">new</span> Image([
+                        <span class="hljs-string">'maxSize'</span> =&gt; <span class="hljs-string">'2000k'</span>,
+
+                        <span class="hljs-string">'mimeTypesMessage'</span> =&gt; <span class="hljs-string">'Veuillez insérer une photo au format jpg, jpeg ou png'</span>
+                    ])
+                ]
+            ])</code></pre>
+<ul>
+<li><code>FileType::class</code> : permet d'indiquer que nous uploader un fichier</li>
+<li><code>'mapped' =&gt; false</code> : permet de dire que ce champ n'est pas lié à la base de données</li>
+<li><code>'required' =&gt; false</code> : nous ne voulons pas que l'upload d'un fichier soit obligatoire</li>
+<li><code>'constraints' =&gt; [ ]</code> : définition des contraintes de validation pour ce champ</li>
+</ul>
+<blockquote>
+<p>"Euh ... Pas lié à la base de données ?? et <code>picture2</code>, ce n'est pas le nom que nous avons donné à notre
+champ dans l'entité, non ???"</p>
+</blockquote>
+<p>C'est normal ! Pour l'upload d'un fichier, son stockage dans la base et sur le serveur, nous avons besoin
+de plusieurs choses :</p>
+<ul>
+<li>le nom du fichier (qui est saisi dans l'input, via l'uploader généré par le navigateur lorsque nous cliquons
+sur le bouton pour insérer un fichier)</li>
+<li>les informations relatives au fichier (type, taille, chemin d'origine, chemin temporaire, erreur d'upload, etc.)</li>
+</ul>
+<p>La Propriété définie dans l'entité correspond au nom du fichier, ce que nous allons stocker dans la base.</p>
+<p>Le champ que nous construisons ici permet de récupérer les informations du fichier. S'il était relié
+à la base, nous serions amenés à stocker un tableau d'informations dans la base, 'Symfony' ne serait pas content
+et nous afficherais une belle erreur !!</p>
+<p>Nous avons donc une propriété pour récupérer le nom du fichier, et un champ pour récupérer les informations du fichier.</p>
+<p>Nous pouvons maintenant ajouter ce champ sur notre template (<code>products/edit.html.twig</code>) :</p>
+<pre><code class="language-html hljs xml">     {{ form_row(form.picture2) }}</code></pre>
+<p><code>picture2</code> est le champ créé dans le formType, il doit être ajouté dans le template.</p>
+<p>Nous pouvons maintenant contrôler notre upload dans <code>Controller/ProductsController.php</code>.</p>
+<p>Pour l'exemple, le nom du fichier sur le serveur sera l'id du produit suivi de son extension.</p>
+<p>Nous commençons par récupérer l'id du produit, puis ce qui a été saisi dans le formulaire : </p>
+<pre><code class="language-php hljs">        <span class="hljs-comment">/**
+         * <span class="hljs-doctag">@Route</span>("/{id}/edit", name="products_edit", methods={"GET","POST"})
+         * <span class="hljs-doctag">@param</span> Request $request
+         * <span class="hljs-doctag">@param</span> Products $product
+         * <span class="hljs-doctag">@return</span> Response
+         */</span>
+        <span class="hljs-keyword">public</span> <span class="hljs-function"><span class="hljs-keyword">function</span> <span class="hljs-title">edit</span><span class="hljs-params">(Request $request, Products $product)</span>: <span class="hljs-title">Response</span>
+        </span>{
+            <span class="hljs-comment">// récupération de l'id du produit</span>
+            $idProduct = $product-&gt;getId();
+            $form = $this-&gt;createForm(ProductsType::class, $product);
+            $form-&gt;handleRequest($request);
+
+            <span class="hljs-keyword">if</span> ($form-&gt;isSubmitted() &amp;&amp; $form-&gt;isValid()) {
+                <span class="hljs-comment">// récupération de la saisi sur l'upload</span>
+                $pictureFile = $form[<span class="hljs-string">'picture2'</span>]-&gt;getData();
+
+                $this-&gt;getDoctrine()-&gt;getManager()-&gt;flush();
+
+                <span class="hljs-keyword">return</span> $this-&gt;redirectToRoute(<span class="hljs-string">'products_index'</span>);
+            }
+
+            <span class="hljs-keyword">return</span> $this-&gt;render(<span class="hljs-string">'products/edit.html.twig'</span>, [
+                <span class="hljs-string">'product'</span> =&gt; $product,
+                <span class="hljs-string">'form'</span> =&gt; $form-&gt;createView(),
+            ]);
+        }</code></pre>
+<p>S'il y a une photo, nous allons commencer nos manipulations sur le fichier afin de le sauvegarder sur le serveur :</p>
+<pre><code class="language-php hljs"><span class="hljs-comment">// vérification s'il y a un upload photo</span>
+<span class="hljs-keyword">if</span> ($pictureFile) {
+    <span class="hljs-comment">// renommage du fichier</span>
+    <span class="hljs-comment">// nom du fichier + extension</span>
+    $newPicture = $idProduct . <span class="hljs-string">'.'</span> . $pictureFile-&gt;guessExtension();
+<span class="hljs-comment">// assignation de la valeur à la propriété picture à l'aide du setter</span>
+    $product-&gt;setPicture($newPicture);
+    <span class="hljs-keyword">try</span> {
+        <span class="hljs-comment">// déplacement du fichier vers le répertoire de destination sur le serveur</span>
+        $pictureFile-&gt;move(
+            $this-&gt;getParameter(<span class="hljs-string">'photo_directory'</span>),
+            $newPicture
+        );
+    } <span class="hljs-keyword">catch</span> (FileException $e) {
+      <span class="hljs-comment">// gestion de l'erreur si le déplacement ne s'est pas effectué</span>
+    }
+}</code></pre>
+<blockquote>
+<p>J'ai une erreur ça ne marche pas !!!</p>
+<div class="row">
+<div class="col-sm-12 text-center">
+<img src="./nCode _ Formulaires et base de données_files/errorUpload.png" alt="screenshot" title="capture d&#39;écran" class="rounded">
+</div>
+</div>
+</blockquote>
+<p>Oui, c'est normal, nous n'avons pas spécifié où on va stocker notre fichier. Enfin à moitié...
+La méthode <code>move()</code> permet le déplacement d'un fichier vers un emplacement spécifique.</p>
+<p><code>$this--&gt;getParameter('photo_directory')</code> représente cet emplacement. Il ne nous reste plus qu'à le définir.
+Pour cela, rendons-nous dans le fichier <code>config/service.yaml</code> :</p>
+<pre><code class="hljs cs">parameters:
+    photo_directory: <span class="hljs-string">'%kernel.project_dir%/public/images/produit'</span>
+</code></pre>
+<p>Veillez à respecter l'indention !!!</p>
+<p>Vous pouvez maintenant appliquer ce tuto sur tous les formulaires où un upload est nécessaire, adaptez-le en
+fonction de vos besoins.</p></div><div class="menu-markdown"><img src="./nCode _ Formulaires et base de données_files/menu.png"><div data-id="1" class="titre">Formulaires et base de données</div><div data-id="2">Envoie de données dans la base</div><div data-id="27">Modification</div><div data-id="41">Suppression</div><div data-id="45">Upload</div></div></div><script>hljs.initHighlightingOnLoad();//hljs.initLineNumbersOnLoad();</script><script src="./nCode _ Formulaires et base de données_files/menu-markdown.js"></script><script>document.title = "nCode | " + document.querySelector("h1").textContent;</script></body></html>
