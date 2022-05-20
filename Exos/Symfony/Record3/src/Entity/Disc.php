@@ -4,6 +4,7 @@ namespace App\Entity;
 
 use App\Repository\DiscRepository;
 use Doctrine\ORM\Mapping as ORM;
+use Symfony\Component\Validator\Constraints as Assert;
 
 #[ORM\Entity(repositoryClass: DiscRepository::class)]
 class Disc
@@ -130,4 +131,9 @@ class Disc
 
         return $this;
     }
+
+    /**
+     * @Assert\NotBlank
+     */
+    public $disc;
 }
