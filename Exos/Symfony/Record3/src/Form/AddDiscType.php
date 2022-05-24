@@ -27,7 +27,6 @@ class AddDiscType extends AbstractType
                 'row_attr' => [
                     'class' => 'ml-3 mr-3',
                 ],
-                'help' => 'Enter the disc title here',
                 'required' => true,
             ])
             ->add('year', TextType::class, [
@@ -41,10 +40,9 @@ class AddDiscType extends AbstractType
                 'constraints' => [
                     new Regex([
                         'pattern' => '/^[0-9]{4}$/',
-                        'message' => 'Invalid numbers'
+                        'message' => 'Invalid numbers. Only 4 digits.'
                     ]),
                 ],
-                'help' => 'Enter the disc year here',
                 'required' => true,
             ])
             ->add('label', TextType::class, [
@@ -55,7 +53,6 @@ class AddDiscType extends AbstractType
                 'row_attr' => [
                     'class' => 'ml-3 mr-3',
                 ],
-                'help' => 'Enter the disc label here',
                 'required' => true,
             ])
             ->add('genre', TextType::class, [
@@ -69,10 +66,9 @@ class AddDiscType extends AbstractType
                 'constraints' => [
                     new Regex([
                         'pattern' => '/^[A-Za-zéèàçâêûîôäëüïö\_\-\s]+$/',
-                        'message' => 'Invalid chars'
+                        'message' => 'Invalid chars.'
                     ]),
                 ],
-                'help' => 'Enter the disc genre here',
                 'required' => true,
             ])
             ->add('price', TextType::class, [
@@ -89,7 +85,6 @@ class AddDiscType extends AbstractType
                         'message' => 'Invalid numbers'
                     ]),
                 ],
-                'help' => 'Enter the disc Price here',
                 'required' => true,
             ])
             ->add('artist', EntityType::class, [
@@ -103,7 +98,7 @@ class AddDiscType extends AbstractType
                     'class' => 'form-select mb-2',
                 ],
                 'row_attr' => [
-                    'class' => 'ml-3 mr-3',
+                    'class' => 'col-6 ml-3 mr-3',
                 ],
                 'label' => 'Artist',
                 'label_attr' => [
@@ -117,9 +112,9 @@ class AddDiscType extends AbstractType
                     'placeholder' => 'Disc Picture',
                 ],
                 'row_attr' => [
-                    'class' => 'col-md-6 ml-3 mr-3',
+                    'class' => 'col-6 ml-3 mr-3',
                 ],
-                'help' => 'Browse the picture here',
+                'help' => 'Browse to choose the picture here',
                 'required' => true,
             ]);
     }
