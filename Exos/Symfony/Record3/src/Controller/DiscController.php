@@ -3,7 +3,7 @@
 namespace App\Controller;
 
 use App\Entity\Disc;
-//use App\Entity\Artist;
+use App\Entity\Artist;
 use App\Form\DiscType;
 use App\Repository\DiscRepository;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
@@ -18,7 +18,12 @@ class DiscController extends AbstractController
     public function index(DiscRepository $discRepository): Response
     {
         return $this->render('disc/index.html.twig', [
-            'discs' => $discRepository->findAll(),
+            'discs' => $discRepository->createQueryBuilder('d')
+                                    ->join(Artist::class, 'a', 'WITH', 'd.artist = a.id')
+                                    ->orderBy('a.name', 'ASC')
+                                    ->addOrderBy('d.year', 'ASC')
+                                    ->getQuery()
+                                    ->getResult()
         ]);
     }
 
@@ -56,6 +61,10 @@ class DiscController extends AbstractController
         $form->handleRequest($request);
 
         if ($form->isSubmitted() && $form->isValid()) {
+            $picture = $form->get('picture')->getData();
+            $fileName = $form->get('title')->getData().'.'.$picture->guessExtension();
+            $picture->move($this->getParameter('pictures_directory'), $fileName);
+            $disc->setPicture($fileName);
             $discRepository->add($disc, true);
 
             return $this->redirectToRoute('app_disc_index', [], Response::HTTP_SEE_OTHER);

@@ -1,6 +1,6 @@
 {% extends 'base.html.twig' %}
 
-{% block title %}Artist index
+{% block title %}Artists list
 {% endblock %}
 
 {% block body %}
@@ -13,14 +13,18 @@
 				<th>Id</th>
 				<th>Name</th>
 				<th>Url</th>
-				<th>actions</th>
+				<th></th>
 			</tr>
 		</thead>
 		<tbody>
 			{% for artist in artists %}
 				<tr>
-					<td>{{ artist.id }}</td>
-					<td>{{ artist.name }}</td>
+					<td>
+						<i>{{ artist.id }}</i>
+					</td>
+					<td>
+						<b>{{ artist.name }}</b>
+					</td>
 					<td>{{ artist.url }}</td>
 					<td>
 						<a href="{{ path('app_artist_show', {'id': artist.id}) }}">
@@ -38,7 +42,9 @@
 			{% endfor %}
 		</tbody>
 	</table>
-<div class="d-flex justify-content-center">
-	<a href="{{ path('app_artist_new') }}"><button class="btn btn-info btn-lg">Create new Artist</button></a>
+	<div class="d-flex justify-content-center">
+		<a href="{{ path('app_artist_new') }}">
+			<button class="btn btn-info btn-lg">Create new Artist</button>
+		</a>
 	</div>
 {% endblock %}

@@ -20,5 +20,9 @@ services:
             - '../src/Entity/'
             - '../src/Kernel.php'
 
+parameters:
+  pictures_directory: '%kernel.project_dir%/public/img'
+
+
     # add more service definitions when explicit configuration is needed
     # please note that last definitions always *replace* previous ones

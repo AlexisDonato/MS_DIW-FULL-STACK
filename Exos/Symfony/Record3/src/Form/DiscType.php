@@ -6,6 +6,7 @@ use App\Entity\Disc;
 use App\Entity\Artist;
 use App\Repository\ArtistRepository;
 use Symfony\Component\Validator\Constraints\Regex;
+use Symfony\Component\Validator\Constraints\File;
 use Symfony\Component\Form\Extension\Core\Type\TextType;
 use Symfony\Component\Form\Extension\Core\Type\FileType;
 use Symfony\Bridge\Doctrine\Form\Type\EntityType;
@@ -37,7 +38,19 @@ class DiscType extends AbstractType
                 ],
                 'required' => true,
             ])
-            ->add('picture', FileType::class, array('data_class' => null))
+            ->add('picture', FileType::class, [
+                'mapped' => false,
+                'required' => false,
+                'constraints' => [
+                    new File ([
+                        'mimeTypes' => [
+                            'image/jpeg',
+                            'image/jpg',
+                            'image/png'
+                        ],
+                        'mimeTypesMessage' => 'Invalid type of file',
+                    ])]
+            ])
             ->add('price', TextType::class, [
                 'constraints' => [
                     new Regex([

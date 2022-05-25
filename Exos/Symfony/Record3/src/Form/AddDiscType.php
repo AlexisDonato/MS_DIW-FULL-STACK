@@ -5,7 +5,6 @@ namespace App\Form;
 use App\Entity\Disc;
 use App\Entity\Artist;
 use App\Repository\ArtistRepository;
-use Symfony\Component\Form\Extension\Core\Type\SubmitType;
 use Symfony\Component\Validator\Constraints\Regex;
 use Symfony\Component\Form\Extension\Core\Type\TextType;
 use Symfony\Component\Form\Extension\Core\Type\FileType;
