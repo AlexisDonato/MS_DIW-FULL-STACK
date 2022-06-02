@@ -11,12 +11,17 @@ use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpFoundation\Response;
 use Symfony\Component\Routing\Annotation\Route;
 
-#[Route('/disc')]
 class DiscController extends AbstractController
 {
+    
+
     #[Route('/', name: 'app_disc_index', methods: ['GET'])]
     public function index(DiscRepository $discRepository): Response
     {
+        // usually you'll want to make sure the user is authenticated first,
+        // see "Authorization" below
+        $this->denyAccessUnlessGranted('IS_AUTHENTICATED_FULLY');
+
         return $this->render('disc/index.html.twig', [
             'discs' => $discRepository->createQueryBuilder('d')
                                     ->join(Artist::class, 'a', 'WITH', 'd.artist = a.id')
@@ -27,7 +32,7 @@ class DiscController extends AbstractController
         ]);
     }
 
-    #[Route('/new', name: 'app_disc_new', methods: ['GET', 'POST'])]
+    #[Route('/disc/new', name: 'app_disc_new', methods: ['GET', 'POST'])]
     public function new(Request $request, DiscRepository $discRepository): Response
     {
         $disc = new Disc();
@@ -46,7 +51,7 @@ class DiscController extends AbstractController
         ]);
     }
 
-    #[Route('/{id}', name: 'app_disc_show', methods: ['GET'])]
+    #[Route('/disc/{id}', name: 'app_disc_show', methods: ['GET'])]
     public function show(Disc $disc): Response
     {
         return $this->render('disc/show.html.twig', [
@@ -54,7 +59,7 @@ class DiscController extends AbstractController
         ]);
     }
 
-    #[Route('/{id}/edit', name: 'app_disc_edit', methods: ['GET', 'POST'])]
+    #[Route('/disc/{id}/edit', name: 'app_disc_edit', methods: ['GET', 'POST'])]
     public function edit(Request $request, Disc $disc, DiscRepository $discRepository): Response
     {
         $form = $this->createForm(DiscType::class, $disc);
@@ -76,7 +81,7 @@ class DiscController extends AbstractController
         ]);
     }
 
-    #[Route('/{id}', name: 'app_disc_delete', methods: ['POST'])]
+    #[Route('/disc/{id}', name: 'app_disc_delete', methods: ['POST'])]
     public function delete(Request $request, Disc $disc, DiscRepository $discRepository): Response
     {
         if ($this->isCsrfTokenValid('delete'.$disc->getId(), $request->request->get('_token'))) {

@@ -5,43 +5,46 @@
 
 {% block body %}
 	<div class="d-flex justify-content-center mt-3 mb-3">
-		<h1 class="text-info">Artists list</h1>
+		<h1 class="text-info">Artists List</h1>
 	</div>
-	<table class="table text-light">
-		<thead>
-			<tr>
-				<th>Id</th>
-				<th>Name</th>
-				<th>Url</th>
-				<th></th>
-			</tr>
-		</thead>
-		<tbody>
-			{% for artist in artists %}
-				<tr>
-					<td>
-						<i>{{ artist.id }}</i>
-					</td>
-					<td>
-						<b>{{ artist.name }}</b>
-					</td>
-					<td>{{ artist.url }}</td>
-					<td>
-						<a href="{{ path('app_artist_show', {'id': artist.id}) }}">
-							<button class="btn btn-info bt-sm">Details</button>
+
+	<div class="row row-cols-1 row-cols-md-4 g-4">
+		{% for artist in artists %}
+			<div class="col mb-3">
+				<div class="card-header bg-secondary text-center">
+					{% for disc in artist.discs %}
+						<img src="/img/{{ disc.picture }}" class="card-img-top img-thumbnail bg-dark" style="width:80px" alt="{{ disc.picture }}">
+					{% endfor %}
+
+					<div class="card-body border-info">
+						<h5 class="card-title">
+							<b>{{ artist.name }}</b>
+						</h5>
+						<p class="card-text">
+							<li class="list-group-item bg-dark">Id:
+								{{ artist.id }}<br></li>
+							<li class="list-group-item bg-dark">URL: {{ artist.url }}
+							</li>
+						</p>
+					</li>
+					<li class="list-group-item bg-dark d-flex justify-content-around">
+						<a href="{{ path('app_artist_show', {'id': artist.id}) }}" style="font-size: 2rem; color: Lightblue;">
+							<i class="fa-solid fa-eye fa-lg" alt="Details"></i>
 						</a>
-						<a href="{{ path('app_artist_edit', {'id': artist.id}) }}">
-							<button class="btn btn-info bt-sm">Edit</button>
+						{% if is_granted('ROLE_ADMIN') %}
+						<a href="{{ path('app_artist_edit', {'id': artist.id}) }}" style="font-size: 2rem; color: Lightblue;">
+							<i class="fa-solid fa-pencil fa-lg" alt="Edit"></i>
 						</a>
-					</td>
-				</tr>
-			{% else %}
-				<tr>
-					<td colspan="4">no records found</td>
-				</tr>
-			{% endfor %}
-		</tbody>
-	</table>
+						{% endif %}
+					</li>
+				</div>
+			</div>
+		</div>
+	{% else %}
+		<tr>
+			<td colspan="4">no records found</td>
+		</tr>
+	{% endfor %}
 	<div class="d-flex justify-content-center">
 		<a href="{{ path('app_artist_new') }}">
 			<button class="btn btn-info btn-lg">Create new Artist</button>

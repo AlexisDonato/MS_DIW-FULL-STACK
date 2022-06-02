@@ -45,21 +45,25 @@
 							<input type="text" id="price" name="price" class="form-control" value="{{disc.price}}" readonly>
 						</div>
 					</div>
-                    <div class="form-row d-flex justify-content-center mb-3">
-					<div class="form-group col-4">
-						<label for="picture">Picture</label>
-						<img src="/img/{{disc.picture}}" class="img-fluid img-thumbnail" alt="{{disc.picture}}" title="{{disc.picture}}">
-						<br>
+					<div class="form-row d-flex justify-content-center mb-3">
+						<div class="form-group col-4">
+							<label for="picture">Picture</label>
+							<img src="/img/{{disc.picture}}" class="img-fluid img-thumbnail" alt="{{disc.picture}}" title="{{disc.picture}}">
+							<br>
+						</div>
 					</div>
-                    </div>
 				</fieldset>
 			</div>
 		</div>
 	</div>
 	<div class="col-12 form-group d-flex justify-content-around">
-		<a href="{{ path('app_disc_edit', {'id': disc.id}) }}">
-		 <button class="btn btn-info btn-lg">Edit</button>
-	</a>
-    {{ include('disc/_delete_form.html.twig') }}
-        <a href="{{ path('app_disc_index') }}"><button class="btn btn-info btn-lg">Discs list</button></a>
-{% endblock %}
+		{% if is_granted('ROLE_ADMIN') %}
+			<a href="{{ path('app_disc_edit', {'id': disc.id}) }}">
+				<button class="btn btn-info btn-lg">Edit</button>
+			</a>
+		{% endif %}
+		{{ include('disc/_delete_form.html.twig') }}
+		<a href="{{ path('app_disc_index') }}">
+			<button class="btn btn-info btn-lg">Discs list</button>
+		</a>
+	{% endblock %}
