@@ -50,7 +50,7 @@ move_uploaded_file($_FILES["picture"]["tmp_name"], "img2/".$artist->disc_id.".jp
 
     catch (Exception $e) {
         echo "Erreur : " . $requete->errorInfo()[2] . "<br>";
-        die("Fin du script (script_artist_modif.php)");
+        die("Fin du script (script_disc_modif.php)");
     }
 
     // Si OK: redirection vers la page artist_detail.php

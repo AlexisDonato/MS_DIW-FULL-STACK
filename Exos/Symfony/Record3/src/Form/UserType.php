@@ -26,6 +26,7 @@ class UserType extends AbstractType
                 ],
                 'mapped' => false,
                 'multiple' => true,
+                'help' => 'Maintain Ctrl to select multiple roles'
             ])
             
             ->add('plainPassword', PasswordType::class, [

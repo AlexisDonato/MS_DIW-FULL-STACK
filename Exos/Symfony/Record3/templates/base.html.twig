@@ -23,8 +23,8 @@
 	</head>
 
 	<body class="bg-dark text-light">
-		<nav class="navbar navbar-expand-lg navbar-light bg-dark text-light sticky-top nav-tabs">
-			<a class="navbar-brand text-info " {% if is_granted('IS_AUTHENTICATED_FULLY') %} href="{{ path('app_disc_index') }}" {% else %} href="{{ path('login') }}" {% endif %}><b>Discs & Artists</b></a>
+		<nav class="navbar navbar-expand-lg navbar-light bg-dark text-light sticky-top border-bottom border-info">
+			<a class="navbar-brand text-info" {% if is_granted('IS_AUTHENTICATED_FULLY') %} href="{{ path('app_disc_index') }}" {% else %} href="{{ path('login') }}" {% endif %}><b>Discs & Artists</b></a>
 			<button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarSupportedContent" aria-controls="navbarSupportedContent" aria-expanded="false" aria-label="Toggle navigation">
 				<span class="navbar-toggler-icon"></span>
 			</button>
@@ -63,13 +63,14 @@
 					</li>
 					{% endif %}
 				</ul>
-					<p class="d-flex text-secondary mt-3">{{ app.user.email }}</p>
-					<a class="nav-link text-info" href="{{ path('app_logout') }}"><i>Logout</i>
+					<a class="nav-link text-info" href="{{ path('app_logout') }}"><button type="button" class="btn btn-outline-info"><i>Logout</i></button>
 							<span class="sr-only">(current)</span>
 					</a>
 				{% endif %}
-				<span class="navbar-text text-secondary">
-					{{ "now" | date('d-m-Y H:i:s') }}
+
+				<span class="navbar-text text-secondary mt-0 mb-0">
+				<i class="d-flex fa-solid fa-user"><p class="d-flex text-secondary mt-0 mb-0">{{ app.user.email }}</p></i>
+					<br><i class="fa-solid fa-calendar"></i> {{ "now" | date('d-m-Y H:i:s') }}
 				</span>
 			</div>
 		</nav>
