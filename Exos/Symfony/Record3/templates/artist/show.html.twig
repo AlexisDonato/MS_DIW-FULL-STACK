@@ -21,11 +21,12 @@
 			<tr>
 				<th>Url</th>
 				<td>{{ artist.url }}</td>
-                </tr>
-                <tr>
-                <th>Albums</th>
+			</tr>
+			<tr>
+				<th>Albums</th>
 				{% for disc in artist.discs %}
-					<td><img src="/img/{{ disc.picture }}" class="card-img-top img-thumbnail bg-dark" style="width:80px" alt="{{ disc.picture }}"></td>
+					<td><img src="/img/{{ disc.picture }}" class="card-img-top img-thumbnail bg-dark" style="width:80px" alt="{{ disc.picture }}">
+						{{ disc.title }}</td>
 				{% endfor %}
 			</tr>
 		</tbody>
@@ -36,9 +37,9 @@
 		<button class="btn btn-info ml-3 mr-3">Artists list</button>
 	</a>
 	{% if is_granted('ROLE_ADMIN') %}
-	<a href="{{ path('app_artist_edit', {'id': artist.id}) }}">
-		<button class="btn btn-info">Edit</button>
-	</a>
+		<a href="{{ path('app_artist_edit', {'id': artist.id}) }}">
+			<button class="btn btn-info">Edit</button>
+		</a>
 	{% endif %}
 
 	{{ include('artist/_delete_form.html.twig') }}

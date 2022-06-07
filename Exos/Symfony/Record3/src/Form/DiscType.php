@@ -20,15 +20,30 @@ class DiscType extends AbstractType
     {
         $builder
             ->add('title', TextType::class, [
-                'required' => true])
+                'required' => true,
+                'row_attr' => [
+                    'class' => 'col-6 ml-3',
+                    ],
+                ])
+
             ->add('year',TextType::class, [
                 'constraints' => [
                     new Regex([
                         'pattern' => '/^[0-9]{4}$/',
                         'message' => 'Invalid numbers. Only 4 digits.'])],
-                'required' => true])
+                'required' => true,
+                'row_attr' => [
+                    'class' => 'col-6 ml-3',
+                    ],
+                ])
+
             ->add('label', TextType::class, [
-                'required' => true])
+                'required' => true,
+                'row_attr' => [
+                    'class' => 'col-6 ml-3',
+                    ],
+                ])
+
             ->add('genre', TextType::class, [
                 'constraints' => [
                     new Regex([
@@ -37,9 +52,16 @@ class DiscType extends AbstractType
                     ]),
                 ],
                 'required' => true,
-            ])
+                'row_attr' => [
+                    'class' => 'col-6 ml-3',
+                    ],
+                ])
+
             ->add('picture', FileType::class, [
                 'mapped' => false,
+                'row_attr' => [
+                    'class' => 'col-6 ml-3',
+                    ],
                 'required' => false,
                 'constraints' => [
                     new File ([
@@ -51,6 +73,7 @@ class DiscType extends AbstractType
                         'mimeTypesMessage' => 'Invalid type of file',
                     ])]
             ])
+
             ->add('price', TextType::class, [
                 'constraints' => [
                     new Regex([
@@ -59,7 +82,11 @@ class DiscType extends AbstractType
                     ]),
                 ],
                 'required' => true,
-            ])
+                'row_attr' => [
+                    'class' => 'col-6 ml-3',
+                    ],
+                ])
+
             ->add('artist', EntityType::class, [
                 'class' => Artist::class, 
                 'query_builder' => function (ArtistRepository $ar) {
@@ -67,7 +94,11 @@ class DiscType extends AbstractType
                                 ->orderBy('a.name', 'asc');
                             },
                 'choice_label' => 'name',
-                'required' => true,])
+                'required' => true,
+                'row_attr' => [
+                    'class' => 'col-6 ml-3',
+                    ],
+                ])
         ;
     }
 

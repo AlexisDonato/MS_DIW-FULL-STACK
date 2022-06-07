@@ -64,13 +64,14 @@
 					{% endif %}
 				</ul>
 					<a class="nav-link text-info" href="{{ path('app_logout') }}"><button type="button" class="btn btn-outline-info"><i>Logout</i></button>
-							<span class="sr-only">(current)</span>
 					</a>
 				{% endif %}
 
 				<span class="navbar-text text-secondary mt-0 mb-0">
-				<i class="d-flex fa-solid fa-user"><p class="d-flex text-secondary mt-0 mb-0">{{ app.user.email }}</p></i>
-					<br><i class="fa-solid fa-calendar"></i> {{ "now" | date('d-m-Y H:i:s') }}
+				{% if app.user %}
+				<i class="d-flex fa-solid fa-user"><p class="d-flex text-secondary mt-0 mb-0">{{ app.user.email }}</p></i><br>
+				{% endif %}
+					<i class="fa-solid fa-calendar"></i> {{ "now" | date('d-m-Y H:i:s') }}
 				</span>
 			</div>
 		</nav>

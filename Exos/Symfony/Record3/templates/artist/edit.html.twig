@@ -3,9 +3,9 @@
 {% block title %}Edit Artist{% endblock %}
 
 {% block body %}
-<div class="d-flex justify-content-center">
-    <h1 class="text-info mt-3 mb-3">Edit Artist</h1>
-</div>
+
+    <h1 class="text-info mt-3 mb-3 ml-5">Edit Artist</h1>
+
     {{ include('artist/_form.html.twig', {'button_label': 'Update'}) }}
 
     <a href="{{ path('app_artist_index') }}"><button class="btn btn-info mt-3">Artists list</button</a>
