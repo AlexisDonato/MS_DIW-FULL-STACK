@@ -12,42 +12,41 @@
 		<div class="form-row">
 			<div class="col-12">
 				<fieldset>
-					<legend>Details</legend>
 					<div class="form-row d-flex justify-content-around">
 						<div class="form-group col-md-6">
-							<label for="title">Title</label>
+							<label class="text-secondary" for="title">Title</label>
 							<input type="text" id="title" name="title" class="form-control" value="{{disc.title}}" readonly>
 						</div>
 						<div class="form-group col-md-6">
-							<label for="artistname">Artist</label>
+							<label class="text-secondary" for="artistname">Artist</label>
 							<input type="text" id="artistname" name="artistname" class="form-control" value="{{disc.artist.name}}" readonly>
 						</div>
 					</div>
 
 					<div class="form-row d-flex justify-content-around">
 						<div class="form-group col-md-6">
-							<label for="year">Year</label>
+							<label class="text-secondary" for="year">Year</label>
 							<input type="text" id="year" name="year" class="form-control" value="{{disc.year}}" readonly>
 						</div>
 						<div class="form-group col-md-6">
-							<label for="genre">Genre</label>
+							<label class="text-secondary" for="genre">Genre</label>
 							<input type="text" id="genre" name="genre" class="form-control" value="{{disc.genre}}" readonly>
 						</div>
 					</div>
 
 					<div class="form-row d-flex justify-content-around">
 						<div class="form-group col-md-6">
-							<label for="label">Label</label>
+							<label class="text-secondary" for="label">Label</label>
 							<input type="text" id="label" name="label" class="form-control" value="{{disc.label}}" readonly>
 						</div>
 						<div class="form-group col-md-6">
-							<label for="price">Price</label>
+							<label class="text-secondary" for="price">Price</label>
 							<input type="text" id="price" name="price" class="form-control" value="{{disc.price}}" readonly>
 						</div>
 					</div>
 					<div class="form-row d-flex justify-content-center mb-3">
 						<div class="form-group col-4">
-							<label for="picture">Picture</label>
+							<label class="text-secondary" for="picture">Picture</label>
 							<img src="/img/{{disc.picture}}" class="img-fluid img-thumbnail" alt="{{disc.picture}}" title="{{disc.picture}}">
 							<br>
 						</div>

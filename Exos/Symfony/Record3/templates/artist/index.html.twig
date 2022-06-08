@@ -11,29 +11,29 @@
 	<div class="row row-cols-1 row-cols-md-4 g-4">
 		{% for artist in artists %}
 			<div class="col mb-3">
-				<div class="card-header bg-secondary text-center">
+				<div class="card-header bg-secondary bg-gradient text-center">
 					{% for disc in artist.discs %}
 						<img src="/img/{{ disc.picture }}" class="card-img-top img-thumbnail bg-dark" style="width:80px" alt="{{ disc.picture }}">
 					{% endfor %}
 
-					<div class="card-body border-info">
+					<div class="card-body">
 						<h5 class="card-title">
 							<b>{{ artist.name }}</b>
 						</h5>
 						<p class="card-text">
-							<li class="list-group-item bg-dark">Id:
+							<li class="list-group-item bg-dark bg-gradient">Id:
 								{{ artist.id }}<br></li>
 							<li class="list-group-item bg-dark">URL: {{ artist.url }}
 							</li>
 						</p>
 					</li>
 					<li class="list-group-item bg-dark d-flex justify-content-around">
-						<a href="{{ path('app_artist_show', {'id': artist.id}) }}" style="font-size: 2rem; color: Lightblue;">
-							<i class="fa-solid fa-eye fa-lg" alt="Details"></i>
+						<a href="{{ path('app_artist_show', {'id': artist.id}) }}" style="font-size: 2rem; color: #17a2b8;">
+							<i class="fa-solid fa-eye fa-sm" title="Details" alt="Details"></i>
 						</a>
 						{% if is_granted('ROLE_ADMIN') %}
-						<a href="{{ path('app_artist_edit', {'id': artist.id}) }}" style="font-size: 2rem; color: Lightblue;">
-							<i class="fa-solid fa-pencil fa-lg" alt="Edit"></i>
+						<a href="{{ path('app_artist_edit', {'id': artist.id}) }}" style="font-size: 2rem; color: #17a2b8;">
+							<i class="fa-solid fa-pencil fa-sm" title="Edit" alt="Edit"></i>
 						</a>
 						{% endif %}
 					</li>
@@ -45,9 +45,4 @@
 			<td colspan="4">no records found</td>
 		</tr>
 	{% endfor %}
-	<div class="d-flex justify-content-center">
-		<a href="{{ path('app_artist_new') }}">
-			<button class="btn btn-info btn-lg">Create new Artist</button>
-		</a>
-	</div>
 {% endblock %}

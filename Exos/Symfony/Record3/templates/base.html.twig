@@ -6,17 +6,17 @@
 			{% block title %}Index
 			{% endblock %}
 		</title>
-		<link
-		rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.4.1/css/bootstrap.min.css" integrity="sha384-Vkoo8x4CGsO3+Hhxv8T/Q5PaXtkKtu6ug5TOeNV6gBiFeWPGFN9MuhOf23Q9Ifjh" crossorigin="anonymous">
-		{# <link rel="stylesheet" href="/public/css/style.css">  #}
+		<link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.4.1/css/bootstrap.min.css" integrity="sha384-Vkoo8x4CGsO3+Hhxv8T/Q5PaXtkKtu6ug5TOeNV6gBiFeWPGFN9MuhOf23Q9Ifjh" crossorigin="anonymous">
+		<link rel="stylesheet" href="{{ asset('/css/style.css') }}"> 
 
 		{# Font awesome icons #}
-		<link rel="stylesheet" href="https://use.fontawesome.com/releases/v6.1.1/css/solid.css" 
-			integrity="sha384-DhmF1FmzR9+RBLmbsAts3Sp+i6cZMWQwNTRsew7pO/e4gvzqmzcpAzhDIwllPonQ" 
-			crossorigin="anonymous"/>
-		<link rel="stylesheet" href="https://use.fontawesome.com/releases/v6.1.1/css/fontawesome.css" 
-			integrity="sha384-zIaWifL2YFF1qaDiAo0JFgsmasocJ/rqu7LKYH8CoBEXqGbb9eO+Xi3s6fQhgFWM" 
-			crossorigin="anonymous"/>
+		<link rel="stylesheet" href="https://use.fontawesome.com/releases/v6.1.1/css/solid.css" integrity="sha384-DhmF1FmzR9+RBLmbsAts3Sp+i6cZMWQwNTRsew7pO/e4gvzqmzcpAzhDIwllPonQ" crossorigin="anonymous"/> <link
+		rel="stylesheet" href="https://use.fontawesome.com/releases/v6.1.1/css/fontawesome.css" integrity="sha384-zIaWifL2YFF1qaDiAo0JFgsmasocJ/rqu7LKYH8CoBEXqGbb9eO+Xi3s6fQhgFWM" crossorigin="anonymous"/>
+		
+		{# Google Fonts #}
+		<link rel="preconnect" href="https://fonts.googleapis.com">
+		<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+		<link href="https://fonts.googleapis.com/css2?family=Blaka&display=swap" rel="stylesheet"> 
 		{% block stylesheets %}{% endblock %}
 
 		<link rel="icon" type="image/x-icon" href="/img/favicon.jpeg">
@@ -24,54 +24,67 @@
 
 	<body class="bg-dark text-light">
 		<nav class="navbar navbar-expand-lg navbar-light bg-dark text-light sticky-top border-bottom border-info">
-			<a class="navbar-brand text-info" {% if is_granted('IS_AUTHENTICATED_FULLY') %} href="{{ path('app_disc_index') }}" {% else %} href="{{ path('login') }}" {% endif %}><b>Discs & Artists</b></a>
+			<a class="navbar-brand text-info" {% if is_granted('IS_AUTHENTICATED_FULLY') %} href="{{ path('app_disc_index') }}" {% else %} href="{{ path('login') }}" {% endif %}>
+				<p id="p1" style="font-size: 3rem;" class="mt-0 mb-0">Discs & Artists</p>
+			</a>
 			<button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarSupportedContent" aria-controls="navbarSupportedContent" aria-expanded="false" aria-label="Toggle navigation">
 				<span class="navbar-toggler-icon"></span>
 			</button>
 			{% if is_granted('IS_AUTHENTICATED_FULLY') %}
-			<div class="collapse navbar-collapse" id="navbarSupportedContent">
-				<ul class="navbar-nav mr-auto">
-					<li class="nav-item active">
-						<a class="nav-link" href="{{ path('app_disc_index') }}"><b>Discs list</b>
-							<span class="sr-only">(current)</span>
-						</a>
-					</li>
-					{% if is_granted('ROLE_ADMIN') %}
-					<li class="nav-item active">
-						<a class="nav-link" href="{{ path('app_disc_new') }}"><i>New Disc</i>
-							<span class="sr-only">(current)</span>
-						</a>
-					</li>
-					{% endif %}
-					<li class="nav-item active">
-						<a class="nav-link" href="{{ path('app_artist_index') }}"><b>Artists list</b>
-							<span class="sr-only">(current)</span>
-						</a>
-					</li>
-					{% if is_granted('ROLE_ADMIN') %}
-					<li class="nav-item active">
-						<a class="nav-link" href="{{ path('app_artist_new') }}"><i>New artist</i>
-							<span class="sr-only">(current)</span>
-						</a>
-					</li>
-					{% endif %}
-					{% if is_granted('ROLE_ADMIN') %}
-					<li class="nav-item active">
-						<a class="nav-link" href="{{ path('app_user_index') }}"><b>Users</b>
-							<span class="sr-only">(current)</span>
-						</a>
-					</li>
-					{% endif %}
-				</ul>
-					<a class="nav-link text-info" href="{{ path('app_logout') }}"><button type="button" class="btn btn-outline-info"><i>Logout</i></button>
+				<div class="collapse navbar-collapse" id="navbarSupportedContent">
+					<ul class="navbar-nav mr-auto">
+						<li class="nav-item active">
+							<a class="nav-link" href="{{ path('app_disc_index') }}">
+								<b>Discs list</b>
+								<span class="sr-only">(current)</span>
+							</a>
+						</li>
+						{% if is_granted('ROLE_ADMIN') %}
+							<li class="nav-item active">
+								<a class="nav-link" href="{{ path('app_disc_new') }}">
+									<i>New Disc</i>
+									<span class="sr-only">(current)</span>
+								</a>
+							</li>
+						{% endif %}
+						<li class="nav-item active">
+							<a class="nav-link" href="{{ path('app_artist_index') }}">
+								<b>Artists list</b>
+								<span class="sr-only">(current)</span>
+							</a>
+						</li>
+						{% if is_granted('ROLE_ADMIN') %}
+							<li class="nav-item active">
+								<a class="nav-link" href="{{ path('app_artist_new') }}">
+									<i>New artist</i>
+									<span class="sr-only">(current)</span>
+								</a>
+							</li>
+						{% endif %}
+						{% if is_granted('ROLE_ADMIN') %}
+							<li class="nav-item active">
+								<a class="nav-link" href="{{ path('app_user_index') }}">
+									<b>Users</b>
+									<span class="sr-only">(current)</span>
+								</a>
+							</li>
+						{% endif %}
+					</ul>
+					<a class="nav-link text-info" href="{{ path('app_logout') }}">
+						<button type="button" class="btn btn-outline-info">
+							<i>Logout</i>
+						</button>
 					</a>
 				{% endif %}
 
 				<span class="navbar-text text-secondary mt-0 mb-0">
-				{% if app.user %}
-				<i class="d-flex fa-solid fa-user"><p class="d-flex text-secondary mt-0 mb-0">{{ app.user.email }}</p></i><br>
-				{% endif %}
-					<i class="fa-solid fa-calendar"></i> {{ "now" | date('d-m-Y H:i:s') }}
+					{% if app.user %}
+						<i class="d-flex fa-solid fa-user">
+							<p class="d-flex text-secondary mt-0 mb-0">{{ app.user.email }}</p>
+						</i><br>
+					{% endif %}
+					<i class="fa-solid fa-calendar"></i>
+					{{ "now" | date('d-m-Y H:i:s') }}
 				</span>
 			</div>
 		</nav>
