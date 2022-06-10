@@ -60,6 +60,9 @@ class UserController extends AbstractController
     #[Route('/{id}', name: 'app_user_show', methods: ['GET'])]
     public function show(User $user): Response
     {
+        if ($user !== $this->getUser())
+            $this->denyAccessUnlessGranted('ROLE_ADMIN', NULL);
+
         return $this->render('user/show.html.twig', [
             'user' => $user,
         ]);
