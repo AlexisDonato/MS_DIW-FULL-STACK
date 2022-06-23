@@ -46,7 +46,7 @@ class __TwigTemplate_a9d3ac06cb42e17d96973ab8d739c8ab extends Template
         // line 2
         echo $this->env->getRuntime('Symfony\Component\Form\FormRenderer')->searchAndRenderBlock((isset($context["form"]) || array_key_exists("form", $context) ? $context["form"] : (function () { throw new RuntimeError('Variable "form" does not exist.', 2, $this->source); })()), 'widget');
         echo "
-    <button class=\"btn btn-info ml-3\">";
+    <button class=\"btn btn-info ml-3 mt-3\">";
         // line 3
         echo twig_escape_filter($this->env, ((array_key_exists("button_label", $context)) ? (_twig_default_filter((isset($context["button_label"]) || array_key_exists("button_label", $context) ? $context["button_label"] : (function () { throw new RuntimeError('Variable "button_label" does not exist.', 3, $this->source); })()), "Save")) : ("Save")), "html", null, true);
         echo "</button>
@@ -82,7 +82,7 @@ class __TwigTemplate_a9d3ac06cb42e17d96973ab8d739c8ab extends Template
     {
         return new Source("{{ form_start(form) }}
     {{ form_widget(form) }}
-    <button class=\"btn btn-info ml-3\">{{ button_label|default('Save') }}</button>
+    <button class=\"btn btn-info ml-3 mt-3\">{{ button_label|default('Save') }}</button>
 {{ form_end(form) }}
 ", "artist/_form.html.twig", "/home/alexis/Documents/DIW22091/Exos/Symfony/Record3/templates/artist/_form.html.twig");
     }

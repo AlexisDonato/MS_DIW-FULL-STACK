@@ -4,15 +4,20 @@
 {% endblock %}
 
 {% block body %}
-	<div class="bg-image" style="background-image: /img/BG.jpeg');
-		    height: 100vh;" img src="/img/BG.jpeg">
-    </div>
 
-	<div class="container">
 		<div class="text-center pt-3">
-			<h1 class="text-info">Discs List</h1><br>
+			<h1 class="text-info">
+				<b>Discs List</b>
+			</h1>
+			<form class="d-flex justify-content-end mb-3" role="search">
+				<input class="form-control col-2" type="search" placeholder="Disc info?" aria-label="Search">
+				<button class="btn btn-outline-warning ml-1 mr-1" type="submit">Search</button>
+			</form>
+			<br>
 		</div>
-		{% set col = 1 %}
+
+		<div class="container">
+			{% set col = 1 %}
 		{% for disc in discs %}
 			{% if (col == 1)%}
 				<div class="row mb-2 justify-content-around">
@@ -38,14 +43,14 @@
 						</b>
 						{{disc.price}}<br>
 					</div>
-				<div class="mt-auto mb-2 d-flex justify-content-around">
+					<div class="mt-auto mb-2 d-flex justify-content-around">
 						<a href="{{ path('app_disc_show', {'id': disc.id}) }}" style="font-size: 2rem; color: #17a2b8;">
 							<i class="fa-solid fa-eye fa-sm" title="Details" alt="Details"></i>
 						</a>
 						{% if is_granted('ROLE_ADMIN') %}
-						<a href="{{ path('app_disc_edit', {'id': disc.id}) }}" style="font-size: 2rem; color: #17a2b8;">
-							<i class="fa-solid fa-pencil fa-sm" title="Edit" alt="Edit"></i>
-						</a>
+							<a href="{{ path('app_disc_edit', {'id': disc.id}) }}" style="font-size: 2rem; color: #17a2b8;">
+								<i class="fa-solid fa-pencil fa-sm" title="Edit" alt="Edit"></i>
+							</a>
 						{% endif %}
 					</div>
 				</div>

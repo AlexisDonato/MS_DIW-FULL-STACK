@@ -49,7 +49,7 @@ class __TwigTemplate_1196ed15ffccd18d9bc85ff67e273edb extends Template
             // line 3
             echo twig_escape_filter($this->env, $this->env->getRuntime('Symfony\Component\Form\FormRenderer')->renderCsrfToken(("delete" . twig_get_attribute($this->env, $this->source, (isset($context["disc"]) || array_key_exists("disc", $context) ? $context["disc"] : (function () { throw new RuntimeError('Variable "disc" does not exist.', 3, $this->source); })()), "id", [], "any", false, false, false, 3))), "html", null, true);
             echo "\">
-    <button class=\"btn btn-info mt-3 ml-3\">Delete</button>
+    <button class=\"btn btn-info mt-3 ml-3 mr-3\">Delete</button>
 </form>
 ";
         }
@@ -81,7 +81,7 @@ class __TwigTemplate_1196ed15ffccd18d9bc85ff67e273edb extends Template
         return new Source("{% if is_granted('ROLE_ADMIN') %}
 <form method=\"post\" action=\"{{ path('app_disc_delete', {'id': disc.id}) }}\" onsubmit=\"return confirm('Are you sure you want to delete this item?');\">
     <input type=\"hidden\" name=\"_token\" value=\"{{ csrf_token('delete' ~ disc.id) }}\">
-    <button class=\"btn btn-info mt-3 ml-3\">Delete</button>
+    <button class=\"btn btn-info mt-3 ml-3 mr-3\">Delete</button>
 </form>
 {% endif %}
 ", "disc/_delete_form.html.twig", "/home/alexis/Documents/DIW22091/Exos/Symfony/Record3/templates/disc/_delete_form.html.twig");

@@ -26,7 +26,7 @@ class UserType extends AbstractType
                 ])
 
             ->add('roles', ChoiceType::class, [
-                'choices' => [
+                'choices' => (array)[
                     'ROLE_ADMIN' => 'ROLE_ADMIN',
                     'ROLE_USER' => 'ROLE_USER',
                     'ROLE_YOUPI' => 'ROLE_YOUPI',
@@ -62,7 +62,7 @@ class UserType extends AbstractType
                 ],
             ])
         
-            ->add('isVerified', CheckboxType::Class, [
+            ->add('isVerified', CheckboxType::class, [
                 'row_attr' => [
                     'class' => 'col-6 ml-3',
                     ],

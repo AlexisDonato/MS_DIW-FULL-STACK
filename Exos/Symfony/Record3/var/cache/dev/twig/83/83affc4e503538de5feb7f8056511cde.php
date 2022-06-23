@@ -157,34 +157,41 @@ class __TwigTemplate_419dabfc2a039230fa35f646dfbef156 extends Template
         echo "\">
 \t\t\t\t\t\t\t<br>
 \t\t\t\t\t\t</div>
+\t\t\t\t\t\t<div class=\"form-group\">
+\t\t\t\t\t\t\t";
+        // line 54
+        if ($this->extensions['Symfony\Bridge\Twig\Extension\SecurityExtension']->isGranted("ROLE_ADMIN")) {
+            // line 55
+            echo "\t\t\t\t\t\t\t\t<a href=\"";
+            echo twig_escape_filter($this->env, $this->extensions['Symfony\Bridge\Twig\Extension\RoutingExtension']->getPath("app_disc_edit", ["id" => twig_get_attribute($this->env, $this->source, (isset($context["disc"]) || array_key_exists("disc", $context) ? $context["disc"] : (function () { throw new RuntimeError('Variable "disc" does not exist.', 55, $this->source); })()), "id", [], "any", false, false, false, 55)]), "html", null, true);
+            echo "\">
+\t\t\t\t\t\t\t\t\t<button class=\"btn btn-info mt-5 ml-3\">Edit</button>
+\t\t\t\t\t\t\t\t</a><br>
+\t\t\t\t\t\t\t";
+        }
+        // line 59
+        echo "\t\t\t\t\t\t\t<a href=\"";
+        echo $this->extensions['Symfony\Bridge\Twig\Extension\RoutingExtension']->getPath("app_disc_index");
+        echo "\">
+\t\t\t\t\t\t\t\t<button class=\"btn btn-outline-info mt-3 ml-3\">Discs list</button>
+\t\t\t\t\t\t\t</a>
+\t\t\t\t\t\t\t";
+        // line 62
+        if ($this->extensions['Symfony\Bridge\Twig\Extension\SecurityExtension']->isGranted("ROLE_ADMIN")) {
+            // line 63
+            echo "\t\t\t\t\t\t\t\t";
+            echo twig_include($this->env, $context, "disc/_delete_form.html.twig");
+            echo "
+\t\t\t\t\t\t\t";
+        }
+        // line 65
+        echo "\t\t\t\t\t\t</div>
 \t\t\t\t\t</div>
 \t\t\t\t</fieldset>
 \t\t\t</div>
 \t\t</div>
 \t</div>
-\t<div class=\"col-12 form-group d-flex justify-content-around\">
-\t\t";
-        // line 59
-        if ($this->extensions['Symfony\Bridge\Twig\Extension\SecurityExtension']->isGranted("ROLE_ADMIN")) {
-            // line 60
-            echo "\t\t\t<a href=\"";
-            echo twig_escape_filter($this->env, $this->extensions['Symfony\Bridge\Twig\Extension\RoutingExtension']->getPath("app_disc_edit", ["id" => twig_get_attribute($this->env, $this->source, (isset($context["disc"]) || array_key_exists("disc", $context) ? $context["disc"] : (function () { throw new RuntimeError('Variable "disc" does not exist.', 60, $this->source); })()), "id", [], "any", false, false, false, 60)]), "html", null, true);
-            echo "\">
-\t\t\t\t<button class=\"btn btn-info btn-lg\">Edit</button>
-\t\t\t</a>
-\t\t";
-        }
-        // line 64
-        echo "\t\t";
-        echo twig_include($this->env, $context, "disc/_delete_form.html.twig");
-        echo "
-\t\t<a href=\"";
-        // line 65
-        echo $this->extensions['Symfony\Bridge\Twig\Extension\RoutingExtension']->getPath("app_disc_index");
-        echo "\">
-\t\t\t<button class=\"btn btn-info btn-lg\">Discs list</button>
-\t\t</a>
-\t";
+";
         
         $__internal_6f47bbe9983af81f1e7450e9a3e3768f->leave($__internal_6f47bbe9983af81f1e7450e9a3e3768f_prof);
 
@@ -205,7 +212,7 @@ class __TwigTemplate_419dabfc2a039230fa35f646dfbef156 extends Template
 
     public function getDebugInfo()
     {
-        return array (  183 => 65,  178 => 64,  170 => 60,  168 => 59,  152 => 50,  143 => 44,  136 => 40,  126 => 33,  119 => 29,  109 => 22,  102 => 18,  89 => 7,  79 => 6,  59 => 3,  36 => 1,);
+        return array (  188 => 65,  182 => 63,  180 => 62,  173 => 59,  165 => 55,  163 => 54,  152 => 50,  143 => 44,  136 => 40,  126 => 33,  119 => 29,  109 => 22,  102 => 18,  89 => 7,  79 => 6,  59 => 3,  36 => 1,);
     }
 
     public function getSourceContext()
@@ -262,22 +269,25 @@ class __TwigTemplate_419dabfc2a039230fa35f646dfbef156 extends Template
 \t\t\t\t\t\t\t<img src=\"/img/{{disc.picture}}\" class=\"img-fluid img-thumbnail\" alt=\"{{disc.picture}}\" title=\"{{disc.picture}}\">
 \t\t\t\t\t\t\t<br>
 \t\t\t\t\t\t</div>
+\t\t\t\t\t\t<div class=\"form-group\">
+\t\t\t\t\t\t\t{% if is_granted('ROLE_ADMIN') %}
+\t\t\t\t\t\t\t\t<a href=\"{{ path('app_disc_edit', {'id': disc.id}) }}\">
+\t\t\t\t\t\t\t\t\t<button class=\"btn btn-info mt-5 ml-3\">Edit</button>
+\t\t\t\t\t\t\t\t</a><br>
+\t\t\t\t\t\t\t{% endif %}
+\t\t\t\t\t\t\t<a href=\"{{ path('app_disc_index') }}\">
+\t\t\t\t\t\t\t\t<button class=\"btn btn-outline-info mt-3 ml-3\">Discs list</button>
+\t\t\t\t\t\t\t</a>
+\t\t\t\t\t\t\t{% if is_granted('ROLE_ADMIN') %}
+\t\t\t\t\t\t\t\t{{ include('disc/_delete_form.html.twig') }}
+\t\t\t\t\t\t\t{% endif %}
+\t\t\t\t\t\t</div>
 \t\t\t\t\t</div>
 \t\t\t\t</fieldset>
 \t\t\t</div>
 \t\t</div>
 \t</div>
-\t<div class=\"col-12 form-group d-flex justify-content-around\">
-\t\t{% if is_granted('ROLE_ADMIN') %}
-\t\t\t<a href=\"{{ path('app_disc_edit', {'id': disc.id}) }}\">
-\t\t\t\t<button class=\"btn btn-info btn-lg\">Edit</button>
-\t\t\t</a>
-\t\t{% endif %}
-\t\t{{ include('disc/_delete_form.html.twig') }}
-\t\t<a href=\"{{ path('app_disc_index') }}\">
-\t\t\t<button class=\"btn btn-info btn-lg\">Discs list</button>
-\t\t</a>
-\t{% endblock %}
+{% endblock %}
 ", "disc/show.html.twig", "/home/alexis/Documents/DIW22091/Exos/Symfony/Record3/templates/disc/show.html.twig");
     }
 }

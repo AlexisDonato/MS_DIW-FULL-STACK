@@ -94,10 +94,10 @@ class __TwigTemplate_298321ddc1174832e4269e6fb249bb85 extends Template
         echo twig_include($this->env, $context, "user/_form.html.twig");
         echo "
 
-    <a class=\"text-info\" href=\"";
+    <a class=\"text-decoration-none\" href=\"";
         // line 12
         echo $this->extensions['Symfony\Bridge\Twig\Extension\RoutingExtension']->getPath("app_user_index");
-        echo "\"><button class=\"btn btn-outline-info mt-3 ml-3\">Users list</a></button>
+        echo "\"><button class=\"btn btn-outline-info mt-3 ml-3 \">Users list</a></button>
 ";
         
         $__internal_6f47bbe9983af81f1e7450e9a3e3768f->leave($__internal_6f47bbe9983af81f1e7450e9a3e3768f_prof);
@@ -135,7 +135,7 @@ class __TwigTemplate_298321ddc1174832e4269e6fb249bb85 extends Template
 
     {{ include('user/_form.html.twig') }}
 
-    <a class=\"text-info\" href=\"{{ path('app_user_index') }}\"><button class=\"btn btn-outline-info mt-3 ml-3\">Users list</a></button>
+    <a class=\"text-decoration-none\" href=\"{{ path('app_user_index') }}\"><button class=\"btn btn-outline-info mt-3 ml-3 \">Users list</a></button>
 {% endblock %}
 ", "user/new.html.twig", "/home/alexis/Documents/DIW22091/Exos/Symfony/Record3/templates/user/new.html.twig");
     }

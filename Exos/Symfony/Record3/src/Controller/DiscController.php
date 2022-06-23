@@ -18,8 +18,6 @@ class DiscController extends AbstractController
     #[Route('/', name: 'app_disc_index', methods: ['GET'])]
     public function index(DiscRepository $discRepository): Response
     {
-        // usually you'll want to make sure the user is authenticated first,
-        // see "Authorization" below
         $this->denyAccessUnlessGranted('IS_AUTHENTICATED_FULLY');
 
         return $this->render('disc/index.html.twig', [

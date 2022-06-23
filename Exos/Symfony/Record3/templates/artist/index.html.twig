@@ -5,8 +5,12 @@
 
 {% block body %}
 	<div class="d-flex justify-content-center mt-3 mb-3">
-		<h1 class="text-info">Artists List</h1>
+		<h1 class="text-info"><b>Artists List</b></h1>
 	</div>
+			<form class="d-flex justify-content-center mb-5" role="search">
+				<input class="form-control col-2" type="search" placeholder="Artist?" aria-label="Search">
+				<button class="btn btn-outline-warning ml-1" type="submit">Search</button>
+			</form>
 
 	<div class="row row-cols-1 row-cols-md-4 g-4">
 		{% for artist in artists %}

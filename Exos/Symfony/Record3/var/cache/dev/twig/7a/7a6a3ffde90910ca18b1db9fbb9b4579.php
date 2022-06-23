@@ -87,76 +87,80 @@ class __TwigTemplate_006be37e5744f265e91266b18f362059 extends Template
 
         // line 7
         echo "\t<div class=\"d-flex justify-content-center mt-3 mb-3\">
-\t\t<h1 class=\"text-info\">Artists List</h1>
+\t\t<h1 class=\"text-info\"><b>Artists List</b></h1>
 \t</div>
+\t\t\t<form class=\"d-flex justify-content-center mb-5\" role=\"search\">
+\t\t\t\t<input class=\"form-control col-2\" type=\"search\" placeholder=\"Artist?\" aria-label=\"Search\">
+\t\t\t\t<button class=\"btn btn-outline-warning ml-1\" type=\"submit\">Search</button>
+\t\t\t</form>
 
 \t<div class=\"row row-cols-1 row-cols-md-4 g-4\">
 \t\t";
-        // line 12
+        // line 16
         $context['_parent'] = $context;
-        $context['_seq'] = twig_ensure_traversable((isset($context["artists"]) || array_key_exists("artists", $context) ? $context["artists"] : (function () { throw new RuntimeError('Variable "artists" does not exist.', 12, $this->source); })()));
+        $context['_seq'] = twig_ensure_traversable((isset($context["artists"]) || array_key_exists("artists", $context) ? $context["artists"] : (function () { throw new RuntimeError('Variable "artists" does not exist.', 16, $this->source); })()));
         $context['_iterated'] = false;
         foreach ($context['_seq'] as $context["_key"] => $context["artist"]) {
-            // line 13
+            // line 17
             echo "\t\t\t<div class=\"col mb-3\">
 \t\t\t\t<div class=\"card-header bg-secondary bg-gradient text-center\">
 \t\t\t\t\t";
-            // line 15
+            // line 19
             $context['_parent'] = $context;
-            $context['_seq'] = twig_ensure_traversable(twig_get_attribute($this->env, $this->source, $context["artist"], "discs", [], "any", false, false, false, 15));
+            $context['_seq'] = twig_ensure_traversable(twig_get_attribute($this->env, $this->source, $context["artist"], "discs", [], "any", false, false, false, 19));
             foreach ($context['_seq'] as $context["_key"] => $context["disc"]) {
-                // line 16
+                // line 20
                 echo "\t\t\t\t\t\t<img src=\"/img/";
-                echo twig_escape_filter($this->env, twig_get_attribute($this->env, $this->source, $context["disc"], "picture", [], "any", false, false, false, 16), "html", null, true);
+                echo twig_escape_filter($this->env, twig_get_attribute($this->env, $this->source, $context["disc"], "picture", [], "any", false, false, false, 20), "html", null, true);
                 echo "\" class=\"card-img-top img-thumbnail bg-dark\" style=\"width:80px\" alt=\"";
-                echo twig_escape_filter($this->env, twig_get_attribute($this->env, $this->source, $context["disc"], "picture", [], "any", false, false, false, 16), "html", null, true);
+                echo twig_escape_filter($this->env, twig_get_attribute($this->env, $this->source, $context["disc"], "picture", [], "any", false, false, false, 20), "html", null, true);
                 echo "\">
 \t\t\t\t\t";
             }
             $_parent = $context['_parent'];
             unset($context['_seq'], $context['_iterated'], $context['_key'], $context['disc'], $context['_parent'], $context['loop']);
             $context = array_intersect_key($context, $_parent) + $_parent;
-            // line 18
+            // line 22
             echo "
 \t\t\t\t\t<div class=\"card-body\">
 \t\t\t\t\t\t<h5 class=\"card-title\">
 \t\t\t\t\t\t\t<b>";
-            // line 21
-            echo twig_escape_filter($this->env, twig_get_attribute($this->env, $this->source, $context["artist"], "name", [], "any", false, false, false, 21), "html", null, true);
+            // line 25
+            echo twig_escape_filter($this->env, twig_get_attribute($this->env, $this->source, $context["artist"], "name", [], "any", false, false, false, 25), "html", null, true);
             echo "</b>
 \t\t\t\t\t\t</h5>
 \t\t\t\t\t\t<p class=\"card-text\">
 \t\t\t\t\t\t\t<li class=\"list-group-item bg-dark bg-gradient\">Id:
 \t\t\t\t\t\t\t\t";
-            // line 25
-            echo twig_escape_filter($this->env, twig_get_attribute($this->env, $this->source, $context["artist"], "id", [], "any", false, false, false, 25), "html", null, true);
+            // line 29
+            echo twig_escape_filter($this->env, twig_get_attribute($this->env, $this->source, $context["artist"], "id", [], "any", false, false, false, 29), "html", null, true);
             echo "<br></li>
 \t\t\t\t\t\t\t<li class=\"list-group-item bg-dark\">URL: ";
-            // line 26
-            echo twig_escape_filter($this->env, twig_get_attribute($this->env, $this->source, $context["artist"], "url", [], "any", false, false, false, 26), "html", null, true);
+            // line 30
+            echo twig_escape_filter($this->env, twig_get_attribute($this->env, $this->source, $context["artist"], "url", [], "any", false, false, false, 30), "html", null, true);
             echo "
 \t\t\t\t\t\t\t</li>
 \t\t\t\t\t\t</p>
 \t\t\t\t\t</li>
 \t\t\t\t\t<li class=\"list-group-item bg-dark d-flex justify-content-around\">
 \t\t\t\t\t\t<a href=\"";
-            // line 31
-            echo twig_escape_filter($this->env, $this->extensions['Symfony\Bridge\Twig\Extension\RoutingExtension']->getPath("app_artist_show", ["id" => twig_get_attribute($this->env, $this->source, $context["artist"], "id", [], "any", false, false, false, 31)]), "html", null, true);
+            // line 35
+            echo twig_escape_filter($this->env, $this->extensions['Symfony\Bridge\Twig\Extension\RoutingExtension']->getPath("app_artist_show", ["id" => twig_get_attribute($this->env, $this->source, $context["artist"], "id", [], "any", false, false, false, 35)]), "html", null, true);
             echo "\" style=\"font-size: 2rem; color: #17a2b8;\">
 \t\t\t\t\t\t\t<i class=\"fa-solid fa-eye fa-sm\" title=\"Details\" alt=\"Details\"></i>
 \t\t\t\t\t\t</a>
 \t\t\t\t\t\t";
-            // line 34
+            // line 38
             if ($this->extensions['Symfony\Bridge\Twig\Extension\SecurityExtension']->isGranted("ROLE_ADMIN")) {
-                // line 35
+                // line 39
                 echo "\t\t\t\t\t\t<a href=\"";
-                echo twig_escape_filter($this->env, $this->extensions['Symfony\Bridge\Twig\Extension\RoutingExtension']->getPath("app_artist_edit", ["id" => twig_get_attribute($this->env, $this->source, $context["artist"], "id", [], "any", false, false, false, 35)]), "html", null, true);
+                echo twig_escape_filter($this->env, $this->extensions['Symfony\Bridge\Twig\Extension\RoutingExtension']->getPath("app_artist_edit", ["id" => twig_get_attribute($this->env, $this->source, $context["artist"], "id", [], "any", false, false, false, 39)]), "html", null, true);
                 echo "\" style=\"font-size: 2rem; color: #17a2b8;\">
 \t\t\t\t\t\t\t<i class=\"fa-solid fa-pencil fa-sm\" title=\"Edit\" alt=\"Edit\"></i>
 \t\t\t\t\t\t</a>
 \t\t\t\t\t\t";
             }
-            // line 39
+            // line 43
             echo "\t\t\t\t\t</li>
 \t\t\t\t</div>
 \t\t\t</div>
@@ -165,7 +169,7 @@ class __TwigTemplate_006be37e5744f265e91266b18f362059 extends Template
             $context['_iterated'] = true;
         }
         if (!$context['_iterated']) {
-            // line 44
+            // line 48
             echo "\t\t<tr>
 \t\t\t<td colspan=\"4\">no records found</td>
 \t\t</tr>
@@ -194,7 +198,7 @@ class __TwigTemplate_006be37e5744f265e91266b18f362059 extends Template
 
     public function getDebugInfo()
     {
-        return array (  169 => 44,  160 => 39,  152 => 35,  150 => 34,  144 => 31,  136 => 26,  132 => 25,  125 => 21,  120 => 18,  109 => 16,  105 => 15,  101 => 13,  96 => 12,  89 => 7,  79 => 6,  59 => 3,  36 => 1,);
+        return array (  173 => 48,  164 => 43,  156 => 39,  154 => 38,  148 => 35,  140 => 30,  136 => 29,  129 => 25,  124 => 22,  113 => 20,  109 => 19,  105 => 17,  100 => 16,  89 => 7,  79 => 6,  59 => 3,  36 => 1,);
     }
 
     public function getSourceContext()
@@ -206,8 +210,12 @@ class __TwigTemplate_006be37e5744f265e91266b18f362059 extends Template
 
 {% block body %}
 \t<div class=\"d-flex justify-content-center mt-3 mb-3\">
-\t\t<h1 class=\"text-info\">Artists List</h1>
+\t\t<h1 class=\"text-info\"><b>Artists List</b></h1>
 \t</div>
+\t\t\t<form class=\"d-flex justify-content-center mb-5\" role=\"search\">
+\t\t\t\t<input class=\"form-control col-2\" type=\"search\" placeholder=\"Artist?\" aria-label=\"Search\">
+\t\t\t\t<button class=\"btn btn-outline-warning ml-1\" type=\"submit\">Search</button>
+\t\t\t</form>
 
 \t<div class=\"row row-cols-1 row-cols-md-4 g-4\">
 \t\t{% for artist in artists %}

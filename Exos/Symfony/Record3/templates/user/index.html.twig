@@ -4,7 +4,7 @@
 
 {% block body %}
 <div class="d-flex justify-content-around mt-3 mb-3">
-    <h1 class="text-info">User list</h1>
+    <h1 class="text-info"><b>Users list</b></h1>
 </div>
 
     <table class="table table-striped table-dark text-light">
@@ -38,6 +38,4 @@
         {% endfor %}
         </tbody>
     </table>
-
-    <a class="text-light" href="{{ path('app_user_new') }}"><button class="btn btn-info">Create new</a></button>
 {% endblock %}

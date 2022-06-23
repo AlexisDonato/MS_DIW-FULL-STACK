@@ -1,0 +1,675 @@
+<!DOCTYPE html>
+<!-- saved from url=(0058)https://grafikart.fr/tutoriels/filtre-produit-symfony-1211 -->
+<html lang="fr" style="--vh:8.82px; --windowHeight:882px;"><head><meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
+  
+  <title>Tutoriel vidéo Symfony : Créer un filtre produit | Grafikart</title>
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <link rel="stylesheet" href="./Tutoriel vidéo Symfony _ Créer un filtre produit _ Grafikart_files/app.37c4cd60.css">
+          <link rel="modulepreload" href="https://grafikart.fr/assets/Modal.79c22743.js"><script src="./Tutoriel vidéo Symfony _ Créer un filtre produit _ Grafikart_files/app.300da886.js" type="module" defer=""></script>
+  
+  <meta name="turbolinks-cache-control" content="no-cache">
+  <link rel="alternate" type="application/rss+xml" title="Grafikart.fr | Flux" href="https://grafikart.fr/feed.rss">
+  <link rel="apple-touch-icon" sizes="128x128" href="https://grafikart.fr/favicons/icon-128x128.png">
+    <meta property="og:image" content="https://grafikart.fr/uploads/attachments/2019/1211-600a91d702a78907974860.jpg">
+  <meta property="og:created_time" content="2019-12-03T13:00:00+01:00">
+  <meta property="og:type" content="video.other">
+  <meta property="og:duration" content="4067">
+  <meta name="twitter:card" content="summary_large_image">
+<meta property="og:title" content="Tutoriel vidéo Symfony : Créer un filtre produit">
+  <meta property="og:site_name" content="Grafikart.fr">
+  <meta property="og:language" content="fr">
+  <meta name="twitter:author" content="@grafikart_fr">
+  <link rel="stylesheet" href="./Tutoriel vidéo Symfony _ Créer un filtre produit _ Grafikart_files/print.css" media="print">
+  <link rel="search" type="application/opensearchdescription+xml" title="Grafikart" href="https://grafikart.fr/opensearch.xml">
+  <script defer="" data-api="/api/stats" data-domain="grafikart.fr" src="./Tutoriel vidéo Symfony _ Créer un filtre produit _ Grafikart_files/stats.js"></script>
+<script async="" src="./Tutoriel vidéo Symfony _ Créer un filtre produit _ Grafikart_files/highlight.min.js"></script><link rel="stylesheet"></head>
+<body class="  user-not-premium">
+<div class="page-wrapper">
+  <nav class="header is-hidden" id="header">
+    <ul class="header-nav">
+      <li class="header__home">
+        <a href="https://grafikart.fr/" title="Accueil">
+          <svg class="icon icon-logo">
+  <use xlink:href="/sprite.svg?logo#logo"></use>
+</svg>
+        </a>
+      </li>
+      <li><a href="https://grafikart.fr/tutoriels" aria-current="page"><svg class="icon icon-video">
+  <use xlink:href="/sprite.svg?logo#video"></use>
+</svg> Tutoriels</a></li>
+      <li><a href="https://grafikart.fr/cursus"><svg class="icon icon-cursus">
+  <use xlink:href="/sprite.svg?logo#cursus"></use>
+</svg> Cursus</a>
+      </li><li><a href="https://grafikart.fr/formations"><svg class="icon icon-lines">
+  <use xlink:href="/sprite.svg?logo#lines"></use>
+</svg> Formations</a>
+      </li>
+              <li><a href="https://grafikart.fr/premium"><svg class="icon icon-star">
+  <use xlink:href="/sprite.svg?logo#star"></use>
+</svg> Premium</a></li>
+            <li><a href="https://grafikart.fr/blog"><svg class="icon icon-pen">
+  <use xlink:href="/sprite.svg?logo#pen"></use>
+</svg> Blog</a></li>
+      <li><a href="https://grafikart.fr/forum"><svg class="icon icon-comment">
+  <use xlink:href="/sprite.svg?logo#comment"></use>
+</svg> Forum</a></li>
+      <li><a href="https://grafikart.fr/podcasts"><svg class="icon icon-micro">
+  <use xlink:href="/sprite.svg?logo#micro"></use>
+</svg> Podcasts</a></li>
+      <li><a href="https://grafikart.fr/live" class=""><svg class="icon icon-camera">
+  <use xlink:href="/sprite.svg?logo#camera"></use>
+</svg> Live </a></li>
+    </ul>
+    <ul class="header-side">
+  <li class="header__notification">
+    <site-notifications></site-notifications>
+  </li>
+  <li class="header__search">
+    <search-button><button aria-label="Rechercher"><svg class="icon icon-search"><use href="/sprite.svg#search"></use></svg></button></search-button>
+  </li>
+      <li class="header-side__auth">
+      <a href="https://grafikart.fr/inscription">
+        <svg class="icon icon-user">
+  <use xlink:href="/sprite.svg?logo#user"></use>
+</svg>
+        <span>S'inscrire</span>
+      </a>
+      <span class="text-muted">·</span>
+      <a href="https://grafikart.fr/connexion?redirect=/tutoriels/filtre-produit-symfony-1211">
+        <span>Se connecter</span>
+      </a>
+    </li>
+    <li class="header__burger">
+    <button id="js-burger"><span>Afficher le menu</span></button>
+  </li>
+</ul>
+  </nav>
+  <div class="header-placeholder"></div>
+  
+  
+    <div class="container">
+      <div class="breadcrumb">
+          <a itemprop="url" title="Tutoriels" href="https://grafikart.fr/tutoriels">
+      <span itemprop="title">Tutoriels</span>
+    </a>
+              <svg class="icon icon-breadcrumb">
+  <use xlink:href="/sprite.svg?logo#breadcrumb"></use>
+</svg>
+                        <a itemprop="url" title="Symfony" href="https://grafikart.fr/tutoriels/symfony">
+          <span itemprop="title">Symfony</span>
+        </a>
+                            <svg class="icon icon-breadcrumb">
+  <use xlink:href="/sprite.svg?logo#breadcrumb"></use>
+</svg>
+              <a itemprop="url" title="Créer un filtre produit" href="https://grafikart.fr/tutoriels/filtre-produit-symfony-1211">
+      <span itemprop="title">Créer un filtre produit</span>
+    </a>
+          </div>
+
+    </div>
+
+    <h1 class="container mb3 h1">
+      <span class="hidden">Tutoriel Symfony : </span>Créer un filtre produit
+    </h1>
+
+    <div class="container">
+          </div>
+
+    <div class="container ">
+            <progress-tracker contentid="1211" data-history="1211" duration="4067">
+        <youtube-player class="course__player" id="course-1211" video="4uYpFjfUUbc" poster="/media/resize/1330/750/uploads/attachments/2019/background-1211-600a91d70271e469931980.jpg?s=f99730737af2e0f91f0876cc983dfcbe" button="#chapter1211 play-button" duration="1h08">
+          <a href="https://www.youtube.com/watch?v=4uYpFjfUUbc" target="_blank" rel="noopener" class="course__placeholder">
+            <span>Voir la vidéo</span>
+            <img src="./Tutoriel vidéo Symfony _ Créer un filtre produit _ Grafikart_files/background-1211-600a91d70271e469931980.jpg" width="1330" height="750">
+          </a>
+        </youtube-player>
+      </progress-tracker>
+                </div>
+
+    <div class="container">
+
+      <div class="course-actions py3">
+        <div>
+                    <a href="https://grafikart.fr/tutoriels?level=1" class="pill pill-yellow ">
+  Amateur
+</a>
+        </div>
+        <div>
+                                <a href="https://grafikart.fr/tutoriels/1211/sources" class="pill" data-turbolinks="false">
+              <svg class="icon icon-lines">
+  <use xlink:href="/sprite.svg?logo#lines"></use>
+</svg>
+              Télécharger les sources
+            </a>
+                    <a href="https://grafikart.fr/tutoriels/1211/video" class="pill" data-turbolinks="false">
+            <svg class="icon icon-video">
+  <use xlink:href="/sprite.svg?logo#video"></use>
+</svg>
+            Télécharger la vidéo
+          </a>
+        </div>
+      </div>
+    </div>
+
+    <div class="course-page">
+
+      
+      <div class="container py5" id="content">
+
+        <div class="layout-sidebar">
+          <div class="stack">
+
+            <div class="h2" aria-hidden="true">À propos de ce tutoriel</div>
+
+            
+            <div class="formatted">
+              <p>Dans cette vidéo je vous propose de découvrir ensemble comment créer un système de filtre produit sur le framework Symfony. l'objectif est de permettre à l'utilisateur de sélectionner les produits en fonction des différentes catégories, d'un prix minimum et maximum et de pouvoir organiser les produits par prix ou par  promotion.</p>
+<p>Ce tutoriel sera suivi par un autre tutoriel consacré à la mise en place d'un filtre dynamique en utilisant du JavaScript (ce qui permettra de rafraîchir le listing produits sans forcément avoir besoin de soumettre le formulaire ou de recharger la page).</p>
+<h2>Le filtre de recherche</h2>
+<p>Le point clé de notre système est la conception du filtre qui va permettre à l'utilisateur de rechercher les produits. Pour créer ce système on va commencer par créer un objet qui va représenter les données de la recherche. Cet objet sera un simple objet PHP qui aura comme propriété les différentes options de recherche.</p>
+<pre class="with-syntax"><code class="language-php hljs"><span class="hljs-meta">&lt;?php</span>
+<span class="hljs-keyword">namespace</span> <span class="hljs-title">App</span>\<span class="hljs-title">Data</span>;
+
+<span class="hljs-keyword">use</span> <span class="hljs-title">App</span>\<span class="hljs-title">Entity</span>\<span class="hljs-title">Category</span>;
+
+<span class="hljs-class"><span class="hljs-keyword">class</span> <span class="hljs-title">SearchData</span>
+</span>{
+
+    <span class="hljs-comment">/**
+     * <span class="hljs-doctag">@var</span> int
+     */</span>
+    <span class="hljs-keyword">public</span> $page = <span class="hljs-number">1</span>;
+
+    <span class="hljs-comment">/**
+     * <span class="hljs-doctag">@var</span> string
+     */</span>
+    <span class="hljs-keyword">public</span> $q = <span class="hljs-string">''</span>;
+
+    <span class="hljs-comment">/**
+     * <span class="hljs-doctag">@var</span> Category[]
+     */</span>
+    <span class="hljs-keyword">public</span> $categories = [];
+
+    <span class="hljs-comment">/**
+     * <span class="hljs-doctag">@var</span> null|integer
+     */</span>
+    <span class="hljs-keyword">public</span> $max;
+
+    <span class="hljs-comment">/**
+     * <span class="hljs-doctag">@var</span> null|integer
+     */</span>
+    <span class="hljs-keyword">public</span> $min;
+
+    <span class="hljs-comment">/**
+     * <span class="hljs-doctag">@var</span> boolean
+     */</span>
+    <span class="hljs-keyword">public</span> $promo = <span class="hljs-keyword">false</span>;
+
+}</code></pre>
+<p>La création d'un tel objet permet de connaître la forme des paramètres qui seront passés au système de recherche (par rapport à l'utilisation d'un simple tableau).<br>
+Ensuite il va nous falloir créer le formulaire qui va permettre de remplir notre recherche :</p>
+<pre class="with-syntax"><code class="language-php hljs"><span class="hljs-meta">&lt;?php</span>
+
+<span class="hljs-keyword">namespace</span> <span class="hljs-title">App</span>\<span class="hljs-title">Form</span>;
+
+<span class="hljs-keyword">use</span> <span class="hljs-title">App</span>\<span class="hljs-title">Data</span>\<span class="hljs-title">SearchData</span>;
+<span class="hljs-keyword">use</span> <span class="hljs-title">App</span>\<span class="hljs-title">Entity</span>\<span class="hljs-title">Category</span>;
+<span class="hljs-keyword">use</span> <span class="hljs-title">Symfony</span>\<span class="hljs-title">Bridge</span>\<span class="hljs-title">Doctrine</span>\<span class="hljs-title">Form</span>\<span class="hljs-title">Type</span>\<span class="hljs-title">EntityType</span>;
+<span class="hljs-keyword">use</span> <span class="hljs-title">Symfony</span>\<span class="hljs-title">Component</span>\<span class="hljs-title">Form</span>\<span class="hljs-title">AbstractType</span>;
+<span class="hljs-keyword">use</span> <span class="hljs-title">Symfony</span>\<span class="hljs-title">Component</span>\<span class="hljs-title">Form</span>\<span class="hljs-title">Extension</span>\<span class="hljs-title">Core</span>\<span class="hljs-title">Type</span>\<span class="hljs-title">CheckboxType</span>;
+<span class="hljs-keyword">use</span> <span class="hljs-title">Symfony</span>\<span class="hljs-title">Component</span>\<span class="hljs-title">Form</span>\<span class="hljs-title">Extension</span>\<span class="hljs-title">Core</span>\<span class="hljs-title">Type</span>\<span class="hljs-title">NumberType</span>;
+<span class="hljs-keyword">use</span> <span class="hljs-title">Symfony</span>\<span class="hljs-title">Component</span>\<span class="hljs-title">Form</span>\<span class="hljs-title">Extension</span>\<span class="hljs-title">Core</span>\<span class="hljs-title">Type</span>\<span class="hljs-title">TextType</span>;
+<span class="hljs-keyword">use</span> <span class="hljs-title">Symfony</span>\<span class="hljs-title">Component</span>\<span class="hljs-title">Form</span>\<span class="hljs-title">FormBuilderInterface</span>;
+<span class="hljs-keyword">use</span> <span class="hljs-title">Symfony</span>\<span class="hljs-title">Component</span>\<span class="hljs-title">OptionsResolver</span>\<span class="hljs-title">OptionsResolver</span>;
+
+<span class="hljs-class"><span class="hljs-keyword">class</span> <span class="hljs-title">SearchForm</span> <span class="hljs-keyword">extends</span> <span class="hljs-title">AbstractType</span>
+</span>{
+
+    <span class="hljs-keyword">public</span> <span class="hljs-function"><span class="hljs-keyword">function</span> <span class="hljs-title">buildForm</span><span class="hljs-params">(FormBuilderInterface $builder, array $options)</span>
+    </span>{
+        $builder
+            -&gt;add(<span class="hljs-string">'q'</span>, TextType::class, [
+                <span class="hljs-string">'label'</span> =&gt; <span class="hljs-keyword">false</span>,
+                <span class="hljs-string">'required'</span> =&gt; <span class="hljs-keyword">false</span>,
+                <span class="hljs-string">'attr'</span> =&gt; [
+                    <span class="hljs-string">'placeholder'</span> =&gt; <span class="hljs-string">'Rechercher'</span>
+                ]
+            ])
+            -&gt;add(<span class="hljs-string">'categories'</span>, EntityType::class, [
+                <span class="hljs-string">'label'</span> =&gt; <span class="hljs-keyword">false</span>,
+                <span class="hljs-string">'required'</span> =&gt; <span class="hljs-keyword">false</span>,
+                <span class="hljs-string">'class'</span> =&gt; Category::class,
+                <span class="hljs-string">'expanded'</span> =&gt; <span class="hljs-keyword">true</span>,
+                <span class="hljs-string">'multiple'</span> =&gt; <span class="hljs-keyword">true</span>
+            ])
+            -&gt;add(<span class="hljs-string">'min'</span>, NumberType::class, [
+                <span class="hljs-string">'label'</span> =&gt; <span class="hljs-keyword">false</span>,
+                <span class="hljs-string">'required'</span> =&gt; <span class="hljs-keyword">false</span>,
+                <span class="hljs-string">'attr'</span> =&gt; [
+                    <span class="hljs-string">'placeholder'</span> =&gt; <span class="hljs-string">'Prix min'</span>
+                ]
+            ])
+            -&gt;add(<span class="hljs-string">'max'</span>, NumberType::class, [
+                <span class="hljs-string">'label'</span> =&gt; <span class="hljs-keyword">false</span>,
+                <span class="hljs-string">'required'</span> =&gt; <span class="hljs-keyword">false</span>,
+                <span class="hljs-string">'attr'</span> =&gt; [
+                    <span class="hljs-string">'placeholder'</span> =&gt; <span class="hljs-string">'Prix max'</span>
+                ]
+            ])
+            -&gt;add(<span class="hljs-string">'promo'</span>, CheckboxType::class, [
+                <span class="hljs-string">'label'</span> =&gt; <span class="hljs-string">'En promotion'</span>,
+                <span class="hljs-string">'required'</span> =&gt; <span class="hljs-keyword">false</span>,
+            ])
+        ;
+    }
+
+    <span class="hljs-keyword">public</span> <span class="hljs-function"><span class="hljs-keyword">function</span> <span class="hljs-title">configureOptions</span><span class="hljs-params">(OptionsResolver $resolver)</span>
+    </span>{
+        $resolver-&gt;setDefaults([
+            <span class="hljs-string">'data_class'</span> =&gt; SearchData::class,
+            <span class="hljs-string">'method'</span> =&gt; <span class="hljs-string">'GET'</span>,
+            <span class="hljs-string">'csrf_protection'</span> =&gt; <span class="hljs-keyword">false</span>
+        ]);
+    }
+
+    <span class="hljs-keyword">public</span> <span class="hljs-function"><span class="hljs-keyword">function</span> <span class="hljs-title">getBlockPrefix</span><span class="hljs-params">()</span>
+    </span>{
+        <span class="hljs-keyword">return</span> <span class="hljs-string">''</span>;
+    }
+
+}</code></pre>
+<p>L'avantage est ici que l'on peut se reposer sur les types de champs offerts par Symfony pour avoir directement les filtres nécessaires. On notera l'utilisation d'une méthode GET qui permettra de passer les paramètres dans l'url et la méthode <code>getBlockPrefix()</code> qui permet de retirer le préfixe afin d'avoir des paramètres les plus simple possible.</p>
+<h2>Traitement de la recherche</h2>
+<p>Le traitement de la recherche va se faire simplement au niveau du controller grâce à l'utilisation de la classe de formulaire que l'on a créé précédemment.</p>
+<pre class="with-syntax"><code class="language-php hljs">
+    <span class="hljs-comment">/**
+     * <span class="hljs-doctag">@Route</span>("/", name="product")
+     */</span>
+    <span class="hljs-keyword">public</span> <span class="hljs-function"><span class="hljs-keyword">function</span> <span class="hljs-title">index</span><span class="hljs-params">(ProductRepository $repository, Request $request)</span>
+    </span>{
+        $data = <span class="hljs-keyword">new</span> SearchData();
+        $data-&gt;page = $request-&gt;get(<span class="hljs-string">'page'</span>, <span class="hljs-number">1</span>);
+        $form = <span class="hljs-keyword">$this</span>-&gt;createForm(SearchForm::class, $data);
+        $form-&gt;handleRequest($request);
+        $products = $repository-&gt;findSearch($data);
+        <span class="hljs-keyword">return</span> <span class="hljs-keyword">$this</span>-&gt;render(<span class="hljs-string">'product/index.html.twig'</span>, [
+            <span class="hljs-string">'products'</span> =&gt; $products,
+            <span class="hljs-string">'form'</span> =&gt; $form-&gt;createView()
+        ]);
+    }</code></pre>
+<p>L'avantage est que l'on peut maintenant envoyer l'objet représentant notre recherche à notre repository afin d'effectuer la recherche de produits.</p>
+<pre class="with-syntax"><code class="language-php hljs">    <span class="hljs-comment">/**
+     * Récupère les produits en lien avec une recherche
+     * <span class="hljs-doctag">@return</span> PaginationInterface
+     */</span>
+    <span class="hljs-keyword">public</span> <span class="hljs-function"><span class="hljs-keyword">function</span> <span class="hljs-title">findSearch</span><span class="hljs-params">(SearchData $search)</span>: <span class="hljs-title">PaginationInterface</span>
+    </span>{
+
+        $query = <span class="hljs-keyword">$this</span>
+            -&gt;createQueryBuilder(<span class="hljs-string">'p'</span>)
+            -&gt;select(<span class="hljs-string">'c'</span>, <span class="hljs-string">'p'</span>)
+            -&gt;join(<span class="hljs-string">'p.categories'</span>, <span class="hljs-string">'c'</span>);
+
+        <span class="hljs-keyword">if</span> (!<span class="hljs-keyword">empty</span>($search-&gt;q)) {
+            $query = $query
+                -&gt;andWhere(<span class="hljs-string">'p.name LIKE :q'</span>)
+                -&gt;setParameter(<span class="hljs-string">'q'</span>, <span class="hljs-string">"%{$search-&gt;q}%"</span>);
+        }
+
+        <span class="hljs-keyword">if</span> (!<span class="hljs-keyword">empty</span>($search-&gt;min)) {
+            $query = $query
+                -&gt;andWhere(<span class="hljs-string">'p.price &gt;= :min'</span>)
+                -&gt;setParameter(<span class="hljs-string">'min'</span>, $search-&gt;min);
+        }
+
+        <span class="hljs-keyword">if</span> (!<span class="hljs-keyword">empty</span>($search-&gt;max)) {
+            $query = $query
+                -&gt;andWhere(<span class="hljs-string">'p.price &lt;= :max'</span>)
+                -&gt;setParameter(<span class="hljs-string">'max'</span>, $search-&gt;max);
+        }
+
+        <span class="hljs-keyword">if</span> (!<span class="hljs-keyword">empty</span>($search-&gt;promo)) {
+            $query = $query
+                -&gt;andWhere(<span class="hljs-string">'p.promo = 1'</span>);
+        }
+
+        <span class="hljs-keyword">if</span> (!<span class="hljs-keyword">empty</span>($search-&gt;categories)) {
+            $query = $query
+                -&gt;andWhere(<span class="hljs-string">'c.id IN (:categories)'</span>)
+                -&gt;setParameter(<span class="hljs-string">'categories'</span>, $search-&gt;categories);
+        }
+
+        <span class="hljs-keyword">return</span> <span class="hljs-keyword">$this</span>-&gt;paginator-&gt;paginate(
+            $query,
+            $search-&gt;page,
+            <span class="hljs-number">9</span>
+        );
+    }
+
+    <span class="hljs-keyword">private</span> <span class="hljs-function"><span class="hljs-keyword">function</span> <span class="hljs-title">getSearchQuery</span><span class="hljs-params">(SearchData $search, $ignorePrice = false)</span>: <span class="hljs-title">QueryBuilder</span>
+    </span>{
+    }</code></pre>
+<p>Notre recherche étant relativement complexe et pouvant contenir plusieurs paramètres on va préférer mettre en place une requête personnalisée plutôt que de se reposer sur ce qui est offert par défaut par le bundle paginator. En revanche pour la partie organisation des contenus on laissera <a href="https://github.com/KnpLabs/KnpPaginatorBundle">KnpPaginatorBundle</a> gérer les choses.</p>
+<h2>Le filtre prix</h2>
+<p>Pour offrir une interface utilisateur plus agréable au niveau de la sélection des prix on va utiliser un système de slider. Ce système permettra à l'utilisateur de changer le prix minimum et le prix maximum par simple glisser déposer. </p>
+<pre class="with-syntax"><code class="language-js hljs javascript"><span class="hljs-keyword">import</span> noUiSlider <span class="hljs-keyword">from</span> <span class="hljs-string">'nouislider'</span>
+<span class="hljs-keyword">import</span> <span class="hljs-string">'nouislider/distribute/nouislider.css'</span>
+
+<span class="hljs-keyword">const</span> slider = <span class="hljs-built_in">document</span>.getElementById(<span class="hljs-string">'price-slider'</span>)
+
+<span class="hljs-keyword">if</span> (slider) {
+    <span class="hljs-keyword">const</span> min = <span class="hljs-built_in">document</span>.getElementById(<span class="hljs-string">'min'</span>)
+    <span class="hljs-keyword">const</span> max = <span class="hljs-built_in">document</span>.getElementById(<span class="hljs-string">'max'</span>)
+    <span class="hljs-keyword">const</span> minValue = <span class="hljs-built_in">Math</span>.floor(<span class="hljs-built_in">parseInt</span>(slider.dataset.min, <span class="hljs-number">10</span>) / <span class="hljs-number">10</span>) * <span class="hljs-number">10</span>
+    <span class="hljs-keyword">const</span> maxValue = <span class="hljs-built_in">Math</span>.ceil(<span class="hljs-built_in">parseInt</span>(slider.dataset.max, <span class="hljs-number">10</span>) / <span class="hljs-number">10</span>) * <span class="hljs-number">10</span>
+    <span class="hljs-keyword">const</span> range = noUiSlider.create(slider, {
+        <span class="hljs-attr">start</span>: [min.value || minValue, max.value || maxValue],
+        <span class="hljs-attr">connect</span>: <span class="hljs-literal">true</span>,
+        <span class="hljs-attr">step</span>: <span class="hljs-number">10</span>,
+        <span class="hljs-attr">range</span>: {
+            <span class="hljs-string">'min'</span>: minValue,
+            <span class="hljs-string">'max'</span>: maxValue
+        }
+    })
+    range.on(<span class="hljs-string">'slide'</span>, <span class="hljs-function"><span class="hljs-keyword">function</span> (<span class="hljs-params">values, handle</span>) </span>{
+        <span class="hljs-keyword">if</span> (handle === <span class="hljs-number">0</span>) {
+            min.value = <span class="hljs-built_in">Math</span>.round(values[<span class="hljs-number">0</span>])
+        }
+        <span class="hljs-keyword">if</span> (handle === <span class="hljs-number">1</span>) {
+            max.value = <span class="hljs-built_in">Math</span>.round(values[<span class="hljs-number">1</span>])
+        }
+    })
+    range.on(<span class="hljs-string">'end'</span>, <span class="hljs-function"><span class="hljs-keyword">function</span> (<span class="hljs-params">values, handle</span>) </span>{
+        <span class="hljs-keyword">if</span> (handle===<span class="hljs-number">0</span>) {
+            min.dispatchEvent(<span class="hljs-keyword">new</span> Event(<span class="hljs-string">'change'</span>))
+        } <span class="hljs-keyword">else</span> {
+            max.dispatchEvent(<span class="hljs-keyword">new</span> Event(<span class="hljs-string">'change'</span>))
+        }
+    })
+}</code></pre>
+<p>Le problème est qu'il nous faut alors trouver le prix minimum et le prix maximum de notre listing produit. On peut se reposer pour cela sur la recherche que l'on a déjà effectué (en retirant les critères liés au prix). Ceci nous permettra d'extraire un prix minimum et un prix maximum que l'on pourra utiliser au niveau de notre slider. </p>
+<pre class="with-syntax"><code class="language-php hljs">    <span class="hljs-comment">/**
+     * Récupère les produits en lien avec une recherche
+     * <span class="hljs-doctag">@return</span> PaginationInterface
+     */</span>
+    <span class="hljs-keyword">public</span> <span class="hljs-function"><span class="hljs-keyword">function</span> <span class="hljs-title">findSearch</span><span class="hljs-params">(SearchData $search)</span>: <span class="hljs-title">PaginationInterface</span>
+    </span>{
+        $query = <span class="hljs-keyword">$this</span>-&gt;getSearchQuery($search)-&gt;getQuery();
+        <span class="hljs-keyword">return</span> <span class="hljs-keyword">$this</span>-&gt;paginator-&gt;paginate(
+            $query,
+            $search-&gt;page,
+            <span class="hljs-number">9</span>
+        );
+    }
+
+    <span class="hljs-comment">/**
+     * Récupère le prix minimum et maximum correspondant à une recherche
+     * <span class="hljs-doctag">@return</span> integer[]
+     */</span>
+    <span class="hljs-keyword">public</span> <span class="hljs-function"><span class="hljs-keyword">function</span> <span class="hljs-title">findMinMax</span><span class="hljs-params">(SearchData $search)</span>: <span class="hljs-title">array</span>
+    </span>{
+        $results = <span class="hljs-keyword">$this</span>-&gt;getSearchQuery($search, <span class="hljs-keyword">true</span>)
+            -&gt;select(<span class="hljs-string">'MIN(p.price) as min'</span>, <span class="hljs-string">'MAX(p.price) as max'</span>)
+            -&gt;getQuery()
+            -&gt;getScalarResult();
+        <span class="hljs-keyword">return</span> [(int)$results[<span class="hljs-number">0</span>][<span class="hljs-string">'min'</span>], (int)$results[<span class="hljs-number">0</span>][<span class="hljs-string">'max'</span>]];
+    }
+
+    <span class="hljs-keyword">private</span> <span class="hljs-function"><span class="hljs-keyword">function</span> <span class="hljs-title">getSearchQuery</span><span class="hljs-params">(SearchData $search, $ignorePrice = false)</span>: <span class="hljs-title">QueryBuilder</span>
+    </span>{
+        $query = <span class="hljs-keyword">$this</span>
+            -&gt;createQueryBuilder(<span class="hljs-string">'p'</span>)
+            -&gt;select(<span class="hljs-string">'c'</span>, <span class="hljs-string">'p'</span>)
+            -&gt;join(<span class="hljs-string">'p.categories'</span>, <span class="hljs-string">'c'</span>);
+
+        <span class="hljs-keyword">if</span> (!<span class="hljs-keyword">empty</span>($search-&gt;q)) {
+            $query = $query
+                -&gt;andWhere(<span class="hljs-string">'p.name LIKE :q'</span>)
+                -&gt;setParameter(<span class="hljs-string">'q'</span>, <span class="hljs-string">"%{$search-&gt;q}%"</span>);
+        }
+
+        <span class="hljs-keyword">if</span> (!<span class="hljs-keyword">empty</span>($search-&gt;min) &amp;&amp; $ignorePrice === <span class="hljs-keyword">false</span>) {
+            $query = $query
+                -&gt;andWhere(<span class="hljs-string">'p.price &gt;= :min'</span>)
+                -&gt;setParameter(<span class="hljs-string">'min'</span>, $search-&gt;min);
+        }
+
+        <span class="hljs-keyword">if</span> (!<span class="hljs-keyword">empty</span>($search-&gt;max) &amp;&amp; $ignorePrice === <span class="hljs-keyword">false</span>) {
+            $query = $query
+                -&gt;andWhere(<span class="hljs-string">'p.price &lt;= :max'</span>)
+                -&gt;setParameter(<span class="hljs-string">'max'</span>, $search-&gt;max);
+        }
+
+        <span class="hljs-keyword">if</span> (!<span class="hljs-keyword">empty</span>($search-&gt;promo)) {
+            $query = $query
+                -&gt;andWhere(<span class="hljs-string">'p.promo = 1'</span>);
+        }
+
+        <span class="hljs-keyword">if</span> (!<span class="hljs-keyword">empty</span>($search-&gt;categories)) {
+            $query = $query
+                -&gt;andWhere(<span class="hljs-string">'c.id IN (:categories)'</span>)
+                -&gt;setParameter(<span class="hljs-string">'categories'</span>, $search-&gt;categories);
+        }
+
+        <span class="hljs-keyword">return</span> $query;
+    }</code></pre>
+<p>Et on utilise les attributs "data" pour envoyer ces informations à notre javascript.</p>
+<pre class="with-syntax"><code class="language-html hljs xml">{{ form_start(form, {attr: {class: 'filter js-filter-form'}}) }}
+
+  <span class="hljs-tag">&lt;<span class="hljs-name">div</span> <span class="hljs-attr">class</span>=<span class="hljs-string">"spinner-border js-loading"</span> <span class="hljs-attr">role</span>=<span class="hljs-string">"status"</span> <span class="hljs-attr">aria-hidden</span>=<span class="hljs-string">"true"</span> <span class="hljs-attr">style</span>=<span class="hljs-string">"display: none"</span>&gt;</span>
+    <span class="hljs-tag">&lt;<span class="hljs-name">span</span> <span class="hljs-attr">class</span>=<span class="hljs-string">"sr-only"</span>&gt;</span>Loading...<span class="hljs-tag">&lt;/<span class="hljs-name">span</span>&gt;</span>
+  <span class="hljs-tag">&lt;/<span class="hljs-name">div</span>&gt;</span>
+
+  {{ form_row(form.q) }}
+
+  <span class="hljs-tag">&lt;<span class="hljs-name">h4</span>&gt;</span>Catégories<span class="hljs-tag">&lt;/<span class="hljs-name">h4</span>&gt;</span>
+  {{ form_row(form.categories) }}
+
+  <span class="hljs-tag">&lt;<span class="hljs-name">h4</span>&gt;</span>Prix<span class="hljs-tag">&lt;/<span class="hljs-name">h4</span>&gt;</span>
+  <span class="hljs-tag">&lt;<span class="hljs-name">div</span> <span class="hljs-attr">class</span>=<span class="hljs-string">"row"</span>&gt;</span>
+    <span class="hljs-tag">&lt;<span class="hljs-name">div</span> <span class="hljs-attr">class</span>=<span class="hljs-string">"col-md-6"</span>&gt;</span>
+      {{ form_row(form.min) }}
+    <span class="hljs-tag">&lt;/<span class="hljs-name">div</span>&gt;</span>
+    <span class="hljs-tag">&lt;<span class="hljs-name">div</span> <span class="hljs-attr">class</span>=<span class="hljs-string">"col-md-6"</span>&gt;</span>
+      {{ form_row(form.max) }}
+    <span class="hljs-tag">&lt;/<span class="hljs-name">div</span>&gt;</span>
+  <span class="hljs-tag">&lt;/<span class="hljs-name">div</span>&gt;</span>
+  <span class="hljs-tag">&lt;<span class="hljs-name">div</span> <span class="hljs-attr">id</span>=<span class="hljs-string">"price-slider"</span> <span class="hljs-attr">data-min</span>=<span class="hljs-string">"{{ min }}"</span> <span class="hljs-attr">data-max</span>=<span class="hljs-string">"{{ max }}"</span> <span class="hljs-attr">style</span>=<span class="hljs-string">"margin-bottom: 3rem;"</span>&gt;</span><span class="hljs-tag">&lt;/<span class="hljs-name">div</span>&gt;</span>
+
+  <span class="hljs-tag">&lt;<span class="hljs-name">h4</span>&gt;</span>Promotions<span class="hljs-tag">&lt;/<span class="hljs-name">h4</span>&gt;</span>
+  {{ form_row(form.promo) }}
+
+<span class="hljs-tag">&lt;<span class="hljs-name">button</span> <span class="hljs-attr">type</span>=<span class="hljs-string">"submit"</span> <span class="hljs-attr">class</span>=<span class="hljs-string">"btn btn-primary w-100"</span>&gt;</span>Filtrer<span class="hljs-tag">&lt;/<span class="hljs-name">button</span>&gt;</span>
+
+{{ form_end(form) }}</code></pre>
+            </div>
+
+            <comments-area target="1211"><div class="comment-area"><div class="comments__title">11 commentaires</div><form class="grid"><div class="form-group "><label for="username">Nom d'utilisateur</label><input name="username" id="username" class="" type="text" required=""></div><div class="full"><div class="form-group "><label for="content">Votre message</label><textarea name="content" id="content" class="" type="textarea" required=""></textarea></div></div><div class="hstack"><button class="btn btn-primary " type="submit">Envoyer</button></div></form><hr><div class="comment-list"><div class="comment" id="c55752"><img src="./Tutoriel vidéo Symfony _ Créer un filtre produit _ Grafikart_files/default.png" alt="" class="comment__avatar"><div class="comment__meta"><div class="comment__author">Denny</div><div class="comment__actions"><a class="comment__date" href="https://grafikart.fr/tutoriels/filtre-produit-symfony-1211#c55752"><time-ago time="1644583210">Il y a 4 mois</time-ago></a><a href="https://grafikart.fr/tutoriels/filtre-produit-symfony-1211#c55752"><svg class="icon icon-reply"><use href="/sprite.svg#reply"></use></svg>Répondre</a></div></div><div class="comment__content"><div class="formatted"><p>Merci pour ce tuto. Vraiment top, je pense le mettre en place sous peu.
+Petite question, il fonctionne aussi avec le match against?
+Si ce n'est pas le cas,  je testerai avec des jointures etc...</p><p>Merci</p></div></div><div class="comment__replies"></div></div><div class="comment" id="c52024"><img src="./Tutoriel vidéo Symfony _ Créer un filtre produit _ Grafikart_files/default.png" alt="" class="comment__avatar"><div class="comment__meta"><div class="comment__author">oumou</div><div class="comment__actions"><a class="comment__date" href="https://grafikart.fr/tutoriels/filtre-produit-symfony-1211#c52024"><time-ago time="1615156567">Il y a environ un an</time-ago></a><a href="https://grafikart.fr/tutoriels/filtre-produit-symfony-1211#c52024"><svg class="icon icon-reply"><use href="/sprite.svg#reply"></use></svg>Répondre</a></div></div><div class="comment__content"><div class="formatted"><p>Bonjour, je ne sais pas si quelqu'un suit encore ce tuto mais je rencontre un petit problème. Au moment d'envoyer les prix min et max qu'on récupère avec le fonction findMinMax dans la vue twig du le controller. J'ai cette erreur : Notice: Undefined variable: min je ne sais pas pourquoi pourtant je suis le tuto à la lettre mais impossible de savoir pourquoi, si quelqu'un aurait une idée ?
+ je mets le bout du code du controller : 
+if ($form-&gt;isSubmitted() &amp;&amp; $form-&gt;isValid()) {
+         $products = $this-&gt;entityManager-&gt;getRepository(Product::class)-&gt;findWithSearch($search);
+         [$min, $max] = $this-&gt;entityManager-&gt;getRepository(Product::class)-&gt;findMinMax($search);
+      } else {
+         $products = $this-&gt;entityManager-&gt;getRepository(Product::class)-&gt;findAll();
+      }
+      return $this-&gt;render('product/index.html.twig', [
+          'products' =&gt; $products,
+         'form' =&gt; $form-&gt;createView(),
+         'min' =&gt; $min,
+         'max' =&gt; $max
+      ]);</p><p>Merci d'avance et bonne journée</p></div></div><div class="comment__replies"></div></div><div class="comment" id="c50132"><img src="./Tutoriel vidéo Symfony _ Créer un filtre produit _ Grafikart_files/default.png" alt="" class="comment__avatar"><div class="comment__meta"><div class="comment__author">souad</div><div class="comment__actions"><a class="comment__date" href="https://grafikart.fr/tutoriels/filtre-produit-symfony-1211#c50132"><time-ago time="1584827734">Il y a 2 ans</time-ago></a><a href="https://grafikart.fr/tutoriels/filtre-produit-symfony-1211#c50132"><svg class="icon icon-reply"><use href="/sprite.svg#reply"></use></svg>Répondre</a></div></div><div class="comment__content"><div class="formatted"><p>bonjour, j'ai fait pareil mais j'ai un problème de ce genre 
+Case mismatch between loaded and declared class names: "App\data\searchData" vs "App\Data\SearchData" in D:\Xampp\htdocs\formation\test\mon_blog\config/services.yaml (which is loaded in resource "D:\Xampp\htdocs\formation\test\mon_blog\config/services.yaml").</p></div></div><div class="comment__replies"></div></div><div class="comment" id="c49905"><img src="./Tutoriel vidéo Symfony _ Créer un filtre produit _ Grafikart_files/default.png" alt="" class="comment__avatar"><div class="comment__meta"><div class="comment__author">laben</div><div class="comment__actions"><a class="comment__date" href="https://grafikart.fr/tutoriels/filtre-produit-symfony-1211#c49905"><time-ago time="1580229734">Il y a 2 ans</time-ago></a><a href="https://grafikart.fr/tutoriels/filtre-produit-symfony-1211#c49905"><svg class="icon icon-reply"><use href="/sprite.svg#reply"></use></svg>Répondre</a></div></div><div class="comment__content"><div class="formatted"><p>Pourquoi lorsque j’exécute ces commande:
+                   php bin/console doctrine:schema:update --force
+ et :
+           php bin/console hautelook:fixtures:load</p><p>je n'ai pas un fichier databasesqlite avec le logo alors que je suis sur Intellij
+Le résultat le fichier créer n'est pas en Sqlite
+De plus je n'ai pu installer comme pluggin que DB Browser et comment ouvrir sa base de données
+Merci d'avance</p></div></div><div class="comment__replies"></div></div><div class="comment" id="c49775"><img src="./Tutoriel vidéo Symfony _ Créer un filtre produit _ Grafikart_files/default.png" alt="" class="comment__avatar"><div class="comment__meta"><div class="comment__author">chris</div><div class="comment__actions"><a class="comment__date" href="https://grafikart.fr/tutoriels/filtre-produit-symfony-1211#c49775"><time-ago time="1577301662">Il y a 2 ans</time-ago></a><a href="https://grafikart.fr/tutoriels/filtre-produit-symfony-1211#c49775"><svg class="icon icon-reply"><use href="/sprite.svg#reply"></use></svg>Répondre</a></div></div><div class="comment__content"><div class="formatted"><p>Bonjour, j'ai un problème avec la commande php bin/console make:entity Category qui ne marche je reçois "Aborted", aider moi SVP!</p></div></div><div class="comment__replies"></div></div><div class="comment" id="c49727"><img src="./Tutoriel vidéo Symfony _ Créer un filtre produit _ Grafikart_files/default.png" alt="" class="comment__avatar"><div class="comment__meta"><div class="comment__author">Laurent MICHEL</div><div class="comment__actions"><a class="comment__date" href="https://grafikart.fr/tutoriels/filtre-produit-symfony-1211#c49727"><time-ago time="1576497841">Il y a 2 ans</time-ago></a><a href="https://grafikart.fr/tutoriels/filtre-produit-symfony-1211#c49727"><svg class="icon icon-reply"><use href="/sprite.svg#reply"></use></svg>Répondre</a></div></div><div class="comment__content"><div class="formatted"><p>Bonjour,</p><p>Très bonne vidéo comme d'habitude.</p><p>J'ai juste deux petites questions.</p><p>Lorsqu'on sélectionne une catégorie, on voit que sur les cartes des produits, il n'y a plus que la catégorie sélectionnée. Comment peut-on faire pour que toutes les catégories soient quand même affichées ?</p><p>Ensuite, lorsque l'on sélectionne deux catégories, on obtient des produits qui ont au moins une des catégories sélectionnées.
+Comment peut-on faire en sorte que cela n'affiche que les produits qui ont les deux catégories sélectionnées ?</p><p>Merci beaucoup.</p></div></div><div class="comment__replies"><div class="comment" id="c51178"><img src="./Tutoriel vidéo Symfony _ Créer un filtre produit _ Grafikart_files/default.png" alt="" class="comment__avatar"><div class="comment__meta"><div class="comment__author">Arnaud</div><div class="comment__actions"><a class="comment__date" href="https://grafikart.fr/tutoriels/filtre-produit-symfony-1211#c51178"><time-ago time="1601461904">Il y a 2 ans</time-ago></a><a href="https://grafikart.fr/tutoriels/filtre-produit-symfony-1211#c51178"><svg class="icon icon-reply"><use href="/sprite.svg#reply"></use></svg>Répondre</a></div></div><div class="comment__content"><div class="formatted"><p>Bonjour,</p><p>Pour la première question, en enlevant la table categorie du select de la fonction getSearchQuery(), ça permet d'afficher toutes les catégories associés aux produits sur la vue.
+Par contre le nombre de requête augmente pas mal donc je pense pas que ça soit la meilleure solution.</p><p>-&gt;select('c', 'p')  devient -&gt;select('p')</p><p>Arnaud</p></div></div><div class="comment__replies"></div></div></div></div><div class="comment" id="c49702"><img src="./Tutoriel vidéo Symfony _ Créer un filtre produit _ Grafikart_files/35058.png" alt="" class="comment__avatar"><div class="comment__meta"><div class="comment__author">Alexandre P.</div><div class="comment__actions"><a class="comment__date" href="https://grafikart.fr/tutoriels/filtre-produit-symfony-1211#c49702"><time-ago time="1576070815">Il y a 3 ans</time-ago></a><a href="https://grafikart.fr/tutoriels/filtre-produit-symfony-1211#c49702"><svg class="icon icon-reply"><use href="/sprite.svg#reply"></use></svg>Répondre</a></div></div><div class="comment__content"><div class="formatted"><p>Bonjour,</p><p>Tout d'abord merci pour la vidéo, juste quelques points complémentaires pour aider sur Symfony.</p><ul><li><p>Après la génération de la migration avec Symfony, il est possible d'utiliser la commande <code>php bin/console doctrine:migrations:migrate</code> qui va mettre la base de donnée à jour et stocker la version de migration en base de donnée.</p></li><li><p>Depuis Symfony 4.3, l'installer de Symfony remplace le server:start qui a été supprimé en 4.4 avec la commande <code>symfony server:start</code> en plus de permettre de télécharger un nouveau projet Symfony</p></li><li><p>Pour le formulaire <code>SearchForm</code> il est possible de le créer avec la commande make même s'il est lié à aucune Entity (il y aura une question lors de la création) et pour le champ Catégories plutôt que de créer la méthode <code>_toString()</code>, il est possible d'ajouter le paramètre <code>choice_label</code> pour spécifier quel champ afficher.</p></li></ul></div></div><div class="comment__replies"></div></div><div class="comment" id="c49674"><img src="./Tutoriel vidéo Symfony _ Créer un filtre produit _ Grafikart_files/default.png" alt="" class="comment__avatar"><div class="comment__meta"><div class="comment__author">caema</div><div class="comment__actions"><a class="comment__date" href="https://grafikart.fr/tutoriels/filtre-produit-symfony-1211#c49674"><time-ago time="1575529993">Il y a 3 ans</time-ago></a><a href="https://grafikart.fr/tutoriels/filtre-produit-symfony-1211#c49674"><svg class="icon icon-reply"><use href="/sprite.svg#reply"></use></svg>Répondre</a></div></div><div class="comment__content"><div class="formatted"><p>Bonjour,</p><p>Suis-je la seule personne a rencontrer des soucis avec la pagination ?</p><p>Des que j'ajoute la ligne suivante {{ knp_pagination_render(products) }} dans ma vue index.html.twig, j'ai une erreur:</p><p><em>There are no registered paths for namespace "KnpPaginator"</em> </p><p>Il s'agit probablement d'un souci de version, je suis en Symfony 4.3.9 pour etre precise mais si je ne fais pas erreur, Grafikart est en 4.4 dans le tuto.</p></div></div><div class="comment__replies"><div class="comment" id="c49677"><img src="./Tutoriel vidéo Symfony _ Créer un filtre produit _ Grafikart_files/default.png" alt="" class="comment__avatar"><div class="comment__meta"><div class="comment__author">caema</div><div class="comment__actions"><a class="comment__date" href="https://grafikart.fr/tutoriels/filtre-produit-symfony-1211#c49677"><time-ago time="1575534245">Il y a 3 ans</time-ago></a><a href="https://grafikart.fr/tutoriels/filtre-produit-symfony-1211#c49677"><svg class="icon icon-reply"><use href="/sprite.svg#reply"></use></svg>Répondre</a></div></div><div class="comment__content"><div class="formatted"><p>Bon et bien apparement.. Update de mon projet en 4.4, et le probleme est resolu.</p></div></div><div class="comment__replies"></div></div></div></div><div class="comment" id="c49666"><img src="./Tutoriel vidéo Symfony _ Créer un filtre produit _ Grafikart_files/default.png" alt="" class="comment__avatar"><div class="comment__meta"><div class="comment__author">JS7</div><div class="comment__actions"><a class="comment__date" href="https://grafikart.fr/tutoriels/filtre-produit-symfony-1211#c49666"><time-ago time="1575401707">Il y a 3 ans</time-ago></a><a href="https://grafikart.fr/tutoriels/filtre-produit-symfony-1211#c49666"><svg class="icon icon-reply"><use href="/sprite.svg#reply"></use></svg>Répondre</a></div></div><div class="comment__content"><div class="formatted"><p>Tombé à pic, j'étais justement entrain de chercher à faire de l'ajax (bien documenté pour le coup) avec symfony, j'espère ce tuto fera l'affaire, Merci :)</p></div></div><div class="comment__replies"></div></div></div></div></comments-area>
+          </div>
+          <div>
+            <div class="stack-large">
+              <div class="text-right">
+                <small class="text-muted">
+                  Publié <time-ago time="1575374400">Il y a 3 ans</time-ago>
+                </small>
+              </div>
+              <div>
+                <div class="requirements__title">Technologies utilisées</div>
+                <div class="list-group">
+                                      <a class="flex" href="https://grafikart.fr/tutoriels/symfony">
+                      Symfony
+                                              <span class="badge">4.4</span>
+                                          </a>
+                                  </div>
+              </div>
+              <div>
+                <div class="flex">
+                  <img class="author_avatar" src="./Tutoriel vidéo Symfony _ Créer un filtre produit _ Grafikart_files/1.jpg" alt="" style="width: 50px;border-radius: 50px;">
+                  <div style="width: 100%; margin-left: 20px;">
+                    <strong style="font-weight: bold;">Auteur : </strong><br>
+                    <a title="Grafikart" class="author_name" href="https://grafikart.fr/profil/1">Grafikart</a>
+                  </div>
+                </div>
+              </div>
+              <div>
+                <div class="requirements__title">Partager</div>
+                <a href="https://twitter.com/intent/tweet?via=grafikart_fr&amp;tw_p=tweetbutton&amp;url=https%3A%2F%2Fgrafikart.fr%2Ftutoriels%2Ffiltre-produit-symfony-1211" is="social-share" target="_blank">
+                  <img src="./Tutoriel vidéo Symfony _ Créer un filtre produit _ Grafikart_files/twitter.svg" alt="">
+                </a>
+                <a href="https://www.facebook.com/sharer/sharer.php?u=https%3A%2F%2Fgrafikart.fr%2Ftutoriels%2Ffiltre-produit-symfony-1211" is="social-share" target="_blank">
+                  <img src="./Tutoriel vidéo Symfony _ Créer un filtre produit _ Grafikart_files/facebook.svg" alt="">
+                </a>
+              </div>
+              <div class="stack" style="--gap:1;">
+                <div>
+                  <a href="https://grafikart.fr/revision/1211" class="btn-secondary">
+                    <svg class="icon icon-edit">
+  <use xlink:href="/sprite.svg?logo#edit"></use>
+</svg>
+                    Proposer une correction
+                  </a>
+                </div>
+                                <admin-edit hidden=""></admin-edit>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+
+      
+    </div>
+  
+  
+  <footer class="footer">
+    <div>
+      <div class="footer-title">Me retrouver</div>
+      <p class="text-muted mb2">
+        Après avoir appris sur Internet quoi de plus normal que de partager à son tour ? Passionné par le web depuis un peu plus de 15 ans maintenant j'aime partager mes compétences et mes découvertes avec les personnes qui ont cette même passion pour le web
+      </p>
+      <div class="flex">
+        <div class="hstack">
+  <a href="http://feeds.feedburner.com/Grafikart" title="Flux RSS" target="_blank" rel="noreferrer">
+    <img src="./Tutoriel vidéo Symfony _ Créer un filtre produit _ Grafikart_files/rss.svg" alt="" loading="lazy">
+  </a>
+  <a href="https://github.com/grafikart" title="Github" target="_blank" rel="noreferrer">
+    <img src="./Tutoriel vidéo Symfony _ Créer un filtre produit _ Grafikart_files/github.svg" class="lighten-dark" alt="" loading="lazy">
+  </a>
+  <a href="https://www.youtube.com/user/grafikarttv?sub_confirmation=1" title="Youtube" target="_blank" rel="noreferrer">
+    <img src="./Tutoriel vidéo Symfony _ Créer un filtre produit _ Grafikart_files/youtube.svg" alt="" loading="lazy">
+  </a>
+  <a href="https://twitter.com/grafikart_fr" title="Twitter" target="_blank" rel="noreferrer">
+    <img src="./Tutoriel vidéo Symfony _ Créer un filtre produit _ Grafikart_files/twitter.svg" alt="" loading="lazy">
+  </a>
+  <a href="https://www.twitch.tv/grafikart" title="Twitch" target="_blank" rel="noreferrer">
+    <img src="./Tutoriel vidéo Symfony _ Créer un filtre produit _ Grafikart_files/twitch.svg" alt="" loading="lazy">
+  </a>
+</div>
+        <a href="https://www.infomaniak.com/goto/fr/hosting.managed-cloud?utm_term=59f74db50448d">
+          <img src="./Tutoriel vidéo Symfony _ Créer un filtre produit _ Grafikart_files/badge-infomaniak.svg" alt="" loading="lazy" width="150">
+        </a>
+      </div>
+    </div>
+
+    <div>
+      <a class="footer-title" href="https://twitter.com/grafikart_fr">Mes derniers tweets</a>
+      <div class="footer-tweets">
+                  <div class="footer-tweet">
+            <svg class="icon icon-quotes">
+  <use xlink:href="/sprite.svg?logo#quotes"></use>
+</svg>
+            Découverte de Caddy @caddyserver, une alternative à Nginx / Apache avec une gestion automatique des certificats SSL… <a href="https://t.co/AjpSdqV7gi" target="_blank" rel="noopener noreferrer">https://t.co/AjpSdqV7gi</a>
+          </div>
+                  <div class="footer-tweet">
+            <svg class="icon icon-quotes">
+  <use xlink:href="/sprite.svg?logo#quotes"></use>
+</svg>
+            Petite question pour les lead devs / DSI. Quels sites vous utilisez pour découvrir de nouveaux outils ? Perso c'est… <a href="https://t.co/zUvD9tjl76" target="_blank" rel="noopener noreferrer">https://t.co/zUvD9tjl76</a>
+          </div>
+                  <div class="footer-tweet">
+            <svg class="icon icon-quotes">
+  <use xlink:href="/sprite.svg?logo#quotes"></use>
+</svg>
+            Aujourd'hui on parle performance et je vous propose de comprendre les différents moments clés dans le chargement d'… <a href="https://t.co/b60fRf8u77" target="_blank" rel="noopener noreferrer">https://t.co/b60fRf8u77</a>
+          </div>
+              </div>
+    </div>
+    <div>
+      <div class="footer-title">Me contacter</div>
+      <ul>
+        <li><a href="https://grafikart.fr/contact"><svg class="icon icon-email">
+  <use xlink:href="/sprite.svg?logo#email"></use>
+</svg> Par email</a></li>
+        <li><a href="https://grafikart.fr/tchat"><svg class="icon icon-tchat">
+  <use xlink:href="/sprite.svg?logo#tchat"></use>
+</svg> Tchat</a></li>
+        <li><a href="https://www.youtube.com/user/grafikarttv"><svg class="icon icon-video">
+  <use xlink:href="/sprite.svg?logo#video"></use>
+</svg> Chaine youtube</a></li>
+        <li><a href="https://grafikart.fr/a-propos"><svg class="icon icon-info">
+  <use xlink:href="/sprite.svg?logo#info"></use>
+</svg> A propos</a></li>
+        <li><a href="https://grafikart.fr/politique-de-confidentialite"><svg class="icon icon-fingerprint">
+  <use xlink:href="/sprite.svg?logo#fingerprint"></use>
+</svg> Politique de confidentialité</a></li>
+      </ul>
+      <div class="footer-title mt3 mb1">Thème</div>
+      <theme-switcher class="theme-switcher form-switch">
+        <input type="checkbox" is="input-switch" id="theme-switcher" aria-label="Changer de thème">
+        <label for="theme-switcher"><span class="switch"></span>
+          <svg class="icon icon-moon">
+            <use xlink:href="/sprite.svg#moon"></use>
+          </svg>
+          <svg class="icon icon-sun">
+            <use xlink:href="/sprite.svg#sun"></use>
+          </svg>
+        </label></theme-switcher>
+    </div>
+  </footer>
+</div>
+<script>
+  window.grafikart = {
+    ...(window.grafikart || {}),
+    ADMIN: false,
+    USER: null,
+    MERCURE_URL: "https://grafikart.fr/.well-known/mercure",
+    NOTIFICATION: new Date(0 * 1000)
+  }
+</script>
+  <script>
+    (function () {
+      const toggle = document.querySelector('.chapters-toggle')
+      const container = document.querySelector('.course-top-sidebar')
+      if (toggle) {
+        toggle.addEventListener('click',function () {
+          container.classList.toggle('is-folded')
+        })
+      }
+    })()
+  </script>
+
+
+</body></html>

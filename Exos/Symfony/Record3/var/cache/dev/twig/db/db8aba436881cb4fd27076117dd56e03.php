@@ -86,7 +86,7 @@ class __TwigTemplate_3350c205471c6393dba83f07758d6090 extends Template
 
         // line 6
         echo "<div class=\"d-flex justify-content-around mt-3 mb-3\">
-    <h1 class=\"text-info\">User list</h1>
+    <h1 class=\"text-info\"><b>Users list</b></h1>
 </div>
 
     <table class=\"table table-striped table-dark text-light\">
@@ -156,11 +156,6 @@ class __TwigTemplate_3350c205471c6393dba83f07758d6090 extends Template
         // line 39
         echo "        </tbody>
     </table>
-
-    <a class=\"text-light\" href=\"";
-        // line 42
-        echo $this->extensions['Symfony\Bridge\Twig\Extension\RoutingExtension']->getPath("app_user_new");
-        echo "\"><button class=\"btn btn-info\">Create new</a></button>
 ";
         
         $__internal_6f47bbe9983af81f1e7450e9a3e3768f->leave($__internal_6f47bbe9983af81f1e7450e9a3e3768f_prof);
@@ -182,7 +177,7 @@ class __TwigTemplate_3350c205471c6393dba83f07758d6090 extends Template
 
     public function getDebugInfo()
     {
-        return array (  162 => 42,  157 => 39,  148 => 35,  139 => 31,  135 => 30,  130 => 28,  126 => 27,  122 => 26,  118 => 25,  114 => 24,  111 => 23,  106 => 22,  88 => 6,  78 => 5,  59 => 3,  36 => 1,);
+        return array (  157 => 39,  148 => 35,  139 => 31,  135 => 30,  130 => 28,  126 => 27,  122 => 26,  118 => 25,  114 => 24,  111 => 23,  106 => 22,  88 => 6,  78 => 5,  59 => 3,  36 => 1,);
     }
 
     public function getSourceContext()
@@ -193,7 +188,7 @@ class __TwigTemplate_3350c205471c6393dba83f07758d6090 extends Template
 
 {% block body %}
 <div class=\"d-flex justify-content-around mt-3 mb-3\">
-    <h1 class=\"text-info\">User list</h1>
+    <h1 class=\"text-info\"><b>Users list</b></h1>
 </div>
 
     <table class=\"table table-striped table-dark text-light\">
@@ -227,8 +222,6 @@ class __TwigTemplate_3350c205471c6393dba83f07758d6090 extends Template
         {% endfor %}
         </tbody>
     </table>
-
-    <a class=\"text-light\" href=\"{{ path('app_user_new') }}\"><button class=\"btn btn-info\">Create new</a></button>
 {% endblock %}
 ", "user/index.html.twig", "/home/alexis/Documents/DIW22091/Exos/Symfony/Record3/templates/user/index.html.twig");
     }

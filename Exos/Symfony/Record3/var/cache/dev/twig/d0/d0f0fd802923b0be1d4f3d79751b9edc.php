@@ -384,7 +384,7 @@ class __TwigTemplate_2cd57d5f5e14817a58212868760f9b19 extends Template
 \t\t\t<a class=\"navbar-brand text-info\" {% if is_granted('IS_AUTHENTICATED_FULLY') %} href=\"{{ path('app_disc_index') }}\" {% else %} href=\"{{ path('login') }}\" {% endif %}>
 \t\t\t\t<p id=\"p1\" style=\"font-size: 3rem;\" class=\"mt-0 mb-0\">Discs & Artists</p>
 \t\t\t</a>
-\t\t\t<button class=\"navbar-toggler mr-auto\" {# mr-auto to force the hamburger menu on the left #} type=\"button\" data-toggle=\"collapse\" data-target=\"#navbarSupportedContent\" aria-controls=\"navbarSupportedContent\" aria-expanded=\"false\" aria-label=\"Toggle navigation\">
+\t\t\t<button class=\"navbar-toggler mr-auto\" {# mr-auto to force the hamburger menu to the left-hand side #} type=\"button\" data-toggle=\"collapse\" data-target=\"#navbarSupportedContent\" aria-controls=\"navbarSupportedContent\" aria-expanded=\"false\" aria-label=\"Toggle navigation\">
 \t\t\t\t<span class=\"navbar-toggler-icon\"></span>
 \t\t\t</button>
 \t\t\t{% if is_granted('IS_AUTHENTICATED_FULLY') %}
