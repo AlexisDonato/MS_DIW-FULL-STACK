@@ -1,0 +1,751 @@
+<!DOCTYPE html>
+<!-- saved from url=(0042)https://ncode.amorce.org/parcours/172/7032 -->
+<html lang="fr"><head><meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
+
+    
+    <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
+    <title>nCode</title>
+    <link rel="stylesheet" href="./Référencement_files/font-awesome.min.css">
+    <link rel="stylesheet" href="./Référencement_files/bootstrap.min.css">
+    <link rel="stylesheet" href="./Référencement_files/jquery-ui.css">
+    <link rel="stylesheet" href="./Référencement_files/atom-one-dark.min.css">
+    <script src="./Référencement_files/highlight.min.js"></script>
+
+    <style>
+    .bordure-gauche {
+        border-left: 8px rgb(131, 131, 131) solid;
+    }
+
+    .couleur-fond1 {
+        background-color: rgb(138, 138, 138);
+    }
+
+    .couleur-fond2 {
+        background-color: rgba(255, 255, 255, 0.1);
+    }
+
+    .couleur-fond3 {
+        background-color: rgba(255, 255, 255, 0.2);
+    }
+
+    .selection {
+        color: black;
+        background-color: rgb(236, 236, 236);
+        font-weight: bold;
+    }
+
+    .noselection {
+        color: white;
+    }
+</style>
+<link rel="stylesheet" href="./Référencement_files/darcula.css">
+<link rel="stylesheet" href="./Référencement_files/line-number.css"> 
+<link rel="stylesheet" href="./Référencement_files/github-markdown.css">
+<!-- <link rel="stylesheet" href="/css/markdown_foad.css"> -->
+    <link rel="stylesheet" href="./Référencement_files/style.css">
+<style type="text/css" id="notify-bootstrap">.notifyjs-bootstrap-base {
+	font-weight: bold;
+	padding: 8px 15px 8px 14px;
+	text-shadow: 0 1px 0 rgba(255, 255, 255, 0.5);
+	background-color: #fcf8e3;
+	border: 1px solid #fbeed5;
+	-webkit-border-radius: 4px;
+	-moz-border-radius: 4px;
+	border-radius: 4px;
+	white-space: nowrap;
+	padding-left: 25px;
+	background-repeat: no-repeat;
+	background-position: 3px 7px;
+}
+.notifyjs-bootstrap-error {
+	color: #B94A48;
+	background-color: #F2DEDE;
+	border-color: #EED3D7;
+	background-image: url(data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAABQAAAAUCAYAAACNiR0NAAAAGXRFWHRTb2Z0d2FyZQBBZG9iZSBJbWFnZVJlYWR5ccllPAAAAtRJREFUeNqkVc1u00AQHq+dOD+0poIQfkIjalW0SEGqRMuRnHos3DjwAH0ArlyQeANOOSMeAA5VjyBxKBQhgSpVUKKQNGloFdw4cWw2jtfMOna6JOUArDTazXi/b3dm55socPqQhFka++aHBsI8GsopRJERNFlY88FCEk9Yiwf8RhgRyaHFQpPHCDmZG5oX2ui2yilkcTT1AcDsbYC1NMAyOi7zTX2Agx7A9luAl88BauiiQ/cJaZQfIpAlngDcvZZMrl8vFPK5+XktrWlx3/ehZ5r9+t6e+WVnp1pxnNIjgBe4/6dAysQc8dsmHwPcW9C0h3fW1hans1ltwJhy0GxK7XZbUlMp5Ww2eyan6+ft/f2FAqXGK4CvQk5HueFz7D6GOZtIrK+srupdx1GRBBqNBtzc2AiMr7nPplRdKhb1q6q6zjFhrklEFOUutoQ50xcX86ZlqaZpQrfbBdu2R6/G19zX6XSgh6RX5ubyHCM8nqSID6ICrGiZjGYYxojEsiw4PDwMSL5VKsC8Yf4VRYFzMzMaxwjlJSlCyAQ9l0CW44PBADzXhe7xMdi9HtTrdYjFYkDQL0cn4Xdq2/EAE+InCnvADTf2eah4Sx9vExQjkqXT6aAERICMewd/UAp/IeYANM2joxt+q5VI+ieq2i0Wg3l6DNzHwTERPgo1ko7XBXj3vdlsT2F+UuhIhYkp7u7CarkcrFOCtR3H5JiwbAIeImjT/YQKKBtGjRFCU5IUgFRe7fF4cCNVIPMYo3VKqxwjyNAXNepuopyqnld602qVsfRpEkkz+GFL1wPj6ySXBpJtWVa5xlhpcyhBNwpZHmtX8AGgfIExo0ZpzkWVTBGiXCSEaHh62/PoR0p/vHaczxXGnj4bSo+G78lELU80h1uogBwWLf5YlsPmgDEd4M236xjm+8nm4IuE/9u+/PH2JXZfbwz4zw1WbO+SQPpXfwG/BBgAhCNZiSb/pOQAAAAASUVORK5CYII=);
+}
+.notifyjs-bootstrap-success {
+	color: #468847;
+	background-color: #DFF0D8;
+	border-color: #D6E9C6;
+	background-image: url(data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAABQAAAAUCAYAAACNiR0NAAAAGXRFWHRTb2Z0d2FyZQBBZG9iZSBJbWFnZVJlYWR5ccllPAAAAutJREFUeNq0lctPE0Ecx38zu/RFS1EryqtgJFA08YCiMZIAQQ4eRG8eDGdPJiYeTIwHTfwPiAcvXIwXLwoXPaDxkWgQ6islKlJLSQWLUraPLTv7Gme32zoF9KSTfLO7v53vZ3d/M7/fIth+IO6INt2jjoA7bjHCJoAlzCRw59YwHYjBnfMPqAKWQYKjGkfCJqAF0xwZjipQtA3MxeSG87VhOOYegVrUCy7UZM9S6TLIdAamySTclZdYhFhRHloGYg7mgZv1Zzztvgud7V1tbQ2twYA34LJmF4p5dXF1KTufnE+SxeJtuCZNsLDCQU0+RyKTF27Unw101l8e6hns3u0PBalORVVVkcaEKBJDgV3+cGM4tKKmI+ohlIGnygKX00rSBfszz/n2uXv81wd6+rt1orsZCHRdr1Imk2F2Kob3hutSxW8thsd8AXNaln9D7CTfA6O+0UgkMuwVvEFFUbbAcrkcTA8+AtOk8E6KiQiDmMFSDqZItAzEVQviRkdDdaFgPp8HSZKAEAL5Qh7Sq2lIJBJwv2scUqkUnKoZgNhcDKhKg5aH+1IkcouCAdFGAQsuWZYhOjwFHQ96oagWgRoUov1T9kRBEODAwxM2QtEUl+Wp+Ln9VRo6BcMw4ErHRYjH4/B26AlQoQQTRdHWwcd9AH57+UAXddvDD37DmrBBV34WfqiXPl61g+vr6xA9zsGeM9gOdsNXkgpEtTwVvwOklXLKm6+/p5ezwk4B+j6droBs2CsGa/gNs6RIxazl4Tc25mpTgw/apPR1LYlNRFAzgsOxkyXYLIM1V8NMwyAkJSctD1eGVKiq5wWjSPdjmeTkiKvVW4f2YPHWl3GAVq6ymcyCTgovM3FzyRiDe2TaKcEKsLpJvNHjZgPNqEtyi6mZIm4SRFyLMUsONSSdkPeFtY1n0mczoY3BHTLhwPRy9/lzcziCw9ACI+yql0VLzcGAZbYSM5CCSZg1/9oc/nn7+i8N9p/8An4JMADxhH+xHfuiKwAAAABJRU5ErkJggg==);
+}
+.notifyjs-bootstrap-info {
+	color: #3A87AD;
+	background-color: #D9EDF7;
+	border-color: #BCE8F1;
+	background-image: url(data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAABQAAAAUCAYAAACNiR0NAAAABmJLR0QA/wD/AP+gvaeTAAAACXBIWXMAAAsTAAALEwEAmpwYAAAAB3RJTUUH3QYFAhkSsdes/QAAA8dJREFUOMvVlGtMW2UYx//POaWHXg6lLaW0ypAtw1UCgbniNOLcVOLmAjHZolOYlxmTGXVZdAnRfXQm+7SoU4mXaOaiZsEpC9FkiQs6Z6bdCnNYruM6KNBw6YWewzl9z+sHImEWv+vz7XmT95f/+3/+7wP814v+efDOV3/SoX3lHAA+6ODeUFfMfjOWMADgdk+eEKz0pF7aQdMAcOKLLjrcVMVX3xdWN29/GhYP7SvnP0cWfS8caSkfHZsPE9Fgnt02JNutQ0QYHB2dDz9/pKX8QjjuO9xUxd/66HdxTeCHZ3rojQObGQBcuNjfplkD3b19Y/6MrimSaKgSMmpGU5WevmE/swa6Oy73tQHA0Rdr2Mmv/6A1n9w9suQ7097Z9lM4FlTgTDrzZTu4StXVfpiI48rVcUDM5cmEksrFnHxfpTtU/3BFQzCQF/2bYVoNbH7zmItbSoMj40JSzmMyX5qDvriA7QdrIIpA+3cdsMpu0nXI8cV0MtKXCPZev+gCEM1S2NHPvWfP/hL+7FSr3+0p5RBEyhEN5JCKYr8XnASMT0xBNyzQGQeI8fjsGD39RMPk7se2bd5ZtTyoFYXftF6y37gx7NeUtJJOTFlAHDZLDuILU3j3+H5oOrD3yWbIztugaAzgnBKJuBLpGfQrS8wO4FZgV+c1IxaLgWVU0tMLEETCos4xMzEIv9cJXQcyagIwigDGwJgOAtHAwAhisQUjy0ORGERiELgG4iakkzo4MYAxcM5hAMi1WWG1yYCJIcMUaBkVRLdGeSU2995TLWzcUAzONJ7J6FBVBYIggMzmFbvdBV44Corg8vjhzC+EJEl8U1kJtgYrhCzgc/vvTwXKSib1paRFVRVORDAJAsw5FuTaJEhWM2SHB3mOAlhkNxwuLzeJsGwqWzf5TFNdKgtY5qHp6ZFf67Y/sAVadCaVY5YACDDb3Oi4NIjLnWMw2QthCBIsVhsUTU9tvXsjeq9+X1d75/KEs4LNOfcdf/+HthMnvwxOD0wmHaXr7ZItn2wuH2SnBzbZAbPJwpPx+VQuzcm7dgRCB57a1uBzUDRL4bfnI0RE0eaXd9W89mpjqHZnUI5Hh2l2dkZZUhOqpi2qSmpOmZ64Tuu9qlz/SEXo6MEHa3wOip46F1n7633eekV8ds8Wxjn37Wl63VVa+ej5oeEZ/82ZBETJjpJ1Rbij2D3Z/1trXUvLsblCK0XfOx0SX2kMsn9dX+d+7Kf6h8o4AIykuffjT8L20LU+w4AZd5VvEPY+XpWqLV327HR7DzXuDnD8r+ovkBehJ8i+y8YAAAAASUVORK5CYII=);
+}
+.notifyjs-bootstrap-warn {
+	color: #C09853;
+	background-color: #FCF8E3;
+	border-color: #FBEED5;
+	background-image: url(data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAABQAAAAUCAMAAAC6V+0/AAABJlBMVEXr6eb/2oD/wi7/xjr/0mP/ykf/tQD/vBj/3o7/uQ//vyL/twebhgD/4pzX1K3z8e349vK6tHCilCWbiQymn0jGworr6dXQza3HxcKkn1vWvV/5uRfk4dXZ1bD18+/52YebiAmyr5S9mhCzrWq5t6ufjRH54aLs0oS+qD751XqPhAybhwXsujG3sm+Zk0PTwG6Shg+PhhObhwOPgQL4zV2nlyrf27uLfgCPhRHu7OmLgAafkyiWkD3l49ibiAfTs0C+lgCniwD4sgDJxqOilzDWowWFfAH08uebig6qpFHBvH/aw26FfQTQzsvy8OyEfz20r3jAvaKbhgG9q0nc2LbZxXanoUu/u5WSggCtp1anpJKdmFz/zlX/1nGJiYmuq5Dx7+sAAADoPUZSAAAAAXRSTlMAQObYZgAAAAFiS0dEAIgFHUgAAAAJcEhZcwAACxMAAAsTAQCanBgAAAAHdElNRQfdBgUBGhh4aah5AAAAlklEQVQY02NgoBIIE8EUcwn1FkIXM1Tj5dDUQhPU502Mi7XXQxGz5uVIjGOJUUUW81HnYEyMi2HVcUOICQZzMMYmxrEyMylJwgUt5BljWRLjmJm4pI1hYp5SQLGYxDgmLnZOVxuooClIDKgXKMbN5ggV1ACLJcaBxNgcoiGCBiZwdWxOETBDrTyEFey0jYJ4eHjMGWgEAIpRFRCUt08qAAAAAElFTkSuQmCC);
+}
+</style><style type="text/css" id="core-notify">.notifyjs-corner {
+	position: fixed;
+	margin: 5px;
+	z-index: 1050;
+}
+
+.notifyjs-corner .notifyjs-wrapper,
+.notifyjs-corner .notifyjs-container {
+	position: relative;
+	display: block;
+	height: inherit;
+	width: inherit;
+	margin: 3px;
+}
+
+.notifyjs-wrapper {
+	z-index: 1;
+	position: absolute;
+	display: inline-block;
+	height: 0;
+	width: 0;
+}
+
+.notifyjs-container {
+	display: none;
+	z-index: 1;
+	position: absolute;
+}
+
+.notifyjs-hidable {
+	cursor: pointer;
+}
+
+[data-notify-text],[data-notify-html] {
+	position: relative;
+}
+
+.notifyjs-arrow {
+	position: absolute;
+	z-index: 2;
+	width: 0;
+	height: 0;
+}</style></head>
+
+<body>
+<div class="container-fluid">
+    <div class="row bg-primary">
+        <div class="col-12">
+            <nav class="navbar fixed-top navbar-expand-md navbar-dark bg-primary" style="padding: 0.5rem;">
+                <a class="navbar-brand" href="https://ncode.amorce.org/"><code>{Alexis}</code></a>
+            <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarSupportedContent" aria-controls="navbarSupportedContent" aria-expanded="false" aria-label="Toggle navigation">
+                <span class="navbar-toggler-icon"></span>
+            </button>
+
+            <div class="collapse navbar-collapse" id="navbarSupportedContent">
+                <ul class="navbar-nav mr-auto">
+                    
+                                                                <li class="nav-item ">
+                            <a class="nav-link" href="https://ncode.amorce.org/parcours/156"><b>TB Dev</b> <sup>21196</sup></a>
+                        </li>
+                                            <li class="nav-item active">
+                            <a class="nav-link" href="https://ncode.amorce.org/parcours/172"><b>MS Full stack</b> <sup>22017</sup></a>
+                        </li>
+                                            <li class="nav-item ">
+                            <a class="nav-link" href="https://ncode.amorce.org/parcours/178"><b>MS DIW</b> <sup>22091</sup></a>
+                        </li>
+                                        
+                </ul>
+                <ul class="navbar-nav ml-auto navbar-right">
+                                            <li class="nav-item dropdown mr-2">
+                            <a href="https://ncode.amorce.org/stagiaire/526" class="nav-link btn-lg" title="Mon profil">
+                                   <i class="fa fa-user-o" aria-hidden="true"></i>
+                            </a>
+                        </li>
+                        <li class="nav-item dropdown mr-2">
+                        
+                                <a href="https://ncode.amorce.org/stagiaire/edit/526" class="nav-link btn-lg" title="Mes paramètres" btn-lg="">
+                                   <i class="fa fa-cog" aria-hidden="true"></i>
+                                </a>
+                        </li>
+                        <li class="nav-item dropdown mr-2">
+                        
+                                <a class="nav-link" href="https://ncode.amorce.org/logout" tabindex="-1">Déconnexion</a>
+                        </li>
+                                    </ul>
+                            </div>
+        </nav>
+    </div>
+
+    </div>
+    <div class="row">
+        <div class="col-12">
+                    </div>
+    </div>
+    <div class="row mt-6">
+            <div class="col-sm-4">
+        <h2>
+            MS Full stack - 22017
+                        <a href="https://ncode.amorce.org/parcours/monlivret/172" class="btn btn-outline-primary btn-sm float-right mt-3 ">
+                Voir mon livret de suivi
+            </a>
+                    </h2>
+    </div>
+    <div class="col-sm-8 ">
+
+                    
+                        <h4 class="text-success mt-3">
+                                        <span class=" ">
+                            séance prévue du <b>30/08/2022</b> au <b>31/08/2022</b>
+                        </span>
+                                                        <a href="https://ncode.amorce.org/parcours/valide_seance/172/7032" class="btn btn-success btn-sm float-right ">
+                            Je déclare avoir terminé cette séance
+                        </a>
+                            </h4>
+                                </div>
+
+
+
+    <div class="accordion col-sm-4" id="menu">
+                <div class="">
+            <div class="bg-primary">
+                <a class="btn" data-toggle="collapse" data-target="#module_806">
+                    <div class="text-light text-left">Accueil</div>
+                </a>
+            </div>
+            <div id="module_806" class="collapse " data-parent="#menu">
+                <div class="">
+                                        <div class="bordure-gauche">
+                        <div class="bg-primary ">
+                            <div class="couleur-fond2 ">
+                                <a class="btn" data-toggle="collapse" data-target="#sequence_2005">
+                                <div class="text-light text-left">Présentation</div>
+                            </a>
+                        </div>
+                    </div>
+                    <div id="sequence_2005" class="collapse " data-parent="#module_806">
+                            <div class="bg-primary">
+                                <div class="couleur-fond3 bordure-gauche">
+                                                                        <div class="text-light ">
+                                        <a class="btn noselection " href="https://ncode.amorce.org/parcours/172/7020">
+                                            <div class=" text-left ">
+                                                                                                Informations sur la formation
+                                            </div>
+                                        </a>
+                                    </div>
+                                                                    </div>
+                            </div>
+                        </div>
+                    </div>
+                                        <div class="bordure-gauche">
+                        <div class="bg-primary ">
+                            <div class="couleur-fond2 ">
+                                <a class="btn" data-toggle="collapse" data-target="#sequence_2006">
+                                <div class="text-light text-left">Adopter de bonnes méthodes de travail</div>
+                            </a>
+                        </div>
+                    </div>
+                    <div id="sequence_2006" class="collapse " data-parent="#module_806">
+                            <div class="bg-primary">
+                                <div class="couleur-fond3 bordure-gauche">
+                                                                        <div class="text-light ">
+                                        <a class="btn noselection " href="https://ncode.amorce.org/parcours/172/7021">
+                                            <div class=" text-left ">
+                                                                                                RAPPEL - Gérer ses versions avec Git
+                                            </div>
+                                        </a>
+                                    </div>
+                                                                        <div class="text-light ">
+                                        <a class="btn noselection " href="https://ncode.amorce.org/parcours/172/7022">
+                                            <div class=" text-left ">
+                                                                                                Travailler de façon AGILE
+                                            </div>
+                                        </a>
+                                    </div>
+                                                                    </div>
+                            </div>
+                        </div>
+                    </div>
+                                    </div>
+            </div>
+        </div>
+                <div class="">
+            <div class="bg-primary">
+                <a class="btn" data-toggle="collapse" data-target="#module_808">
+                    <div class="text-light text-left">Lier un site à une base de données (PHP)</div>
+                </a>
+            </div>
+            <div id="module_808" class="collapse " data-parent="#menu">
+                <div class="">
+                                        <div class="bordure-gauche">
+                        <div class="bg-primary ">
+                            <div class="couleur-fond2 ">
+                                <a class="btn" data-toggle="collapse" data-target="#sequence_2009">
+                                <div class="text-light text-left">Construire des interfaces de gestion de données (PHP)</div>
+                            </a>
+                        </div>
+                    </div>
+                    <div id="sequence_2009" class="collapse " data-parent="#module_808">
+                            <div class="bg-primary">
+                                <div class="couleur-fond3 bordure-gauche">
+                                                                        <div class="text-light ">
+                                        <a class="btn noselection " href="https://ncode.amorce.org/parcours/172/7027">
+                                            <div class=" text-left ">
+                                                                                                Construire un CRUD complet grâce au PDO
+                                            </div>
+                                        </a>
+                                    </div>
+                                                                    </div>
+                            </div>
+                        </div>
+                    </div>
+                                    </div>
+            </div>
+        </div>
+                <div class="">
+            <div class="bg-primary">
+                <a class="btn" data-toggle="collapse" data-target="#module_809">
+                    <div class="text-light text-left">Améliorer l'écriture de son projet (POO - MVC)</div>
+                </a>
+            </div>
+            <div id="module_809" class="collapse " data-parent="#menu">
+                <div class="">
+                                        <div class="bordure-gauche">
+                        <div class="bg-primary ">
+                            <div class="couleur-fond2 ">
+                                <a class="btn" data-toggle="collapse" data-target="#sequence_2010">
+                                <div class="text-light text-left">Programmer en Orienté Objet</div>
+                            </a>
+                        </div>
+                    </div>
+                    <div id="sequence_2010" class="collapse " data-parent="#module_809">
+                            <div class="bg-primary">
+                                <div class="couleur-fond3 bordure-gauche">
+                                                                        <div class="text-light ">
+                                        <a class="btn noselection " href="https://ncode.amorce.org/parcours/172/7028">
+                                            <div class=" text-left ">
+                                                                                                Comprendre les fondamentaux de la POO
+                                            </div>
+                                        </a>
+                                    </div>
+                                                                    </div>
+                            </div>
+                        </div>
+                    </div>
+                                        <div class="bordure-gauche">
+                        <div class="bg-primary ">
+                            <div class="couleur-fond2 ">
+                                <a class="btn" data-toggle="collapse" data-target="#sequence_2011">
+                                <div class="text-light text-left">Construire une architecture MVC</div>
+                            </a>
+                        </div>
+                    </div>
+                    <div id="sequence_2011" class="collapse " data-parent="#module_809">
+                            <div class="bg-primary">
+                                <div class="couleur-fond3 bordure-gauche">
+                                                                        <div class="text-light ">
+                                        <a class="btn noselection " href="https://ncode.amorce.org/parcours/172/7029">
+                                            <div class=" text-left ">
+                                                                                                Comprendre le fonctionnement d'un MVC
+                                            </div>
+                                        </a>
+                                    </div>
+                                                                        <div class="text-light ">
+                                        <a class="btn noselection " href="https://ncode.amorce.org/parcours/172/7030">
+                                            <div class=" text-left ">
+                                                                                                Organiser un projet en MVC
+                                            </div>
+                                        </a>
+                                    </div>
+                                                                    </div>
+                            </div>
+                        </div>
+                    </div>
+                                        <div class="bordure-gauche">
+                        <div class="bg-primary ">
+                            <div class="couleur-fond2 ">
+                                <a class="btn" data-toggle="collapse" data-target="#sequence_2013">
+                                <div class="text-light text-left">Utiliser des frameworks Back-End (Symfony)</div>
+                            </a>
+                        </div>
+                    </div>
+                    <div id="sequence_2013" class="collapse " data-parent="#module_809">
+                            <div class="bg-primary">
+                                <div class="couleur-fond3 bordure-gauche">
+                                                                        <div class="text-light ">
+                                        <a class="btn noselection " href="https://ncode.amorce.org/parcours/172/7034">
+                                            <div class=" text-left ">
+                                                                                                S'initier au framework Symfony
+                                            </div>
+                                        </a>
+                                    </div>
+                                                                    </div>
+                            </div>
+                        </div>
+                    </div>
+                                    </div>
+            </div>
+        </div>
+                <div class="">
+            <div class="bg-primary">
+                <a class="btn" data-toggle="collapse" data-target="#module_810">
+                    <div class="text-light text-left">Optimiser et publier</div>
+                </a>
+            </div>
+            <div id="module_810" class="collapse show" data-parent="#menu">
+                <div class="">
+                                        <div class="bordure-gauche">
+                        <div class="bg-primary ">
+                            <div class="couleur-fond2 ">
+                                <a class="btn" data-toggle="collapse" data-target="#sequence_2012">
+                                <div class="text-light text-left">Mettre un site internet en ligne</div>
+                            </a>
+                        </div>
+                    </div>
+                    <div id="sequence_2012" class="collapse show" data-parent="#module_810">
+                            <div class="bg-primary">
+                                <div class="couleur-fond3 bordure-gauche">
+                                                                        <div class="text-light selection ">
+                                        <a class="btn selection text-primary  " href="https://ncode.amorce.org/parcours/172/7032">
+                                            <div class=" text-left ">
+                                                                                                Optimiser le Référencement
+                                            </div>
+                                        </a>
+                                    </div>
+                                                                        <div class="text-light ">
+                                        <a class="btn noselection " href="https://ncode.amorce.org/parcours/172/7033">
+                                            <div class=" text-left ">
+                                                                                                Publier le site
+                                            </div>
+                                        </a>
+                                    </div>
+                                                                    </div>
+                            </div>
+                        </div>
+                    </div>
+                                    </div>
+            </div>
+        </div>
+                <div class="">
+            <div class="bg-primary">
+                <a class="btn" data-toggle="collapse" data-target="#module_811">
+                    <div class="text-light text-left">BONUS - Gérer une Base De Données (SQL)</div>
+                </a>
+            </div>
+            <div id="module_811" class="collapse " data-parent="#menu">
+                <div class="">
+                                        <div class="bordure-gauche">
+                        <div class="bg-primary ">
+                            <div class="couleur-fond2 ">
+                                <a class="btn" data-toggle="collapse" data-target="#sequence_2014">
+                                <div class="text-light text-left">Communiquer avec une base de données (SQL)</div>
+                            </a>
+                        </div>
+                    </div>
+                    <div id="sequence_2014" class="collapse " data-parent="#module_811">
+                            <div class="bg-primary">
+                                <div class="couleur-fond3 bordure-gauche">
+                                                                        <div class="text-light ">
+                                        <a class="btn noselection " href="https://ncode.amorce.org/parcours/172/7037">
+                                            <div class=" text-left ">
+                                                                                                RAPPEL - Découvrir les Bases de données et le langage SQL
+                                            </div>
+                                        </a>
+                                    </div>
+                                                                        <div class="text-light ">
+                                        <a class="btn noselection " href="https://ncode.amorce.org/parcours/172/7039">
+                                            <div class=" text-left ">
+                                                                                                RAPPEL - Ecrire des requêtes d'extraction de données
+                                            </div>
+                                        </a>
+                                    </div>
+                                                                        <div class="text-light ">
+                                        <a class="btn noselection " href="https://ncode.amorce.org/parcours/172/7038">
+                                            <div class=" text-left ">
+                                                                                                Alimenter une BDD en données
+                                            </div>
+                                        </a>
+                                    </div>
+                                                                        <div class="text-light ">
+                                        <a class="btn noselection " href="https://ncode.amorce.org/parcours/172/7040">
+                                            <div class=" text-left ">
+                                                                                                Mettre à jour les données d'une BDD
+                                            </div>
+                                        </a>
+                                    </div>
+                                                                    </div>
+                            </div>
+                        </div>
+                    </div>
+                                        <div class="bordure-gauche">
+                        <div class="bg-primary ">
+                            <div class="couleur-fond2 ">
+                                <a class="btn" data-toggle="collapse" data-target="#sequence_2015">
+                                <div class="text-light text-left">Concevoir une base de données -- à venir</div>
+                            </a>
+                        </div>
+                    </div>
+                    <div id="sequence_2015" class="collapse " data-parent="#module_811">
+                            <div class="bg-primary">
+                                <div class="couleur-fond3 bordure-gauche">
+                                                                        <div class="text-light ">
+                                        <a class="btn noselection " href="https://ncode.amorce.org/parcours/172/7041">
+                                            <div class=" text-left ">
+                                                                                                
+                                            </div>
+                                        </a>
+                                    </div>
+                                                                    </div>
+                            </div>
+                        </div>
+                    </div>
+                                    </div>
+            </div>
+        </div>
+            </div>
+
+    <div class="col-sm-8">
+        
+        <div class="markdown-body"><h1>Référencement</h1>
+<p><br></p>
+<h2>Objectifs</h2>
+<ul>
+<li>Connaitre les principes de base du référencement</li>
+<li>Cibler son public pour adapter la visibilité du site (référencement)</li>
+<li>Respecter les règles du référencement naturel pour rendre le site visible sur les moteurs de recherche</li>
+</ul>
+<p><br></p>
+<h2>Qu'est-ce que le référencement ?</h2>
+<p>Le référencement est l'action de référencer, c'est-à-dire mentionner quelque chose ou y faire référence. Sur Internet, le travail de référencement consiste à améliorer le positionnement et la visibilité de sites dans des pages de résultats de moteurs de recherche ou d'annuaires.</p>
+<p>Le référencement est le fait d'inscrire un site sur un moteur de recherche (tel que Google) ou un annuaire. </p>
+<p>Le référencement internet ne se limite pas aux pages web : tous les contenus peuvent être référencés : </p>
+<ul>
+<li>les images (sur Google Images) </li>
+<li>les fichiers audio ou vidéo (Youtube)</li>
+<li>les documents (Word, PDF, Excel, archives zip/rar...) </li>
+</ul>
+<p>Le référencement naturel consiste à travailler les éléments internes (appelés <em>on page</em>) et externes des sites (appelés <em>off page</em>) pour permettre de donner plus facilement les informations à la fois aux internautes mais
+également aux moteurs de recherche.</p>
+<blockquote>
+<p>Le terme <strong>SEO</strong>, de l'anglais <em>Search Engine Optimisation</em> (Optimisation pour les moteurs de recherche) est souvent utilisé </p>
+</blockquote>
+<p><br></p>
+<h3>Moteurs de recherche et annuaires</h3>
+<p>Dans un annuaire, chaque entreprise / webmaster inscrit manuellement son site et les informations le décrivant (catégorie etc.). Les annuaires les plus connus étaient Yahoo! (désormais un moteur de recherche) ou DMOZ (disparu).  </p>
+<p>Le modèle annuaire tend à disparaître au profit des moteurs de recherche. Un moteur de recherche est un ensemble d'algorithmes (donc des programmes informatiques) nommés robots (ou bots) qui parcourent les liens présents dans les pages web pour en indexer le contenu selon un système d'archivage par mots-clés. </p>
+<p>Petit à petit, Google a imposé les règles de référencement actuelles via le déploiement d'algorithmes (Panda, Penguin, SpeedUpdate) et les développeurs se trouvent obligés de s'y conformer pour que les sites internet puissent être trouvés par les internautes.</p>
+<p><br></p>
+<h3>Quelques statistiques (pour comprendre les enjeux)</h3>
+<ul>
+<li>En France, Google truste 93 % de part de marché des moteurs de recherche : donc on est sur Google sinon rien (toutefois il ne faut pas se passer des autres moteurs tels que Bing)</li>
+<li><a href="https://palevesque.com/ctr-resultat-de-recherche">Taux de clic sur la 1ère page de Google</a></li>
+<li>Seulement 7% des internautes consultent plus de 3 pages de résultats.</li>
+<li>Les visites issues des moteurs de recherche représentent en moyenne 40 % de la fréquentation.</li>
+<li>Parmi les visites issues des moteurs 75% proviennent du référencement naturel.</li>
+<li>En 2020, plus de la moitié des recherches seront vocales (Google Home, Amazon Echo, Apple Siri, Androïd...)</li>
+</ul>
+<blockquote>
+<p>Si Google est leader dans la plupart des pays, dont la France, il ne l'est pas partout : <em>Baidu</em> en Chine ou <em>Yandex</em> en Russie dominent le moteur américain. </p>
+</blockquote>
+<!-- **Ressources**
+* [Infographie : Les 30 chiffres clés du SEO en 2019](https://www.abondance.com/20191220-41598-infographie-les-30-chiffres-cles-du-seo-en-2019.html)
+* [Chiffres clés 2020 du référencement naturel et du SEO](https://www.natural-net.fr/blog-agence-web/2020/09/10/chiffres-cles-2020-du-referencement-naturel-et-du-seo.html) -->
+<p><br></p>
+<h2>Les Search Engine Results Pages (SERPs)</h2>
+<p><a href="https://www.webrankinfo.com/dossiers/google-search/serp">https://www.webrankinfo.com/dossiers/google-search/serp</a></p>
+<p><br></p>
+<h2>Optimiser les pages web pour le référencement</h2>
+<p><br></p>
+<h3>Le référencement naturel (référencement <code>on page</code>)</h3>
+<p><strong>Critères prioritaires :</strong></p>
+<ul>
+<li>
+<p>Site responsive </p>
+</li>
+<li>
+<p>Balise <code>title</code></p>
+</li>
+<li>
+<p>Avoir un site avec un certificat SSL (url en <code>https://</code>), aujourd'hui les hébergeurs les proposent gratuitement et vous indiquent comment les mettre en place. </p>
+</li>
+<li>
+<p>Code HTML conforme W3C : </p>
+<ul>
+<li>balises bien fermées</li>
+<li>respect de la sémantique : utiliser le <a href="https://validator.w3.org/">validateur W3C</a></li>
+<li>Titrage (balises <code>&lt;h1&gt;</code>, <code>&lt;h2&gt;</code> etc.). Les balises <code>&lt;h1&gt;</code> doivent être unique sur l'ensemble du site</li>
+</ul>
+</li>
+<li>
+<p><a href="https://www.webrankinfo.com/dossiers/debutants/choix-nom-de-domaine#conseil-10">Choix du nom de domaine</a></p>
+</li>
+<li>
+<p>Balises meta <code>description</code> (<code>keyword</code> est devenue inutile) </p>
+</li>
+<li>
+<p><em>Content is king</em> : contenu unique, pertinent et à jour, implique de la rédaction de contenus. Bannir les fautes d'orthographe et de grammaire !  </p>
+</li>
+<li>
+<p><a href="http://ergonomie-web.studiovitamine.com/fil-d-ariane,354,fr.html">Fil d'ariane</a> (= chemin de fer) sur chaque page </p>
+</li>
+<li>
+<p>Plans de site : page <a href="https://www.afpa.fr/plan-de-site">plan du site</a>, fichier <a href="https://www.webrankinfo.com/dossiers/sitemaps/tutoriel-fichier-sitemap">sitemap XML</a>   </p>
+</li>
+<li>
+<p>Eviter les redirections, et surtout les pages non trouvées (erreur <a href="https://www.google.com/search?q=page+404&amp;client=firefox-b-d&amp;source=lnms&amp;tbm=isch&amp;sa=X&amp;ved=2ahUKEwiAmbLnudXsAhWdDmMBHVCABygQ_AUoAXoECBgQAw&amp;biw=1180&amp;bih=909">HTTP 404</a>) ou encore les pages <a href="https://www.google.com/search?q=page+en+travaux&amp;tbm=isch&amp;ved=2ahUKEwiEuarpudXsAhVR8IUKHYM4BuoQ2-cCegQIABAA&amp;oq=page+en+travaux&amp;gs_lcp=CgNpbWcQAzICCAA6BAgAEEM6BQgAELEDOgQIABAYUIm_BVji6gVg5-0FaAJwAHgDgAFriAGTC5IBBDE4LjKYAQCgAQGqAQtnd3Mtd2l6LWltZ7ABAMABAQ&amp;sclient=img&amp;ei=hW2YX8TiH9HglwSD8ZjQDg&amp;bih=909&amp;biw=1180&amp;client=firefox-b-d">en construction</a></p>
+</li>
+</ul>
+<p><br></p>
+<h3>Les balises de référencement</h3>
+<p>Le HTML fournit des balises <code>&lt;meta&gt;</code> spécifiques au référencement :</p>
+<ul>
+<li><code>description</code> : permet de décrire le site en une phrase de référence </li>
+<li><code>robots</code> : définit via des options comment les robots de moteurs de recherche vont parcourir et indexer ou non la page web  </li>
+<li><code>keywords</code> : une liste de mots-clés correspondant au mieux à votre site :</li>
+</ul>
+<p>Aux débuts du web, l'une des principales utilisations des balises <code>&lt;meta&gt;</code> était l'indexation des sites web par les moteurs de recherche, à l'aide des attributs <code>keywords</code> et <code>description</code>. Mais beaucoup de webmasters renseignaient ces balises avec des mots-clés sans aucune pertinence par rapport au contenu réel de la page mais qui attiraient énormément de trafic. Désormais, l'hégémonie de Google (90% des recherches web en France) a imposé que seules les balises <code>&lt;title&gt;</code> (cf. ci-après) et <code>&lt;meta description&gt;</code> restaient utiles pour le référencement et toute tentative d'abus est sanctionnée par un bannissement des résultats de recherche (blacklistage).</p>
+<blockquote>
+<p>Rappel : les balises <code>&lt;meta&gt;</code> doivent être placées entre les balises <code>&lt;head&gt;</code> et <code>&lt;/head&gt;</code>.</p>
+</blockquote>
+<p><strong>Exemple</strong> </p>
+<pre><code class="hljs xml"><span class="hljs-tag">&lt;<span class="hljs-name">meta</span> <span class="hljs-attr">name</span>=<span class="hljs-string">"description"</span> <span class="hljs-attr">content</span>=<span class="hljs-string">"Jarditou propose des articles de jardinage en ligne"</span>&gt;</span> 
+<span class="hljs-tag">&lt;<span class="hljs-name">meta</span> <span class="hljs-attr">name</span>=<span class="hljs-string">"keywords"</span> <span class="hljs-attr">content</span>=<span class="hljs-string">"jardinage, outils, plantes, jardin, semis, brouettes"</span>&gt;</span> 
+<span class="hljs-tag">&lt;<span class="hljs-name">meta</span> <span class="hljs-attr">name</span>=<span class="hljs-string">"robots"</span> <span class="hljs-attr">content</span>=<span class="hljs-string">"index, follow"</span>&gt;</span></code></pre>
+<p>Pour la balise <code>robots</code>, le robot indexe la page (instruction <code>index</code>) et suit (instruction <code>follow</code>) tous les liens de la page (il va aller consulter les pages indiquées par ces liens). <a href="https://www.webrankinfo.com/dossiers/conseils/balise-meta-robots">la balise <code>robot</code> en détail</a>.</p>
+<p><br></p>
+<h3>La balise <code>&lt;title&gt;</code></h3>
+<p>Outre les 3 balises précédentes, la balise <strong>essentielle</strong> pour le référencement est <code>&lt;title&gt;</code> : c'est l'un des premiers points que Google prend en compte.</p>
+<p>Elle doit être rédigée avec soin en tenant compte de <a href="https://www.eskimoz.fr/balise-title-meta-description">certaines règles</a> très précises. </p>
+<div class="alert alert-danger">Chaque title doit être rédigé de façon unique.</div> 
+<h3>Stratégie de mots-clés et de liens</h3>
+<p>Optimiser ses pages en internes (code HTML) n'est pas suffisant. Il faut également [une stratégie SEO]() : </p>
+<ul>
+<li>[choix des mots-clés](), <a href="https://www.redacteur.com/blog/6-outils-trouver-des-mots-cles">outils de recherche de mots-clés</a> </li>
+<li><a href="https://www.lafabriquedunet.fr/conseils/conception-site-web/arborescence-site-web">le rubriquage</a> </li>
+<li>stratégie de liens (liens entrants et sortants).     </li>
+</ul>
+<h4>URL propres</h4>
+<p>Pour un bon référencement, le nom de vos pages doit comporter des mots-clés pertinents par rapport à leur contenu et être lisible facilement. On appelle cela les urls propres, obtenues par la réécriture des url (= url rewriting). Les urls sont alors simplifiées. </p>
+<p><strong>Exemple</strong></p>
+<p>L'url <code>https://www.jarditou.com/produit.php?categorie=1&amp;id=7</code> pourrait être réécrite de la façon suivante : <code>http://www.jarditou.com/barbecues-gaz/aramis-7.html</code>, c'est beaucoup plus mieux ! </p>
+<p><strong>Liens :</strong> </p>
+<ul>
+<li>[Urls propres](), </li>
+<li><a href="https://www.webrankinfo.com/dossiers/techniques/url-canonique">URLs canoniques</a> </li>
+<li>Réécriture d'URL (URL rewriting) :
+<ul>
+<li><a href="https://www.webrankinfo.com/dossiers/techniques/tutoriel-url-rewriting">Webrankinfo</a></li>
+<li><a href="https://craym.eu/tutoriels/referencement/url_rewriting.html">Craym.eu</a></li>
+</ul></li>
+</ul>
+<h3>Temps de chargement</h3>
+<p>Voir <a target="_blank" href="https://ncode.amorce.org/ressources/Pool/MS_FULL_STACK/WEB_Referencer/temps_de_chargement.html">cette ressource sur le temps de chargement</a></p>
+<p><br></p>
+<h2>Les limites du référencement</h2>
+<ul>
+<li>Un "jeu sans fin"</li>
+<li>Concurrence  </li>
+<li>Coûts (compétences techniques, campagnes d'achats de mots-clés, suivi)  </li>
+<li>Web marketing, réseaux sociaux, vidéos sur Youtube, buzz...</li>
+<li>Obtenir des liens : pas si simple</li>
+<li><a href="https://www.neocamino.com/seo-referencement-naturel-debutants/faire-le-suivi-de-referencement-de-son-referencement-naturel">Authorithy, Page Rank, Trust rank</a> : difficle à obtenir</li>
+<li><a href="https://www.webrankinfo.com/dossiers/debutants/erreurs-duplicate-content">Duplicate content</a></li>
+<li>Refonte d'un site : garder le référencement déjà acquis</li>
+<li>Sites multilingues</li>
+<li><a href="https://www.cnil.fr/fr/le-dereferencement-dun-contenu-dans-un-moteur-de-recherche">Déréférencement</a>, <a href="https://www.cnil.fr/fr/le-droit-leffacement-supprimer-vos-donnees-en-ligne">droit à l'oubli</a></li>
+</ul>
+<p><br></p>
+<h2>Outils</h2>
+<p>Il existe de nombreux outils d'audit et de suivi du référencement.<br>
+Citons les gratuits et les plus utilisés :   </p>
+<ul>
+<li>Audit de site : <a href="https://search.google.com/search-console/about?hl=fr&amp;utm_source=wmx&amp;utm_medium=wmx-welcome">Google Search Console</a> </li>
+<li>Diagnostic de vitesse de chargement : <a href="https://freres.peyronnet.eu/comment-utiliser-google-page-speed-ameliorer-vitesse-site">Google Page Speed Insights</a> et <a href="https://testmysite.withgoogle.com/intl/fr-fr">Vitesse de chargement</a></li>
+<li>Statistiques : <a href="https://analytics.google.com/analytics/web/#/report-home/a51355933w83552148p86552654">Google Analytics</a> </li>
+</ul>
+<p><br></p>
+<h3>Les tendances</h3>
+<p>Le référencement est en évolution perpétuelle, voici les dernières tendances : </p>
+<ul>
+<li>Tendances 2022 : voir <a href="https://www.redacteur.com/blog/tendances-seo-2022/">ici</a>, ou <a href="https://www.blogdumoderateur.com/enquete-seo-2022-tendances/">ici</a></li>
+<li><a href="https://blog.planethoster.com/comment-optimiser-mon-site-pour-la-recherche-vocale">Optimiser pour la recherche vocale</a></li>
+</ul>
+<p><br></p>
+<h2>Ressources complémentaires</h2>
+<ul>
+<li><a target="_blank" href="https://ncode.amorce.org/ressources/Pool/MS_FULL_STACK/WEB_Referencer/images/page_de_resultats_google.png">Page de résultats Google</a></li>
+<li><a target="_blank" href="https://ncode.amorce.org/ressources/Pool/MS_FULL_STACK/WEB_Referencer/images/balise-title-description.png">Balise méta dans Google</a></li>
+<li><a target="_blank" href="https://ncode.amorce.org/ressources/Pool/MS_FULL_STACK/WEB_Referencer/images/fil-dariane.jpg">Fil d'ariane</a></li>
+<li><a href="https://www.webrankinfo.com/dossiers/google/chiffres-cles">Chiffres clés Google</a></li>
+<li>Sites sur le référencement :  
+<ul>
+<li><a href="https://www.webrankinfo.com/">Webrankinfo</a> </li>
+<li><a href="https://www.abondance.com/">Abondance</a></li>
+</ul></li>
+</ul>
+<p><br></p>
+<h2>Conclusion</h2>
+<p>Le référencement est primordial pour la visibilité d'un site, mais ne suffit désormais plus sans marketing. C'est un sujet en évolution permanente, complexe et qui nécessite des compétences multiples : développeurs, administrateurs de serveurs, référenceurs, rédacteurs web, services marketing etc.   </p>
+<p>Le référencement doit être pensé en amont de tout projet, c'est-à-dire dès la phase de conception (optimisation du rubriquage, plan etc.). </p>
+<p><br></p>
+<h2>Mise en pratique</h2>
+<p>Téléchargez <a target="_blank" href="https://ncode.amorce.org/ressources/Pool/MS_FULL_STACK/WEB_Referencer/mise_en_pratique/mep_referencement.zip">cette archive</a> et, seul ou en groupe, recherchez les points à améliorer pour obtenir un référencement optimisé. Il ne s'agit pas de corriger mais juste d'identifier.  </p>
+<p>Pour vous aider : il y a précisément 28 erreurs et c'est truffé de pièges !</p>
+<!--
+> Demander un corrigé collectif en salle à un formateur.
+-->
+<p><a target="_blank" href="https://ncode.amorce.org/ressources/Pool/MS_FULL_STACK/WEB_Referencer/mise_en_pratique/corriges/mep_referencement_corrige.html">Corrigé</a></p>
+<p>Il conviendra ensuite d'appliquer, dans la mesure du possible, les techniques de référencement dans vos projets !</p>
+<p><br></p>
+<h3>Le référencement avec <strong>Wordpress</strong></h3>
+<p>Installez et configurez les extensions correspondantes : </p>
+<ul>
+<li>Balises <code>&lt;title&gt;</code> et méta <em>description</em> : <a href="https://fr.wordpress.org/plugins/all-in-one-seo-pack">All in One SEO Pack</a> </li>
+<li>Page Plan du site : <a href="https://fr.wordpress.org/plugins/wp-sitemap-page">WP Sitemap Page</a> + créer une page <em>Plan du site</em> dans lequel vous mettre le shortcode <code>[wp_sitemap_page]</code></li>
+<li>Fichier sitemap.xml : <a href="https://fr.wordpress.org/plugins/google-sitemap-generator">Google XML Site Maps</a></li>
+<li>Fil d'ariane : <a href="https://fr.wordpress.org/plugins/breadcrumb-navxt">Breadcrumb NavXT</a></li>
+<li>Gestion du cache : <a href="https://fr.wordpress.org/plugins/w3-total-cache">W3 Total Cache</a></li>
+<li>Compression des images : <a href="https://fr.wordpress.org/plugins/tiny-compress-images">Compress JPEG &amp; PNG images</a></li>
+</ul>
+<p>Vérifiez également les éléments suivants :</p>
+<ul>
+<li>Balises de titrage (<code>&lt;h1&gt;</code> etc.) correctement utilisées</li>
+<li>Attributs <code>alt</code> et <code>title</code> des images correctement renseignées via la bibliothèque de médias.</li>
+<li>Présence d'une page <em>404</em></li>
+<li>URLs propres : réglages des permaliens</li>
+</ul>
+<!-- TODO : minification/compression des CSS et JS -->
+<!-- TODO : Duplicate content -->
+<p><br>
+<br>
+<br></p></div>
+    </div>
+    </div>
+
+</div>
+
+
+<script src="./Référencement_files/jquery-3.4.1.min.js"></script>
+<script src="./Référencement_files/jquery-ui.js"></script>
+<script src="./Référencement_files/popper.min.js"></script>
+<script src="./Référencement_files/bootstrap.min.js"></script>
+<script src="./Référencement_files/bootstrap-autocomplete.min.js"></script>
+<script src="./Référencement_files/notify.min.js"></script>
+<script src="./Référencement_files/correction.js"></script>
+
+<script src="./Référencement_files/highlight.js"></script>
+<!-- <script src="/js/highlightjs-line-numbers.min.js"></script> -->
+<script>hljs.initHighlightingOnLoad();//hljs.initLineNumbersOnLoad();</script>
+
+
+<script>
+    $('.basicAutoComplete').autoComplete({
+        resolverSettings: {
+            url: '/api/search'
+        },
+        minLength: 2,
+        select: function() {
+            console.log("tre");
+        }
+    });
+    $('.basicAutoComplete').on('autocomplete.select', function (evt, item) {
+        console.log(item);
+        document.location = "/utilisateur/" + item.value;
+    });
+</script>
+
+
+</body></html>

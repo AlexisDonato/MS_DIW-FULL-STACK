@@ -1,0 +1,291 @@
+<!DOCTYPE html>
+<html lang="fr">
+	<head>
+		<meta charset="UTF-8">
+		<title>
+			{% block title %}Home
+			{% endblock %}
+		</title>
+		<link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap@4.6.1/dist/css/bootstrap.min.css">
+		<link rel="stylesheet" href="/css/style.css">
+
+		{# Font awesome icons #}
+		<link rel="stylesheet" href="https://use.fontawesome.com/releases/v6.1.1/css/solid.css" integrity="sha384-DhmF1FmzR9+RBLmbsAts3Sp+i6cZMWQwNTRsew7pO/e4gvzqmzcpAzhDIwllPonQ" crossorigin="anonymous"/>
+		<link rel="stylesheet" href="https://use.fontawesome.com/releases/v6.1.1/css/fontawesome.css" integrity="sha384-zIaWifL2YFF1qaDiAo0JFgsmasocJ/rqu7LKYH8CoBEXqGbb9eO+Xi3s6fQhgFWM" crossorigin="anonymous"/>
+		<link
+		rel="stylesheet" href="https://use.fontawesome.com/releases/v5.2.0/css/all.css" integrity="sha384-hWVjflwFxL6sNzntih27bfxkr27PmbbK/iSvJ+a4+0owXq79v+lsFkW54bOGbiDQ" crossorigin="anonymous">
+
+		{# Google Fonts #}
+		<link rel="preconnect" href="https://fonts.googleapis.com">
+		<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+		<link href="https://fonts.googleapis.com/css2?family=Blaka&display=swap" rel="stylesheet"> {% block stylesheets %}{% endblock %}
+
+		<link rel="icon" type="image/x-icon" href="/img/favicon.jpeg">
+	</head>
+
+	<body class="bg-dark text-light">
+		<nav class="navbar navbar-expand-lg navbar-dark sticky-top shadow-lg">
+			<div class="navbar-header">
+				<a class="navbar-brand" href="{{ path('app_home') }}">
+					<img class="brand border border-info border-3" alt="Brand" title="brand" name="brand" src="/img/logo.jpeg">
+				</a>
+			</div>
+			<button class="navbar-toggler mr-auto" {# mr-auto to force the hamburger menu to the left-hand side #} type="button" data-toggle="collapse" data-target="#navbarSupportedContent" aria-controls="navbarSupportedContent" aria-expanded="false" aria-label="Toggle navigation">
+				<span class="navbar-toggler-icon"></span>
+			</button>
+
+			<div class="collapse navbar-collapse d-flex justify-content-between" id="navbarSupportedContent">
+				<ul class="navbar-nav">
+					<li class="nav-item dropdown">
+						<a class="nav-link dropdown-toggle text-info" href="#" id="navbarDropdown" role="button" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">Brands</a>
+						<div class="dropdown-menu" aria-labelledby="navbarDropdown">
+							<a class="dropdown-item" href="#">Fender</a>
+							<a class="dropdown-item" href="#">PRS</a>
+							<div class="dropdown-divider"></div>
+							<a class="dropdown-item" href="#">MSI</a>
+						</div>
+					</li>
+					<li class="nav-item dropdown">
+						<a class="nav-link dropdown-toggle text-info" href="#" id="navbarDropdown" role="button" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">Products</a>
+						<div class="dropdown-menu" aria-labelledby="navbarDropdown">
+							<a class="dropdown-item" href="#">Guitars</a>
+							<a class="dropdown-item" href="#">Drums</a>
+							<div class="dropdown-divider"></div>
+							<a class="dropdown-item" href="#">Laptops</a>
+						</div>
+					</li>
+					<li class="nav-item active">
+						<a class="nav-link text-info" {# href="{{ path('') }}" #}>
+							<b>Discounts</b>
+							<span class="sr-only">(current)</span>
+						</a>
+					</li>
+					<li class="nav-item active">
+						<a class="nav-link text-info" {# href="{{ path('') }}" #}>
+							<i class="fa-solid fa-cart-shopping" title="Your cart" name="Your cart"></i>
+							<span class="sr-only">(current)</span>
+						</a>
+					</li>
+					{% if is_granted('ROLE_ADMIN') %}
+						<li>
+							<a class="nav-link text-danger" href="{{ path('app_user_index') }}">
+								<b>Users</b>
+								<span class="sr-only">(current)</span>
+							</a>
+						</li>
+						<li class="nav-item active">
+							<a class="nav-link text-danger" href="{{ path('app_user_new') }}">
+								<b>
+									<i>New user</i>
+								</b>
+								<span class="sr-only">(current)</span>
+							</a>
+						</li>
+						{# <form class="d-flex input-group w-auto ms-lg-3 my-3 my-lg-0">
+																		<input type="search" class="form-control" placeholder="Search" aria-label="Search"/>
+																		<button class="btn btn-info mb-5" type="button" data-mdb-ripple-color="dark">
+																			Search
+																		</button>
+																	</form> #}
+				{% endif %}
+				</ul>
+				<div class="d-flex">
+					{% if is_granted('IS_AUTHENTICATED_FULLY') %}
+						{% else %}
+							<a class="nav-link text-info my-auto" href="{{ path('login') }}">
+								<button type="button" class="btn btn-sm btn-outline-warning">
+									<i>Login</i>
+								</button>
+							</a>
+					{% endif %}
+					{% if is_granted('IS_AUTHENTICATED_FULLY') %}
+						<a class="nav-link text-info my-auto" href="{{ path('app_logout') }}">
+							<button type="button" class="btn btn-sm btn-outline-warning">
+								<i>Logout</i>
+							</button>
+						</a>
+					{% endif %}
+
+					<span class="navbar-text text-secondary mt-0 mb-0">
+						{% if app.user %}
+							<small>
+								<i class="fa-solid fa-user mt-0 mb-0"></i>
+								<a class="text-secondary mt-0 mb-0" href="{{ path('app_user_show', {'id': app.user.id}) }}">{{ app.user.email }}
+								</a>
+							</small>
+							<br>
+						{% endif %}
+						<small>
+							<i class="fa-solid fa-calendar mt-0 mb-0"></i>
+							{{ "now" | date('d-m-Y H:i:s') }}</small>
+					</span>
+				</div>
+			</div>
+		</nav>
+	</body>
+</html>
+
+{% for message in app.flashes('success') %}
+	<div class="alert alert-success">{{ message }}</div>
+{% endfor %}
+
+{% block body %}{% endblock %}
+
+<footer class="footer">
+	<div class="container bottom_border">
+		<div class="row">
+			<div class=" col-sm-4 col-md col-sm-4  col-12 col">
+				<h5 class="headin5_amrc col_white_amrc pt2">Find us</h5>
+				<!--headin5_amrc-->
+				<p class="mb10">Lorem Ipsum is simply dummy text of the printing and typesetting industry. Lorem Ipsum has been the industry's standard dummy text ever since the 1500s</p>
+				<p>
+					<i class="fa fa-location-arrow"></i>
+					9878/25 sec 9 rohini 35
+				</p>
+				<p>
+					<i class="fa fa-phone"></i>
+					+91-9999878398
+				</p>
+				<p>
+					<i class="fa fa fa-envelope"></i>
+					info@example.com
+				</p>
+
+
+			</div>
+
+
+			<div class=" col-sm-4 col-md  col-6 col">
+				<h5 class="headin5_amrc col_white_amrc pt2">Quick links</h5>
+				<!--headin5_amrc-->
+				<ul class="footer_ul_amrc">
+					<li>
+						<a href="">Image Rectoucing</a>
+					</li>
+					<li>
+						<a href="">Clipping Path</a>
+					</li>
+					<li>
+						<a href="">Hollow Man Montage</a>
+					</li>
+					<li>
+						<a href="">Ebay & Amazon</a>
+					</li>
+					<li>
+						<a href="">Hair Masking/Clipping</a>
+					</li>
+					<li>
+						<a href="">Image Cropping</a>
+					</li>
+				</ul>
+				<!--footer_ul_amrc ends here-->
+			</div>
+
+
+			<div class=" col-sm-4 col-md  col-6 col">
+				<h5 class="headin5_amrc col_white_amrc pt2">Quick links</h5>
+				<!--headin5_amrc-->
+				<ul class="footer_ul_amrc">
+					<li>
+						<a href="">Remove Background</a>
+					</li>
+					<li>
+						<a href="">Shadows & Mirror Reflection</a>
+					</li>
+					<li>
+						<a href="">Logo Design</a>
+					</li>
+					<li>
+						<a href="">Vectorization</a>
+					</li>
+					<li>
+						<a href="">Hair Masking/Clipping</a>
+					</li>
+					<li>
+						<a href="">Image Cropping</a>
+					</li>
+				</ul>
+				<!--footer_ul_amrc ends here-->
+			</div>
+
+
+			<div class=" col-sm-4 col-md  col-12 col">
+				<h5 class="headin5_amrc col_white_amrc pt2">Follow us</h5>
+				<!--headin5_amrc ends here-->
+
+				<ul class="footer_ul2_amrc">
+					<li>
+						<a href="#">
+							<i class="fab fa-twitter fleft padding-right"></i>
+						</a>
+						<p>Lorem Ipsum is simply dummy text of the printing...<a href="#">https://www.lipsum.com/</a>
+						</p>
+					</li>
+					<li>
+						<a href="#">
+							<i class="fab fa-twitter fleft padding-right"></i>
+						</a>
+						<p>Lorem Ipsum is simply dummy text of the printing...<a href="#">https://www.lipsum.com/</a>
+						</p>
+					</li>
+					<li>
+						<a href="#">
+							<i class="fab fa-twitter fleft padding-right"></i>
+						</a>
+						<p>Lorem Ipsum is simply dummy text of the printing...<a href="#">https://www.lipsum.com/</a>
+						</p>
+					</li>
+				</ul>
+				<!--footer_ul2_amrc ends here-->
+			</div>
+		</div>
+	</div>
+	<div class="container">
+		<ul class="foote_bottom_ul_amrc">
+			<li>
+				<a href="">Home</a>
+			</li>
+			<li>
+				<a href="">About</a>
+			</li>
+			<li>
+				<a href="">Services</a>
+			</li>
+			<li>
+				<a href="">Pricing</a>
+			</li>
+			<li>
+				<a href="">Blog</a>
+			</li>
+			<li>
+				<a href="">Contact</a>
+			</li>
+		</ul><!--foote_bottom_ul_amrc ends here--><p class="text-center">Copyright @2017 | Designed With by
+			<a href="#">My E-Business</a>
+		</p>
+		<ul class="social_footer_ul">
+			<li>
+				<a href="">
+					<i class="fab fa-facebook-f" title="Facebook"></i>
+				</a>
+			</li>
+			<li>
+				<a href="">
+					<i class="fab fa-twitter" title="Twitter"></i>
+				</a>
+			</li>
+			<li>
+				<a href="">
+					<i class="fab fa-linkedin" title="Linkedin"></i>
+				</a>
+			</li>
+			<li>
+				<a href="">
+					<i class="fab fa-instagram" title="Instagram"></i>
+				</a>
+			</li>
+		</ul><!--social_footer_ul ends here--></div>
+</footer>{# <script src="{{ asset('js/js.js') }}"></script> #}<script src="https://cdn.jsdelivr.net/npm/jquery@3.6.0/dist/jquery.slim.min.js"></script>
+<script src="https://cdn.jsdelivr.net/npm/popper.js@1.16.1/dist/umd/popper.min.js"></script>
+<script src="https://cdn.jsdelivr.net/npm/bootstrap@4.6.1/dist/js/bootstrap.bundle.min.js"></script>
+{% block javascripts %}{% endblock %}</body></html>

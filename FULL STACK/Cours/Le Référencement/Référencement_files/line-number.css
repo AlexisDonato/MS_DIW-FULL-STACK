@@ -1,0 +1,38 @@
+/**********************************************************
+**********************************************************/
+
+.hljs-ln,
+.hljs-ln-numbers,
+.hljs-ln-line, 
+.hljs-ln-n {
+  background: #23241f;
+  border: 0px !important;
+}
+
+table.hljs-ln tr {
+  border-bottom: 0px !important;
+  border-top: 0px !important;
+  border-right: 0px !important;
+}
+
+table.hljs-ln td {
+  border-bottom: 0px !important;
+  border-top: 0px !important;
+  border-right: 0px !important;
+}
+
+.hljs-ln-code {
+  background: #23241f;
+  padding-top: 0px !important;
+  padding-bottom: 0px !important;
+  border-bottom: 0px !important;
+  border-top: 0px !important;
+}
+
+.hljs-ln-numbers {
+  padding-top: 1px !important;
+  padding-bottom: 0px !important;
+}
+
+/**********************************************************
+**********************************************************/
