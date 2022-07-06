@@ -8,10 +8,10 @@
 
     <p class=" ml-3 mt-5 mb-5">
         If an account matching your email exists, then an email was just sent that contains a link that you can use to reset your password.
-        This link will expire in <b>{{ resetToken.expirationMessageKey|trans(resetToken.expirationMessageData, 'ResetPasswordBundle') }}</b>.
+        This link will expire in <b>{{ resetToken.expirationMessageKey|trans(resetToken.expirationMessageData, 'ResetPasswordBundle') }}</b>.</p>
         {# ymfonyCasts\Bundle\ResetPassword\Model\ResetPasswordToken::$transInterval
         private transInterval = new DateTimeInterval(10); #}
-    </p>
+    <p class=" ml-3 mt-5 mb-5">You will be able to try again in <b>{{ resetToken.expirationMessageKey|trans(resetToken.expirationMessageData, 'ResetPasswordBundle') }}</b>.</p>
     <p class="ml-3 mb-5">If you don't receive an email please check your spam folder or <a href="{{ path('app_forgot_password_request') }}">try again</a>.</p>
     </div>
 {% endblock %}

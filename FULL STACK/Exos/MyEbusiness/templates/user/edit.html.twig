@@ -3,13 +3,15 @@
 {% block title %}Edit User{% endblock %}
 
 {% block body %}
-    <h1>Edit User</h1>
+<div class="container justify-content-center">
+    <h1 class="text-danger ml-5 mb-3">Edit user {{ app.user.email }}</h1>
 
     {{ include('user/_form.html.twig', {'button_label': 'Update'}) }}
 
 {% if is_granted('ROLE_ADMIN') %}
-    <button class="btn btn-info border-light"><a class="text-light" href="{{ path('app_user_index') }}">back to list</a></button>
+    <button class="btn btn-outline-danger border-light mb-1"><a class="text-decoration-none text-light" href="{{ path('app_user_index') }}">Back to list</a></button>
 
     {{ include('user/_delete_form.html.twig') }}
 {% endif %}
+</div>
 {% endblock %}

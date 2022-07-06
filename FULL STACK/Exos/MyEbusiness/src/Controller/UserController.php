@@ -33,11 +33,11 @@ class UserController extends AbstractController
         $form->handleRequest($request);
 
         if ($form->isSubmitted() && $form->isValid()) {
+
             // transforms json column into str
             $roles = $form->get('roles')->getData();
-            $birthdate = $form->get('birthdate')->getData();
-
             $user->setRoles($roles);
+
             // encode the plain password
             $user->setPassword(
                 $userPasswordHasher->hashPassword(
@@ -60,6 +60,8 @@ class UserController extends AbstractController
     #[Route('/{id}', name: 'app_user_show', methods: ['GET'])]
     public function show(User $user): Response
     {
+        $this->denyAccessUnlessGranted('IS_AUTHENTICATED_FULLY');
+
         // The user cannot access other users infos:
         if ($this->getUser()->getUserIdentifier() != $user->getUserIdentifier()) {
             $this->denyAccessUnlessGranted('ROLE_ADMIN', null, 'User tried to access a page without having ROLE_ADMIN');
@@ -72,6 +74,8 @@ class UserController extends AbstractController
     #[Route('/{id}/edit', name: 'app_user_edit', methods: ['GET', 'POST'])]
     public function edit(Request $request, User $user, UserPasswordHasherInterface $userPasswordHasher, EntityManagerInterface $entityManager, $id): Response
     {
+        $this->denyAccessUnlessGranted('IS_AUTHENTICATED_FULLY');
+
         if ($this->getUser()->getUserIdentifier() != $user->getUserIdentifier()) {
             $this->denyAccessUnlessGranted('ROLE_ADMIN', null, 'User tried to access a page without having ROLE_ADMIN');
         }
@@ -79,9 +83,11 @@ class UserController extends AbstractController
         $form->handleRequest($request);
 
         if ($form->isSubmitted() && $form->isValid()) {
+
             // transforms json column into str
             $roles = $form->get('roles')->getData();
             $user->setRoles($roles);
+            
             // encode the plain password
             $user->setPassword(
                 $userPasswordHasher->hashPassword(
