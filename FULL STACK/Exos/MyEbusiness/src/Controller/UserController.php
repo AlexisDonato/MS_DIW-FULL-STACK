@@ -31,7 +31,7 @@ class UserController extends AbstractController
         $user = new User();
         $form = $this->createForm(UserType::class, $user);
         $form->handleRequest($request);
-
+            
         if ($form->isSubmitted() && $form->isValid()) {
 
             // transforms json column into str
@@ -45,7 +45,6 @@ class UserController extends AbstractController
                         $form->get('plainPassword')->getData()
                     )
                 );
-                $entityManager->persist($user);
                 $entityManager->flush();
 
             return $this->redirectToRoute('app_user_index', [], Response::HTTP_SEE_OTHER);
@@ -56,11 +55,11 @@ class UserController extends AbstractController
             'form' => $form,
         ]);
     }
-
+ 
     #[Route('/{id}', name: 'app_user_show', methods: ['GET'])]
     public function show(User $user): Response
     {
-        $this->denyAccessUnlessGranted('IS_AUTHENTICATED_FULLY');
+        $this->denyAccessUnlessGranted('ROLE_ADMIN', null, 'User tried to access a page without having ROLE_ADMIN');
 
         // The user cannot access other users infos:
         if ($this->getUser()->getUserIdentifier() != $user->getUserIdentifier()) {
@@ -74,7 +73,7 @@ class UserController extends AbstractController
     #[Route('/{id}/edit', name: 'app_user_edit', methods: ['GET', 'POST'])]
     public function edit(Request $request, User $user, UserPasswordHasherInterface $userPasswordHasher, EntityManagerInterface $entityManager, $id): Response
     {
-        $this->denyAccessUnlessGranted('IS_AUTHENTICATED_FULLY');
+        $this->denyAccessUnlessGranted('ROLE_ADMIN', null, 'User tried to access a page without having ROLE_ADMIN');
 
         if ($this->getUser()->getUserIdentifier() != $user->getUserIdentifier()) {
             $this->denyAccessUnlessGranted('ROLE_ADMIN', null, 'User tried to access a page without having ROLE_ADMIN');
@@ -118,3 +117,4 @@ class UserController extends AbstractController
         return $this->redirectToRoute('app_user_index', [], Response::HTTP_SEE_OTHER);
     }
 }
+

@@ -1,6 +1,9 @@
 {{ form_start(form) }}
 
+    {{ form_row(form.id) }}
+    
     {{ form_row(form.email) }}<span id="wrongEmail"></span>
+
     {% if is_granted('ROLE_ADMIN') %}
     {{ form_row(form.roles) }}
      {% else %}
@@ -10,22 +13,28 @@
         "help_attr": {'class': "d-none"},
     }) }}
     {% endif %}
-    {{ form_row(form.plainPassword) }}
+
     {{ form_row(form.userName) }}<span id="wrongFirstName"></span>
+
     {{ form_row(form.userLastname) }}<span id="wrongName"></span>
+
     {{ form_row(form.birthdate) }}
+
     {{ form_row(form.adress) }}
+
     {{ form_row(form.phoneNumber) }}<span id="wrongPhone"></span>
-        {% if is_granted('ROLE_ADMIN') %}
+
+    {% if is_granted('ROLE_ADMIN') %}
     {{ form_row(form.isVerified) }}
-         {% else %}
+    {% else %}
     {{ form_row(form.isVerified, {
         "attr": {"class": "d-none"},
         "label_attr": {'class': "d-none"},
-        "help_attr": {'class': "d-none"},
     }) }}
         {% endif %}
 
-    <button class="btn btn-danger border-light mb-1">{{ button_label|default('Save') }}</button>
+    {{ form_widget(form) }}
+
+    <button class="btn btn-danger border-light mb-1" id="submit">{{ button_label|default('Save') }}</button>
 
 {{ form_end(form) }}
