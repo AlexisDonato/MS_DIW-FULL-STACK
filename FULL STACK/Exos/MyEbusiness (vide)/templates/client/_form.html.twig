@@ -1,0 +1,19 @@
+{{ form_start(form) }}
+    
+    {{ form_row(form.email) }}<span id="wrongEmail"></span>
+
+    {{ form_row(form.userName) }}<span id="wrongFirstName"></span>
+
+    {{ form_row(form.userLastname) }}<span id="wrongName"></span>
+
+    {{ form_row(form.birthdate) }}
+
+    {{ form_row(form.adress) }}
+
+    {{ form_row(form.phoneNumber) }}<span id="wrongPhone"></span>
+
+    <div class="d-flex">
+        <button id="submit" class="btn btn-warning mr-5 ml-5 mb-3">{{ button_label|default('Save') }}</button>
+        <a href="{{ path('app_forgot_password_request') }}" class="btn btn-outline-warning ml-5 mb-3">Reset password?</a>
+    </div>
+{{ form_end(form) }}

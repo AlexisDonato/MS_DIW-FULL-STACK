@@ -1,0 +1,111 @@
+
+<nav class="navbar navbar-expand-lg navbar-dark sticky-top shadow-lg">
+			<div class="navbar-header">
+				<a class="navbar-brand" href="{{ path('app_home') }}">
+					<img class="brand border border-info border-3" alt="Brand" title="brand" name="brand" src="/img/logo.png">
+				</a>
+			</div>
+			<button class="navbar-toggler mr-auto" {# mr-auto to force the hamburger menu to the left-hand side #} type="button" data-toggle="collapse" data-target="#navbarSupportedContent" aria-controls="navbarSupportedContent" aria-expanded="false" aria-label="Toggle navigation">
+				<span class="navbar-toggler-icon"></span>
+			</button>
+
+			<div class="collapse navbar-collapse justify-content-between" id="navbarSupportedContent">
+				<ul class="navbar-nav">
+					<li class="nav-item dropdown">
+						<a class="nav-link dropdown-toggle text-info" href="#" id="navbarDropdown" role="button" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">Brands</a>
+						<div class="dropdown-menu" aria-labelledby="navbarDropdown">
+							<a class="dropdown-item" href="#">Fender</a>
+							<a class="dropdown-item" href="#">PRS</a>
+							<div class="dropdown-divider"></div>
+							<a class="dropdown-item" href="#">MSI</a>
+						</div>
+					</li>
+					<li class="nav-item dropdown">
+						<a class="nav-link dropdown-toggle text-info" href="#" id="navbarDropdown" role="button" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">Products</a>
+						<div class="dropdown-menu" aria-labelledby="navbarDropdown">
+						<a class="dropdown-item" href="{{ path('app_product') }}">All products</a>
+							<a class="dropdown-item" href="#">Guitars</a>
+							<a class="dropdown-item" href="#">Drums</a>
+							<div class="dropdown-divider"></div>
+							<a class="dropdown-item" href="#">Laptops</a>
+						</div>
+					</li>
+					<li class="nav-item active">
+						<a class="nav-link text-info" {# href="{{ path('') }}" #}>
+							<b>Discounts</b>
+							<span class="sr-only">(current)</span>
+						</a>
+					</li>
+					<li class="nav-item active">
+						<a class="nav-link text-info" {# href="{{ path('') }}" #}>
+							<i class="fa-solid fa-cart-shopping fa-lg" title="Your cart" name="Your cart"></i>
+							<span class="sr-only">(current)</span>
+						</a>
+					</li>
+					{% if is_granted('ROLE_ADMIN') %}
+						<li>
+							<a class="nav-link text-danger" href="{{ path('app_user_index') }}">
+								<b>Users</b>
+								<span class="sr-only">(current)</span>
+							</a>
+						</li>
+						<li class="nav-item active">
+							<a class="nav-link text-danger" href="{{ path('app_user_new') }}">
+								<b>
+									<i>New user</i>
+								</b>
+								<span class="sr-only">(current)</span>
+							</a>
+						</li>
+
+
+
+				{% endif %}
+				</ul>
+							<form class="d-flex input-group w-auto ms-lg-3 my-3 my-lg-0">
+								<input type="search" class="form-control" placeholder="Search" aria-label="Search" id="search"/>
+								<button class="btn btn-info mb-5" type="button" data-mdb-ripple-color="dark">
+									Search
+								</button>
+							</form>
+				{# {% include 'product/_filter.html.twig' %} #}
+
+				<div class="d-flex">
+					{% if is_granted('IS_AUTHENTICATED_FULLY') %}
+						{% else %}
+							<a class="nav-link text-info my-auto" href="{{ path('login') }}">
+								<button type="button" class="btn btn-sm btn-outline-warning">
+									<i>Login</i>
+								</button>
+							</a>
+					{% endif %}
+					{% if is_granted('IS_AUTHENTICATED_FULLY') %}
+						<a class="nav-link text-info my-auto" href="{{ path('app_logout') }}">
+							<button type="button" class="btn btn-sm btn-outline-warning">
+								<i>Logout</i>
+							</button>
+						</a>
+					{% endif %}
+
+					<span class="navbar-text text-secondary mt-0 mb-0">
+						{% if app.user %}
+							<small>
+								<i class="fa-solid fa-user mt-0 mb-0"></i>
+								<a class="text-secondary mt-0 mb-0" 
+								{% if is_granted('ROLE_ADMIN') %}
+								href="{{ path('app_user_show', {'id': app.user.id}) }}"
+								{% else %}
+								href="{{ path('app_client_show', {'id': app.user.id}) }}"
+								{% endif %}
+								>Profile: {{ app.user.email }}
+								</a>
+							</small>
+							<br>
+						{% endif %}
+						<small>
+							<i class="fa-solid fa-calendar mt-0 mb-0"></i>
+							{{ "now" | date('d-m-Y H:i:s') }}</small>
+					</span>
+				</div>
+			</div>
+		</nav>
