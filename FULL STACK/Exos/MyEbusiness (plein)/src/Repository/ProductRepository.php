@@ -41,6 +41,8 @@ class ProductRepository extends ServiceEntityRepository
         if (!empty($search->q)) {
             $query = $query
                 ->andWhere('p.name LIKE :q')
+                ->orWhere('p.description LIKE :q')
+                ->orWhere('c.name LIKE :q')
                 ->setParameter('q', "%{$search->q}%");
         }
 

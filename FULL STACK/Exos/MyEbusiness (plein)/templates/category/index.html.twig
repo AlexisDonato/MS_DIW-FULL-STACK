@@ -1,0 +1,28 @@
+{% extends 'base.html.twig' %}
+
+{% block title %}CategoryController
+{% endblock %}
+
+{% block body %}
+
+	<div class="container d-flex justify-content-center">
+		<div class="row">
+			<h1 class="text-info mb-5 mt-3">Choose your category</h1>
+			<div class="col-12 col-md-8">
+				<ul style="list-style-type: none;" class="list-group">
+					{% for category in categories %}
+						<li class="text-decoration-none d-flex mt2 mb-2">
+							<h3>
+								<i class="fa-solid fa-hand-point-right"></i>
+								<a class="text-decoration-none text-warning" href="{{ path('app_catalogue', {'category': category.id}) }}">
+									{{ category.name }}
+								</a>
+							</h3>
+							<span class="badge badge-primary badge-pill ml-2">{{ category.products|length }}</span>
+						</li>
+					{% endfor %}
+				</ul>
+			</div>
+		</div>
+	</div>
+{% endblock %}
