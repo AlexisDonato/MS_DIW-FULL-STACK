@@ -2,7 +2,7 @@
 <nav class="navbar navbar-expand-lg navbar-dark sticky-top shadow-lg">
 			<div class="navbar-header">
 				<a class="navbar-brand" href="{{ path('app_home') }}">
-					<img class="brand border border-info border-3" alt="Brand" title="brand" name="brand" src="/img/logo.png">
+					<img class="brand border border-info border-3" alt="Brand" title="Travel-Int home page" name="brand" src="/img/logo.png">
 				</a>
 			</div>
 			<button class="navbar-toggler mr-auto" {# mr-auto to force the hamburger menu to the left-hand side #} type="button" data-toggle="collapse" data-target="#navbarSupportedContent" aria-controls="navbarSupportedContent" aria-expanded="false" aria-label="Toggle navigation">
@@ -23,7 +23,8 @@
 					<li class="nav-item dropdown">
 						<a class="nav-link dropdown-toggle text-info" href="#" id="navbarDropdown" role="button" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">Products</a>
 						<div class="dropdown-menu" aria-labelledby="navbarDropdown">
-						<a class="dropdown-item" href="{{ path('app_product') }}">All products</a>
+						<a class="dropdown-item" href="{{ path('app_product') }}"><b>All products</b></a>
+                            <div class="dropdown-divider"></div>
 							<a class="dropdown-item" href="#">Guitars</a>
 							<a class="dropdown-item" href="#">Drums</a>
 							<div class="dropdown-divider"></div>
@@ -42,33 +43,24 @@
 							<span class="sr-only">(current)</span>
 						</a>
 					</li>
+
 					{% if is_granted('ROLE_ADMIN') %}
-						<li>
-							<a class="nav-link text-danger" href="{{ path('app_user_index') }}">
-								<b>Users</b>
-								<span class="sr-only">(current)</span>
-							</a>
+						<li class="nav-item dropdown">
+							<a class="nav-link dropdown-toggle text-danger" href="#" id="navbarDropdown" role="button" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false"><b>CRUDs</b></a>
+							<div class="dropdown-menu bg-dark" aria-labelledby="navbarDropdown">
+							<a class="dropdown-item text-danger" href="{{ path('app_user_index') }}"><b>Users index</b></a>
+							<a class="dropdown-item text-danger" href="{{ path('app_user_new') }}">New user</a>
+								<div class="dropdown-divider"></div>
+							<a class="dropdown-item text-danger" href="{{ path('app_admin_product_index') }}">Products index</a>
+							<a class="dropdown-item text-danger" href="{{ path('app_admin_product_new') }}">New product</a>
+								<div class="dropdown-divider"></div>
+							<a class="dropdown-item text-danger" href="{{ path('app_admin_category_index') }}">Categories index</a>
+							<a class="dropdown-item text-danger" href="{{ path('app_admin_category_new') }}">New category</a>
+							</div>
 						</li>
-						<li class="nav-item active">
-							<a class="nav-link text-danger" href="{{ path('app_user_new') }}">
-								<b>
-									<i>New user</i>
-								</b>
-								<span class="sr-only">(current)</span>
-							</a>
-						</li>
+					{% endif %}
 
-
-
-				{% endif %}
 				</ul>
-							<form class="d-flex input-group w-auto ms-lg-3 my-3 my-lg-0">
-								<input type="search" class="form-control" placeholder="Search" aria-label="Search" id="search"/>
-								<button class="btn btn-info mb-5" type="button" data-mdb-ripple-color="dark">
-									Search
-								</button>
-							</form>
-				{# {% include 'product/_filter.html.twig' %} #}
 
 				<div class="d-flex">
 					{% if is_granted('IS_AUTHENTICATED_FULLY') %}

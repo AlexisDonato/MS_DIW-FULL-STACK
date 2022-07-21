@@ -34,7 +34,7 @@
                 <td>{{ user.isVerified ? 'Yes' : 'No' }}</td>
                 <td>
                     <button class="btn btn-danger border-light mb-1"><a class="text-decoration-none text-light" href="{{ path('app_user_show', {'id': user.id}) }}">show</a></button>
-                    <button class="btn btn-danger border-light" ><a class="text-decoration-none text-light" style="width: 1150px;" href="{{ path('app_user_edit', {'id': user.id}) }}">edit</a></button>
+                    <button class="btn btn-danger border-light mb-1" ><a class="text-decoration-none text-light" style="width: 1150px;" href="{{ path('app_user_edit', {'id': user.id}) }}">edit</a></button>
                 </td>
             </tr>
         {% else %}

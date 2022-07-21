@@ -22,7 +22,7 @@ class SearchType extends AbstractType
                 'label' => false,
                 'required' => false,
                 'attr' => [
-                    'placeholder' => 'Rechercher'
+                    'placeholder' => 'Mot-clé'
                 ]
                 ])
 
@@ -38,7 +38,7 @@ class SearchType extends AbstractType
                     'label' => false,
                     'required' => false,
                     'attr' => [
-                        'placeholder' => 'Prix minimum'
+                        'placeholder' => 'Prix min'
                     ]
                 ])
 
@@ -46,7 +46,7 @@ class SearchType extends AbstractType
                     'label' => false,
                     'required' => false,
                     'attr' => [
-                        'placeholder' => 'Prix maximum'
+                        'placeholder' => 'Prix max'
                     ]
                 ])
 

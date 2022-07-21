@@ -10,13 +10,43 @@
 
 body {
     background: url('/img/BGHome.jpg') no-repeat;
-    background-size: cover;
+    /* background-size: cover; */
 }
+
+
+/* FONTS */
+
+h1 {
+    font-family: Orbitron;
+    font-size: 40px;
+    font-style: normal;
+    font-variant: normal;
+    font-weight: 700;
+    line-height: 26.4px;
+}
+
+h3 {
+    font-family: Orbitron;
+    font-size: 20px;
+    font-style: normal;
+    font-variant: normal;
+    font-weight: 700;
+    line-height: 15.4px;
+}
+
+
+/* SEARCH FILTER */
 
 .grid {
     display: grid;
     grid-template-columns: repeat(3, 1fr);
     grid-gap: 20px;
+}
+
+.filter {
+    display: block;
+    position: sticky;
+    top: 200px;
 }
 
 

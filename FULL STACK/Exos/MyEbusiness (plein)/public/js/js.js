@@ -1,3 +1,5 @@
+// Client side Forms verification
+
 function checkForm(event) {
     let name = document.querySelector(".LastNameField");
     let wrongName = document.getElementById('wrongName');
@@ -73,3 +75,22 @@ function checkForm(event) {
 if (document.getElementById("submit")) {
     document.getElementById("submit").addEventListener("click", checkForm);
 }
+
+
+// Nouislider
+
+// import noUiSlider from 'nouislider'
+// import 'nouislider/distribute/nouislider.css'
+
+// const slider = document.getElementById('price-slider');
+
+// if (slider) {
+//     noUiSlider.create(slider, {
+//         start: [20, 80],
+//         connect: true,
+//         range: {
+//             'min': 0,
+//             'max': 100
+//         }
+//     })
+// };
