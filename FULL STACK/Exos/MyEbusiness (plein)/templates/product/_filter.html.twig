@@ -13,11 +13,14 @@
     <div class="col-md-6">
         {{ form_row(form.max) }}
     </div>
-</div>   
+</div>
+{# {{ knp_pagination_sortable(products, 'Prix', 'p.price') }} #}
+
 {# <div id="priceslider"></div> #}
 
 <h4>Promotions</h4>
 {{ form_row(form.discount) }}
+{# {{ knp_pagination_sortable(products, 'Promo', 'p.discount') }}    #}
 
 <button class="btn btn-info w-100">Rechercher</button>
 

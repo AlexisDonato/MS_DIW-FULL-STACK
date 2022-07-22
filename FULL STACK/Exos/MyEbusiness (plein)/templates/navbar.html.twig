@@ -71,11 +71,11 @@
 						</a>
 					{% endif %}
 
-					<span class="navbar-text text-secondary mt-0 mb-0">
+					<span class="navbar-text text-dark mt-0 mb-0">
 						{% if app.user %}
 							<small>
 								<i class="fa-solid fa-user mt-0 mb-0"></i>
-								<a class="text-secondary mt-0 mb-0" 
+								<a class="text-dark mt-0 mb-0" 
 								{% if is_granted('ROLE_ADMIN') %}
 								href="{{ path('app_user_show', {'id': app.user.id}) }}"
 								{% else %}
@@ -88,7 +88,7 @@
 						{% endif %}
 						<small>
 							<i class="fa-solid fa-calendar mt-0 mb-0"></i>
-							{{ "now" | date('d-m-Y H:i:s') }}</small>
+							{{ "now" | date('d-m-Y H:i') }}</small>
 					</span>
 				</div>
 			</div>
