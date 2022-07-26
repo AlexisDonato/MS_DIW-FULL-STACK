@@ -58,9 +58,9 @@ class ProductRepository extends ServiceEntityRepository
                 ->setParameter('max', $search->max);
         }
 
-        if (!empty($search->promo)) {
+        if (!empty($search->discount)) {
             $query = $query
-                ->andWhere('p.promo = 1');
+                ->andWhere('p.discount = 1');
         }
 
         if (!empty($search->categories)) {
@@ -70,6 +70,28 @@ class ProductRepository extends ServiceEntityRepository
         }
 
         $query = $query->getQuery();
+        return $this->paginator->paginate(
+            $query,
+            $search->page,
+            9
+        );
+    }
+
+    /**
+     * Fetching products on discount with a search
+     *
+     * @return PaginationInterface
+     */
+    public function findDiscount(SearchData $search): PaginationInterface
+    {
+        $search->discount;
+        $query = $this
+        ->createQueryBuilder('p')
+        ->select('c', 'p')
+        ->join('p.categories', 'c')
+        ->andWhere('p.discount = 1');
+
+    $query = $query->getQuery();
         return $this->paginator->paginate(
             $query,
             $search->page,

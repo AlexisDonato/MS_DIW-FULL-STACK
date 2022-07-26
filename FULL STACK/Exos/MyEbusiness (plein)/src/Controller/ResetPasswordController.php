@@ -3,8 +3,11 @@
 namespace App\Controller;
 
 use App\Entity\User;
+use App\Data\SearchData;
 use Symfony\Component\Mime\Address;
 use App\Form\ChangePasswordFormType;
+use App\Repository\ProductRepository;
+use App\Repository\CategoryRepository;
 use Doctrine\ORM\EntityManagerInterface;
 use App\Form\ResetPasswordRequestFormType;
 use Symfony\Bridge\Twig\Mime\TemplatedEmail;
@@ -38,10 +41,17 @@ class ResetPasswordController extends AbstractController
      * Display & process form to request a password reset.
      */
     #[Route('', name: 'app_forgot_password_request')]
-    public function request(Request $request, MailerInterface $mailer, TranslatorInterface $translator): Response
+    public function request(Request $request, MailerInterface $mailer, TranslatorInterface $translator, CategoryRepository $categoryRepository, ProductRepository $productRepository): Response
     {
         $form = $this->createForm(ResetPasswordRequestFormType::class);
         $form->handleRequest($request);
+
+        $categories = $categoryRepository->findAll();
+        $data = new SearchData();
+        $products = $productRepository->findSearch($data);
+        $products2 =$productRepository->findAll();
+        $discount = $productRepository->findDiscount($data);
+        $discount2 =$productRepository->findBy(['discount' => true]);
 
         if ($form->isSubmitted() && $form->isValid()) {         
             return $this->processSendingPasswordResetEmail(
@@ -53,6 +63,11 @@ class ResetPasswordController extends AbstractController
 
         return $this->render('reset_password/request.html.twig', [
             'requestForm' => $form->createView(),
+            'products' => $products,
+            'products2' => $products2,
+            'categories' => $categories,
+            'discount' => $discount,
+            'discount2' => $discount2,
         ]);
     }
 
@@ -60,8 +75,15 @@ class ResetPasswordController extends AbstractController
      * Confirmation page after a user has requested a password reset.
      */
     #[Route('/check-email', name: 'app_check_email')]
-    public function checkEmail(): Response
+    public function checkEmail(CategoryRepository $categoryRepository, ProductRepository $productRepository): Response
     {
+        $categories = $categoryRepository->findAll();
+        $data = new SearchData();
+        $products = $productRepository->findSearch($data);
+        $products2 =$productRepository->findAll();
+        $discount = $productRepository->findDiscount($data);
+        $discount2 =$productRepository->findBy(['discount' => true]);
+
         // Generate a fake token if the user does not exist or someone hit this page directly.
         // This prevents exposing whether or not a user was found with the given email address or not
         if (null === ($resetToken = $this->getTokenObjectFromSession())) {
@@ -70,6 +92,11 @@ class ResetPasswordController extends AbstractController
 
         return $this->render('reset_password/check_email.html.twig', [
             'resetToken' => $resetToken,
+            'products' => $products,
+            'products2' => $products2,
+            'categories' => $categories,
+            'discount' => $discount,
+            'discount2' => $discount2,
         ]);
     }
 
@@ -77,8 +104,9 @@ class ResetPasswordController extends AbstractController
      * Validates and process the reset URL that the user clicked in their email.
      */
     #[Route('/reset/{token}', name: 'app_reset_password')]
-    public function reset(Request $request, UserPasswordHasherInterface $userPasswordHasher, TranslatorInterface $translator, string $token = null): Response
+    public function reset(CategoryRepository $categoryRepository, ProductRepository $productRepository, Request $request, UserPasswordHasherInterface $userPasswordHasher, TranslatorInterface $translator, string $token = null): Response
     {
+
         if ($token) {
             // We store the token in session and remove it from the URL, to avoid the URL being
             // loaded in a browser and potentially leaking the token to 3rd party JavaScript.
@@ -108,6 +136,13 @@ class ResetPasswordController extends AbstractController
         $form = $this->createForm(ChangePasswordFormType::class);
         $form->handleRequest($request);
 
+        $categories = $categoryRepository->findAll();
+        $data = new SearchData();
+        $products = $productRepository->findSearch($data);
+        $products2 =$productRepository->findAll();
+        $discount = $productRepository->findDiscount($data);
+        $discount2 =$productRepository->findBy(['discount' => true]);
+
         if ($form->isSubmitted() && $form->isValid()) {
             // A password reset token should be used only once, remove it.
             $this->resetPasswordHelper->removeResetRequest($token);
@@ -129,6 +164,11 @@ class ResetPasswordController extends AbstractController
 
         return $this->render('reset_password/reset.html.twig', [
             'resetForm' => $form->createView(),
+            'products' => $products,
+            'products2' => $products2,
+            'categories' => $categories,
+            'discount' => $discount,
+            'discount2' => $discount2,
         ]);
     }
 
@@ -175,5 +215,27 @@ class ResetPasswordController extends AbstractController
         $this->setTokenObjectInSession($resetToken);
 
         return $this->redirectToRoute('app_check_email');
+    }
+
+
+    public function alim(CategoryRepository $categoryRepository, Request $request,ProductRepository $productRepository){
+        $categories = $categoryRepository->findAll();
+        $data = new SearchData();
+        $data->page = $request->get('page', 1);
+        $form = $this->createForm(SearchType::class, $data);
+        $form->handleRequest($request);
+        $products = $productRepository->findSearch($data);
+        $products2 =$productRepository->findAll();
+        $discount = $productRepository->findDiscount($data);
+        $discount2 =$productRepository->findBy(['discount' => true]);
+    
+        return [
+            'products' => $products,
+            'products2' => $products2,
+            'categories' => $categories,
+            'discount' => $discount,
+            'discount2' => $discount2,
+            'form' => $form->createView()
+        ];
     }
 }

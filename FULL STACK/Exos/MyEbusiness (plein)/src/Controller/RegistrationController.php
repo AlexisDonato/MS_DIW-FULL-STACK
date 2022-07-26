@@ -3,9 +3,12 @@
 namespace App\Controller;
 
 use App\Entity\User;
+use App\Data\SearchData;
 use App\Security\EmailVerifier;
 use App\Form\RegistrationFormType;
 use Symfony\Component\Mime\Address;
+use App\Repository\ProductRepository;
+use App\Repository\CategoryRepository;
 use Doctrine\ORM\EntityManagerInterface;
 use Symfony\Bridge\Twig\Mime\TemplatedEmail;
 use Symfony\Component\HttpFoundation\Request;
@@ -27,12 +30,18 @@ class RegistrationController extends AbstractController
     }
 
     #[Route('/register', name: 'app_register')]
-    public function register(Request $request, UserPasswordHasherInterface $userPasswordHasher, EntityManagerInterface $entityManager): Response
+    public function register(Request $request, UserPasswordHasherInterface $userPasswordHasher, EntityManagerInterface $entityManager, CategoryRepository $categoryRepository, ProductRepository $productRepository): Response
     {
         $user = new User();
         $form = $this->createForm(RegistrationFormType::class, $user);
         $form->handleRequest($request);
 
+        $categories = $categoryRepository->findAll();
+        $data = new SearchData();
+        $products = $productRepository->findSearch($data);
+        $products2 =$productRepository->findAll();
+        $discount = $productRepository->findDiscount($data);
+        $discount2 =$productRepository->findBy(['discount' => true]);
         if ($form->isSubmitted() && $form->isValid()) {
             // encode the plain password
             $user->setPassword(
@@ -61,6 +70,11 @@ class RegistrationController extends AbstractController
 
         return $this->render('registration/register.html.twig', [
             'registrationForm' => $form->createView(),
+            'products' => $products,
+            'products2' => $products2,
+            'categories' => $categories,
+            'discount' => $discount,
+            'discount2' => $discount2,
         ]);
     }
 
@@ -83,4 +97,5 @@ class RegistrationController extends AbstractController
 
         return $this->redirectToRoute('app_register');
     }
+
 }
