@@ -40,7 +40,7 @@ class UserController extends AbstractController
     }
 
     #[Route('/new', name: 'app_user_new', methods: ['GET', 'POST'])]
-    public function new(Request $request, UserPasswordHasherInterface $userPasswordHasher, EntityManagerInterface $entityManager, CategoryRepository $categoryRepository, ProductRepository $productRepository): Response
+    public function new(Request $request, UserPasswordHasherInterface $userPasswordHasher,UserRepository $userRepository, EntityManagerInterface $entityManager, CategoryRepository $categoryRepository, ProductRepository $productRepository): Response
     {
         $this->denyAccessUnlessGranted('ROLE_ADMIN', null, 'User tried to access a page without having ROLE_ADMIN');
 
@@ -60,6 +60,8 @@ class UserController extends AbstractController
             // transforms json column into str
             $roles = $form->get('roles')->getData();
             $user->setRoles($roles);
+
+            // $userRepository->add($user, true);
 
             // encode the plain password
             $user->setPassword(
@@ -144,7 +146,7 @@ class UserController extends AbstractController
                 $entityManager->persist($user);
                 $entityManager->flush();
 
-                return $this->redirectToRoute('app_home', [], Response::HTTP_SEE_OTHER);
+                return $this->redirectToRoute('app_user_index', [], Response::HTTP_SEE_OTHER);
             // return $this->redirectToRoute('{{ path('app_user_show', {'id': app.user.id}) }}', [], Response::HTTP_SEE_OTHER);
         }
 

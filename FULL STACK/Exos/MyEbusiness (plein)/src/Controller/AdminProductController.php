@@ -4,10 +4,10 @@ namespace App\Controller;
 
 use App\Entity\Product;
 use App\Data\SearchData;
-use App\Form\SearchType;
 use App\Form\ProductType;
 use App\Repository\ProductRepository;
 use App\Repository\CategoryRepository;
+use Doctrine\ORM\EntityManager;
 use Doctrine\ORM\EntityManagerInterface;
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpFoundation\Response;
@@ -24,7 +24,7 @@ class AdminProductController extends AbstractController
 
         $categories = $categoryRepository->findAll();
         $data = new SearchData();
-        $products = $productRepository->findSearch($data);
+        $products = $productRepository->findAll();
         $products2 =$productRepository->findAll();
         $discount = $productRepository->findDiscount($data);
         $discount2 =$productRepository->findBy(['discount' => true]);
@@ -39,9 +39,10 @@ class AdminProductController extends AbstractController
     }
 
     #[Route('/admin/product/new', name: 'app_admin_product_new', methods: ['GET', 'POST'])]
-    public function new(Request $request, Product $product, ProductRepository $productRepository, CategoryRepository $categoryRepository): Response
+    public function new(Request $request, ProductRepository $productRepository, CategoryRepository $categoryRepository,EntityManagerInterface $entityManager): Response
     {
         $this->denyAccessUnlessGranted('ROLE_ADMIN', null, 'User tried to access a page without having ROLE_ADMIN');
+
         $product = new Product();
         $form = $this->createForm(ProductType::class, $product);
         $form->handleRequest($request);
@@ -55,21 +56,14 @@ class AdminProductController extends AbstractController
 
         if ($form->isSubmitted() && $form->isValid()) {
 
-            $picture = $form->get('picture')->getData();
-            $fileName = $form->get('name')->getData().'.'.$picture->guessExtension();
-            $picture->move($this->getParameter('pictures_directory'), $fileName);
+            $image = $form->get('image')->getData();
+            $fileName = $form->get('name')->getData().'.'.$image->guessExtension();
+            $image->move($this->getParameter('images_directory'), $fileName);
             $product->setImage($fileName);
-            $productRepository->add($product, true);
-            // $aMimeTypes = array("image/gif", "image/jpeg", "image/jpg", "image/png", "image/x-png", "image/tiff");
-            // $file = $request->files->get('products');
-            // $file = $file['image']->getData();
 
-            // if (in_array($file->getClientmimeType(), $aMimeTypes)) {
-            //     if ($file->move('assets/src/', $file->getClientOriginalName())) {
-            //         $product->setImage($file->getClientOriginalName());
-            //         $entityManager->persist($product);
-            //         $entityManager->flush();
-
+            $entityManager->persist($product);
+            $entityManager->flush();
+ 
             return $this->redirectToRoute('app_admin_product_index', [], Response::HTTP_SEE_OTHER);
         }
 
@@ -108,9 +102,10 @@ class AdminProductController extends AbstractController
     }
 
     #[Route('/admin/product/{id}/edit', name: 'app_admin_product_edit', methods: ['GET', 'POST'])]
-    public function edit(Request $request, Product $product, ProductRepository $productRepository, CategoryRepository $categoryRepository): Response
+    public function edit(Request $request, Product $product, ProductRepository $productRepository, CategoryRepository $categoryRepository, EntityManagerInterface $entityManager): Response
     {
         $this->denyAccessUnlessGranted('ROLE_ADMIN', null, 'User tried to access a page without having ROLE_ADMIN');
+
         $form = $this->createForm(ProductType::class, $product);
         $form->handleRequest($request);
 
@@ -120,24 +115,16 @@ class AdminProductController extends AbstractController
         $products2 =$productRepository->findAll();
         $discount = $productRepository->findDiscount($data);
         $discount2 =$productRepository->findBy(['discount' => true]);
+        
         if ($form->isSubmitted() && $form->isValid()) {
 
-            $picture = $form->get('picture')->getData();
-            $fileName = $form->get('name')->getData().'.'.$picture->guessExtension();
-            $picture->move($this->getParameter('pictures_directory'), $fileName);
+            $image = $form->get('image')->getData();
+            $fileName = $form->get('name')->getData().'.'.$image->guessExtension();
+            $image->move($this->getParameter('images_directory'), $fileName);
             $product->setImage($fileName);
-            $productRepository->add($product, true);
-            // $aMimeTypes = array("image/gif", "image/jpeg", "image/jpg", "image/png", "image/x-png", "image/tiff");
-            // $file = $request->files->get('products');
 
-            // $file = $file['image']->getData();;
-            // if (!empty($file)&& in_array($file->getClientmimeType(), $aMimeTypes)) {
-            //     if ($file->move('assets/src/', $file->getClientOriginalName())) {
-            //         $product->setImage($file->getClientOriginalName());
-            //     }
-
-            // }
-            // $entityManager->flush();
+            $entityManager->persist($product);
+            $entityManager->flush();
 
             return $this->redirectToRoute('app_admin_product_index', [], Response::HTTP_SEE_OTHER);
         }
@@ -158,6 +145,7 @@ class AdminProductController extends AbstractController
     public function delete(Request $request, Product $product, EntityManagerInterface $entityManager): Response
     {
         $this->denyAccessUnlessGranted('ROLE_ADMIN', null, 'User tried to access a page without having ROLE_ADMIN');
+
         if ($this->isCsrfTokenValid('delete'.$product->getId(), $request->request->get('_token'))) {
             $entityManager->remove($product);
             $entityManager->flush();

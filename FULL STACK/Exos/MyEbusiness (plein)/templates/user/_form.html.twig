@@ -4,6 +4,8 @@
     
     {{ form_row(form.email) }}<span id="wrongEmail"></span>
 
+    {{ form_row(form.plainPassword )}}
+
     {% if is_granted('ROLE_ADMIN') %}
     {{ form_row(form.roles) }}
      {% else %}

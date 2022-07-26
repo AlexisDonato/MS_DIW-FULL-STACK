@@ -4,7 +4,7 @@
 
 {% block body %}
 <div class="container justify-content-center">
-    <h1 class="text-danger ml-5 mb-3">Edit user {{ app.user.email }}</h1>
+    <h1 class="text-danger ml-5 mb-3 mt-3">Edit user {{ app.user.email }}</h1>
 
     {{ include('user/_form.html.twig', {'button_label': 'Update'}) }}
 
