@@ -8,6 +8,7 @@ use App\Data\SearchData;
 use App\Repository\UserRepository;
 use App\Repository\ProductRepository;
 use App\Repository\CategoryRepository;
+use App\Service\Cart\CartService;
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpFoundation\Response;
 use Symfony\Component\Routing\Annotation\Route;
@@ -17,7 +18,7 @@ use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
 class ClientController extends AbstractController
 {
     #[Route('/{id}', name: 'app_client_show', methods: ['GET'])]
-    public function show(User $user, CategoryRepository $categoryRepository,ProductRepository $productRepository): Response
+    public function show(CartService $cartService, User $user, CategoryRepository $categoryRepository,ProductRepository $productRepository): Response
     {
         $categories = $categoryRepository->findAll();
         $data = new SearchData();
@@ -34,12 +35,14 @@ class ClientController extends AbstractController
                 $this->denyAccessUnlessGranted('ROLE_ADMIN', null, 'User tried to access a page without having ROLE_ADMIN');
             }
             return $this->render('client/show.html.twig', [
-            'user' => $user,
-            'products' => $products,
-            'products2' => $products2,
-            'categories' => $categories,
-            'discount' => $discount,
-            'discount2' => $discount2,
+                'items' => $cartService->getFullCart(),
+                'total' => $cartService->getTotal(),
+                'user' => $user,
+                'products' => $products,
+                'products2' => $products2,
+                'categories' => $categories,
+                'discount' => $discount,
+                'discount2' => $discount2,
         ]);
         } else {
             $this->addFlash(
@@ -52,7 +55,7 @@ class ClientController extends AbstractController
     }
 
     #[Route('/{id}/edit', name: 'app_client_edit', methods: ['GET', 'POST'])]
-    public function edit(Request $request, User $user, UserRepository $userRepository, CategoryRepository $categoryRepository,ProductRepository $productRepository): Response
+    public function edit(CartService $cartService, Request $request, User $user, UserRepository $userRepository, CategoryRepository $categoryRepository,ProductRepository $productRepository): Response
     {
         $categories = $categoryRepository->findAll();
         $data = new SearchData();
@@ -79,14 +82,16 @@ class ClientController extends AbstractController
             }
 
             return $this->renderForm('client/edit.html.twig', [
-            'user' => $user,
-            'form' => $form,
-            'user' => $user,
-            'products' => $products,
-            'products2' => $products2,
-            'categories' => $categories,
-            'discount' => $discount,
-            'discount2' => $discount2,
+                'items' => $cartService->getFullCart(),
+                'total' => $cartService->getTotal(),
+                'user' => $user,
+                'form' => $form,
+                'user' => $user,
+                'products' => $products,
+                'products2' => $products2,
+                'categories' => $categories,
+                'discount' => $discount,
+                'discount2' => $discount2,
         ]);
         } else {
             $this->addFlash(

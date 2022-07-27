@@ -1,5 +1,8 @@
 <div class="card bg-dark">
+
+    <img src="/img/{{ product.image }}" class="card-img-top">
     <img src="{{ product.image }}" class="card-img-top">
+
         <div class="card-body">
             <h5 class="card-title">{{ product.name }}</h5>
             <div class="card-title text-primary" style="font-weight: bold; font-size: 1.5rem;">
@@ -13,6 +16,11 @@
                 {% for c in product.categories %}
                     <em class="text-info text-primary text-italic">#{{ c.name }}</em>
                 {% endfor %}
+            </div>
+            <div class="position-relative">
+            <a href="{{ path('app_cart_add', {'id': product.id}) }}" class="btn btn-primary float-right">
+            <i class="fa-solid fa-cart-plus mr-1"></i>
+            </a>
+            </div>
         </div>
-    </div>
 </div>

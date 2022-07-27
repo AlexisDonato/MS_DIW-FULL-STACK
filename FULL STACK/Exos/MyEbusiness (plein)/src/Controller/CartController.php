@@ -3,18 +3,16 @@
 namespace App\Controller;
 
 use App\Data\SearchData;
-use App\Form\SearchType;
 use App\Repository\ProductRepository;
 use App\Repository\CategoryRepository;
-use App\Service\Cart\CartService;
-use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpFoundation\Response;
 use Symfony\Component\Routing\Annotation\Route;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
+use App\Service\Cart\CartService;
 
-class HomeController extends AbstractController
+class CartController extends AbstractController
 {
-    #[Route('/', name: 'app_home')]
+    #[Route('/cart', name: 'app_cart_index')]
     public function index(CartService $cartService, ProductRepository $productRepository, CategoryRepository $categoryRepository): Response
     {
         $categories = $categoryRepository->findAll();
@@ -24,7 +22,7 @@ class HomeController extends AbstractController
         $discount = $productRepository->findDiscount($data);
         $discount2 =$productRepository->findBy(['discount' => true]);
 
-        return $this->render('home/index.html.twig', [
+        return $this->render('cart/index.html.twig', [
             'items' => $cartService->getFullCart(),
             'total' => $cartService->getTotal(),
             'products' => $products,
@@ -33,5 +31,21 @@ class HomeController extends AbstractController
             'discount' => $discount,
             'discount2' => $discount2,
         ]);
+    }
+
+    #[Route('/cart/add/{id}', name: 'app_cart_add')]
+    public function add($id, CartService $cartService) 
+    {
+        $cartService->add($id);
+
+        return $this->redirectToRoute('app_cart_index');
+    }
+
+    #[Route('/cart/remove/{id}', name: 'app_cart_remove')]
+    public function remove($id, CartService $cartService) 
+    {
+        $cartService->remove($id);
+
+        return $this->redirectToRoute("app_cart_index");
     }
 }

@@ -10,6 +10,7 @@ use App\Repository\ProductRepository;
 use App\Repository\CategoryRepository;
 use Doctrine\ORM\EntityManagerInterface;
 use App\Form\ResetPasswordRequestFormType;
+use App\Service\Cart\CartService;
 use Symfony\Bridge\Twig\Mime\TemplatedEmail;
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\Mailer\MailerInterface;
@@ -41,7 +42,7 @@ class ResetPasswordController extends AbstractController
      * Display & process form to request a password reset.
      */
     #[Route('', name: 'app_forgot_password_request')]
-    public function request(Request $request, MailerInterface $mailer, TranslatorInterface $translator, CategoryRepository $categoryRepository, ProductRepository $productRepository): Response
+    public function request(CartService $cartService, Request $request, MailerInterface $mailer, TranslatorInterface $translator, CategoryRepository $categoryRepository, ProductRepository $productRepository): Response
     {
         $form = $this->createForm(ResetPasswordRequestFormType::class);
         $form->handleRequest($request);
@@ -62,6 +63,8 @@ class ResetPasswordController extends AbstractController
         }
 
         return $this->render('reset_password/request.html.twig', [
+            'items' => $cartService->getFullCart(),
+            'total' => $cartService->getTotal(),
             'requestForm' => $form->createView(),
             'products' => $products,
             'products2' => $products2,
@@ -75,7 +78,7 @@ class ResetPasswordController extends AbstractController
      * Confirmation page after a user has requested a password reset.
      */
     #[Route('/check-email', name: 'app_check_email')]
-    public function checkEmail(CategoryRepository $categoryRepository, ProductRepository $productRepository): Response
+    public function checkEmail(CartService $cartService, CategoryRepository $categoryRepository, ProductRepository $productRepository): Response
     {
         $categories = $categoryRepository->findAll();
         $data = new SearchData();
@@ -91,6 +94,8 @@ class ResetPasswordController extends AbstractController
         }
 
         return $this->render('reset_password/check_email.html.twig', [
+            'items' => $cartService->getFullCart(),
+            'total' => $cartService->getTotal(),
             'resetToken' => $resetToken,
             'products' => $products,
             'products2' => $products2,
@@ -104,7 +109,7 @@ class ResetPasswordController extends AbstractController
      * Validates and process the reset URL that the user clicked in their email.
      */
     #[Route('/reset/{token}', name: 'app_reset_password')]
-    public function reset(CategoryRepository $categoryRepository, ProductRepository $productRepository, Request $request, UserPasswordHasherInterface $userPasswordHasher, TranslatorInterface $translator, string $token = null): Response
+    public function reset(CartService $cartService, CategoryRepository $categoryRepository, ProductRepository $productRepository, Request $request, UserPasswordHasherInterface $userPasswordHasher, TranslatorInterface $translator, string $token = null): Response
     {
 
         if ($token) {
@@ -163,6 +168,8 @@ class ResetPasswordController extends AbstractController
         }
 
         return $this->render('reset_password/reset.html.twig', [
+            'items' => $cartService->getFullCart(),
+            'total' => $cartService->getTotal(),
             'resetForm' => $form->createView(),
             'products' => $products,
             'products2' => $products2,
@@ -217,25 +224,4 @@ class ResetPasswordController extends AbstractController
         return $this->redirectToRoute('app_check_email');
     }
 
-
-    public function alim(CategoryRepository $categoryRepository, Request $request,ProductRepository $productRepository){
-        $categories = $categoryRepository->findAll();
-        $data = new SearchData();
-        $data->page = $request->get('page', 1);
-        $form = $this->createForm(SearchType::class, $data);
-        $form->handleRequest($request);
-        $products = $productRepository->findSearch($data);
-        $products2 =$productRepository->findAll();
-        $discount = $productRepository->findDiscount($data);
-        $discount2 =$productRepository->findBy(['discount' => true]);
-    
-        return [
-            'products' => $products,
-            'products2' => $products2,
-            'categories' => $categories,
-            'discount' => $discount,
-            'discount2' => $discount2,
-            'form' => $form->createView()
-        ];
-    }
 }

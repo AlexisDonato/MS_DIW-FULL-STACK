@@ -51,23 +51,4 @@ use Symfony\Component\Security\Http\Authentication\AuthenticationUtils;
         throw new \Exception('Don\'t forget to activate logout in security.yaml');
     }
 
-    public function alim(CategoryRepository $categoryRepository, Request $request,ProductRepository $productRepository){
-        $categories = $categoryRepository->findAll();
-        $data = new SearchData();
-        $data->page = $request->get('page', 1);
-        $form = $this->createForm(SearchType::class, $data);
-        $form->handleRequest($request);
-        $products = $productRepository->findSearch($data);
-        $products2 =$productRepository->findAll();
-        $discount = $productRepository->findDiscount($data);
-        $discount2 =$productRepository->findBy(['discount' => true]);
-
-        return ['products' => $products,
-            'products2' => $products2,
-            'categories' => $categories,
-            'discount' => $discount,
-            'discount2' => $discount2,
-            'form' => $form->createView()
-        ];
-    }
     }

@@ -30,8 +30,6 @@ class User1Type extends AbstractType
                 ]),
             ]
         ])
-    
-        ->add('plainPassword')
 
         ->add('userName', TextType::class, [
             'required' => true,
