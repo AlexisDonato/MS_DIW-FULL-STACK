@@ -9,6 +9,8 @@ use App\Form\RegistrationFormType;
 use Symfony\Component\Mime\Address;
 use App\Repository\ProductRepository;
 use App\Repository\CategoryRepository;
+use App\Repository\OrderDetailsRepository;
+use App\Service\Cart\CartService;
 use Doctrine\ORM\EntityManagerInterface;
 use Symfony\Bridge\Twig\Mime\TemplatedEmail;
 use Symfony\Component\HttpFoundation\Request;
@@ -30,7 +32,7 @@ class RegistrationController extends AbstractController
     }
 
     #[Route('/register', name: 'app_register')]
-    public function register(Request $request, UserPasswordHasherInterface $userPasswordHasher, EntityManagerInterface $entityManager, CategoryRepository $categoryRepository, ProductRepository $productRepository): Response
+    public function register(CartService $cartService, Request $request, UserPasswordHasherInterface $userPasswordHasher, EntityManagerInterface $entityManager, CategoryRepository $categoryRepository, ProductRepository $productRepository, OrderDetailsRepository $orderDetails): Response
     {
         $user = new User();
         $form = $this->createForm(RegistrationFormType::class, $user);
@@ -51,7 +53,7 @@ class RegistrationController extends AbstractController
                 )
             );
             $user->setBirthdate($form->get('birthdate')->getData());
-
+            $user->setRoles(['ROLE_CLIENT']);
             $entityManager->persist($user);
             $entityManager->flush();
 
@@ -69,6 +71,9 @@ class RegistrationController extends AbstractController
         }
 
         return $this->render('registration/register.html.twig', [
+            'items' => $cartService->getFullCart($orderDetails),
+            'count'     => $cartService->getItemCount($orderDetails),
+            'total' => $cartService->getTotal(),
             'registrationForm' => $form->createView(),
             'products' => $products,
             'products2' => $products2,
@@ -94,6 +99,10 @@ class RegistrationController extends AbstractController
 
         // @TODO Change the redirect on success and handle or remove the flash message in your templates
         $this->addFlash('success', 'Your email address has been verified.');
+        $user = $this->getUser();
+        $roles = $user->getRoles();
+        array_push($roles, 'ROLE_CLIENT');
+        $user->setRoles($roles);
 
         return $this->redirectToRoute('app_home');
     }

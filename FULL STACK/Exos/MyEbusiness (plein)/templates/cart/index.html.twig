@@ -5,7 +5,7 @@
 {% block body %}
 <div class="container">
 <h1 class="text-center text-light mt-3 mb-3">Votre Panier :</h1>
-{% if items|length > 0 %}
+{% if count > 0 %}
     <table class="table table-dark">
         <thead>
             <tr class="text-primary">
@@ -19,13 +19,21 @@
         <tbody>
         {% for item in items %}
             <tr>
-                <td>{{item.product.name}}</td>
-                <td>{{item.product.price}}</td>
-                <td>{{item.quantity}}</td>
-                <td>{{item.product.price * item.quantity}}</td>
+                <td>{{item.Product.name}}</td>
+                <td>{{item.Product.price}}</td>
+                <td>{{item.Quantity}}</td>
+                <td>{{item.Product.price * item.Quantity}}</td>
                 <td>
-                    <a href="{{ path ('app_cart_remove', {'id': item.product.id}) }}" class="btn btn-danger btn-sm">
-                    <i class="fas fa-trash"></i>
+                <a href="{{ path("app_cart_add", {id: item.product.id}) }}" title="Ajouter 1"
+                        class="btn btn-success btn-sm">
+                            <i class="bi bi-cart-plus"></i>
+                    </a>
+                    <a href="{{ path("app_cart_remove", {id: item.product.id}) }}" title="Retirer 1"
+                        class="btn btn-primary btn-sm">
+                        <i class="bi bi-cart-dash"></i>
+                    <a href="{{ path ('app_cart_delete', {'id': item.product.id}) }}" title="Retirer la ligne"
+                        class="btn btn-danger ml-1 btn-sm">
+                        <i class="fas fa-trash"></i>
                     </a>
                 </td>
             </tr>
@@ -34,14 +42,17 @@
         <tfoot>
         <tr>
             <td colspan="3" class="text-right">Total : </td>
-            <td>{{ total }}</td>
-            <td></td>
+            <td>{{ total }} €</td>
+            <td><a href="{{ path("app_cart_deleteAll") }}" class="btn btn-danger" title="Supprimer le panier">
+                    <i class="bi bi-cart-x"></i>
+                </a></td>
         </tr>
         </tfoot>
     </table>
 
 {% else %}
-    <h3>Empty !</h3>
+    <h1 class="text-center mt-5 mb-5">Votre panier est vide !</h1>
+    <br><br><br><br>
 {% endif %}
 </div>
 {% endblock %}

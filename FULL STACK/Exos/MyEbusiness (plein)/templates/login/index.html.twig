@@ -1,12 +1,16 @@
 {% extends 'base.html.twig' %}
 
-{% block title %}Hello LoginController!{% endblock %}
+{% block title %}Hello LoginController!
+{% endblock %}
 
 {% block body %}
-{% if error %}
+	{% if error %}
 		<div>{{ error.messageKey|trans(error.messageData, 'security') }}</div>
 	{% endif %}
-	<h1 class="d-flex justify-content-center text-info mt-3"><b>Sign in</b></h1>
+
+	<h1 class="d-flex justify-content-center text-info mt-3">
+		<b>Sign in</b>
+	</h1>
 
 	<form action="{{ path('login') }}" method="post">
 		<div class="d-flex justify-content-center">
@@ -28,17 +32,18 @@
 		<div class="d-flex justify-content-center mb-4">
 			<button class="btn btn-info btn-sm mr-3" type="submit">Login</button>
 
-            <a href="{{ path('app_forgot_password_request') }}" class="btn btn-outline-info btn-sm ml-3 mr-3">Forgot Password?</a>
+			<a href="{{ path('app_forgot_password_request') }}" class="btn btn-outline-info btn-sm ml-3 mr-3">Forgot Password?</a>
 
 			<a href="{{ path('app_register') }}" class="btn btn-info btn-sm ml-3">Register</a>
 		</div>
 	</form>
 
-    <form class="form-signin" method="post">
-        <div class="checkbox text-center text-warning mb-3">
-            <label>
-                <input type="checkbox" name="_remember_me"> Remember me
-            </label>
-        </div>
-    </form>
+	<form class="form-signin" method="post">
+		<div class="checkbox text-center text-warning mb-3">
+			<label>
+				<input type="checkbox" name="_remember_me">
+				Remember me
+			</label>
+		</div>
+	</form>
 {% endblock %}

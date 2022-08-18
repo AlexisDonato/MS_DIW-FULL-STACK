@@ -8,16 +8,18 @@ use App\Form\SearchType;
 use App\Service\Cart\CartService;
 use App\Repository\ProductRepository;
 use App\Repository\CategoryRepository;
+use App\Repository\OrderDetailsRepository;
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpFoundation\Response;
 use Symfony\Component\Routing\Annotation\Route;
+use Symfony\Component\Security\Core\User\UserInterface;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
 
 
 class ProductController extends AbstractController
 {
     #[Route('/product', name: 'app_product')]
-    public function index(CartService $cartService, ProductRepository $productRepository, Request $request, CategoryRepository $categoryRepository): Response
+    public function index(CartService $cartService, ?UserInterface $user, ProductRepository $productRepository, Request $request, CategoryRepository $categoryRepository, OrderDetailsRepository $orderDetails): Response
     {
         $categories = $categoryRepository->findAll();
         $data = new SearchData();
@@ -29,10 +31,12 @@ class ProductController extends AbstractController
         $discount = $productRepository->findDiscount($data);
         $discount2 =$productRepository->findBy(['discount' => true]);
 
-
+        $cartService->setUser($user);
+        
         return $this->render('product/index.html.twig', [
-            'items' => $cartService->getFullCart(),
-            'total' => $cartService->getTotal(),
+            'items'     => $cartService->getFullCart($orderDetails),
+            'count'     => $cartService->getItemCount($orderDetails),
+            'total' => $cartService->getTotal($orderDetails),
             'products' => $products,
             'products2' => $products2,
             'categories' => $categories,
@@ -43,7 +47,7 @@ class ProductController extends AbstractController
     }
 
     #[Route('/catalogue/{category}', name: 'app_catalogue')]
-    public function index2(CartService $cartService, ProductRepository $productRepository, Request $request, Category $category, CategoryRepository $categoryRepository): Response
+    public function index2(CartService $cartService, ProductRepository $productRepository, Request $request, Category $category, CategoryRepository $categoryRepository, OrderDetailsRepository $orderDetails): Response
     {
         $categories = $categoryRepository->findAll();
         $data = new SearchData();
@@ -58,8 +62,9 @@ class ProductController extends AbstractController
 
 
         return $this->render('product/index.html.twig', [
-            'items' => $cartService->getFullCart(),
-            'total' => $cartService->getTotal(),
+            'items'     => $cartService->getFullCart($orderDetails),
+            'count'     => $cartService->getItemCount($orderDetails),
+            'total' => $cartService->getTotal($orderDetails),
             'products' => $products,
             'products2' => $products2,
             'categories' => $categories,
@@ -70,7 +75,7 @@ class ProductController extends AbstractController
     }
 
     #[Route('/discount/{disc}', name: 'app_discount',defaults:['disc'=>1])]
-    public function index3(CartService $cartService, ProductRepository $productRepository, Request $request, CategoryRepository $categoryRepository,int $disc): Response
+    public function index3(CartService $cartService, ProductRepository $productRepository, Request $request, CategoryRepository $categoryRepository,int $disc, OrderDetailsRepository $orderDetails, ?UserInterface $user): Response
     {
         switch($disc){
             case "0": $disc=false;
@@ -91,9 +96,12 @@ class ProductController extends AbstractController
         $discount = $productRepository->findDiscount($data);
         $discount2 =$productRepository->findBy(['discount' => $disc]);
 
+        $cartService->setUser($user);
+
         return $this->render('product/index.html.twig', [
-            'items' => $cartService->getFullCart(),
-            'total' => $cartService->getTotal(),
+            'items'     => $cartService->getFullCart($orderDetails),
+            'count'     => $cartService->getItemCount($orderDetails),
+            'total' => $cartService->getTotal($orderDetails),
             'products' => $products,
             'products2' => $products2,
             'categories' => $categories,

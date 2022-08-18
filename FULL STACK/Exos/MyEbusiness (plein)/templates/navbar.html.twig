@@ -48,7 +48,7 @@
 						<a class="nav-link" href="{{ path('app_discount') }}">
 							<div>
 							<i class="fa-solid fa-hand-holding-dollar fa-lg mb-1"></i>
-							<span class="badge rounded-pill badge-notification bg-secondary position-absolute top-0 start-100 translate-middle">
+							<span class="badge rounded-pill badge-notification bg-warning text-dark position-absolute top-0 start-100 translate-middle">
 							{{ discount2|length }}
 							</span>
 							</div>
@@ -60,12 +60,12 @@
 						<a class="nav-link" href="{{ path('app_cart_index') }}">
 							<div>
 							<i class="fa-solid fa-cart-shopping fa-lg mb-1"></i>
-							{% if is_granted('IS_AUTHENTICATED_FULLY') %}
-							{% if items|length > 0 %}
+							{# {% if is_granted('IS_AUTHENTICATED_FULLY') %} #}
+							{% if count > 0 %}
 							<span class="badge rounded-pill badge-notification bg-danger position-absolute top-0 start-100 translate-middle">
-							{{ items|length }}
+							{{ count }}
 							{% endif %}
-							{% endif %}
+							{# {% endif %} #}
 							</span>
 							</div>
 							Votre panier
@@ -74,6 +74,7 @@
 
 					{% if is_granted('ROLE_ADMIN') %}
 						<li class="nav-item dropdown">
+							<i class="fa-solid fa-lock-open fa-lg text-danger ml-4"></i>
 							<a class="nav-link dropdown-toggle text-danger" href="#" id="navbarDropdown" role="button" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false"><b>CRUDs</b></a>
 							<div class="dropdown-menu bg-dark" aria-labelledby="navbarDropdown">
 							<a class="dropdown-item text-danger" href="{{ path('app_user_index') }}"><b>Users index</b></a>
