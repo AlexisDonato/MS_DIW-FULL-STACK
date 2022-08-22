@@ -2,10 +2,10 @@
 
 {{ form_row(form.q) }}
 
-<h4>Catégories</h4>
-{{ form_row(form.categories) }}
+<h3>Catégories</h3>
+<small>{{ form_row(form.categories) }}</small>
 
-<h4>Prix</h4>
+<h3>Prix</h3>
 <div class="row">
     <div class="col-md-6">
         {{ form_row(form.min) }}
@@ -15,8 +15,8 @@
     </div>
 </div>
 
-<h4>Promotions</h4>
-{{ form_row(form.discount) }}
+<h3>Promotions</h3>
+<small>{{ form_row(form.discount) }}</small>
 
 
 <button class="btn btn-info w-100 mb-1">Rechercher</button>

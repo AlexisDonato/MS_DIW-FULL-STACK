@@ -7,6 +7,8 @@ use App\Data\SearchData;
 use App\Form\ProductType;
 use App\Repository\ProductRepository;
 use App\Repository\CategoryRepository;
+use App\Repository\OrderDetailsRepository;
+use App\Service\Cart\CartService;
 use Doctrine\ORM\EntityManager;
 use Doctrine\ORM\EntityManagerInterface;
 use Symfony\Component\HttpFoundation\Request;
@@ -18,8 +20,13 @@ use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
 class AdminProductController extends AbstractController
 {
     #[Route('/admin/product/', name: 'app_admin_product_index', methods: ['GET'])]
-    public function index(CategoryRepository $categoryRepository,ProductRepository $productRepository): Response
+    public function index(CategoryRepository $categoryRepository,ProductRepository $productRepository, CartService $cartService, OrderDetailsRepository $orderDetails): Response
     {
+        if (!$this->isGranted('ROLE_ADMIN')) {
+            $this->addFlash('error', 'Access denied');
+            return $this->redirectToRoute('login');  
+        }
+
         $this->denyAccessUnlessGranted('ROLE_ADMIN', null, 'User tried to access a page without having ROLE_ADMIN');
 
         $categories = $categoryRepository->findAll();
@@ -30,6 +37,9 @@ class AdminProductController extends AbstractController
         $discount2 =$productRepository->findBy(['discount' => true]);
 
         return $this->render('admin_product/index.html.twig', [
+            'items'     => $cartService->getFullCart($orderDetails),
+            'count'     => $cartService->getItemCount($orderDetails),
+            'total' => $cartService->getTotal($orderDetails),
             'products' => $products,
             'products2' => $products2,
             'categories' => $categories,
@@ -39,8 +49,13 @@ class AdminProductController extends AbstractController
     }
 
     #[Route('/admin/product/new', name: 'app_admin_product_new', methods: ['GET', 'POST'])]
-    public function new(Request $request, ProductRepository $productRepository, CategoryRepository $categoryRepository,EntityManagerInterface $entityManager): Response
+    public function new(Request $request, ProductRepository $productRepository, CategoryRepository $categoryRepository,EntityManagerInterface $entityManager, CartService $cartService, OrderDetailsRepository $orderDetails): Response
     {
+        if (!$this->isGranted('ROLE_ADMIN')) {
+            $this->addFlash('error', 'Access denied');
+            return $this->redirectToRoute('login');  
+        }
+
         $this->denyAccessUnlessGranted('ROLE_ADMIN', null, 'User tried to access a page without having ROLE_ADMIN');
 
         $product = new Product();
@@ -69,6 +84,9 @@ class AdminProductController extends AbstractController
 
 
         return $this->renderForm('admin_product/new.html.twig', [
+            'items'     => $cartService->getFullCart($orderDetails),
+            'count'     => $cartService->getItemCount($orderDetails),
+            'total' => $cartService->getTotal($orderDetails),
             'product' => $product,
             'form' => $form,
             'products' => $products,
@@ -80,8 +98,13 @@ class AdminProductController extends AbstractController
     }
 
     #[Route('/admin/product/{id}', name: 'app_admin_product_show', methods: ['GET'])]
-    public function show(Product $product, ProductRepository $productRepository, CategoryRepository $categoryRepository): Response
+    public function show(Product $product, ProductRepository $productRepository, CategoryRepository $categoryRepository, CartService $cartService, OrderDetailsRepository $orderDetails): Response
     {
+        if (!$this->isGranted('ROLE_ADMIN')) {
+            $this->addFlash('error', 'Access denied');
+            return $this->redirectToRoute('login');  
+        }
+
         $this->denyAccessUnlessGranted('ROLE_ADMIN', null, 'User tried to access a page without having ROLE_ADMIN');
 
         $categories = $categoryRepository->findAll();
@@ -92,6 +115,9 @@ class AdminProductController extends AbstractController
         $discount2 =$productRepository->findBy(['discount' => true]);
 
         return $this->render('admin_product/show.html.twig', [
+            'items'     => $cartService->getFullCart($orderDetails),
+            'count'     => $cartService->getItemCount($orderDetails),
+            'total' => $cartService->getTotal($orderDetails),
             'product' => $product,
             'products' => $products,
             'products2' => $products2,
@@ -102,8 +128,13 @@ class AdminProductController extends AbstractController
     }
 
     #[Route('/admin/product/{id}/edit', name: 'app_admin_product_edit', methods: ['GET', 'POST'])]
-    public function edit(Request $request, Product $product, ProductRepository $productRepository, CategoryRepository $categoryRepository, EntityManagerInterface $entityManager): Response
+    public function edit(Request $request, Product $product, ProductRepository $productRepository, CategoryRepository $categoryRepository, EntityManagerInterface $entityManager, CartService $cartService, OrderDetailsRepository $orderDetails): Response
     {
+        if (!$this->isGranted('ROLE_ADMIN')) {
+            $this->addFlash('error', 'Access denied');
+            return $this->redirectToRoute('login');  
+        }
+
         $this->denyAccessUnlessGranted('ROLE_ADMIN', null, 'User tried to access a page without having ROLE_ADMIN');
 
         $form = $this->createForm(ProductType::class, $product);
@@ -130,6 +161,9 @@ class AdminProductController extends AbstractController
         }
 
         return $this->renderForm('admin_product/edit.html.twig', [
+            'items'     => $cartService->getFullCart($orderDetails),
+            'count'     => $cartService->getItemCount($orderDetails),
+            'total' => $cartService->getTotal($orderDetails),
             'product' => $product,
             'form' => $form,
             'product' => $product,
@@ -144,6 +178,11 @@ class AdminProductController extends AbstractController
     #[Route('/admin/product/{id}', name: 'app_admin_product_delete', methods: ['POST'])]
     public function delete(Request $request, Product $product, EntityManagerInterface $entityManager): Response
     {
+        if (!$this->isGranted('ROLE_ADMIN')) {
+            $this->addFlash('error', 'Access denied');
+            return $this->redirectToRoute('login');  
+        }
+        
         $this->denyAccessUnlessGranted('ROLE_ADMIN', null, 'User tried to access a page without having ROLE_ADMIN');
 
         if ($this->isCsrfTokenValid('delete'.$product->getId(), $request->request->get('_token'))) {

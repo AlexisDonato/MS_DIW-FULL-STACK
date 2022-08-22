@@ -73,7 +73,7 @@ class RegistrationController extends AbstractController
         return $this->render('registration/register.html.twig', [
             'items' => $cartService->getFullCart($orderDetails),
             'count'     => $cartService->getItemCount($orderDetails),
-            'total' => $cartService->getTotal(),
+            'total' => $cartService->getTotal($orderDetails),
             'registrationForm' => $form->createView(),
             'products' => $products,
             'products2' => $products2,

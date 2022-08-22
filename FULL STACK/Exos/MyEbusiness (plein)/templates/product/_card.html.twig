@@ -4,7 +4,7 @@
     <img src="{{ product.image }}" class="card-img-top">
 
         <div class="card-body">
-            <h5 class="card-title">{{ product.name }}</h5>
+            <h3 class="card-title">{{ product.name }}</h3>
             <div class="card-title text-primary" style="font-weight: bold; font-size: 1.5rem;">
             {{ product.price | number_format(0, ',', '') }} €
             {% if product.discount %}
@@ -18,9 +18,12 @@
                 {% endfor %}
             </div>
             <div class="position-relative">
-            <a href="{{ path('app_cart_add', {'id': product.id}) }}" class="btn btn-primary float-right">
+            <a href="{{ path('app_cart_add', {'id': product.id}) }}" class="btn btn-primary float-right {% if product.quantity == 0 %} disabled {% endif %}">
             <i class="fa-solid fa-cart-plus mr-1"></i>
             </a>
             </div>
+            {% if product.quantity == 0 %}
+            <br><h3 class="text-warning">Out of stock !</h3>
+            {% endif %}
         </div>
 </div>

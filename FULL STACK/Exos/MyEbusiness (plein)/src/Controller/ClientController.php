@@ -28,6 +28,8 @@ class ClientController extends AbstractController
         $discount = $productRepository->findDiscount($data);
         $discount2 =$productRepository->findBy(['discount' => true]);
 
+        $cartService->setUser($user);
+
         if ($this->getUser()->isVerified()) {
             $this->denyAccessUnlessGranted('IS_AUTHENTICATED_FULLY');
 
@@ -36,7 +38,8 @@ class ClientController extends AbstractController
                 $this->denyAccessUnlessGranted('ROLE_ADMIN', null, 'User tried to access a page without having ROLE_ADMIN');
             }
             return $this->render('client/show.html.twig', [
-                'items' => $cartService->getFullCart($orderDetails),
+                'items'     => $cartService->getFullCart($orderDetails),
+                'count'     => $cartService->getItemCount($orderDetails),
                 'total' => $cartService->getTotal($orderDetails),
                 'user' => $user,
                 'products' => $products,
@@ -65,6 +68,8 @@ class ClientController extends AbstractController
         $discount = $productRepository->findDiscount($data);
         $discount2 =$productRepository->findBy(['discount' => true]);
 
+        $cartService->setUser($user);
+
         if ($this->getUser()->isVerified()) {
             $this->denyAccessUnlessGranted('IS_AUTHENTICATED_FULLY');
 
@@ -83,7 +88,8 @@ class ClientController extends AbstractController
             }
 
             return $this->renderForm('client/edit.html.twig', [
-                'items' => $cartService->getFullCart($orderDetails),
+                'items'     => $cartService->getFullCart($orderDetails),
+                'count'     => $cartService->getItemCount($orderDetails),
                 'total' => $cartService->getTotal($orderDetails),
                 'user' => $user,
                 'form' => $form,

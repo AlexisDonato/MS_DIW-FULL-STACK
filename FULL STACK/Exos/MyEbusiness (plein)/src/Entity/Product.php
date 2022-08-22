@@ -36,6 +36,9 @@ class Product
     #[ORM\ManyToMany(targetEntity: Category::class, inversedBy: 'products')]
     private $categories;
 
+    #[ORM\Column(nullable: true)]
+    private ?int $quantity = null;
+
     public function __construct()
     {
         $this->categories = new ArrayCollection();
@@ -145,5 +148,17 @@ class Product
     public function __toString()
     {
         return $this->name;
+    }
+
+    public function getQuantity(): ?int
+    {
+        return $this->quantity;
+    }
+
+    public function setQuantity(?int $quantity): self
+    {
+        $this->quantity = $quantity;
+
+        return $this;
     }
 }

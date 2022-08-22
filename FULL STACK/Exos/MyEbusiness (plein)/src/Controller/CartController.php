@@ -2,41 +2,31 @@
 
 namespace App\Controller;
 
-use App\Entity\Cart;
 use App\Data\SearchData;
-use App\Repository\CartRepository;
 use App\Service\Cart\CartService;
-use App\Repository\UserRepository;
 use App\Repository\ProductRepository;
 use App\Repository\CategoryRepository;
 use App\Repository\OrderDetailsRepository;
-use Symfony\Component\Security\Core\Security;
 use Symfony\Component\HttpFoundation\Response;
 use Symfony\Component\Routing\Annotation\Route;
-use Symfony\Component\HttpFoundation\RequestStack;
 use Symfony\Component\Security\Core\User\UserInterface;
-use Symfony\Component\HttpFoundation\Session\SessionInterface;
-use Sensio\Bundle\FrameworkExtraBundle\Configuration\IsGranted;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
-
-//use Symfony\Component\Security\Core\User\UserInterface;
 
 class CartController extends AbstractController
 {
     #[Route('/cart', name: 'app_cart_index')]
     // #[IsGranted("ROLE_CLIENT")]
-    public function index(CartRepository $cartRepository, CartService $cartService, ProductRepository $productRepository, CategoryRepository $categoryRepository, ?UserInterface $user, Security $security, ?OrderDetailsRepository $orderDetails): Response
+    public function index(CartService $cartService, ProductRepository $productRepository, CategoryRepository $categoryRepository, ?UserInterface $user, ?OrderDetailsRepository $orderDetails): Response
     {
+        if (!$this->isGranted('ROLE_CLIENT')) {
+            $this->addFlash('info', 'Please login or register first');
+            return $this->redirectToRoute('login');  
+        }
 
-if (!$this->isGranted('ROLE_CLIENT')) {
-    $this->addFlash('success', 'Please log in or register first');
-    return $this->redirectToRoute('login');  
-}
+        if ($this->getUser()->getUserIdentifier() != $user->getUserIdentifier()) {
+            $this->denyAccessUnlessGranted('ROLE_ADMIN', null, 'User tried to access a page without having ROLE_ADMIN');
+        }
 
-
-
-
-        //$session = $requestStack->getSession();
         $categories = $categoryRepository->findAll();
         $data = new SearchData();
         $products = $productRepository->findSearch($data);
@@ -45,11 +35,6 @@ if (!$this->isGranted('ROLE_CLIENT')) {
         $discount2 =$productRepository->findBy(['discount' => true]);
 
         $cartService->setUser($user);
-
-        // if (!$this->security->isGranted("ROLE_CLIENT")) {
-        //     return $this->redirectToRoute("app_register");
-
-        // }
 
         return $this->render('cart/index.html.twig', [
             'items'     => $cartService->getFullCart($orderDetails),
@@ -67,8 +52,12 @@ if (!$this->isGranted('ROLE_CLIENT')) {
     public function add($id, CartService $cartService, ?UserInterface $user) 
     {
         if (!$this->isGranted('ROLE_CLIENT')) {
-            $this->addFlash('success', 'Please log in or register first');
+            $this->addFlash('info', 'Please login or register first');
             return $this->redirectToRoute('login');  
+        }
+
+        if ($this->getUser()->getUserIdentifier() != $user->getUserIdentifier()) {
+            $this->denyAccessUnlessGranted('ROLE_ADMIN', null, 'User tried to access a page without having ROLE_ADMIN');
         }
 
         $cartService->setUser($user);
@@ -80,6 +69,15 @@ if (!$this->isGranted('ROLE_CLIENT')) {
     #[Route('/cart/remove/{id}', name: 'app_cart_remove')]
     public function remove($id, CartService $cartService, ?UserInterface $user) 
     {
+        if (!$this->isGranted('ROLE_CLIENT')) {
+            $this->addFlash('error', 'Access denied');
+            return $this->redirectToRoute('login');  
+        }
+
+        if ($this->getUser()->getUserIdentifier() != $user->getUserIdentifier()) {
+            $this->denyAccessUnlessGranted('ROLE_ADMIN', null, 'User tried to access a page without having ROLE_ADMIN');
+        }
+
         $cartService->setUser($user);
         $cartService->addOrRemove($id, $remove=true);
 
@@ -89,6 +87,15 @@ if (!$this->isGranted('ROLE_CLIENT')) {
     #[Route('/cart/deleteAll', name: 'app_cart_deleteAll')]
     public function deleteALL(CartService $cartService, ?UserInterface $user) 
     {
+        if (!$this->isGranted('ROLE_CLIENT')) {
+            $this->addFlash('error', 'Access denied');
+            return $this->redirectToRoute('login');  
+        }
+
+        if ($this->getUser()->getUserIdentifier() != $user->getUserIdentifier()) {
+            $this->denyAccessUnlessGranted('ROLE_ADMIN', null, 'User tried to access a page without having ROLE_ADMIN');
+        }
+
         $cartService->setUser($user);
         $cartService->deleteALL();
         $this->addFlash('success', 'Votre panier a bien été vidé.');
@@ -98,6 +105,15 @@ if (!$this->isGranted('ROLE_CLIENT')) {
     #[Route('/cart/delete/{id}', name: 'app_cart_delete')]
     public function delete($id, CartService $cartService, ?UserInterface $user) 
     {
+        if (!$this->isGranted('ROLE_CLIENT')) {
+            $this->addFlash('error', 'Access denied');
+            return $this->redirectToRoute('login');  
+        }
+
+        if ($this->getUser()->getUserIdentifier() != $user->getUserIdentifier()) {
+            $this->denyAccessUnlessGranted('ROLE_ADMIN', null, 'User tried to access a page without having ROLE_ADMIN');
+        }
+
         $cartService->setUser($user);
         $cartService->delete($id);
 

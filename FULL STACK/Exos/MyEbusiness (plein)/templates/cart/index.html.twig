@@ -1,58 +1,64 @@
 {% extends 'base.html.twig' %}
 
-{% block title %}Hello CartController!{% endblock %}
+{% block title %}CartController
+{% endblock %}
 
 {% block body %}
-<div class="container">
-<h1 class="text-center text-light mt-3 mb-3">Votre Panier :</h1>
-{% if count > 0 %}
-    <table class="table table-dark">
-        <thead>
-            <tr class="text-primary">
-                <th>Produit</th>
-                <th>Prix</th>
-                <th>Quantité</th>
-                <th>Total</th>
-                <th></th>
-            </tr>
-        </thead>
-        <tbody>
-        {% for item in items %}
-            <tr>
-                <td>{{item.Product.name}}</td>
-                <td>{{item.Product.price}}</td>
-                <td>{{item.Quantity}}</td>
-                <td>{{item.Product.price * item.Quantity}}</td>
-                <td>
-                <a href="{{ path("app_cart_add", {id: item.product.id}) }}" title="Ajouter 1"
-                        class="btn btn-success btn-sm">
-                            <i class="bi bi-cart-plus"></i>
-                    </a>
-                    <a href="{{ path("app_cart_remove", {id: item.product.id}) }}" title="Retirer 1"
-                        class="btn btn-primary btn-sm">
-                        <i class="bi bi-cart-dash"></i>
-                    <a href="{{ path ('app_cart_delete', {'id': item.product.id}) }}" title="Retirer la ligne"
-                        class="btn btn-danger ml-1 btn-sm">
-                        <i class="fas fa-trash"></i>
-                    </a>
-                </td>
-            </tr>
-        {% endfor %}
-        </tbody>
-        <tfoot>
-        <tr>
-            <td colspan="3" class="text-right">Total : </td>
-            <td>{{ total }} €</td>
-            <td><a href="{{ path("app_cart_deleteAll") }}" class="btn btn-danger" title="Supprimer le panier">
-                    <i class="bi bi-cart-x"></i>
-                </a></td>
-        </tr>
-        </tfoot>
-    </table>
-
-{% else %}
-    <h1 class="text-center mt-5 mb-5">Votre panier est vide !</h1>
-    <br><br><br><br>
-{% endif %}
-</div>
+	<div class="container">
+		<h1 class="text-center text-light mt-3 mb-5">Votre Panier :</h1>
+		{% if count > 0 %}
+			<table class="table table-dark">
+				<thead>
+					<tr class="text-primary">
+						<th>Produit</th>
+						<th>Prix</th>
+						<th>Quantité</th>
+						<th>Total</th>
+						<th></th>
+					</tr>
+				</thead>
+				<tbody>
+					{% for item in items %}
+						<tr>
+							<td>{{item.Product.name}}</td>
+							<td>{{item.Product.price}}</td>
+							<td>{{item.Quantity}} {% if item.product.quantity == 0 %} (Cannot add more) {% endif %}</td>
+							<td>{{item.Product.price * item.Quantity}}
+								€</td>
+							<td>
+								<a href="{{ path("app_cart_add", {id: item.product.id}) }}" title="Ajouter 1" class="btn btn-success btn-sm {% if item.product.quantity == 0 %} disabled {% endif %}">
+									<i class="bi bi-cart-plus"></i>
+								</a>
+								<a href="{{ path("app_cart_remove", {id: item.product.id}) }}" title="Retirer 1" class="btn btn-primary btn-sm">
+									<i class="bi bi-cart-dash"></i>
+									<a href="{{ path ('app_cart_delete', {'id': item.product.id}) }}" title="Retirer la ligne" class="btn btn-danger ml-1 btn-sm">
+										<i class="fas fa-trash"></i>
+									</a>
+								</td>
+							</td>
+						</tr>
+					{% endfor %}
+				</tbody>
+				<tfoot>
+					<tr>
+						<td colspan="3" class="text-right">Total :
+						</td>
+						<td>{{ total }}
+							€</td>
+						<td>
+							<a href="{{ path("app_cart_deleteAll") }}" class="btn btn-danger" title="Supprimer le panier">
+								<i class="bi bi-cart-x"></i>
+							</a>
+						</td>
+					</tr>
+				</tfoot>
+			</table>
+			<div class="text-center">
+				<a href="{{ path("app_order") }}" class="btn btn-primary mb-3" title="Finalisez votre commande">Finalisez votre commande</a>
+			</div>
+		{% else %}
+			<h1 class="text-center mt-5 mb-5">Votre panier est vide !</h1>
+			<br><br><br><br>
+		{% endif %}
+	</div>
 {% endblock %}

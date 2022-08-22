@@ -7,6 +7,7 @@ App\Entity\Product:
     categories: '<numberBetween(1,5)>x @category_*'
     discount: '15%? 1 : 0'
     content: "a"
+    quantity: <numberBetween(0, 50)>
 
 App\Entity\Category:
   category_{1..10}:

@@ -1,0 +1,112 @@
+{% extends 'base.html.twig' %}
+
+{% block title %}Hello OrderController!
+{% endblock %}
+
+{% block body %}
+	<div class="container">
+
+		<h1 class="text-center mt-3 mb-5">Votre commande :</h1>
+
+		<h3 class="text-center  mt-5 mb-3">
+			Votre panier :</h3>
+
+		<table class="table table-dark border border-secondary rounded">
+			<thead>
+				<tr class="text-primary">
+					<th>Produit</th>
+					<th>Prix</th>
+					<th>Quantité</th>
+					<th>Total</th>
+					<th></th>
+				</tr>
+			</thead>
+			<tbody>
+				{% for item in items %}
+					<tr>
+						<td>{{item.Product.name}}</td>
+						<td>{{item.Product.price}}</td>
+						<td>{{item.Quantity}}</td>
+						<td>{{item.Product.price * item.Quantity}}
+							€</td>
+						<td>
+							<a href="{{ path("app_cart_add", {id: item.product.id}) }}" title="Ajouter 1" class="btn btn-success btn-sm">
+								<i class="bi bi-cart-plus"></i>
+							</a>
+							<a href="{{ path("app_cart_remove", {id: item.product.id}) }}" title="Retirer 1" class="btn btn-primary btn-sm">
+								<i class="bi bi-cart-dash"></i>
+								<a href="{{ path ('app_cart_delete', {'id': item.product.id}) }}" title="Retirer la ligne" class="btn btn-danger ml-1 btn-sm">
+									<i class="fas fa-trash"></i>
+								</a>
+							</td>
+						</td>
+					</tr>
+				{% endfor %}
+			</tbody>
+			<tfoot>
+				<tr>
+					<td colspan="3" class="text-right">Total :
+					</td>
+					<td>{{ total }}
+						€</td>
+					<td>
+						<a href="{{ path("app_cart_deleteAll") }}" class="btn btn-danger" title="Supprimer le panier">
+							<i class="bi bi-cart-x"></i>
+						</a>
+					</td>
+				</tr>
+				<tr class="text-center">
+					<td colspan="5">Date de la commande :
+						<b>{{ "now" | date('d-m-Y') }}</b>
+					</td>
+				</tr>
+			</tfoot>
+		</table>
+
+		<h3 class="text-center  mt-5 mb-3">
+			Vos informations personnelles :</h3>
+
+		<div class="d-flex justify-content-center">
+			<div class="card border-secondary bg-dark text-light mb-5 mt-3 rounded" style="width: 30rem;">
+				<i class="fa-solid fa-address-card fa-lg text-center mt-3"></i>
+				<div class="card-body">
+					<h5 class="card-title text-info text-center">{{ app.user.email }}</h5>
+					<p class="card-text text-secondary text-center">
+						<i>Your personnal information</i>
+					</p>
+				</div>
+				<ul class="list-group list-group-flush">
+					<li class="list-group-item bg-dark text-light">
+						<b>First name :</b>
+						{{ app.user.userName }}</li>
+					<li class="list-group-item bg-dark text-light">
+						<b>Last name :</b>
+						{{ app.user.userLastname }}</li>
+					<li class="list-group-item bg-dark text-light">
+						<b>Birthdate :</b>
+						{{ app.user.birthdate ? app.user.birthdate|date('d-m-Y') : '' }}</li>
+					<li class="list-group-item bg-dark text-light">
+						<b>Adress :</b>
+						{{ app.user.adress }}</li>
+					<li class="list-group-item bg-dark text-light">
+						<b>Phone number :</b>
+						{{ app.user.phoneNumber }}</li>
+					<li class="list-group-item bg-dark text-light">
+						<b>Your account is verified :</b>
+						{{ app.user.isVerified ? 'Yes' : 'No' }}</li>
+				</ul>
+				<div class="card-body text-center">
+					<a class="text-decoration-none text-light" href="{{ path('app_client_edit', {'id': app.user.id}) }}">
+						<i class="fa-solid fa-pencil btn btn-info border border-light" title="Edit"></i>
+					</a>
+				</div>
+			</div>
+		</div>
+
+		<div class="text-center">
+			<button class="btn btn-primary mb-3" title="Validez votre commande">
+				<a class="text-decoration-none text-light" href={# "{{ path("app_order_validated") }}" #}>Validez votre commande</a>
+			</button>
+		</div>
+	</div>
+{% endblock %}

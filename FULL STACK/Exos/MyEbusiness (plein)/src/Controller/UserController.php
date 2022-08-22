@@ -9,6 +9,7 @@ use App\Service\Cart\CartService;
 use App\Repository\UserRepository;
 use App\Repository\ProductRepository;
 use App\Repository\CategoryRepository;
+use App\Repository\OrderDetailsRepository;
 use Doctrine\ORM\EntityManagerInterface;
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpFoundation\Response;
@@ -20,7 +21,7 @@ use Symfony\Component\PasswordHasher\Hasher\UserPasswordHasherInterface;
 class UserController extends AbstractController
 {
     #[Route('/', name: 'app_user_index', methods: ['GET'])]
-    public function index(CartService $cartService, UserRepository $userRepository, CategoryRepository $categoryRepository, ProductRepository $productRepository): Response
+    public function index(CartService $cartService, UserRepository $userRepository, CategoryRepository $categoryRepository, ProductRepository $productRepository, OrderDetailsRepository $orderDetails): Response
     {
         $this->denyAccessUnlessGranted('ROLE_ADMIN', null, 'User tried to access a page without having ROLE_ADMIN');
 
@@ -32,8 +33,9 @@ class UserController extends AbstractController
         $discount2 =$productRepository->findBy(['discount' => true]);
 
         return $this->render('user/index.html.twig', [
-            'items' => $cartService->getFullCart(),
-            'total' => $cartService->getTotal(),
+            'items'     => $cartService->getFullCart($orderDetails),
+            'count'     => $cartService->getItemCount($orderDetails),
+            'total' => $cartService->getTotal($orderDetails),
             'users' => $userRepository->findAll(),
             'products' => $products,
             'products2' => $products2,
@@ -84,7 +86,7 @@ class UserController extends AbstractController
     // }
  
     #[Route('/{id}', name: 'app_user_show', methods: ['GET'])]
-    public function show(CartService $cartService, User $user, CategoryRepository $categoryRepository, ProductRepository $productRepository): Response
+    public function show(CartService $cartService, User $user, CategoryRepository $categoryRepository, ProductRepository $productRepository, OrderDetailsRepository $orderDetails): Response
     {
         $this->denyAccessUnlessGranted('ROLE_ADMIN', null, 'User tried to access a page without having ROLE_ADMIN');
 
@@ -100,8 +102,9 @@ class UserController extends AbstractController
             $this->denyAccessUnlessGranted('ROLE_ADMIN', null, 'User tried to access a page without having ROLE_ADMIN');
         }
         return $this->render('user/show.html.twig', [
-            'items' => $cartService->getFullCart(),
-            'total' => $cartService->getTotal(),
+            'items'     => $cartService->getFullCart($orderDetails),
+            'count'     => $cartService->getItemCount($orderDetails),
+            'total' => $cartService->getTotal($orderDetails),
             'user' => $user,
             'products' => $products,
             'products2' => $products2,
@@ -112,7 +115,7 @@ class UserController extends AbstractController
     }
 
     #[Route('/{id}/edit', name: 'app_user_edit', methods: ['GET', 'POST'])]
-    public function edit(CartService $cartService, CategoryRepository $categoryRepository, ProductRepository $productRepository, Request $request, User $user, UserRepository $userRepository): Response
+    public function edit(CartService $cartService, CategoryRepository $categoryRepository, ProductRepository $productRepository, Request $request, User $user, UserRepository $userRepository, OrderDetailsRepository $orderDetails): Response
     {
         $this->denyAccessUnlessGranted('ROLE_ADMIN', null, 'User tried to access a page without having ROLE_ADMIN');
 
@@ -142,8 +145,9 @@ class UserController extends AbstractController
         }
 
         return $this->renderForm('user/edit.html.twig', [
-            'items' => $cartService->getFullCart(),
-            'total' => $cartService->getTotal(),
+            'items'     => $cartService->getFullCart($orderDetails),
+            'count'     => $cartService->getItemCount($orderDetails),
+            'total' => $cartService->getTotal($orderDetails),
             'user' => $user,
             'form' => $form,
             'products' => $products,

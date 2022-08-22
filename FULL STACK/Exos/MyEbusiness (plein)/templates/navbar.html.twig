@@ -1,132 +1,136 @@
-
 <nav class="navbar navbar-expand-lg navbar-dark sticky-top shadow-lg">
-			<div class="navbar-header">
-				<a class="navbar-brand" href="{{ path('app_home') }}">
-					<img class="brand border border-secondary border-3" alt="Brand" title="Travel-Int home page" name="brand" src="/img/logo.png">
+	<div class="navbar-header">
+		<a class="navbar-brand" href="{{ path('app_home') }}">
+			<img class="brand border border-secondary border-3" alt="Brand" title="Travel-Int home page" name="brand" src="/img/logo.png">
+		</a>
+	</div>
+	<button class="navbar-toggler mr-auto" {# mr-auto to force the hamburger menu to the left-hand side #} type="button" data-toggle="collapse" data-target="#navbarSupportedContent" aria-controls="navbarSupportedContent" aria-expanded="false" aria-label="Toggle navigation">
+		<span class="navbar-toggler-icon"></span>
+	</button>
+
+	<div class="collapse navbar-collapse justify-content-between" id="navbarSupportedContent">
+		<ul class="navbar-nav">
+
+			<li class="nav-item text-center mr-5">
+				<a class="nav-link" href="{{ path('app_home') }}">
+					<div>
+						<i class="fa-solid fa-home fa-lg mb-1"></i>
+					</div>
+					Page d'accueil
 				</a>
-			</div>
-			<button class="navbar-toggler mr-auto" {# mr-auto to force the hamburger menu to the left-hand side #} type="button" data-toggle="collapse" data-target="#navbarSupportedContent" aria-controls="navbarSupportedContent" aria-expanded="false" aria-label="Toggle navigation">
-				<span class="navbar-toggler-icon"></span>
-			</button>
-
-			<div class="collapse navbar-collapse justify-content-between" id="navbarSupportedContent">
-				<ul class="navbar-nav">
-
-					<li class="nav-item text-center mr-5">
-						<a class="nav-link" href="{{ path('app_home') }}">
-							<div>
-							<i class="fa-solid fa-home fa-lg mb-1"></i>
-							</div>
-							Page d'accueil
-						</a>
-					</li>
-					<li class="nav-item text-center ml-5 mr-5">
-						<a class="nav-link" href="{{ path('app_category') }}">
-							<div>
-							<i class="fa-solid fa-list-ul fa-lg mb-1"></i>
-							<span class="badge rounded-pill badge-notification bg-secondary position-absolute top-0 start-100 translate-middle">
+			</li>
+			<li class="nav-item text-center ml-5 mr-5">
+				<a class="nav-link" href="{{ path('app_category') }}">
+					<div>
+						<i class="fa-solid fa-list-ul fa-lg mb-1"></i>
+						<span class="badge rounded-pill badge-notification bg-secondary position-absolute top-0 start-100 translate-middle">
 							{{ categories|length }}
-							</span>
-							</div>
-							Catégories
-						</a>
-					</li>
+						</span>
+					</div>
+					Catégories
+				</a>
+			</li>
 
-					<li class="nav-item text-center ml-5 mr-5">
-						<a class="nav-link" href="{{ path('app_product') }}">
-							<div>
-							<i class="fa-solid fa-eye fa-lg mb-1"></i>
-							<span class="badge rounded-pill badge-notification bg-secondary position-absolute top-0 start-100 translate-middle">
-							{{ products2|length }} 
-							</span>
-							</div>
-							Produits
-						</a>
-					</li>
+			<li class="nav-item text-center ml-5 mr-5">
+				<a class="nav-link" href="{{ path('app_product') }}">
+					<div>
+						<i class="fa-solid fa-eye fa-lg mb-1"></i>
+						<span class="badge rounded-pill badge-notification bg-secondary position-absolute top-0 start-100 translate-middle">
+							{{ products2|length }}
+						</span>
+					</div>
+					Produits
+				</a>
+			</li>
 
-					<li class="nav-item text-center ml-5 mr-5">
-						<a class="nav-link" href="{{ path('app_discount') }}">
-							<div>
-							<i class="fa-solid fa-hand-holding-dollar fa-lg mb-1"></i>
-							<span class="badge rounded-pill badge-notification bg-warning text-dark position-absolute top-0 start-100 translate-middle">
+			<li class="nav-item text-center ml-5 mr-5">
+				<a class="nav-link" href="{{ path('app_discount') }}">
+					<div>
+						<i class="fa-solid fa-hand-holding-dollar fa-lg mb-1"></i>
+						<span class="badge rounded-pill badge-notification bg-warning text-dark position-absolute top-0 start-100 translate-middle">
 							{{ discount2|length }}
-							</span>
-							</div>
-							Promotions
-						</a>
-					</li>
+						</span>
+					</div>
+					Promotions
+				</a>
+			</li>
 
-					<li class="nav-item text-center ml-5 mr-5">
-						<a class="nav-link" href="{{ path('app_cart_index') }}">
-							<div>
-							<i class="fa-solid fa-cart-shopping fa-lg mb-1"></i>
-							{# {% if is_granted('IS_AUTHENTICATED_FULLY') %} #}
-							{% if count > 0 %}
+			<li class="nav-item text-center ml-5 mr-5">
+				<a class="nav-link" href="{{ path('app_cart_index') }}">
+					<div>
+						<i class="fa-solid fa-cart-shopping fa-lg mb-1"></i>
+						{% if count > 0 %}
 							<span class="badge rounded-pill badge-notification bg-danger position-absolute top-0 start-100 translate-middle">
-							{{ count }}
-							{% endif %}
-							{# {% endif %} #}
+								{{ count }}
 							</span>
-							</div>
-							Votre panier
-						</a>
-					</li>
-
-					{% if is_granted('ROLE_ADMIN') %}
-						<li class="nav-item dropdown">
-							<i class="fa-solid fa-lock-open fa-lg text-danger ml-4"></i>
-							<a class="nav-link dropdown-toggle text-danger" href="#" id="navbarDropdown" role="button" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false"><b>CRUDs</b></a>
-							<div class="dropdown-menu bg-dark" aria-labelledby="navbarDropdown">
-							<a class="dropdown-item text-danger" href="{{ path('app_user_index') }}"><b>Users index</b></a>
-							{# <a class="dropdown-item text-danger" href="{{ path('app_user_new') }}"><i>New user</i></a> #}
-								<div class="dropdown-divider"></div>
-							<a class="dropdown-item text-danger" href="{{ path('app_admin_product_index') }}"><b>Products index</b></a>
-							<a class="dropdown-item text-danger" href="{{ path('app_admin_product_new') }}"><i>New product</i></a>
-								<div class="dropdown-divider"></div>
-							<a class="dropdown-item text-danger" href="{{ path('app_admin_category_index') }}"><b>Categories index</b></a>
-							<a class="dropdown-item text-danger" href="{{ path('app_admin_category_new') }}"><i>New category</i></a>
-							</div>
-						</li>
-					{% endif %}
-
-				</ul>
-
-				<div class="d-flex">
-					{% if is_granted('IS_AUTHENTICATED_FULLY') %}
-						{% else %}
-							<a class="nav-link text-info my-auto" href="{{ path('login') }}">
-								<button type="button" class="btn btn-sm btn-outline-warning">
-									<i>Connexion</i>
-								</button>
-							</a>
-					{% endif %}
-					{% if is_granted('IS_AUTHENTICATED_FULLY') %}
-						<a class="nav-link text-info my-auto" href="{{ path('app_logout') }}">
-							<button type="button" class="btn btn-sm btn-outline-warning">
-								<i>Déconnexion</i>
-							</button>
-						</a>
-					{% endif %}
-
-					<span class="navbar-text text-light mt-0 mb-0">
-						{% if app.user %}
-							<small>
-								<i class="fa-solid fa-user mt-0 mb-0"></i>
-								<a class="text-light mt-0 mb-0" 
-								{% if is_granted('ROLE_ADMIN') %}
-								href="{{ path('app_user_show', {'id': app.user.id}) }}"
-								{% else %}
-								href="{{ path('app_client_show', {'id': app.user.id}) }}"
-								{% endif %}
-								>Profil: {{ app.user.email }}
-								</a>
-							</small>
-							<br>
 						{% endif %}
-						<small>
-							<i class="fa-solid fa-calendar mt-0 mb-0"></i>
-							{{ "now" | date('d-m-Y || H:i') }}</small>
-					</span>
+
+					</div>
+					Votre panier
+				</a>
+			</li>
+
+			{% if app.user %}
+				<li class="nav-item dropdown">
+					<i class="fa-solid fa-user fa-lg text-secondary ml-5"></i>
+					<a class="nav-link dropdown-toggle " href="#" id="navbarDropdown" role="button" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">Votre profil</a>
+					<div class="dropdown-menu bg-dark" aria-labelledby="navbarDropdown">
+						<a class="dropdown-item text-light" {% if is_granted('ROLE_ADMIN') %} href="{{ path('app_user_show', {'id': app.user.id}) }}" {% else %} href="{{ path('app_client_show', {'id': app.user.id}) }}" {% endif %}>
+							<b>Vos informations personnelles</b>
+						</a>
+						<div class="dropdown-divider"></div>
+						<a class="dropdown-item text-light" href="
+															{# {{ path('') }} #}
+															">
+							<b>Vos commandes</b>
+						</a>
+					</div>
+				</li>
+			{% endif %}
+		</ul>
+		{% if is_granted('ROLE_ADMIN') %}
+			<li class="nav-item dropdown">
+				<i class="fa-solid fa-lock-open fa-lg text-danger ml-4"></i>
+				<a class="nav-link dropdown-toggle text-danger" href="#" id="navbarDropdown" role="button" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+					<b>CRUDs</b>
+				</a>
+				<div class="dropdown-menu bg-dark" aria-labelledby="navbarDropdown">
+					<a class="dropdown-item text-danger" href="{{ path('app_user_index') }}">
+						<b>Users index</b>
+					</a>
+					<div class="dropdown-divider"></div>
+					<a class="dropdown-item text-danger" href="{{ path('app_admin_product_index') }}">
+						<b>Products index</b>
+					</a>
+					<a class="dropdown-item text-danger" href="{{ path('app_admin_product_new') }}">
+						<i>New product</i>
+					</a>
+					<div class="dropdown-divider"></div>
+					<a class="dropdown-item text-danger" href="{{ path('app_admin_category_index') }}">
+						<b>Categories index</b>
+					</a>
+					<a class="dropdown-item text-danger" href="{{ path('app_admin_category_new') }}">
+						<i>New category</i>
+					</a>
 				</div>
-			</div>
-		</nav>
+			</li>
+		{% endif %}
+
+		<div class="d-flex">
+			{% if is_granted('IS_AUTHENTICATED_FULLY') %}
+				<a class="nav-link text-info my-auto" href="{{ path('app_logout') }}">
+					<button type="button" class="btn btn-sm btn-outline-warning">
+						<i>Déconnexion</i>
+					</button>
+				</a>
+			{% else %}
+				<a class="nav-link text-info my-auto" href="{{ path('login') }}">
+					<button type="button" class="btn btn-sm btn-outline-warning">
+						<i>Connexion</i>
+					</button>
+				</a>
+			{% endif %}
+			<span class="navbar-text text-light mt-0 mb-0"></span>
+		</div>
+	</div>
+</nav>
