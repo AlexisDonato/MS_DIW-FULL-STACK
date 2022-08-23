@@ -4,10 +4,13 @@ namespace App\Controller;
 
 use App\Entity\Cart;
 use App\Data\SearchData;
+use App\Repository\CartRepository;
 use App\Service\Cart\CartService;
 use App\Repository\ProductRepository;
 use App\Repository\CategoryRepository;
 use App\Repository\OrderDetailsRepository;
+use Doctrine\ORM\EntityManager;
+use Doctrine\ORM\EntityManagerInterface;
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpFoundation\Response;
 use Symfony\Component\Routing\Annotation\Route;
@@ -50,11 +53,11 @@ class OrderController extends AbstractController
         ]);
     }
 
-    #[Route('/order', name: 'app_order_validated')]
-    public function validateOrder(/*$id, ?Cart $cart, ?CartService $cartService,*/ ?UserInterface $user)
+    #[Route('/order/validated', name: 'app_order_validated')]
+    public function validateOrder(?CartService $cartService, ?UserInterface $user, ?EntityManagerInterface $entityManager)
     {
         if (!$this->isGranted('ROLE_CLIENT')) {
-            $this->addFlash('error', 'Access denied');
+            $this->addFlash('error', 'Accès refusé');
             return $this->redirectToRoute('login');  
         }
 
@@ -62,9 +65,17 @@ class OrderController extends AbstractController
             $this->denyAccessUnlessGranted('ROLE_ADMIN', null, 'User tried to access a page without having ROLE_ADMIN');
         }
 
-        // $cart->setValidated(true);
-        // $cartService->setUser($user);
-        // $cartService->delete($id);
+        $cartService->setUser($user);
+        $cart = $cartService->getClientCart();
+        $cart->setValidated(true);
+        $cart->setShipped(false);
+        $date = new \DateTime('@'.strtotime('now'));
+        $cart->setOrderDate($date);
+        $entityManager->persist($cart);
+        $entityManager->flush();
+        $this->addFlash('success', 'Commande validée! Merci pour votre achat!');
+        return $this->redirectToRoute('app_home');
+
 
     }
 }

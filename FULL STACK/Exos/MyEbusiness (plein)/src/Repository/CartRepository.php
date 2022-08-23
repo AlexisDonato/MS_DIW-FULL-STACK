@@ -4,6 +4,7 @@ namespace App\Repository;
 
 use App\Entity\Cart;
 use Doctrine\Bundle\DoctrineBundle\Repository\ServiceEntityRepository;
+use Doctrine\Common\Collections\Collection;
 use Doctrine\Persistence\ManagerRegistry;
 
 /**
@@ -54,13 +55,23 @@ class CartRepository extends ServiceEntityRepository
 //        ;
 //    }
 
-    public function findOneByUser($value): ?Cart
+    public function findOneByUser($client_id): ?Cart
     {
         return $this->createQueryBuilder('c')
-        ->andWhere('c.user = :val')
-        ->setParameter('val', $value)
+        ->where('c.user = :val')
+        ->andWhere('c.Validated = 0')
+        ->setParameter('val', $client_id)
         ->getQuery()
-        ->getOneOrNullResult()
-    ;
+        ->getOneOrNullResult();
+    }
+
+    public function findAllByUser($client_id): ?array
+    {
+        return $this->createQueryBuilder('c')
+        ->where('c.user = :val')
+        ->andWhere('c.Validated = 1')
+        ->setParameter('val', $client_id)
+        ->getQuery()
+        ->getResult();
     }
 }

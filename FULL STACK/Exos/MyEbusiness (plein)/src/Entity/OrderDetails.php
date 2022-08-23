@@ -30,6 +30,9 @@ class OrderDetails
     #[ORM\JoinColumn(nullable: false)]
     private ?Product $Product = null;
 
+    #[ORM\Column(nullable: true)]
+    private ?float $total = null;
+
     public function __construct()
     {
         $this->OrderProductId = new ArrayCollection();
@@ -96,6 +99,18 @@ class OrderDetails
     public function setProduct(?Product $Product): self
     {
         $this->Product = $Product;
+
+        return $this;
+    }
+
+    public function getTotal(): ?float
+    {
+        return $this->total;
+    }
+
+    public function setTotal(?float $total): self
+    {
+        $this->total = $total;
 
         return $this;
     }

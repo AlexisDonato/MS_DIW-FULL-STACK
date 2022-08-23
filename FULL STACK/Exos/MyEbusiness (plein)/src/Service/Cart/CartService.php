@@ -65,6 +65,17 @@ class CartService
         return $orderDetails;
     }
 
+    public function getValidatedOrderDetails($clientCart) {
+        $orderDetails = $this->orderDetailsRepository->createQueryBuilder('o')
+        ->join(Cart::class, 'c', 'WITH', 'o.cart = c.id')
+        ->where('o.cart = :cart_id')
+        ->setParameter('cart_id', $clientCart->getId())
+        ->getQuery()
+        ->getResult();
+        
+        return $orderDetails;
+    }
+
     #[IsGranted('ROLE_CLIENT')]
     public function addOrRemove(int $id, bool $remove=false)
     {
@@ -89,7 +100,8 @@ class CartService
             $quantity++;
         }
         
-        $orderDetails->setQuantity($quantity);
+        $orderDetails->setQuantity($quantity); 
+        $orderDetails->setTotal($product->getPrice() * $quantity);
         $this->entityManager->persist($orderDetails);
         $this->entityManager->persist($product);
         $this->entityManager->flush();

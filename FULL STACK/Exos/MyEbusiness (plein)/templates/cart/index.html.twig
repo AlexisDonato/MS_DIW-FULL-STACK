@@ -22,7 +22,7 @@
 						<tr>
 							<td>{{item.Product.name}}</td>
 							<td>{{item.Product.price}}</td>
-							<td>{{item.Quantity}} {% if item.product.quantity == 0 %} (Cannot add more) {% endif %}</td>
+							<td>{{item.Quantity}} {% if item.product.quantity == 0 %} ({{item.product.quantity}} left in stock) {% endif %}</td>
 							<td>{{item.Product.price * item.Quantity}}
 								€</td>
 							<td>

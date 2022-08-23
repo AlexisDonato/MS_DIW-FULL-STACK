@@ -1,0 +1,42 @@
+{% extends 'base.html.twig' %}
+
+{% block title %}Validated Order n°{{ order_id }}
+{% endblock %}
+
+{% block body %}
+	<div class="container">
+		<h1 class="text-center text-light mt-3 mb-5">Votre commande n° : {{ order_id }}</h1>
+		<h3 class="text-center mb-3">Date : {{ orderDate|format_datetime('short', 'none', locale='fr') }}</h3>
+			<table class="table table-dark">
+				<thead>
+					<tr class="text-primary">
+						<th>Produit</th>
+						<th>Prix</th>
+						<th>Quantité</th>
+						<th>Total</th>
+					</tr>
+				</thead>
+				<tbody>
+				    {% set totals = 0 %}
+					{% for detail in details %}
+						<tr>
+							<td>{{detail.Product.name}}</td>
+							<td>{{detail.Product.price}}</td>
+							<td>{{detail.Quantity}}</td>
+							<td>{{detail.Product.price * detail.Quantity}} €</td>
+							</td>
+						</tr>
+						{% set totals = totals + detail.Product.price * detail.Quantity %}
+					{% endfor %}
+				</tbody>
+				<tfoot>
+					<tr>
+						<td colspan="3" class="text-right">Total :
+						</td>
+						<td>{{ totals }}
+							€</td>
+					</tr>
+				</tfoot>
+			</table>
+	</div>
+{% endblock %}

@@ -3,6 +3,7 @@
 namespace App\Entity;
 
 use App\Entity\User;
+use Doctrine\DBAL\Types\Types;
 use Doctrine\ORM\Mapping as ORM;
 use App\Repository\CartRepository;
 use Doctrine\Common\Collections\Collection;
@@ -25,6 +26,15 @@ class Cart
     #[ORM\ManyToOne(inversedBy: 'carts')]
     #[ORM\JoinColumn(nullable: false)]
     private ?User $user = null;
+
+    #[ORM\Column(type: Types::DATETIME_MUTABLE, nullable: true)]
+    private ?\DateTimeInterface $orderDate = null;
+
+    #[ORM\Column]
+    private ?bool $shipped = false;
+
+    #[ORM\Column(type: Types::DATETIME_MUTABLE, nullable: true)]
+    private ?\DateTimeInterface $shipmentDate = null;
 
     public function __construct()
     {
@@ -86,6 +96,42 @@ class Cart
     public function setUser(?User $user): self
     {
         $this->user = $user;
+
+        return $this;
+    }
+
+    public function getOrderDate(): ?\DateTimeInterface
+    {
+        return $this->orderDate;
+    }
+
+    public function setOrderDate(?\DateTimeInterface $orderDate): self
+    {
+        $this->orderDate = $orderDate;
+
+        return $this;
+    }
+
+    public function isShipped(): ?bool
+    {
+        return $this->shipped;
+    }
+
+    public function setShipped(bool $shipped): self
+    {
+        $this->shipped = $shipped;
+
+        return $this;
+    }
+
+    public function getShipmentDate(): ?\DateTimeInterface
+    {
+        return $this->shipmentDate;
+    }
+
+    public function setShipmentDate(?\DateTimeInterface $shipmentDate): self
+    {
+        $this->shipmentDate = $shipmentDate;
 
         return $this;
     }

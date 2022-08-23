@@ -43,7 +43,7 @@ class ProductController extends AbstractController
             'discount' => $discount,
             'discount2' => $discount2,
             'form' => $form->createView()
-    ]);
+        ]);
     }
 
     #[Route('/catalogue/{category}', name: 'app_catalogue')]
@@ -71,7 +71,7 @@ class ProductController extends AbstractController
             'discount' => $discount,
             'discount2' => $discount2,
             'form' => $form->createView(),
-    ]);
+        ]);
     }
 
     #[Route('/discount/{disc}', name: 'app_discount',defaults:['disc'=>1])]

@@ -1,0 +1,31 @@
+{% extends 'base.html.twig' %}
+
+{% block title %}Hello ValidatedOrdersController!{% endblock %}
+
+{% block body %}
+<div class="container">
+
+        <table>
+            <thead>
+                <tr>
+                    <th>N° Commande</th>
+                    <th>Date</th>
+                    <th>Expédié?</th>
+                    <th></th>
+                </tr>
+            </thead>
+            <tbody>
+            {% for order in orders %}
+                <tr>
+                    <td>{{order.id}}</td>
+                    <td>{{order.orderDate|format_datetime('short', 'none', locale='fr')}}</td>
+                    <td><input type="checkbox" {% if order.shipped == 1 %}checked{% endif %} disabled></td>
+                    <td><button class="btn btn-danger border-light mb-1"><a class="text-decoration-none text-light" href="
+                    {{ path('app_validated_orders_show', {'id': order.id}) }}
+                    ">show</a></button></td>
+                </tr>
+            {% endfor %}
+            </tbody>
+        </table>
+    </div>
+{% endblock %}
