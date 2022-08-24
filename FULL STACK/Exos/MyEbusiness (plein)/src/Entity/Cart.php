@@ -3,8 +3,9 @@
 namespace App\Entity;
 
 use App\Entity\User;
-use Doctrine\DBAL\Types\Types;
 use Doctrine\ORM\Mapping as ORM;
+use Symfony\Component\Uid\Uuid;
+use Doctrine\DBAL\Types\Types;
 use App\Repository\CartRepository;
 use Doctrine\Common\Collections\Collection;
 use Doctrine\Common\Collections\ArrayCollection;
@@ -14,8 +15,11 @@ class Cart
 {
     #[ORM\Id]
     #[ORM\GeneratedValue]
-    #[ORM\Column()]
-    private ?int $id = null;
+    #[ORM\Column(type: 'integer')]
+    private $id = null;
+
+    #[ORM\Column]
+    private ?string $ClientOrderId = null;
 
     #[ORM\Column]
     private ?bool $Validated = false;
@@ -44,6 +48,18 @@ class Cart
     public function getId(): ?int
     {
         return $this->id;
+    }
+
+    public function setClientOrderId(string $clientOrderId): self
+    {
+        $this->ClientOrderId = $clientOrderId;
+
+        return $this;
+    }
+    
+    public function getClientOrderId(): ?string
+    {
+        return $this->ClientOrderId;
     }
 
     public function isValidated(): ?bool

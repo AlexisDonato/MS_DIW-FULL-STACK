@@ -3,9 +3,10 @@
 namespace App\Repository;
 
 use App\Entity\Cart;
-use Doctrine\Bundle\DoctrineBundle\Repository\ServiceEntityRepository;
-use Doctrine\Common\Collections\Collection;
+use App\Entity\User;
 use Doctrine\Persistence\ManagerRegistry;
+use Doctrine\Common\Collections\Collection;
+use Doctrine\Bundle\DoctrineBundle\Repository\ServiceEntityRepository;
 
 /**
  * @extends ServiceEntityRepository<Cart>
@@ -71,6 +72,15 @@ class CartRepository extends ServiceEntityRepository
         ->where('c.user = :val')
         ->andWhere('c.Validated = 1')
         ->setParameter('val', $client_id)
+        ->getQuery()
+        ->getResult();
+    }
+
+    public function findAllUsers()
+    {
+        return $this->createQueryBuilder('c')
+        ->join(User::class, 'u', 'WITH', 'c.user = u.id')
+        ->where('c.Validated = 1')
         ->getQuery()
         ->getResult();
     }

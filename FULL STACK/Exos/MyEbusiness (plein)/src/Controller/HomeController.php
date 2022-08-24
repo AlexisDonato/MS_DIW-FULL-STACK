@@ -32,7 +32,9 @@ class HomeController extends AbstractController
 
             if (!isset($clientCart)) {
                 $clientCart = new Cart();
+                
                 $clientCart->setUser($user);
+                $clientCart->setClientOrderId(uniqid());
                 $entityManager->persist($clientCart);
                 $entityManager->flush();
             }

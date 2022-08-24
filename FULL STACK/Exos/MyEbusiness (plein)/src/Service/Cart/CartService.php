@@ -49,6 +49,15 @@ class CartService
         }
     }
 
+    public function getClientValidatedCart() {
+        if (isset($this->user)) {
+            return $this->cartRepository->findOneByUser($this->user->getId());
+        } else {
+            return null;
+        }
+    }
+
+
     public function getOrderDetails($clientCart, $productId): ?OrderDetails {
         $orderDetails = $this->orderDetailsRepository->createQueryBuilder('o')
         ->join(Cart::class, 'c', 'WITH', 'o.cart = c.id')
