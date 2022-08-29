@@ -10,6 +10,7 @@ use App\Repository\ProductRepository;
 use App\Repository\CategoryRepository;
 use Doctrine\ORM\EntityManagerInterface;
 use App\Form\ResetPasswordRequestFormType;
+use App\Repository\OrderDetailsRepository;
 use App\Service\Cart\CartService;
 use Symfony\Bridge\Twig\Mime\TemplatedEmail;
 use Symfony\Component\HttpFoundation\Request;
@@ -42,7 +43,7 @@ class ResetPasswordController extends AbstractController
      * Display & process form to request a password reset.
      */
     #[Route('', name: 'app_forgot_password_request')]
-    public function request(CartService $cartService, Request $request, MailerInterface $mailer, TranslatorInterface $translator, CategoryRepository $categoryRepository, ProductRepository $productRepository): Response
+    public function request(CartService $cartService, Request $request, MailerInterface $mailer, TranslatorInterface $translator, CategoryRepository $categoryRepository, ProductRepository $productRepository, OrderDetailsRepository $orderDetails): Response
     {
         $form = $this->createForm(ResetPasswordRequestFormType::class);
         $form->handleRequest($request);
@@ -63,8 +64,9 @@ class ResetPasswordController extends AbstractController
         }
 
         return $this->render('reset_password/request.html.twig', [
-            'items' => $cartService->getFullCart(),
-            'total' => $cartService->getTotal(),
+            'items' => $cartService->getFullCart($orderDetails),
+            'count'     => $cartService->getItemCount($orderDetails),
+            'total' => $cartService->getTotal($orderDetails),
             'requestForm' => $form->createView(),
             'products' => $products,
             'products2' => $products2,

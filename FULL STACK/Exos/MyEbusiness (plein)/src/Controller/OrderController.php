@@ -58,7 +58,7 @@ class OrderController extends AbstractController
     public function index(CartService $cartService, ProductRepository $productRepository, Request $request, CategoryRepository $categoryRepository, OrderDetailsRepository $orderDetails, ?UserInterface $user): Response
     {
         if (!$this->isGranted('ROLE_CLIENT')) {
-            $this->addFlash('error', 'Access denied');
+            $this->addFlash('error', 'Accès refusé');
             return $this->redirectToRoute('login');
         }
 

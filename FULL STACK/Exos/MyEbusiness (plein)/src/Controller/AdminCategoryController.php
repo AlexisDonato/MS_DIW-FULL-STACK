@@ -22,7 +22,7 @@ class AdminCategoryController extends AbstractController
     public function index(CategoryRepository $categoryRepository, ProductRepository $productRepository, OrderDetailsRepository $orderDetails, CartService $cartService): Response
     {
         if (!$this->isGranted('ROLE_ADMIN')) {
-            $this->addFlash('error', 'Access denied');
+            $this->addFlash('error', 'Accès refusé');
             return $this->redirectToRoute('login');  
         }
 
@@ -51,7 +51,7 @@ class AdminCategoryController extends AbstractController
     public function new(CategoryRepository $categoryRepository, Request $request,ProductRepository $productRepository, OrderDetailsRepository $orderDetails, CartService $cartService): Response
     {
         if (!$this->isGranted('ROLE_ADMIN')) {
-            $this->addFlash('error', 'Access denied');
+            $this->addFlash('error', 'Accès refusé');
             return $this->redirectToRoute('login');  
         }
         $this->denyAccessUnlessGranted('ROLE_ADMIN', null, 'User tried to access a page without having ROLE_ADMIN');
@@ -91,7 +91,7 @@ class AdminCategoryController extends AbstractController
     public function show(Category $category, CategoryRepository $categoryRepository,ProductRepository $productRepository, OrderDetailsRepository $orderDetails, CartService $cartService): Response
     {
         if (!$this->isGranted('ROLE_ADMIN')) {
-            $this->addFlash('error', 'Access denied');
+            $this->addFlash('error', 'Accès refusé');
             return $this->redirectToRoute('login');  
         }
         $this->denyAccessUnlessGranted('ROLE_ADMIN', null, 'User tried to access a page without having ROLE_ADMIN');
@@ -120,7 +120,7 @@ class AdminCategoryController extends AbstractController
     public function edit(Request $request, Category $category, CategoryRepository $categoryRepository,ProductRepository $productRepository, OrderDetailsRepository $orderDetails, CartService $cartService): Response
     {
         if (!$this->isGranted('ROLE_ADMIN')) {
-            $this->addFlash('error', 'Access denied');
+            $this->addFlash('error', 'Accès refusé');
             return $this->redirectToRoute('login');  
         }
         $this->denyAccessUnlessGranted('ROLE_ADMIN', null, 'User tried to access a page without having ROLE_ADMIN');
@@ -159,7 +159,7 @@ class AdminCategoryController extends AbstractController
     public function delete(Request $request, Category $category, CategoryRepository $categoryRepository): Response
     {
         if (!$this->isGranted('ROLE_ADMIN')) {
-            $this->addFlash('error', 'Access denied');
+            $this->addFlash('error', 'Accès refusé');
             return $this->redirectToRoute('login');  
         }
         $this->denyAccessUnlessGranted('ROLE_ADMIN', null, 'User tried to access a page without having ROLE_ADMIN');

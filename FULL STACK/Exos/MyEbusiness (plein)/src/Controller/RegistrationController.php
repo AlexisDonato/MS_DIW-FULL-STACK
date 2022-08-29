@@ -5,20 +5,21 @@ namespace App\Controller;
 use App\Entity\User;
 use App\Data\SearchData;
 use App\Security\EmailVerifier;
+use App\Service\Cart\CartService;
 use App\Form\RegistrationFormType;
 use Symfony\Component\Mime\Address;
 use App\Repository\ProductRepository;
 use App\Repository\CategoryRepository;
-use App\Repository\OrderDetailsRepository;
-use App\Service\Cart\CartService;
 use Doctrine\ORM\EntityManagerInterface;
+use App\Repository\OrderDetailsRepository;
 use Symfony\Bridge\Twig\Mime\TemplatedEmail;
 use Symfony\Component\HttpFoundation\Request;
+use Symfony\Component\Mailer\MailerInterface;
 use Symfony\Component\HttpFoundation\Response;
 use Symfony\Component\Routing\Annotation\Route;
 use Symfony\Contracts\Translation\TranslatorInterface;
+use Symfony\Component\Security\Core\User\UserInterface;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
-use Symfony\Component\Mailer\MailerInterface;
 use Symfony\Component\PasswordHasher\Hasher\UserPasswordHasherInterface;
 use SymfonyCasts\Bundle\VerifyEmail\Exception\VerifyEmailExceptionInterface;
 
@@ -85,7 +86,7 @@ class RegistrationController extends AbstractController
     }
 
     #[Route('/verify/email', name: 'app_verify_email')]
-    public function verifyUserEmail(Request $request, TranslatorInterface $translator, MailerInterface $mailer): Response
+    public function verifyUserEmail(Request $request, TranslatorInterface $translator, MailerInterface $mailer, ?UserInterface $user): Response
     {
         $this->denyAccessUnlessGranted('IS_AUTHENTICATED_FULLY');
 

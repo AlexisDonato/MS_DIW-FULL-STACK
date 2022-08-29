@@ -70,7 +70,7 @@ class CartController extends AbstractController
     public function remove($id, CartService $cartService, ?UserInterface $user) 
     {
         if (!$this->isGranted('ROLE_CLIENT')) {
-            $this->addFlash('error', 'Access denied');
+            $this->addFlash('error', 'Accès refusé');
             return $this->redirectToRoute('login');  
         }
 
@@ -88,7 +88,7 @@ class CartController extends AbstractController
     public function deleteALL(CartService $cartService, ?UserInterface $user) 
     {
         if (!$this->isGranted('ROLE_CLIENT')) {
-            $this->addFlash('error', 'Access denied');
+            $this->addFlash('error', 'Accès refusé');
             return $this->redirectToRoute('login');  
         }
 
@@ -106,7 +106,7 @@ class CartController extends AbstractController
     public function delete($id, CartService $cartService, ?UserInterface $user) 
     {
         if (!$this->isGranted('ROLE_CLIENT')) {
-            $this->addFlash('error', 'Access denied');
+            $this->addFlash('error', 'Accès refusé');
             return $this->redirectToRoute('login');  
         }
 

@@ -104,6 +104,11 @@ class ValidatedOrdersController extends AbstractController
     #[Route('validated/orders/{id}/shipped', name: 'app_shipped_order')]
     public function shippedOrder(Request $request, CartRepository $cartRepository, EntityManagerInterface $entityManager, MailerInterface $mailer, ?UserInterface $user, OrderDetailsRepository $orderDetails)
     {
+        if (!$this->isGranted('ROLE_ADMIN')) {
+            $this->addFlash('error', 'Accès refusé');
+            return $this->redirectToRoute('login');  
+        }
+
         $orderId = $request->attributes->get('id');
         $cart = $cartRepository->find($orderId);
         $cart->setShipped(true);

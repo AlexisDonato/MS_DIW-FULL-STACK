@@ -44,8 +44,9 @@ class ContactController extends AbstractController
         }
         $message = $contact->getMessage();
 
-
-        $cartService->setUser($user);
+        if ($user !== null) {
+            $contact->setUser($user);
+        }
 
         if ($form->isSubmitted() && $form->isValid()) {
             $entityManager->persist($contact);

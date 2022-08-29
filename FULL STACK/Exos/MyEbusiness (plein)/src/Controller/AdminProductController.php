@@ -23,7 +23,7 @@ class AdminProductController extends AbstractController
     public function index(CategoryRepository $categoryRepository,ProductRepository $productRepository, CartService $cartService, OrderDetailsRepository $orderDetails): Response
     {
         if (!$this->isGranted('ROLE_ADMIN')) {
-            $this->addFlash('error', 'Access denied');
+            $this->addFlash('error', 'Accès refusé');
             return $this->redirectToRoute('login');  
         }
 
@@ -52,7 +52,7 @@ class AdminProductController extends AbstractController
     public function new(Request $request, ProductRepository $productRepository, CategoryRepository $categoryRepository,EntityManagerInterface $entityManager, CartService $cartService, OrderDetailsRepository $orderDetails): Response
     {
         if (!$this->isGranted('ROLE_ADMIN')) {
-            $this->addFlash('error', 'Access denied');
+            $this->addFlash('error', 'Accès refusé');
             return $this->redirectToRoute('login');  
         }
 
@@ -101,7 +101,7 @@ class AdminProductController extends AbstractController
     public function show(Product $product, ProductRepository $productRepository, CategoryRepository $categoryRepository, CartService $cartService, OrderDetailsRepository $orderDetails): Response
     {
         if (!$this->isGranted('ROLE_ADMIN')) {
-            $this->addFlash('error', 'Access denied');
+            $this->addFlash('error', 'Accès refusé');
             return $this->redirectToRoute('login');  
         }
 
@@ -131,7 +131,7 @@ class AdminProductController extends AbstractController
     public function edit(Request $request, Product $product, ProductRepository $productRepository, CategoryRepository $categoryRepository, EntityManagerInterface $entityManager, CartService $cartService, OrderDetailsRepository $orderDetails): Response
     {
         if (!$this->isGranted('ROLE_ADMIN')) {
-            $this->addFlash('error', 'Access denied');
+            $this->addFlash('error', 'Accès refusé');
             return $this->redirectToRoute('login');  
         }
 
@@ -179,7 +179,7 @@ class AdminProductController extends AbstractController
     public function delete(Request $request, Product $product, EntityManagerInterface $entityManager): Response
     {
         if (!$this->isGranted('ROLE_ADMIN')) {
-            $this->addFlash('error', 'Access denied');
+            $this->addFlash('error', 'Accès refusé');
             return $this->redirectToRoute('login');  
         }
         
