@@ -1,19 +1,19 @@
 {% extends 'base.html.twig' %}
 
-{% block title %}CategoryController
+{% block title %}Catégories
 {% endblock %}
 
 {% block body %}
 
 	<div class="container d-flex justify-content-center">
 		<div class="row">
-			<h1 class="text-info mb-5 mt-3">Choose your category</h1>
+			<h1 class="text-info mb-5 mt-3">Choisissez votre catégorie</h1>
 			<div class="col-12 col-md-6">
 				<ul style="list-style-type: none;" class="list-group">
 					{% for category in categories %}
 						<li>
 						<button class="btn btn-dark border border-secondary text-decoration-none d-flex mt2 mb-2 position-relative">
-							<i class="fa-solid fa-hand-point-right text-secondary"></i>
+							<i class="fa-solid fa-satellite text-secondary"></i>
 							<h3>
 								<a class="text-decoration-none text-light ml-3" href="{{ path('app_catalogue', {'category': category.id}) }}">
 								{{ category.name }}

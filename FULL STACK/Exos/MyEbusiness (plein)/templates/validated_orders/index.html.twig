@@ -4,7 +4,7 @@
 
 {% block body %}
 <div class="container">
-
+    {% if validatedOrder %}
         <table class="table table-dark table-stripped">
             <thead>
                 <tr>
@@ -33,5 +33,8 @@
             {% endfor %}
             </tbody>
         </table>
-    </div>
+    {% else %}
+        <h1 class="text-center mt-5 mb-5">Aucune commande validée en cours</h3>
+    {% endif %}
+ </div>
 {% endblock %}

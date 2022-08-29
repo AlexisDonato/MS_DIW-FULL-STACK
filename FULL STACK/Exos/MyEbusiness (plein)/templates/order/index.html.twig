@@ -1,6 +1,6 @@
 {% extends 'base.html.twig' %}
 
-{% block title %}Hello OrderController!
+{% block title %}Commande
 {% endblock %}
 
 {% block body %}
@@ -72,32 +72,32 @@
 				<div class="card-body">
 					<h5 class="card-title text-info text-center">{{ app.user.email }}</h5>
 					<p class="card-text text-secondary text-center">
-						<i>Your personnal information</i>
+						<i>Vos informations personnelles</i>
 					</p>
 				</div>
 				<ul class="list-group list-group-flush">
 					<li class="list-group-item bg-dark text-light">
-						<b>First name :</b>
+						<b>Prénom :</b>
 						{{ app.user.userName }}</li>
 					<li class="list-group-item bg-dark text-light">
-						<b>Last name :</b>
+						<b>NomLast name :</b>
 						{{ app.user.userLastname }}</li>
 					<li class="list-group-item bg-dark text-light">
-						<b>Birthdate :</b>
+						<b>Date de naissance :</b>
 						{{ app.user.birthdate ? app.user.birthdate|date('d-m-Y') : '' }}</li>
 					<li class="list-group-item bg-dark text-light">
-						<b>Adress :</b>
+						<b>Adresse :</b>
 						{{ app.user.adress }}</li>
 					<li class="list-group-item bg-dark text-light">
-						<b>Phone number :</b>
+						<b>N° téléphone :</b>
 						{{ app.user.phoneNumber }}</li>
 					<li class="list-group-item bg-dark text-light">
-						<b>Your account is verified :</b>
-						{{ app.user.isVerified ? 'Yes' : 'No' }}</li>
+						<b>Votre compte est vérifié :</b>
+						{{ app.user.isVerified ? 'Oui' : 'Non' }}</li>
 				</ul>
 				<div class="card-body text-center">
 					<a class="text-decoration-none text-light" href="{{ path('app_client_edit', {'id': app.user.id}) }}">
-						<i class="fa-solid fa-pencil btn btn-info border border-light" title="Edit"></i>
+						<i class="fa-solid fa-pencil btn btn-info border border-light" title="Modifier"></i>
 					</a>
 				</div>
 			</div>

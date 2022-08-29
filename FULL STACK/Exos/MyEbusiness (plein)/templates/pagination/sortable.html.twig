@@ -1,5 +1,5 @@
 
-<a{% for attr, value  in options | merge({class: 'btn btn-secondary mt-1 ml-2'})%} {{ attr }}="{{ value }}"{% endfor %}>
+<a{% for attr, value  in options | merge({class: 'btn btn-info mt-1 ml-2'})%} {{ attr }}="{{ value }}"{% endfor %}>
     <span class="float-right">
         {% if sorted %}
             {% if direction == 'desc' %}

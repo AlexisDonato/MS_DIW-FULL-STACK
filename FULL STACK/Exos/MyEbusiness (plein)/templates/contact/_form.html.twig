@@ -1,0 +1,18 @@
+{{ form_start(contact) }}
+    
+    {{ form_row(contact.name) }}<span id="wrongFirstName"></span>
+
+    {{ form_row(contact.email) }}<span id="wrongEmail"></span>
+
+    {{ form_row(contact.subject) }}
+
+    {{ form_row(contact.message) }}
+
+    <div class="text-center">
+    <button id="submit" type="submit" class="btn btn-lg btn-primary mb-3">
+    {# <a class="text-decoration-none text-light" href ="{{ path('app_contact_mail_sent') }}"> #}
+    Envoyer
+    {# </a> #}
+    </button>
+
+{{ form_end(contact) }}

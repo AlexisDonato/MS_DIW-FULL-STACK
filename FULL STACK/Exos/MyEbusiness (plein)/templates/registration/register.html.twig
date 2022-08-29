@@ -1,6 +1,6 @@
 {% extends 'base.html.twig' %}
 
-{% block title %}Register
+{% block title %}S'enregistrer
 {% endblock %}
 
 {% block body %}
@@ -9,13 +9,13 @@
 	{% endfor %}
 
 <div class="container">
-	<h1 class="text-info text-center mt-3 mb-3">Register</h1>
-	<h4 class="text-center">A mail will be sent afterwards on your email adress in order for verification</h4>
+	<h1 class="text-info text-center mt-3 mb-3">S'enregistrer</h1>
+	<h4 class="text-center">Un email de confirmation vous sera envoyé</h4>
 
 	{{ form_start(registrationForm) }}
 		{{ form_row(registrationForm.email) }}<span id="wrongEmail"></span>
 		{{ form_row(registrationForm.plainPassword, {
-            label: 'Password'
+            label: 'Mot de passe'
         }) }}
 		{{ form_row(registrationForm.userName) }}<span id="wrongFirstName"></span>
 		{{ form_row(registrationForm.userLastname) }}<span id="wrongName"></span>
@@ -24,7 +24,7 @@
 		{{ form_row(registrationForm.phoneNumber) }}<span id="wrongPhone"></span>
 		{{ form_row(registrationForm.agreeTerms) }}
 
-	<button id="submit" class="btn btn-outline-info mb-3">Register</button>
+	<button id="submit" class="btn btn-outline-info mb-3">S'enregistrer</button>
 	{{ form_end(registrationForm) }}
 	</div>
 {% endblock %}

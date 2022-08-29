@@ -18,6 +18,7 @@ use Symfony\Component\HttpFoundation\Response;
 use Symfony\Component\Routing\Annotation\Route;
 use Symfony\Contracts\Translation\TranslatorInterface;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
+use Symfony\Component\Mailer\MailerInterface;
 use Symfony\Component\PasswordHasher\Hasher\UserPasswordHasherInterface;
 use SymfonyCasts\Bundle\VerifyEmail\Exception\VerifyEmailExceptionInterface;
 
@@ -66,7 +67,7 @@ class RegistrationController extends AbstractController
                     ->htmlTemplate('registration/confirmation_email.html.twig')
             );
             // do anything else you need here, like send an email
-
+            $this->addFlash('info', 'Veuillez vérifier votre adresse mail. Un mail de demande de validation vous a été envoyé');
             return $this->redirectToRoute('login');
         }
 
@@ -84,7 +85,7 @@ class RegistrationController extends AbstractController
     }
 
     #[Route('/verify/email', name: 'app_verify_email')]
-    public function verifyUserEmail(Request $request, TranslatorInterface $translator): Response
+    public function verifyUserEmail(Request $request, TranslatorInterface $translator, MailerInterface $mailer): Response
     {
         $this->denyAccessUnlessGranted('IS_AUTHENTICATED_FULLY');
 
@@ -98,12 +99,22 @@ class RegistrationController extends AbstractController
         }
 
         // @TODO Change the redirect on success and handle or remove the flash message in your templates
-        $this->addFlash('success', 'Your email address has been verified.');
+        $this->addFlash('success', 'Votre adresse mail a bien été vérifiée. Un mail de confirmation vous a été envoyé');
         $user = $this->getUser();
         $roles = $user->getRoles();
         array_push($roles, 'ROLE_CLIENT');
         $user->setRoles($roles);
 
+        $email = (new TemplatedEmail())
+        ->from(new Address('info_noreply@mye-business.com', 'My E-Business MailBot'))
+        ->to($user->getEmail())
+        ->subject('Bienvenue sur My E-Business!')
+        ->htmlTemplate('registration/user_information_email.html.twig')
+        ->context([
+            'user' => $user,
+        ]);
+
+        $mailer->send($email);
         return $this->redirectToRoute('app_home');
     }
 

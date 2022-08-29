@@ -1,9 +1,10 @@
 <h1>{{ app.user.userName }}
 	{{ app.user.userLastName }},</h1>
 
-<p>Votre commande n°<b>{{order_id}}</b>
-	a bien été validée en date du
-	{{ orderDate|format_datetime('short', 'none', locale='fr') }}. Voici le récapitulatif :</p>
+<p>Votre commande n°<b>{{order_id}}</b> 
+	(validée en date du
+	{{ orderDate|format_datetime('short', 'none', locale='fr') }}) a été expédiée le <b>{{ shipmentDate|format_datetime('short', 'none', locale='fr') }}</b>. 
+    <br><br>Voici le récapitulatif :</p>
 
 <table border="1">
 	<thead>
@@ -31,5 +32,9 @@
 {% set totals = totals + detail.Product.price * detail.Quantity %}{% endfor %}</tbody><tfoot><tr>
 <td colspan="3" style="text-align:right;"><b>Total :</b>
 </td>
-<td style="text-align:right;">{{ totals }}
-	€</td></tr></tfoot></table><p>Vous recevrez sous peu l'email confirmant l'expédition de votre commande.<br>Merci de votre achat et à bientôt!<br><br>L'équipe de My E-Business</p><img src="/img/logo.png">
+<td style="text-align:right;">{{ totals }} €</td>
+</tr>
+</tfoot>
+</table>
+<p>Le transporteur <b>{{ carrier }}</b> a pris en charge votre commande avec le numéro de suivi : <b>{{ carrierShipmentId }}</b>
+<br><br>Merci de votre achat et à bientôt sur My E-Business!<br><br>L'équipe de My E-Business</p><img src="/img/logo.png">

@@ -18,7 +18,7 @@
                 {% endfor %}
             </div>
             <div class="position-relative">
-            <a href="{{ path('app_cart_add', {'id': product.id}) }}" class="btn btn-primary float-right {% if product.quantity == 0 %} disabled btn-secondary {% endif %}">
+            <a href="{{ path('app_cart_add', {'id': product.id}) }}" title="Ajouter au panier" class="btn btn-primary float-right {% if product.quantity == 0 %} disabled btn-secondary {% endif %}">
             <i class="fa-solid fa-cart-plus mr-1"></i>
             </a>
             </div>
@@ -26,9 +26,9 @@
             <div class"d-flex align-items-end">
                 <span class="">
                 {% if product.quantity == 0 %}
-                    <br><h3 class="text-secondary">Out of stock !</h3>
+                    <br><h3 class="text-secondary">Rupture de stock !</h3>
                 {% else %}
-                    <br><h5>(<b>{{product.quantity}}</b> left in stock)</h5>
+                    <br><h5>(<b>{{product.quantity}}</b> en stock)</h5>
                 {% endif %}
                 </span>
                 </div>

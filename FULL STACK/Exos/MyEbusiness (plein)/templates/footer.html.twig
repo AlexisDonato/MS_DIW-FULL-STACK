@@ -2,7 +2,7 @@
 	<div class="container bottom_border">
 		<div class="row">
 			<div class=" col-sm-4 col-md col-sm-4  col-12 col">
-				<h5 class="headin5_amrc col_white_amrc pt2">Find us</h5>
+				<h5 class="headin5_amrc col_white_amrc pt2">Nous trouver</h5>
 				<!--headin5_amrc-->
 				<p class="mb10">Lorem Ipsum is simply dummy text of the printing and typesetting industry. Lorem Ipsum has been the industry's standard dummy text ever since the 1500s</p>
 				<p>
@@ -23,34 +23,39 @@
 
 
 			<div class=" col-sm-4 col-md  col-6 col">
-				<h5 class="headin5_amrc col_white_amrc pt2">Quick links</h5>
+				<h5 class="headin5_amrc col_white_amrc pt2">Liens rapides</h5>
 				<!--headin5_amrc-->
 				<ul class="footer_ul_amrc">
 					<li>
-						<a href="">Image Rectoucing</a>
+						<a href="{{ path('app_home') }}">Page d'accueil</a>
 					</li>
 					<li>
-						<a href="">Clipping Path</a>
+						<a href="{{ path('app_category') }}">Catégories</a>
 					</li>
 					<li>
-						<a href="">Hollow Man Montage</a>
+						<a href="{{ path('app_product') }}">Produits</a>
 					</li>
 					<li>
-						<a href="">Ebay & Amazon</a>
+						<a href="{{ path('app_discount') }}">Promotions</a>
 					</li>
 					<li>
-						<a href="">Hair Masking/Clipping</a>
+						<a href="{{ path('app_cart_index') }}">Panier</a>
+					</li>
+					{% if app.user %}
+					<li>
+						<a href="{{ path('app_client_show', {'id': app.user.id}) }}">Informations personelles</a>
 					</li>
 					<li>
-						<a href="">Image Cropping</a>
+						<a href="{{ path('app_validated_orders') }}">Commandes</a>
 					</li>
+					{% endif %}
 				</ul>
 				<!--footer_ul_amrc ends here-->
 			</div>
 
 
 			<div class=" col-sm-4 col-md  col-6 col">
-				<h5 class="headin5_amrc col_white_amrc pt2">Quick links</h5>
+				<h5 class="headin5_amrc col_white_amrc pt2">Liens rapides</h5>
 				<!--headin5_amrc-->
 				<ul class="footer_ul_amrc">
 					<li>
@@ -77,7 +82,7 @@
 
 
 			<div class=" col-sm-4 col-md  col-12 col">
-				<h5 class="headin5_amrc col_white_amrc pt2">Follow us</h5>
+				<h5 class="headin5_amrc col_white_amrc pt2">Suivez-nous</h5>
 				<!--headin5_amrc ends here-->
 
 				<ul class="footer_ul2_amrc">
@@ -110,22 +115,22 @@
 	<div class="container">
 		<ul class="foote_bottom_ul_amrc">
 			<li>
-				<a href="">Home</a>
+				<a href="{{ path('app_home') }}">Accueil</a>
 			</li>
 			<li>
-				<a href="">About</a>
+				<a href="">A propos</a>
 			</li>
 			<li>
 				<a href="">Services</a>
 			</li>
 			<li>
-				<a href="">Pricing</a>
+				<a href="">Prix</a>
 			</li>
 			<li>
 				<a href="">Blog</a>
 			</li>
 			<li>
-				<a href="">Contact</a>
+				<a href="{{ path('app_contact') }}">Contact</a>
 			</li>
 		</ul><!--foote_bottom_ul_amrc ends here--><p class="text-center">Copyright @2022 | Designed With by
 			<a href="#">My E-Business</a>

@@ -34,7 +34,7 @@ class HomeController extends AbstractController
                 $clientCart = new Cart();
                 
                 $clientCart->setUser($user);
-                $clientCart->setClientOrderId(uniqid());
+                $clientCart->setClientOrderId(strtoupper(uniqid('MYEB')));
                 $entityManager->persist($clientCart);
                 $entityManager->flush();
             }
@@ -61,7 +61,6 @@ class HomeController extends AbstractController
             'categories' => $categories,
             'discount' => $discount,
             'discount2' => $discount2,
-            //'user' => $user,
         ]);
     }
 }

@@ -55,6 +55,8 @@
 				</a>
 			</li>
 
+			{% if is_granted('ROLE_ADMIN') %}
+			{% else %}
 			<li class="nav-item text-center ml-5 mr-5">
 				<a class="nav-link" href="{{ path('app_cart_index') }}">
 					<div>
@@ -69,8 +71,39 @@
 					Votre panier
 				</a>
 			</li>
+			{% endif %}
 
-			{% if app.user %}
+		{% if is_granted('ROLE_ADMIN') %}
+			<li class="nav-item dropdown ml-5">
+				<i class="fa-solid fa-lock-open fa-lg text-danger ml-5"></i>
+				<a class="nav-link dropdown-toggle text-danger" href="#" id="navbarDropdown" role="button" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+					<b>Back Office</b>
+				</a>
+				<div class="dropdown-menu bg-dark" aria-labelledby="navbarDropdown">
+					<a class="dropdown-item text-danger" href="{{ path('app_user_index') }}">
+						<b>Index des utilisateurs</b>
+					</a>
+					<div class="dropdown-divider"></div>
+					<a class="dropdown-item text-danger" href="{{ path('app_admin_product_index') }}">
+						<b>Index des produits</b>
+					</a>
+					<a class="dropdown-item text-danger" href="{{ path('app_admin_product_new') }}">
+						<i>Nouveau produit</i>
+					</a>
+					<div class="dropdown-divider"></div>
+					<a class="dropdown-item text-danger" href="{{ path('app_admin_category_index') }}">
+						<b>Index des catégories</b>
+					</a>
+					<a class="dropdown-item text-danger" href="{{ path('app_admin_category_new') }}">
+						<i>Nouvelle catégorie</i>
+					</a>
+					<div class="dropdown-divider"></div>
+						<a class="dropdown-item text-warning" href="{{ path('app_validated_orders') }}">
+							<b>Commandes Clients</b>
+						</a>
+				</div>
+			</li>
+			{% elseif app.user %}
 				<li class="nav-item dropdown">
 					<i class="fa-solid fa-user fa-lg text-secondary ml-5"></i>
 					<a class="nav-link dropdown-toggle " href="#" id="navbarDropdown" role="button" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">Votre profil</a>
@@ -86,33 +119,6 @@
 				</li>
 			{% endif %}
 
-		{% if is_granted('ROLE_ADMIN') %}
-			<li class="nav-item dropdown ml-5">
-				<i class="fa-solid fa-lock-open fa-lg text-danger ml-4"></i>
-				<a class="nav-link dropdown-toggle text-danger" href="#" id="navbarDropdown" role="button" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
-					<b>CRUDs</b>
-				</a>
-				<div class="dropdown-menu bg-dark" aria-labelledby="navbarDropdown">
-					<a class="dropdown-item text-danger" href="{{ path('app_user_index') }}">
-						<b>Users index</b>
-					</a>
-					<div class="dropdown-divider"></div>
-					<a class="dropdown-item text-danger" href="{{ path('app_admin_product_index') }}">
-						<b>Products index</b>
-					</a>
-					<a class="dropdown-item text-danger" href="{{ path('app_admin_product_new') }}">
-						<i>New product</i>
-					</a>
-					<div class="dropdown-divider"></div>
-					<a class="dropdown-item text-danger" href="{{ path('app_admin_category_index') }}">
-						<b>Categories index</b>
-					</a>
-					<a class="dropdown-item text-danger" href="{{ path('app_admin_category_new') }}">
-						<i>New category</i>
-					</a>
-				</div>
-			</li>
-		{% endif %}
 		</ul>
 		<div class="d-flex">
 			{% if is_granted('IS_AUTHENTICATED_FULLY') %}

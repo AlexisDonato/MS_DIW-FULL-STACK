@@ -1,0 +1,12 @@
+<h1>{{ app.user.userName }}
+	{{ app.user.userLastName }},</h1>
+<br><h3>Bienvenue sur My E-Business!</h3>
+<br><h5>Voici le récapitulatif de vos informations personnelles :</h5>
+<br><p><b>Prénom : </b>{{ app.user.userName }}</p>
+<p><b>Nom : </b>{{ app.user.userLastName }}</p>
+<p><b>E-mail : </b>{{ app.user.email }}</p>
+<p><b>Date de naissance : </b>{{ user.birthdate ? user.birthdate|date('d-m-Y') : '' }}</p>
+<p><b>Adresse : </b>{{ user.adress }}</p>
+<p><b>N° téléphone : </b>{{ user.phoneNumber }}</p>
+
+<br><br>Merci de votre confiance et à bientôt sur My E-Business!<br><br>L'équipe de My E-Business</p><img src="/img/logo.png">

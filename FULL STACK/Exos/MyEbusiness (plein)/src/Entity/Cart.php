@@ -40,6 +40,12 @@ class Cart
     #[ORM\Column(type: Types::DATETIME_MUTABLE, nullable: true)]
     private ?\DateTimeInterface $shipmentDate = null;
 
+    #[ORM\Column(length: 255, nullable: true)]
+    private ?string $carrier = null;
+
+    #[ORM\Column(length: 255, nullable: true)]
+    private ?string $carrierShipmentId = null;
+
     public function __construct()
     {
         $this->OrderDetails = new ArrayCollection();
@@ -148,6 +154,30 @@ class Cart
     public function setShipmentDate(?\DateTimeInterface $shipmentDate): self
     {
         $this->shipmentDate = $shipmentDate;
+
+        return $this;
+    }
+
+    public function getCarrier(): ?string
+    {
+        return $this->carrier;
+    }
+
+    public function setCarrier(?string $carrier): self
+    {
+        $this->carrier = $carrier;
+
+        return $this;
+    }
+
+    public function getCarrierShipmentId(): ?string
+    {
+        return $this->carrierShipmentId;
+    }
+
+    public function setCarrierShipmentId(?string $carrierShipmentId): self
+    {
+        $this->carrierShipmentId = $carrierShipmentId;
 
         return $this;
     }

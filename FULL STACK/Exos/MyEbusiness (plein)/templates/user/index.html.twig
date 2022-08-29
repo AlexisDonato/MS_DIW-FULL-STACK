@@ -3,7 +3,7 @@
 {% block title %}User index{% endblock %}
 
 {% block body %}
-    <h1 class="text-center text-danger mb-3 mt-3">Users index</h1>
+    <h1 class="text-center text-danger mb-3 mt-3">Index des utilisateurs</h1>
 
     <table class="table table-striped table-dark table-sm">
         <thead>
@@ -11,13 +11,13 @@
                 <th>Id</th>
                 <th>Email</th>
                 <th>Roles</th>
-                <th>Password</th>
-                <th>UserName</th>
-                <th>UserLastname</th>
-                <th>Birthdate</th>
-                <th>Adress</th>
-                <th>IsVerified</th>
-                <th>actions</th>
+                <th>Mot de passe</th>
+                <th>Prénom</th>
+                <th>Nom</th>
+                <th>Date de naissance</th>
+                <th>Adresse</th>
+                <th>Compte vérifié</th>
+                <th></th>
             </tr>
         </thead>
         <tbody>
@@ -31,15 +31,15 @@
                 <td>{{ user.userLastname }}</td>
                 <td>{{ user.birthdate|format_datetime('short', 'none', locale='fr') }}</td>
                 <td>{{ user.adress }}</td>
-                <td>{{ user.isVerified ? 'Yes' : 'No' }}</td>
+                <td>{{ user.isVerified ? 'Oui' : 'Non' }}</td>
                 <td>
-                    <button class="btn btn-danger border-light mb-1"><a class="text-decoration-none text-light" href="{{ path('app_user_show', {'id': user.id}) }}">show</a></button>
-                    <button class="btn btn-danger border-light mb-1" ><a class="text-decoration-none text-light" style="width: 1150px;" href="{{ path('app_user_edit', {'id': user.id}) }}">edit</a></button>
+                    <button class="btn btn-danger border-light mb-1"><a class="text-decoration-none text-light" href="{{ path('app_user_show', {'id': user.id}) }}">Détails</a></button>
+                    <button class="btn btn-danger border-light mb-1" ><a class="text-decoration-none text-light" style="width: 1150px;" href="{{ path('app_user_edit', {'id': user.id}) }}">Modifier</a></button>
                 </td>
             </tr>
         {% else %}
             <tr>
-                <td colspan="10">no records found</td>
+                <td colspan="10">Aucun utilisateur trouvé</td>
             </tr>
         {% endfor %}
         </tbody>

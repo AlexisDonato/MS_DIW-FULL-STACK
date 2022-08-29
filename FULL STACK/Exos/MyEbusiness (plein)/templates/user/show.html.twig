@@ -4,7 +4,7 @@
 
 {% block body %}
 <div class="container justify-content-center">
-    <h1 class="text-danger text-center ml-5 mb-3 mt-3">User {{ app.user.email }}</h1>
+    <h1 class="text-danger text-center ml-5 mb-3 mt-3">Utilisateur {{ app.user.email }}</h1>
 
     <table class="table table-striped table-dark">
         <tbody>
@@ -24,40 +24,40 @@
             </tr>
             {% if is_granted('ROLE_ADMIN') %}
             <tr>
-                <th>Password</th>
+                <th>Mot de passe</th>
                 <td>{{ user.password }}</td>
             </tr>
             {% endif %}
             <tr>
-                <th>UserName</th>
+                <th>Prénom</th>
                 <td>{{ user.userName }}</td>
             </tr>
             <tr>
-                <th>UserLastname</th>
+                <th>Nom</th>
                 <td>{{ user.userLastname }}</td>
             </tr>
             <tr>
-                <th>Birthdate</th>
+                <th>Date de naissance</th>
                 <td>{{ user.birthdate|format_datetime('short', 'none', locale='fr') }}</td>
             </tr>
             <tr>
-                <th>Adress</th>
+                <th>Adresse</th>
                 <td>{{ user.adress }}</td>
             </tr>
              <tr>
-                <th>Phone number</th>
+                <th>N° téléphone</th>
                 <td>{{ user.phoneNumber }}</td>
             </tr>
             <tr>
-                <th>Your account is verified :</th>
-                <td>{{ user.isVerified ? 'Yes' : 'No' }}</td>
+                <th>Votre compte est vérifié :</th>
+                <td>{{ user.isVerified ? 'Oui' : 'Non' }}</td>
             </tr>
         </tbody>
     </table>
 <div class="d-flex">
-    <button class="btn btn-danger border-light mr-3"><a class="text-decoration-none text-light" href="{{ path('app_user_edit', {'id': user.id}) }}">edit</a></button>
+    <button class="btn btn-danger border-light mr-3"><a class="text-decoration-none text-light" href="{{ path('app_user_edit', {'id': user.id}) }}">Modifier</a></button>
 {% if is_granted('ROLE_ADMIN') %}
-    <button class="btn btn-outline-danger border-light mr-3"><a class="text-decoration-none text-light" href="{{ path('app_user_index') }}">back to list</a></button>
+    <button class="btn btn-outline-danger border-light mr-3"><a class="text-decoration-none text-light" href="{{ path('app_user_index') }}">Retour à la liste</a></button>
 {% endif %}
 {% if is_granted('ROLE_ADMIN') %}
     {{ include('user/_delete_form.html.twig') }}

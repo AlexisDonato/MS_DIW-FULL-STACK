@@ -1,21 +1,21 @@
 {% extends 'base.html.twig' %}
 
-{% block title %}Products index{% endblock %}
+{% block title %}Index des produits{% endblock %}
 
 {% block body %}
-    <h1 class="text-warning mt-3 mb-3 text-center">Product index</h1>
+    <h1 class="text-warning mt-3 mb-3 text-center">Index des produits</h1>
 
     <table class="table table-dark table-striped">
         <thead>
             <tr class="text-warning">
                 <th>Id</th>
-                <th>Name</th>
-                <th>Price</th>
+                <th>Dénomination</th>
+                <th>Prix</th>
                 <th>Description</th>
-                <th>Content</th>
+                <th>Contenu</th>
                 <th>Image</th>
-                <th>Discount</th>
-                <th>actions</th>
+                <th>Promotion</th>
+                <th></th>
             </tr>
         </thead>
         <tbody>
@@ -27,19 +27,19 @@
                 <td>{{ product.description }}</td>
                 <td>{{ product.content }}</td>
                 <td class="text-break">{{ product.image }}</td>
-                <td>{{ product.discount ? 'Yes' : 'No' }}</td>
+                <td>{{ product.discount ? 'Oui' : 'Non' }}</td>
                 <td>
-                    <button class="btn btn-warning text-warning mb-1"><a class="text-decoration-none" href="{{ path('app_admin_product_show', {'id': product.id}) }}">show</a></button>
-                    <button class="btn btn-warning text-warning"><a class="text-decoration-none" href="{{ path('app_admin_product_edit', {'id': product.id}) }}">edit</a></button>
+                    <button class="btn btn-warning text-warning mb-1"><a class="text-decoration-none" href="{{ path('app_admin_product_show', {'id': product.id}) }}">Détails</a></button>
+                    <button class="btn btn-warning text-warning"><a class="text-decoration-none" href="{{ path('app_admin_product_edit', {'id': product.id}) }}">Modifier</a></button>
                 </td>
             </tr>
         {% else %}
             <tr>
-                <td colspan="8">no records found</td>
+                <td colspan="8">Aucun produit trouvé !</td>
             </tr>
         {% endfor %}
         </tbody>
     </table>
 
-    <button class="btn btn-warning text-warning mb-1"><a class="text-decoration-none" href="{{ path('app_admin_product_new') }}">Create new</a></button>
+    <button class="btn btn-warning text-warning mb-1"><a class="text-decoration-none" href="{{ path('app_admin_product_new') }}">Nouveau produit</a></button>
 {% endblock %}

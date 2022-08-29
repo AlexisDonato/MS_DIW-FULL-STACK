@@ -130,7 +130,7 @@ class OrderController extends AbstractController
                     ]
         ));
                     
-        $this->addFlash('success', 'Commande validée, Merci pour votre achat! Un email de confirmation de votre commande a été envoyé sur votre adresse mail');
+        $this->addFlash('success', 'Commande validée, merci pour votre achat! Un email de confirmation de votre commande a été envoyé sur votre adresse mail');
         return $this->redirectToRoute('app_home');
     }
 
