@@ -3,6 +3,7 @@
 namespace App\Entity;
 
 use App\Repository\ContactRepository;
+use Doctrine\DBAL\Types\Types;
 use Doctrine\ORM\Mapping as ORM;
 
 #[ORM\Entity(repositoryClass: ContactRepository::class)]
@@ -28,6 +29,9 @@ class Contact
 
     #[ORM\Column(nullable: true)]
     private array $subject = [];
+
+    #[ORM\Column(type: Types::DATETIME_MUTABLE, nullable: true)]
+    private ?\DateTimeInterface $enquiryDate = null;
 
     public function getId(): ?int
     {
@@ -102,6 +106,18 @@ class Contact
     public function setSubject(?array $subject): self
     {
         $this->subject = $subject;
+
+        return $this;
+    }
+
+    public function getEnquiryDate(): ?\DateTimeInterface
+    {
+        return $this->enquiryDate;
+    }
+
+    public function setEnquiryDate(?\DateTimeInterface $enquiryDate): self
+    {
+        $this->enquiryDate = $enquiryDate;
 
         return $this;
     }

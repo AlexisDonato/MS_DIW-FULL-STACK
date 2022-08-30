@@ -1,0 +1,175 @@
+<!DOCTYPE html>
+<html lang="fr">
+<head>
+    <meta author="k6">
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+
+    <link rel="icon" type="image/png" sizes="16x16" href="src/img/faviconcairn.webp">
+    <link href="assets/css/style.css" rel="stylesheet">
+
+    <title>Contact / Tarifs</title>
+
+</head>
+<body>
+    
+    <!-- *** En-tête *** -->
+    <header>
+
+        <div class="container">
+            <div class="row">
+                <div class="col">
+                    <img src="src/img/logopetitsauvage.png" class="logopetitsauvage" title="Logo du Docteur Petit-Sauvage" alt="Le logo du Docteur Petit-Sauvage, Pharmacien et naturopathe : pile de cailloux (appelée cairn) entourée de bambous">
+                </div>
+
+                <div class="col2"><h1>Consultation de naturopathie</h1><br>
+                                  <div class="soustitre"><p>Phytothérapie – Aromathérapie – Gemmothérapie – Micronutrition</p></div>
+                </div>
+            </div>
+        </div>
+    </header>
+
+        <hr class="line">
+
+    <!-- *** Menu de navigation Top *** -->
+    <nav>
+        <label for="toggle" title="Menu" alt="Menu" class="labelmenu">☰</label>
+        <input type="checkbox" id="toggle">
+        <div class="menu">
+            <ul>
+                <li><a href="index.html">Accueil</a></li>
+                <li><a href="naturopathie.html">La naturopathie</a></li>
+                <li><a href="pourquoiconsulter.html">Pourquoi consulter</a></li>
+                <li><a href="spécialités.html">Spécialités</a></li>
+                <li><a href="prestations.html">Prestations</a></li>
+                <li><a href="votrenaturopathe.html">Votre naturopathe</a></li>
+                <li><a href="contacttarifs.html" class="titleline">Tarifs/Contact</a></li>
+                <li><a href="vidéos.html">Vidéos</a></li>
+            </ul>
+        </div>
+    </nav>
+
+        <img src="src/img/telework.jpg" class="bannière" title="Bannière : image d'une personne devant son ordinateur" alt="Photo d'une personne assise à son bureau, devant son ordinateur, une plante au premier plan">
+
+        <article>
+            <h3>Les prestations peuvent être prises en charge par votre mutuelle</h3>
+            <p><b>RDV Bilan PSNP – 59€</b> : Pour une solution approfondie adaptée à vos besoins (1h environ).</p>
+            <p><b>Formule DUO – 98€</b> : Bilan de 2×1 heure (1h par personne), à la suite ou non, quel que soit leur lien (Couple, parent-enfant, ami(e)s…)</p>
+            <p><b>RDV Suivi – 35€</b> : Pour faire suite au RDV Bilan PSNP (30min. environ).</p>
+            <p><b>RDV Conseil – 35€</b> : Vous n’avez pas besoin d’un bilan complet, seulement de réponses pour un sujet précis ? Optez pour une consultation rapide (30min. environ).</p>
+            <p><b>Séance de Reiki – 55€</b> : Un soin complet, durée 1h environ. Uniquement à domicile (Colmar et environs).</p>
+
+            <!-- Lien vers quoi? -->
+            <a href="" class="rdv"><p>Plus d’informations sur les prestations</p></a>
+
+            <p><b>Etudiants/Chômeurs/C.M.U. : 20% de remise sur présentation d’un justificatif</b>.</p>
+            <p>La consultation en naturopathie est réalisée en visioconférence (ou par téléphone) avec le support de votre choix : Skype, Zoom… ou à domicile (à proximité de Colmar).</p>
+            <p><b>PRENDRE RDV :</b></p>
+            <p><a href="mailto:cedric.petit-sauvage@ecomail.fr" class="lienmail">cedric.petit-sauvage@ecomail.fr</a></p>
+            <p>Tél : <b>07.66.13.20.08</b></p>
+            <p>Indiquer nom, prénom et motif de la consultation, et je vous recontacterai.</p>
+
+            <h3>FORMULAIRE DE CONTACT</h3>
+
+            <form action="http://bienvu.net/script.php" method="POST" id="formulaire_contact">  
+
+                <p><b><i>* Ces zones sont obligatoires</i></b></p>
+                
+                        <fieldset>
+                            <legend>Vos Coordonnées</legend>
+                                <label for="nom">Nom* :</label><input type="text" id="nom" name="nom" placeholder="Entrez votre nom" required><span id='missNom'></span><br>
+                                <label for="prénom">Prénom* :</label><input type="text" id="prenom" name="prenom" placeholder="Entrez votre prénom" required><span id='missPre'></span><br>
+                                    <p></p>
+                                <label for="sexe">Sexe* :</label><input type="radio" id="radio1" name="sexe" value="Féminin"> Féminin 
+                                <input type="radio" id="radio2" name="sexe" value="Masculin"> Masculin <span id="missSex"></span><br>
+                                    <p></p>
+                                <label for="date">Date de naissance:</label><input type="date" name="date" id="date" required><br>
+                                <label for="code postal">Code postal* :</label><input type="text" id="cp" name="cp" placeholder="Code postal" required><span id='missCp'></span><br>
+                                <label for="adresse">Adresse :</label><input type="text" name="adresse" id="adresse"><br>
+                                <label for="ville">Ville :</label><input type="text" name="ville" id="ville"><br>
+                                <label for="email">Email* :</label><input type="email" id="email" name="email" placeholder="dr.petit-sauvage@naturo.fr" required><span id='missEmail'></span><br>
+                        </fieldset>
+                            <p></p>
+                        <fieldset>
+                            <legend>Votre demande</legend>
+                                <label for="sujet">Sujet* :</label>
+                                <select id="sujet" name="sujet" required> 
+                                    <option class="sujet" value="">Veuillez sélectionner un sujet</option>
+                                    <option value="psnp">RDV Bilan PSNP</option>
+                                    <option value="duo">Formule DUO</option>
+                                    <option value="suivi">RDV Suivi</option>
+                                    <option value="conseil">RDV Conseil</option>
+                                    <option value="reiki">Séance de Reiki</option>
+                                    <option value="autres">Autres</option>
+                                </select>
+                                <span id='missSujet'></span>
+                                <br>
+                                <label for="question">Votre question* :</label>
+                                <textarea name="commentaire" rows="2" cols="20" placeholder="Votre question" required></textarea> 
+                                <br>
+                        </fieldset>
+                            <p></p>
+                    <input type="checkbox" name="accepter" value="accepter" required>* J'accepte le traitement informatique de ce formulaire<br>
+                            <p></p>
+                            <input type="submit" id="submit" name="envoyer" value="Envoyer">
+                            <input type="reset" id="reset" name="annuler" value="Annuler">
+
+        </article>
+
+        
+
+    <hr class="line">
+
+    <footer>
+        <div class="container4">
+            <div class="insta">
+                <a href="https://www.instagram.com/drpetitsauvage"><img src="src/img/insta.jpg" class="instagram" title="Logo Instagram" alt="Logo d'Instagram et lien vers le compte Instagram"></a>
+            </div>
+            <div class="fb">
+                <a href="https://www.facebook.com/drpetitsauvage"><img src="src/img/fb.jpg" class="facebook" title="Logo Facebook" alt="Logo de Facebook et lien vers le compte Facebook"></a>
+            </div>
+            <div class="yt">
+                <a href="https://www.youtube.com/channel/UCYM22wSuqflI5u3iYveYZ9w"><img src="src/img/yt.jpg" class="youtube" title="Logo Youtube" alt="Logo de Youtube et lien vers la chaîne Youtube"></a>
+            </div>
+        </div>
+
+        <div class="pics">
+            <a href="https://syndicat-naturopathie.fr"><img src="src/img/spn.jpg" class="spn" title="Logo SPN" alt="Logo du Syndicat des Professionnels de la Naturopathie et lien vers le site internet"></a>
+                <p id="commentfooter">La naturopathie est une approche complémentaire. <br>Ne se substitue en aucun cas à une consultation de votre médecin généraliste ou spécialiste.</p>
+        </div>  
+
+        <hr class="line">    
+
+    <!-- *** Rappel du menu de navigation Top *** -->
+    <nav>
+        <label for="toggle" title="Menu" alt="Menu" class="labelmenu">☰</label>
+        <input type="checkbox" id="toggle">
+        <div class="menu">
+            <ul>
+                <li><a href="index.html">Accueil</a></li>
+                <li><a href="naturopathie.html">La naturopathie</a></li>
+                <li><a href="pourquoiconsulter.html">Pourquoi consulter</a></li>
+                <li><a href="spécialités.html">Spécialités</a></li>
+                <li><a href="prestations.html">Prestations</a></li>
+                <li><a href="votrenaturopathe.html">Votre naturopathe</a></li>
+                <li><a href="contacttarifs.html" class="titleline">Tarifs/Contact</a></li>
+                <li><a href="vidéos.html">Vidéos</a></li>
+            </ul>
+        </div>
+    </nav>
+
+        <hr class="line">
+        
+        <!-- *** Menu de navigation Bottom *** -->
+        <nav class="menub">
+            <ul>
+                <li><a href="mentionslégales.html">Mentions légales</a></li>
+            </ul>
+        </nav>
+    </footer>
+
+    <!-- *** Lien avec la feuille de script javascript -->
+    <script src="assets/js/javascript.js"></script>
+</body>
+</html>

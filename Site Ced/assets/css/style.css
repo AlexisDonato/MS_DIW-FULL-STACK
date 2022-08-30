@@ -1,0 +1,373 @@
+
+/* ********* PAGE INDEX *************** */
+/* *** ***** Ecran Ordinateur ***** *** */  
+html {
+    font-size: 100%;
+}
+
+/* *** Titre 1 *** */
+h1{
+    font-size: 2rem;    /* Responsive */
+    font-family: Helvetica, sans-serif;
+    color:rgb(81, 74, 129);
+    margin-bottom: -1rem;
+    margin-top: 3rem;
+}
+/* *** Sous-titre *** */
+.soustitre{
+    text-decoration: none;
+    font-size: 1rem;    /* Responsive */
+    font-weight:inherit;
+    font-style: italic;
+    color:darkgrey;
+}
+
+/* *** Centre les div *** */
+.container{
+    text-align: center;
+    font-family: Helvetica, sans-serif;
+}
+
+/* *** Met les div côte-à-côte *** */
+.row{
+    display: flex;
+}
+
+.col{
+    flex: 1;
+    vertical-align: middle;
+    margin-right: 1rem;
+    text-align: right;
+} 
+.col2{
+    flex: 1;
+    vertical-align: middle;
+    text-align: left;
+    margin-left: 1rem;
+}
+
+/* *** Caractéristiques de la ligne *** */
+.line{
+    margin-left: 20%;
+    margin-right: 20%;
+    margin-top: 2rem;
+    margin-bottom: 2rem;
+}
+
+/* *** Caractéristiques du logo *** */
+.logopetitsauvage{
+    width: 70%;     /* Responsive */
+    max-width: 600px;
+    height: auto;   /* Responsive */
+}
+
+/* *** Caractéristiques du menu de navigation*** */
+.labelmenu, #toggle
+{
+    display: none;
+}
+a{
+    text-decoration: none;
+    font-family: Helvetica, sans-serif;
+    color: rgb(71, 70, 70);
+    font-size: 1rem;
+}
+.menu{
+    text-align: center;
+    overflow: hidden;   /* Restreint la taille de l'image à la taille du conteneur */
+    position: relative;
+}
+li{
+    display:inline-block;
+    margin-left: 0.5rem;
+    margin-right: 0.5rem;
+    font-weight: bold;
+    font-size: 1rem;
+}
+a:hover{
+    color:cornflowerblue;
+    cursor: pointer;
+}
+.titleline{
+    text-decoration: wavy overline;
+    text-decoration-color: cornflowerblue;
+}
+
+/* *** Caractéristiques de la bannière *** */
+.bannière{
+    width: 100%;     /* Responsive */
+    height: auto;   /* Responsive */
+    margin-top: 2rem;
+}
+
+/* ***Commentaire en dessous de la bannière *** */
+aside{
+    text-align: center;
+    font-family: Helvetica, sans-serif;
+    color: rgb(71, 70, 70);
+    font-size : 1.3rem;
+    font-weight: bold;
+    margin-bottom: 2rem;
+}
+
+section{
+    text-align: center;
+    font-family: Helvetica, sans-serif;
+    color: rgb(71, 70, 70);
+    font-size: 1.5rem;
+}
+
+/* *** Les div bilan et psnp *** */
+.container2{
+    display: flex;
+    text-align: center;
+    margin: auto;
+    width: 1000px;
+
+}
+.bilan{
+    float: right;
+    align-items: flex-end;
+    margin-left: 0px;
+    margin-right: 1rem;
+}
+.psnp{
+    float: left;
+    align-items: flex-start;
+    margin-right: 0px;
+    margin-left: 1rem;
+}
+
+/* *** Les titres *** */
+h3, h4, h5{
+    font-family: Helvetica, sans-serif;
+    color: rgb(71, 70, 70);
+    font-size: 1.5rem;
+    text-align: center;
+}
+/* *** La partie <article> *** */
+article{
+    font-family: Helvetica, sans-serif;
+    color: rgb(71, 70, 70);
+    font-size: 1.2rem;
+    text-align: center;
+}
+
+/* *** Les liens rdv et mail*** */
+.rdv{
+    font-family: Helvetica, sans-serif;
+    font-size: 1.2rem;
+    color:rgb(102, 183, 250);
+    font-weight: bold;
+    text-align: center;
+}
+.rdv:hover{
+    color:rgb(0, 3, 153);
+}
+.rdv2{
+    font-family: Helvetica, sans-serif;
+    font-size: 1.2rem;
+    color:rgb(102, 183, 250);
+    font-weight: bold;
+    margin-bottom: 5rem;
+    text-align: center;
+}
+.rdv2:hover{
+    color:rgb(0, 3, 153);
+}
+.lienmail{
+    font-size: 1.5rem;
+    color: rgb(89, 180, 150);
+}
+/* *** Les div portrait et descriptif *** */
+.container3{
+    display: flex;
+    text-align: center;
+    margin:auto;
+}
+.portait{
+    float:right;
+    width: 20px;
+}
+.descriptif{
+    float:left;
+    margin-right: 100px;
+}
+
+/* *** Le portrait *** */
+.portrait2{
+    margin-left: 300px;
+    width: 30%;
+    height: auto;
+}
+
+/* *** Les div des logos *** */
+.container4{
+    display: flex;
+    text-align: center;
+} 
+.insta{
+    flex: 1;
+} 
+.fb{
+    flex: 1;
+} 
+.yt{
+    flex: 1;
+}
+.pics{
+    text-align: center;
+}
+
+/* *** Les logos liens *** */
+.instagram{
+    width: 20%;
+    height: auto;
+}
+.instagram:hover{
+    cursor: pointer;
+}
+.facebook{
+    width: 20%;
+    height: auto;
+}
+.facebook:hover{
+    cursor: pointer;
+}
+.youtube{
+    width: 20%;
+    height: auto;
+}
+.youtube:hover{
+    cursor: pointer;
+}
+.spn{
+    width: 20%;
+    height: auto;
+}
+.spn:hover{
+    cursor: pointer;
+}
+
+#commentfooter{
+    font-family: Helvetica, sans-serif;
+    font-size: 1rem;
+    font-weight: bold;
+}
+
+/* *** La partie Mentions légales *** */
+.menub{
+    text-align: center;
+    font-family: Helvetica, sans-serif;
+    color: rgb(71, 70, 70);
+    font-size: 1rem;
+}
+
+/* ********* PAGE MENTIONS LEGALES *************** */
+.bannièreml{
+    opacity: 0.9;
+    width: 100%;
+    height: auto;
+    margin-top: 2rem;
+    position: relative;
+}
+
+/* ********* PAGE SPECIALITES *************** */
+.rowa{
+    display:flex;
+    text-align: left;
+}
+.cola{
+    flex: 1;
+    margin-right: -400px;
+}
+.colb{
+    flex: 1;
+    text-align: left;
+    font-family: Helvetica, sans-serif;
+    color: rgb(71, 70, 70);
+    font-size: 1.2rem;
+}
+.phytotherapie, .bathoil, .bourgeons, .micronutrition, .yoga{
+    margin-left: 60px;
+    width: 300px;
+    height: auto;
+}
+
+
+/* *** ***** Ecran smartphone ***** *** */
+
+/* *** Exemple d'écrans responsive *** */
+@media only screen and (min-width: 768px) {
+    /* tablettes et ordinateurs */
+    }
+    @media only screen and (max-width: 767px) {
+    /* smartphone */
+    }
+    @media only screen and (max-width: 767px) and (orientation: portrait) {
+    /* smartphone en mode portait */
+    }
+/* *********************************** */
+
+
+@media only screen and (max-width: 767px) {
+
+    /* Menu qui passe en bouton */
+    nav{
+        height: 60px;
+    }
+    nav .menu {
+        display: none;
+        flex-direction: column;
+        background: #dddddd;
+        height: 60px;
+    }
+    nav .menu a {
+        width: 50%;
+    }
+    .labelmenu{
+        width: 30px;
+        display: flex;
+        justify-content: center;
+        align-items: center;
+        margin: 0 auto;
+        font-size: 40px;
+        color: rgb(99, 95, 95);
+        background-color: rgb(212, 212, 212);
+        border-color: rgb(70, 70, 70);
+        padding-left: 0.5rem;
+        padding-right: 0.5rem;
+        cursor: pointer;
+    }
+    #toggle:checked + .menu {
+        display: flex;
+    }
+
+    .logopetitsauvage{
+        margin-top: 50px;
+        width: 80%;
+    }
+    .container2{
+        display:grid;
+        text-align: left;
+        margin: 0;
+        width: 750px;
+        margin-left: 200px;
+    }
+    .container3{
+        display:grid;
+        text-align: left;
+        margin: 0;
+        width: 750px;
+    }
+    .portrait2{
+        margin-left: 300px;
+        width: 20%;
+    }
+    .descriptif{
+        margin-left: 100px;
+    }
+    .cola{
+        margin-right: 0;
+    }
+}

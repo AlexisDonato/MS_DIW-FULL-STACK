@@ -37,6 +37,8 @@ class ContactController extends AbstractController
 
         $name = $contact->getName();
         $refEmail = $contact->getEmail();
+        $date = new \DateTime('@'.strtotime('now'));
+        $contact->setEnquiryDate($date);
 
         $subjects = $contact->getSubject();
         foreach ($subjects as $subject) {

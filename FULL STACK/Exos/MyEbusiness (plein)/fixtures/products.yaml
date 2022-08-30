@@ -10,5 +10,5 @@ App\Entity\Product:
     quantity: <numberBetween(0, 50)>
 
 App\Entity\Category:
-  category_{1..10}:
-    name: <creature()>
+  category_{1..12}:
+    name: <category()>
