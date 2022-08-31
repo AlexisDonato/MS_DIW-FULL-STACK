@@ -1,11 +1,11 @@
 <div class="card bg-dark boreder border-secondary">
 
-    <img src="/img/{{ product.image }}" class="card-img-top img-thumbnail border border-secondary" onerror="this.onerror=null; this.src='{{ product.image }}'">
+    <img src="/img/{{ product.image }}" class="card-img-top img-thumbnail border border-dark" onerror="this.onerror=null; this.src='{{ product.image }}'">
     {# <img src="/img/{{ product.image }}" class="card-img-top thumbnail-image" onerror="this.onerror=null; this.remove();"> #}
 
         <div class="card-body d-flex flex-column">
             <h3 class="card-title">{{ product.name }}</h3>
-            <div class="card-title text-primary" style="font-weight: bold; font-size: 1.5rem; text-align: right;">
+            <div class="card-text text-primary" style="font-weight: bold; font-size: 1.5rem; text-align: right;">
             {{ product.price | number_format(0, ',', '') }} €
             {% if product.discount %}
                 <div class="text text-warning">En promotion!</div>

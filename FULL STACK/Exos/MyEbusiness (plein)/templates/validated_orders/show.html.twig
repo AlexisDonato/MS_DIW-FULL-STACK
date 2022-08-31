@@ -78,4 +78,8 @@
 			{{ user.isVerified ? 'Oui' : 'Non' }}</li>
 	</ul>
 </div></div></div><div class="text-center"><button class="btn btn-lg btn-warning mb-3">
-<a class="text-decoration-none text-dark" href="{{ path('app_shipped_order', {'id': cart_id}) }}">Commande expédiée</a></button></div>{% endif %}</div>{% endblock %}
+<a class="text-decoration-none text-dark" href="{{ path('app_shipped_order', {'id': cart_id}) }}">Commande expédiée</a></button></div>{% endif %}
+<div class="text-center">
+    <button class="btn btn-primary border-light mb-1" onclick="history.back()">Retour</button>
+	</div>
+</div>{% endblock %}

@@ -7,7 +7,7 @@
     {% if validatedOrder %}
         <table class="table table-dark table-stripped">
             <thead>
-                <tr>
+                <tr class="text-primary">
                 	{% if is_granted('ROLE_ADMIN') %}
                         <th>Email</th>
                     {% endif %}
@@ -26,9 +26,9 @@
                     <td>{{order.ClientOrderId}}</td>
                     <td>{{order.orderDate|format_datetime('short', 'none', locale='fr')}}</td>
                     <td>{% if order.shipped == 1 %}{{order.shipmentDate|format_datetime('short', 'none', locale='fr')}}{% else %} - {% endif %}</td>
-                    <td><button class="btn btn-danger border-light mb-1"><a class="text-decoration-none text-light" href="
+                    <td><button class="btn btn-primary border-light mb-1"><a class="text-decoration-none text-light" href="
                     {{ path('app_validated_orders_show', {'id': order.id}) }}
-                    ">show</a></button></td>
+                    ">Détails</a></button></td>
                 </tr>
             {% endfor %}
             </tbody>

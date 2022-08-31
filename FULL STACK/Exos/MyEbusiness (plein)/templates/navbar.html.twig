@@ -12,7 +12,7 @@
 		<ul class="navbar-nav">
 
 			<li class="nav-item text-center mr-5">
-				<a class="nav-link" href="{{ path('app_home') }}">
+				<a class="nav-link {% if app.request.attributes.get('_route') == 'app_home' %}active{% endif %}" href="{{ path('app_home') }}">
 					<div>
 						<i class="fa-solid fa-home fa-lg mb-1"></i>
 					</div>
@@ -20,7 +20,7 @@
 				</a>
 			</li>
 			<li class="nav-item text-center ml-5 mr-5">
-				<a class="nav-link" href="{{ path('app_category') }}">
+				<a class="nav-link text-decoration-none {% if app.request.attributes.get('_route') == 'app_category' %}active{% endif %}" href="{{ path('app_category') }}">
 					<div>
 						<i class="fa-solid fa-list-ul fa-lg mb-1"></i>
 						<span class="badge rounded-pill badge-notification bg-secondary position-absolute top-0 start-100 translate-middle">
@@ -32,7 +32,7 @@
 			</li>
 
 			<li class="nav-item text-center ml-5 mr-5">
-				<a class="nav-link" href="{{ path('app_product') }}">
+				<a class="nav-link text-decoration-none {% if app.request.attributes.get('_route') == 'app_product' %}active{% endif %}" href="{{ path('app_product') }}">
 					<div>
 						<i class="fa-solid fa-eye fa-lg mb-1"></i>
 						<span class="badge rounded-pill badge-notification bg-secondary position-absolute top-0 start-100 translate-middle">
@@ -44,7 +44,7 @@
 			</li>
 
 			<li class="nav-item text-center ml-5 mr-5">
-				<a class="nav-link" href="{{ path('app_discount') }}">
+				<a class="nav-link text-decoration-none {% if app.request.attributes.get('_route') == 'app_discount' %}active{% endif %}" href="{{ path('app_discount') }}">
 					<div>
 						<i class="fa-solid fa-hand-holding-dollar fa-lg mb-1"></i>
 						<span class="badge rounded-pill badge-notification bg-warning text-dark position-absolute top-0 start-100 translate-middle">
@@ -58,7 +58,7 @@
 			{% if is_granted('ROLE_ADMIN') %}
 			{% else %}
 			<li class="nav-item text-center ml-5 mr-5">
-				<a class="nav-link" href="{{ path('app_cart_index') }}">
+				<a class="nav-link text-decoration-none {% if app.request.attributes.get('_route') == 'app_cart_index' %}active{% endif %}" href="{{ path('app_cart_index') }}">
 					<div>
 						<i class="fa-solid fa-cart-shopping fa-lg mb-1"></i>
 						{% if count > 0 %}
@@ -66,7 +66,6 @@
 								{{ count }}
 							</span>
 						{% endif %}
-
 					</div>
 					Votre panier
 				</a>
@@ -105,8 +104,8 @@
 			</li>
 			{% elseif app.user %}
 				<li class="nav-item dropdown">
-					<i class="fa-solid fa-user fa-lg text-secondary ml-5"></i>
-					<a class="nav-link dropdown-toggle " href="#" id="navbarDropdown" role="button" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">Votre profil</a>
+					<i class="fa-solid fa-user fa-lg text-secondary ml-5 {% if app.request.attributes.get('_route') == 'app_client_show' %}text-light{% elseif app.request.attributes.get('_route') == 'app_validated_orders' %}text-light{% else %}text-secondary{% endif %}"></i>
+					<a class="nav-link dropdown-toggle text-decoration-none {% if app.request.attributes.get('_route') == 'app_client_show' %}text-light{% elseif app.request.attributes.get('_route') == 'app_validated_orders' %}text-light{% else %}text-secondary{% endif %}" href="#" id="navbarDropdown" role="button" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">Votre profil</a>
 					<div class="dropdown-menu bg-dark" aria-labelledby="navbarDropdown">
 						<a class="dropdown-item text-light" {% if is_granted('ROLE_ADMIN') %} href="{{ path('app_user_show', {'id': app.user.id}) }}" {% else %} href="{{ path('app_client_show', {'id': app.user.id}) }}" {% endif %}>
 							<b>Vos informations personnelles</b>
